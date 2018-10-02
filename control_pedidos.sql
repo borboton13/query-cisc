@@ -62,19 +62,20 @@ FROM articulos_pedido a
 LEFT JOIN ventadirecta v ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 LEFT JOIN personacliente pc ON v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE v.`FECHA_PEDIDO` BETWEEN '2018-01-01' AND '2018-12-31'
+WHERE v.`FECHA_PEDIDO` BETWEEN '2018-10-01' AND '2018-10-01'
+AND v.idventadirecta >= 25681
 -- AND p.`IDPEDIDOS` IN (21928)
 -- AND p.`IDCLIENTE` = 65
 -- AND v.`CODIGO` = 4177
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 2584
 -- AND pc.`AP` LIKE '%Car%'
-AND a.`cod_art` = 703
+-- AND a.`cod_art` = 703
 ;
 
 SELECT zz.cod_art, zz.descri, SUM(zz.total) AS cant
 FROM (
-	SELECT 	a.`cod_art`,  ar.`descri`,  SUM(a.`TOTAL`) AS total
+	/*SELECT 	a.`cod_art`,  ar.`descri`,  SUM(a.`TOTAL`) AS total
 	FROM articulos_pedido a
 	LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
 	LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
@@ -83,13 +84,13 @@ FROM (
 	AND p.`ESTADO` <> 'ANULADO'
 	AND p.`IDUSUARIO` <> 5
 	GROUP BY a.`cod_art`,  ar.`descri`
-		UNION ALL
+		UNION ALL*/
 	SELECT a.`cod_art`, ar.`descri`, SUM(a.`CANTIDAD`) AS total
 	FROM articulos_pedido a
 	LEFT JOIN ventadirecta v ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 	LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-	WHERE v.`FECHA_PEDIDO` BETWEEN '2018-06-29' AND '2018-07-31'
-	AND v.idventadirecta > 23388
+	WHERE v.`FECHA_PEDIDO` BETWEEN '2018-10-01' AND '2018-10-01'
+	AND v.idventadirecta >= 25681
 	AND v.`ESTADO` <> 'ANULADO'
 	AND v.`IDUSUARIO` <> 5
 	GROUP BY a.`cod_art`, ar.`descri`
@@ -97,7 +98,8 @@ FROM (
 GROUP BY zz.cod_art, zz.descri
 ;
 
-
+14812
+14813
 
 --
 -- Ventas al contado Xx incompleto
