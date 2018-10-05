@@ -15,10 +15,9 @@ AND r.`liquidopagable` > 0
 ;
 
 UPDATE SECUENCIA SET VALOR=(SELECT MAX(E.IDMOVIMIENTOSALARIOPRODUCTOR)+1 FROM MOVIMIENTOSALARIOPRODUCTOR E) WHERE TABLA='MOVIMIENTOSALARIOPRODUCTOR';
-
 UPDATE SECUENCIA SET VALOR=(SELECT MAX(E.IDCOSTOSINDIRECTOS)/10+1 FROM COSTOSINDIRECTOS E) WHERE TABLA='COSTOSINDIRECTOS';
 UPDATE SECUENCIA SET VALOR=(SELECT MAX(E.IDCOSTOSINDIRECTOS)/10+1 FROM COSTOSINDIRECTOS E) WHERE TABLA='rhmarcado';
-
+UPDATE SECUENCIA SET VALOR=(SELECT MAX(E.idinvinicio)+1 FROM inv_inicio E) WHERE TABLA='inv_inicio';
 
 SELECT *
 FROM movimientosalarioproductor
@@ -58,7 +57,7 @@ LEFT JOIN personacliente pe ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 LEFT JOIN entidad e         ON pe.`NRO_DOC` = e.`noidentificacion`
 LEFT JOIN persona per       ON e.`identidad` = per.`idpersona`
 LEFT JOIN productormateriaprima pr ON e.`identidad` = pr.`idproductormateriaprima`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-06-01' AND '2018-06-15'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2018-08-01' AND '2018-08-31'
 AND p.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` <> 5
 AND p.`IDTIPOPEDIDO` = 5
@@ -70,17 +69,21 @@ SET @folio = (SELECT MAX(idmovimientosalarioproductor) FROM movimientosalariopro
 -- INSERT INTO movimientosalarioproductor 
 SELECT (@folio := @folio + 1), p.`FECHA_ENTREGA` AS fecha, CONCAT('Descuento Productos Veterinarios Pedido Nro. ', p.codigo) AS descripcion, 'PENDING', P.`TOTALIMPORTE` AS valor, 1 AS idcompania, pr.idzonaproductiva, pr.`idproductormateriaprima`, 4 AS tipomovimientoproductor
 FROM pedidos p
-LEFT JOIN personacliente pe ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
-LEFT JOIN entidad e         ON pe.`NRO_DOC` = e.`noidentificacion`
-LEFT JOIN persona per       ON e.`identidad` = per.`idpersona`
-LEFT JOIN productormateriaprima pr ON e.`identidad` = pr.`idproductormateriaprima`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-08-01' AND '2018-08-31'
+JOIN personacliente pe ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
+JOIN entidad e         ON pe.`NRO_DOC` = e.`noidentificacion`
+JOIN persona per       ON e.`identidad` = per.`idpersona`
+JOIN productormateriaprima pr ON e.`identidad` = pr.`idproductormateriaprima`
+WHERE p.`FECHA_ENTREGA` BETWEEN '2018-08-16' AND '2018-08-31'
 AND p.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` = 5
 AND p.`IDTIPOPEDIDO` = 6
 ;
 
-
+SELECT *
+FROM movimientosalarioproductor m
+WHERE m.`fecha` BETWEEN '2018-08-16' AND '2018-08-31'
+AND m.`descripcion` <> 'REPOSICION DE FORMULARIO'
+;
 
 -- ACOPIO, INSERTAR DESCUENTOS LACTEOS
 SET @folio = (SELECT MAX(idmovimientosalarioproductor) FROM movimientosalarioproductor);
@@ -134,9 +137,8 @@ JOIN personacliente pe ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 JOIN entidad e         ON pe.`NRO_DOC` = e.`noidentificacion`
 JOIN persona per       ON e.`identidad` = per.`idpersona`
 JOIN productormateriaprima pr ON e.`identidad` = pr.`idproductormateriaprima`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-08-16' AND '2018-08-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2018-08-01' AND '2018-08-31'
 AND p.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` <> 5
 AND p.`IDTIPOPEDIDO` = 5
 ;
-
