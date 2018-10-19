@@ -6,7 +6,7 @@ LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 WHERE d.`id_tmpenc` IN (
 
-88290
+88270
 
 )
 -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)

@@ -40,13 +40,13 @@ WHERE fechainicio = '2018-05-16'
 -- ----------------------------------------------------------------
 
 -- PEDIDOS VETERINARIOS + CLIENTES
-SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, pe.`NOM`, pe.`AP`, pe.`AM`, pe.`NRO_DOC`, pe.`IDPERSONACLIENTE`, e.`identidad`, e.`noidentificacion`, per.`nombres`, pr.`idproductormateriaprima`, p.`TOTALIMPORTE`
+SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, pe.`NOM`, pe.`AP`, pe.`AM`, pe.`NRO_DOC`, pe.`IDPERSONACLIENTE`, e.`identidad`, e.`noidentificacion`, per.`nombres`, pr.`idproductormateriaprima`, p.`TOTALIMPORTE`, p.`id_tmpenc`
 FROM pedidos p
 LEFT JOIN personacliente pe ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 LEFT JOIN entidad e         ON pe.`NRO_DOC` = e.`noidentificacion`
 LEFT JOIN persona per       ON e.`identidad` = per.`idpersona`
 LEFT JOIN productormateriaprima pr ON e.`identidad` = pr.`idproductormateriaprima`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-06-16' AND '2018-06-30'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2018-09-16' AND '2018-09-30'
 AND p.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` = 5
 AND p.`IDTIPOPEDIDO` = 6
@@ -59,7 +59,7 @@ LEFT JOIN personacliente pe ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 LEFT JOIN entidad e         ON pe.`NRO_DOC` = e.`noidentificacion`
 LEFT JOIN persona per       ON e.`identidad` = per.`idpersona`
 LEFT JOIN productormateriaprima pr ON e.`identidad` = pr.`idproductormateriaprima`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-08-01' AND '2018-08-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2018-09-01' AND '2018-09-15'
 AND p.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` <> 5
 AND p.`IDTIPOPEDIDO` = 5
@@ -69,13 +69,13 @@ AND p.`IDTIPOPEDIDO` = 5
 -- ACOPIO, INSERTAR DESCUENTOS VETERINARIOS
 SET @folio = (SELECT MAX(idmovimientosalarioproductor) FROM movimientosalarioproductor);
 -- INSERT INTO movimientosalarioproductor 
-SELECT (@folio := @folio + 1), p.`FECHA_ENTREGA` AS fecha, CONCAT('Descuento Productos Veterinarios Pedido Nro. ', p.codigo) AS descripcion, 'PENDING', P.`TOTALIMPORTE` AS valor, 1 AS idcompania, pr.idzonaproductiva, pr.`idproductormateriaprima`, 4 AS tipomovimientoproductor
+SELECT (@folio := @folio + 1), p.`FECHA_ENTREGA` AS fecha, CONCAT('DESC_VETERINARIO venta a credito Nro. ', p.codigo) AS descripcion, 'PENDING', P.`TOTALIMPORTE` AS valor, 1 AS idcompania, pr.idzonaproductiva, pr.`idproductormateriaprima`, 4 AS tipomovimientoproductor
 FROM pedidos p
 JOIN personacliente pe ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 JOIN entidad e         ON pe.`NRO_DOC` = e.`noidentificacion`
 JOIN persona per       ON e.`identidad` = per.`idpersona`
 JOIN productormateriaprima pr ON e.`identidad` = pr.`idproductormateriaprima`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-08-16' AND '2018-08-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2018-09-01' AND '2018-09-14'
 AND p.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` = 5
 AND p.`IDTIPOPEDIDO` = 6
@@ -83,7 +83,7 @@ AND p.`IDTIPOPEDIDO` = 6
 
 SELECT *
 FROM movimientosalarioproductor m
-WHERE m.`fecha` BETWEEN '2018-08-16' AND '2018-08-31'
+WHERE m.`fecha` BETWEEN '2018-09-01' AND '2018-09-15'
 AND m.`descripcion` <> 'REPOSICION DE FORMULARIO'
 ;
 
@@ -96,7 +96,7 @@ JOIN personacliente pe ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 JOIN entidad e         ON pe.`NRO_DOC` = e.`noidentificacion`
 JOIN persona per       ON e.`identidad` = per.`idpersona`
 JOIN productormateriaprima pr ON e.`identidad` = pr.`idproductormateriaprima`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-08-01' AND '2018-08-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2018-09-01' AND '2018-09-30'
 AND p.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` <> 5
 AND p.`IDTIPOPEDIDO` = 5
