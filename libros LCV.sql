@@ -17,12 +17,33 @@ SELECT 	d.FECHA AS "FECHA FACTURA O DUI",
 	"" AS "TIPO DE COMPRA", z.estado
 FROM documentocontable d 
 JOIN documentocompra z ON d.iddocumentocontable = z.iddocumentocompra
-WHERE fecha BETWEEN '2018-08-01' AND '2018-08-31'
+WHERE fecha BETWEEN '2018-12-01' AND '2018-12-31'
 AND z.estado <> 'NULLIFIED'
 ;
 
-SELECT * 
-FROM cxp_lcompras c WHERE c.`fecha` BETWEEN '2018-07-01' AND '2018-07-31';
+SELECT 	d.FECHA AS "FECHA FACTURA O DUI", 
+	d.NIT AS "NIT PROVEEDOR", 
+	d.NOMBRE AS "RAZON SOCIAL",
+	d.NUMERO AS "NUMERO FACTURA",
+	"" AS "NRO DUI",
+	d.numeroautorizacion AS "NRO DE AUTORIZACION",
+	d.IMPORTE AS "IMPORTE TOTAL DE LA COMPRA",
+	d.exento AS "IMPORTE NO SUJETO A CREDITO FISCAL",
+	d.importe - d.exento AS "SUBTOTAL",
+	"" AS "DESCUENTOS",
+	d.importeneto AS "IMPORTE BASE CREDITO FISCAL",
+	d.iva AS "CREDITO FISCAL",
+	IFNULL(d.CODIGOCONTROL, 0) AS CODIGOCONTROL,
+	"" AS "TIPO DE COMPRA", z.estado,
+	z.idtmpenc, e.tipo_doc, e.no_doc, e.fecha, e.estado
+FROM documentocontable d 
+LEFT JOIN documentocompra z ON d.iddocumentocontable = z.iddocumentocompra
+LEFT JOIN sf_tmpenc e ON z.idtmpenc = e.id_tmpenc
+WHERE d.fecha BETWEEN '2018-12-01' AND '2018-12-31'
+AND z.estado <> 'NULLIFIED'
+;
+
+
 
 -- REV FACT COMPRAS NO APROBADAS -- FALTA APROBAR FACT AGO/2018
 SELECT 
@@ -44,13 +65,11 @@ SELECT
 FROM documentocontable d 
 LEFT JOIN documentocompra dc ON d.iddocumentocontable = dc.iddocumentocompra 
 LEFT JOIN sf_tmpenc e        ON dc.idtmpenc = e.id_tmpenc
-WHERE d.fecha BETWEEN '2018-08-01' AND '2018-08-31'
+WHERE d.fecha BETWEEN '2018-11-01' AND '2018-11-30'
 ;
 
 -- -------------
 -- -- VENTAS ---
--- No Anular Dic: 168, 169, 113, 86* (YPFB)
---    Anular Dic: 86(ok), 
 -- -------------
 SELECT 	IDMOVIMIENTO,
 	"" AS "N.",
@@ -69,9 +88,9 @@ SELECT 	IDMOVIMIENTO,
 	IF(ESTADO = 'A', 0.00, IMPORTE_PARA_DEBITO_FISCAL) AS "IMPORTE PARA DEBITO FISCAL", 
 	IF(ESTADO = 'A', 0.00, DEBITO_FISCAL) AS "DEBITO FISCAL", 
 	IF(ESTADO = 'A', 0, CODIGOCONTROL) AS "CODIGO DE CONTROL",
-	IDPEDIDOS, IDVENTADIRECTA
+	IDPEDIDOS, IDVENTADIRECTA, idmovimiento
 FROM movimiento
-WHERE FECHA_FACTURA BETWEEN '2018-09-01' AND '2018-09-30'
+WHERE FECHA_FACTURA BETWEEN '2018-12-01' AND '2018-12-31'
 ;
 
 -- -------------
@@ -79,25 +98,23 @@ WHERE FECHA_FACTURA BETWEEN '2018-09-01' AND '2018-09-30'
 	-- Para anular facturas VENTAS CONTADO
 	SELECT v.`IDMOVIMIENTO` ,v.fecha_pedido, v.estado, v.observacion
 	FROM ventadirecta v
-	WHERE v.`FECHA_PEDIDO` BETWEEN '2018-09-01' AND '2018-09-30'
+	WHERE v.`FECHA_PEDIDO` BETWEEN '2018-12-01' AND '2018-12-31'
 	AND v.`ESTADO` = 'ANULADO'
 	AND v.`IDMOVIMIENTO` IS NOT NULL;
 
-	
 	-- Para anular facturas PEDIDOS
-	    SELECT p.`IDMOVIMIENTO`, p.fecha_entrega, p.`CODIGO`, p.`ESTADO`, m.nrofactura, p.observacion, pc.razonsocial , m.`ESTADO`, pc.`IDPERSONACLIENTE`
+	    SELECT p.`IDMOVIMIENTO`, p.fecha_entrega, p.`CODIGO`, p.`ESTADO`, m.nrofactura, p.`IMPUESTO`, p.observacion, pc.razonsocial , m.`ESTADO`, pc.`IDPERSONACLIENTE`, p.`id_tmpenc`
 	-- SELECT p.`IDMOVIMIENTO`
 	FROM pedidos p
 	   JOIN personacliente pc ON p.idcliente = pc.idpersonacliente
 	   JOIN movimiento m      ON p.idmovimiento = m.idmovimiento
-	WHERE p.`FECHA_ENTREGA` BETWEEN '2018-09-01' AND '2018-09-30'
+	WHERE p.`FECHA_ENTREGA` BETWEEN '2018-12-01' AND '2018-12-31'
 	AND p.`ESTADO` = 'ANULADO'
 	AND p.`IDMOVIMIENTO` IS NOT NULL
 	-- AND p.`IDMOVIMIENTO` NOT IN (27416, 27417)
 	;
 
 UPDATE movimiento M SET M.ESTADO = 'A' WHERE M.`IDMOVIMIENTO` IN (
-
 );
 
 -- CRUCE COMPRAS CON ASIENTOS
@@ -111,32 +128,59 @@ JOIN sf_tmpenc e  		ON dc.`idtmpenc` = e.`id_tmpenc`
 WHERE co.`fecha` BETWEEN '2018-08-01' AND '2018-08-31'
 -- and d.`cuenta` = '1420710000'
 ;
-
-SELECT e.`id_tmpenc`, e.`estado`, e.`tipo_doc`, e.`no_doc`, e.`fecha`, d.`debe`
+-- 
+SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`estado`, e.`tipo_doc`, e.`no_doc`, e.`fecha`, d.`debe`, e.`glosa`
 FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-WHERE e.`fecha` BETWEEN '2018-08-01' AND '2018-08-31' 
+WHERE e.`fecha` BETWEEN '2018-12-01' AND '2018-12-31'
 AND d.`cuenta` = '1420710000'
 AND d.`debe` > 0
+ -- AND e.`tipo_doc` NOT IN ('NE')
 ;
 -- ---------------------------
-SELECT m.`FECHA_FACTURA`, m.`ESTADO`, m.`IMPORTE_TOTAL`, m.`DESCUENTOS`, m.`IMPORTE_PARA_DEBITO_FISCAL`, m.`DEBITO_FISCAL`, m.`IDVENTADIRECTA`, m.`IDPEDIDOS`
-FROM movimiento m
-WHERE m.`FECHA_FACTURA` BETWEEN '2018-07-01' AND '2018-07-31'
-AND m.`IDPEDIDOS` IS NOT NULL
+SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`estado`, e.`tipo_doc`, e.`no_doc`, e.`fecha`, d.`debe`, e.`glosa`
+FROM sf_tmpdet d
+LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
+WHERE e.`fecha` BETWEEN '2018-12-01' AND '2018-12-31'
+AND d.`cuenta` = '2420410200'AND d.haber > 0
 ;
 
-SELECT p.`FECHA_ENTREGA`, p.`IDTIPOPEDIDO`, p.`CODIGO`, p.`TOTALIMPORTE`, p.`IMPUESTO`, p.`ESTADO`, p.`IDMOVIMIENTO`, p.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, e.`estado`, e.`fecha`
-FROM pedidos p
-LEFT JOIN sf_tmpenc e ON p.`id_tmpenc` = e.`id_tmpenc`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-07-01' AND '2018-07-31'
--- and p.`ESTADO` <> 'ANULADO'
-AND p.`IDMOVIMIENTO` IS NOT NULL
+
+
+SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`estado`, e.`tipo_doc`, e.`no_doc`, e.`fecha`, d.`debe`, d.`haber`, e.`glosa`, ve.idventadirecta, ve.estado, ve.idmovimiento, pe.idpedidos, pe.estado, pe.idmovimiento
+FROM sf_tmpdet d
+LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
+LEFT JOIN (
+	SELECT v.`IDVENTADIRECTA`, v.`FECHA_PEDIDO`, v.`ESTADO`, v.`CODIGO`, v.`IDMOVIMIENTO`, v.`id_tmpenc`
+	FROM ventadirecta v
+	WHERE v.`FECHA_PEDIDO` BETWEEN '2018-12-01' AND '2018-12-31'
+) ve ON e.`id_tmpenc` = ve.id_tmpenc
+LEFT JOIN (
+	SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, p.`IDMOVIMIENTO`, p.`id_tmpenc`
+	FROM pedidos p
+	WHERE p.`FECHA_ENTREGA` BETWEEN '2018-12-01' AND '2018-12-31'
+) pe ON e.`id_tmpenc` = pe.id_tmpenc
+WHERE e.`fecha` BETWEEN '2018-12-01' AND '2018-12-31'
+AND d.`cuenta` = '2420410200'AND d.haber > 0
 ;
 
-SELECT v.`FECHA_PEDIDO`, v.`CODIGO`, v.`TOTALIMPORTE`, v.`IMPUESTO`, v.`ESTADO`, e.`tipo_doc`, e.`no_doc`, e.`estado`, e.`fecha`
+
+SELECT v.`IDVENTADIRECTA`, v.`FECHA_PEDIDO`, v.`ESTADO`, v.`CODIGO`, v.`IDMOVIMIENTO`, v.`id_tmpenc`
 FROM ventadirecta v
-LEFT JOIN sf_tmpenc e ON v.`id_tmpenc` = e.`id_tmpenc`
-WHERE v.`FECHA_PEDIDO` BETWEEN '2018-07-01' AND '2018-07-31'
+WHERE v.`FECHA_PEDIDO` BETWEEN '2018-12-01' AND '2018-12-31'
 ;
 
+SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, p.`IDMOVIMIENTO`, p.`id_tmpenc`
+FROM pedidos p
+WHERE p.`FECHA_ENTREGA` BETWEEN '2018-12-01' AND '2018-12-31'
+;
+
+
+SELECT *
+FROM pedidos p
+WHERE p.`CODIGO` = 8117
+AND p.`FECHA_ENTREGA` >= '2018-12-01'
+;
+
+
+-- update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` = 97805;

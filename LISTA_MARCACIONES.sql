@@ -57,7 +57,7 @@ FROM RHMARCADO RH
 JOIN EMPLEADO EM ON RH.MARREFTARJETA = EM.CODIGOMARCACION
 JOIN PERSONA P   ON EM.IDEMPLEADO    = P.IDPERSONA
 JOIN ENTIDAD E   ON P.IDPERSONA      = E.IDENTIDAD
-WHERE RH.MARFECHA BETWEEN '2018-07-01' AND '2018-07-31'
+WHERE RH.MARFECHA BETWEEN '2018-10-01' AND '2018-10-31'
 ;
 
 
@@ -67,10 +67,21 @@ SELECT MAX(E.IDRHMARCADO)+1 FROM RHMARCADO E;
 
 
 
-INSERT INTO rh_marcado (control, marfecha, marippc, marperid, marhora)
+-- INSERT INTO rh_marcado (control, marfecha, marippc, marperid, marhora)
 SELECT 0 AS control, r.`marfecha`, r.`marippc`, r.`marperid`, r.`marhora`
 FROM rhmarcado r
 WHERE r.`marfecha` BETWEEN '2018-07-01' AND '2018-07-31'
 ;
 
+SELECT *
+FROM vmarcado v
+WHERE v.`marfecha` BETWEEN '2018-12-01' AND '2018-12-31'
+;
 
+
+SELECT v.`marperid` AS CI, v.`nombre`, COUNT( DISTINCT DAY(v.`marfecha`) ) AS dias
+FROM vmarcado v
+WHERE v.`marfecha` BETWEEN '2018-12-01' AND '2018-12-31'
+AND v.`marreftarjeta` IN (8714155,5283781,8048438,4532545,5264949,5924127)
+GROUP BY v.`marperid`, v.`nombre`
+;

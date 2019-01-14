@@ -6,7 +6,7 @@ LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 WHERE d.`id_tmpenc` IN (
 
-88270
+96678
 
 )
 -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
@@ -542,52 +542,6 @@ AND e.`estado` <> 'ANL'
 --
 
 
-SELECT MIN(CAST(no_trans AS DECIMAL)) AS MI, MAX(CAST(no_trans AS DECIMAL)) AS MA
-FROM sf_tmpdet
-;
-
-
---
-SELECT e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, d.`cuenta`, d.`debe`, d.`haber`, dc.`iddocumentocompra`, co.*
-FROM sf_tmpenc e
-LEFT JOIN sf_tmpdet d ON e.`id_tmpenc` = d.`id_tmpenc`
-LEFT JOIN documentocompra dc ON e.`id_tmpenc` = dc.`idtmpenc`
-LEFT JOIN documentocontable co ON dc.`iddocumentocompra` = co.`iddocumentocontable`
-WHERE e.`fecha` BETWEEN '2018-05-01' AND '2018-05-31'
-AND d.`cuenta` = 1420710000
-AND d.`debe` > 0
-AND e.`tipo_doc` <> 'NE'
-;
 
 
 
-SELECT * 
-FROM pedidos p 
-WHERE p.`CODIGO` = 2075
-AND p.`FECHA_ENTREGA` >= '2018-01-01'
-;
-
-SELECT *
-FROM sf_tmpenc e
-WHERE e.`glosa` LIKE '%EGR%AJUST%INV%'
-AND E.`tipo_doc` = 'CB'
-AND e.`fecha` >= '2018-01-01'
-;
-
-
-
-SELECT e.`id_tmpenc`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, e.`no_trans`
-FROM sf_tmpenc e
-WHERE e.`fecha` >= '2018-01-01'
-AND e.`tipo_doc` = 'CB'
-AND e.`no_doc` = 202
-;
-
-SELECT e.`id_tmpenc`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, e.`no_trans`, d.`cuenta`, d.`debe`, d.`haber`, e.`glosa`
-FROM sf_tmpenc e
-JOIN sf_tmpdet d ON e.`id_tmpenc` = d.`id_tmpenc`
-WHERE e.`fecha` >= '2015-01-01'
--- AND e.`tipo_doc` = 'CB'
--- AND e.`no_doc` = 195
-AND d.`cuenta` = 1420700000
-;

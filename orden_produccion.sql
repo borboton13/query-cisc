@@ -6,7 +6,7 @@ FROM ordenproduccion o
 -- UPDATE ordenproduccion o
 JOIN planificacionproduccion p ON o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
 SET o.`estadoorden` = 'FINALIZED'
-WHERE p.`fecha` BETWEEN '2018-08-01' AND '2018-08-31'
+WHERE p.`fecha` BETWEEN '2018-12-01' AND '2018-12-31'
 -- AND o.codigo = '1611-0035'
 ;
 
@@ -17,7 +17,7 @@ FROM productosimple ps
 JOIN productobase pb ON ps.`idproductobase` = pb.`idproductobase`
 JOIN planificacionproduccion p ON pb.`idplanificacionproduccion` = p.`idplanificacionproduccion`
 SET ps.`estado` = 'FINALIZED'
-WHERE p.`fecha` BETWEEN '2018-08-01' AND '2018-08-31'
+WHERE p.`fecha` BETWEEN '2018-12-01' AND '2018-12-31'
 ;
 -- ------------------------------------------------------
 -- ------

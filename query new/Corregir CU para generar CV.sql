@@ -6,9 +6,10 @@ SELECT p.`FECHA_ENTREGA`, a.`IDARTICULOSPEDIDO`, i.`cod_art`, i.`descri`, a.`PRE
 FROM articulos_pedido a
 JOIN pedidos p 		ON a.`IDPEDIDOS` = p.`IDPEDIDOS`
 JOIN inv_articulos i 	ON a.`cod_art` = i.`cod_art` 
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-06-01' AND '2018-06-30'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2018-12-01' AND '2018-12-31'
 AND p.`ESTADO` <> 'ANULADO'
-AND p.`IDUSUARIO` = 5
+AND p.`IDUSUARIO` <> 5
+-- AND p.`IDUSUARIO` = 5
 ;
 
 -- DETALLE DE ARTICULOS VENDIDOS (CONTADO), VERIFICAR CU
@@ -16,18 +17,18 @@ SELECT v.`FECHA_PEDIDO`, a.`IDARTICULOSPEDIDO`, i.`cod_art`, i.`descri`, a.`PREC
 FROM articulos_pedido a
 JOIN ventadirecta v 	ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 JOIN inv_articulos i 	ON a.`cod_art` = i.`cod_art` 
-WHERE v.`FECHA_PEDIDO` BETWEEN '2018-06-01' AND '2018-06-30'
+WHERE v.`FECHA_PEDIDO` BETWEEN '2018-12-01' AND '2018-12-31'
 AND v.`ESTADO` <> 'ANULADO'
 AND v.`IDUSUARIO` IN (6,404)
 ;
-sel
+
 
 -- DETALLE DE ARTICULOS VENDIDOS (CONTADO VETERINARIO), VERIFICAR CU
 SELECT v.`FECHA_PEDIDO`, a.`IDARTICULOSPEDIDO`, i.`cod_art`, i.`descri`, a.`PRECIO`, a.`CANTIDAD`, a.`PROMOCION`, a.`REPOSICION`, a.`TOTAL`, a.`IMPORTE`, a.`cu`
 FROM articulos_pedido a
 JOIN ventadirecta v 	ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 JOIN inv_articulos i 	ON a.`cod_art` = i.`cod_art` 
-WHERE v.`FECHA_PEDIDO` BETWEEN '2017-12-01' AND '2017-12-31'
+WHERE v.`FECHA_PEDIDO` BETWEEN '2018-12-01' AND '2018-12-31'
 AND v.`ESTADO` <> 'ANULADO'
 AND v.`IDUSUARIO` IN (5)
 ;
@@ -55,7 +56,7 @@ WHERE alm = 2;
 -- UPDATE articulos_pedido a
 JOIN pedidos p 		ON a.`IDPEDIDOS` = p.`IDPEDIDOS`
 SET a.`cu` = 0
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-05-01' AND '2018-05-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2018-12-01' AND '2018-12-31'
 -- AND p.`ESTADO` <> 'ANULADO'
 AND p.idusuario <> 5
 ;
@@ -68,7 +69,7 @@ FROM articulos_pedido a
 JOIN pedidos p 		ON a.`IDPEDIDOS` = p.`IDPEDIDOS`
 JOIN auxinv ai		ON a.`cod_art` = ai.`cod_art`
 SET a.`cu` = ai.costo_prom
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-05-01' AND '2018-05-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2018-12-01' AND '2018-12-31'
 AND p.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` <> 5
 ;
@@ -80,7 +81,7 @@ FROM articulos_pedido a
 JOIN ventadirecta v 	ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 JOIN auxinv ai		ON a.`cod_art` = ai.`cod_art`
 SET a.`cu` = ai.costo_prom
-WHERE v.`FECHA_PEDIDO` BETWEEN '2018-05-01' AND '2018-05-31'
+WHERE v.`FECHA_PEDIDO` BETWEEN '2018-12-01' AND '2018-12-31'
 AND v.`ESTADO` <> 'ANULADO'
 AND v.`IDUSUARIO` IN (6,404)
 ;
@@ -88,12 +89,13 @@ AND v.`IDUSUARIO` IN (6,404)
 SELECT DISTINCT v.`IDUSUARIO`, u.`usuario` FROM ventadirecta v JOIN usuario u ON v.`IDUSUARIO` = u.`idusuario`;
 
 --
+--
 -- CHECK ART VETERINARIOS
 SELECT v.`FECHA_PEDIDO`, a.`IDARTICULOSPEDIDO`, a.`cod_art`, a.`PRECIO`, a.`CANTIDAD`, a.`PROMOCION`, a.`REPOSICION`, a.`TOTAL`, a.`IMPORTE`, a.`cu` -- , ai.`costo_prom`
 FROM articulos_pedido a
 JOIN ventadirecta v 	ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 -- JOIN auxinv ai		ON a.`cod_art` = ai.`cod_art`
-WHERE v.`FECHA_PEDIDO` BETWEEN '2018-04-01' AND '2018-04-30'
+WHERE v.`FECHA_PEDIDO` BETWEEN '2018-12-01' AND '2018-12-31'
 AND v.`ESTADO` <> 'ANULADO'
 AND v.`IDUSUARIO` IN (5)
 ;
@@ -124,8 +126,8 @@ AND p.`IDUSUARIO` <> 5
 
 -- CONTADO
 -- UPDATE ventadirecta v SET v.`CV` = 0 
-WHERE v.`FECHA_PEDIDO` BETWEEN '2018-06-01' AND '2018-06-30'
-AND v.`IDUSUARIO` <> 5
+WHERE v.`FECHA_PEDIDO` BETWEEN '2018-09-01' AND '2018-09-30'
+AND v.`IDUSUARIO` = 5
 ;
 
 
