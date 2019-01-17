@@ -36,3 +36,38 @@ FROM (
 	) z
 GROUP BY z.idcredito
 ;
+
+-- ESTADO CARTERA JOIN SOCIO CI...?
+SELECT e.id, e.`nombres`, e.`ap`, e.`am`, e.`nombrecomp`, s.`nombres`, s.`apellidopaterno`, s.`noidentificacion`
+FROM estadocartera e, socio s
+WHERE e.`ap` 	= s.`apellidopaterno`
+AND e.`am` 	= s.`apellidomaterno`
+AND e.`nombres` = s.`nombres`
+;
+
+
+SELECT *
+FROM estadocartera e 
+WHERE e.`ci` IS NOT NULL
+;
+
+
+SELECT e.`id`, e.`ci`, e.`nombres`, e.`fapertura`, s.`noidentificacion`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, c.`idcredito`, c.`fechaconcesion`
+FROM estadocartera e
+LEFT JOIN socio s 	ON e.`ci` = s.`noidentificacion`
+LEFT JOIN credito c 	ON s.`idsocio` = c.`idsocio`
+WHERE e.`fapertura` = c.`fechaconcesion`
+;
+
+
+
+SELECT s.`idsocio`, s.`noidentificacion`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, c.`idcredito`, c.`codigoant`, c.`importe`, c.`saldo`, c.`fechaconcesion`, c.`ultimopago`, c.`rev1`
+FROM credito c
+LEFT JOIN socio s ON c.`idsocio` = s.`idsocio`
+WHERE c.`rev1` IS NULL
+;
+
+
+
+
+
