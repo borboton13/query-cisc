@@ -74,6 +74,7 @@ UPDATE SECUENCIA SET VALOR=(SELECT MAX(e.`id_tmpdet`)+1 FROM sf_tmpdet e) WHERE 
 SELECT *
 FROM transaccioncredito t
 WHERE t.`fechatransaccion` >= '2019-01-01'
+;
 -- AND t.`idcredito` IN ();
 
 
