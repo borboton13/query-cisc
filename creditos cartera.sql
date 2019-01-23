@@ -78,3 +78,11 @@ WHERE t.`fechatransaccion` >= '2019-01-01'
 -- AND t.`idcredito` IN ();
 
 
+SELECT a.`cuenta`, a.`descri`, SUM(d.`debe`) AS debe, SUM(d.`haber`) AS haber
+FROM sf_tmpdet d
+LEFT JOIN sf_tmpenc e 	ON d.`id_tmpenc` = e.`id_tmpenc`
+LEFT JOIN arcgms a 	ON d.`cuenta` = a.`cuenta`
+WHERE e.`tipo_doc` = 'CD' AND e.`no_doc` = 1
+GROUP BY a.`cuenta`, a.`descri`
+;
+
