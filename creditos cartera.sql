@@ -57,7 +57,7 @@ AND e.`nombres` = s.`nombres`
 
 SELECT *
 FROM estadocartera e 
-WHERE e.`ci` IS NOT NULL
+
 ;
 
 
@@ -93,5 +93,14 @@ LEFT JOIN sf_tmpenc e 	ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a 	ON d.`cuenta` = a.`cuenta`
 WHERE e.`tipo_doc` = 'CD' AND e.`no_doc` = 1
 GROUP BY a.`cuenta`, a.`descri`
+;
+
+
+
+SELECT e.id, c.`idcredito`, c.`codigoant`, c.`importe`, c.`fechaconcesion`, s.`noidentificacion`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, e.`saldoactual`, e.`ultimopago`
+FROM credito c
+LEFT JOIN socio s 		ON c.`idsocio` = s.`idsocio`
+LEFT JOIN estadocartera e 	ON s.`noidentificacion` = e.`ci`
+WHERE c.`fechaconcesion` = e.`fapertura`
 ;
 
