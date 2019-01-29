@@ -80,7 +80,7 @@ WHERE e.`fapertura` = c.`fechaconcesion`
 -- UPDATE SECUENCIA SET VALOR=(SELECT MAX(e.`idcredito`)+1 FROM sf_tmpdet e) WHERE TABLA='credito';
 -- UPDATE SECUENCIA SET VALOR=(SELECT MAX(e.`idtransaccioncredito`)+1 FROM transaccioncredito e) WHERE TABLA='transaccioncredito';
 
-
+-- UPDATE SECUENCIA SET VALOR=(SELECT MAX(e.`idsocio`)+1 FROM socio e) WHERE TABLA='socio';
 
 SELECT *
 FROM transaccioncredito t
@@ -127,6 +127,47 @@ AND e.`ap` = s.`apellidopaterno`
 AND e.`am` = s.`apellidomaterno`
 AND e.`ci` IS NULL
 ;
+
+
+SELECT e.*, s.`idsocio`, s.`noidentificacion`
+FROM estadoahorro e
+LEFT JOIN  socio s ON e.`nombres` = s.`nombres`
+WHERE e.`ap` = s.`apellidopaterno`
+AND e.`am` = s.`apellidomaterno`
+;
+
+
+/** Cuenta Dolares Bolivianos **/
+SELECT *
+FROM sf_tmpdet d
+WHERE d.`id_tmpenc` = 1
+AND d.`cuenta` = '1390220000'
+;
+
+UPDATE sf_tmpdet d SET d.`debeme` = d.`debe`, d.`haberme` = 0, d.`tc` = 6.96, d.`moneda` = 'D'
+WHERE d.`id_tmpenc` = 1
+AND d.`cuenta` = '1330520600'
+;
+
+UPDATE sf_tmpdet d SET d.`debe` = ROUND(d.`debeme` * d.`tc`, 2)
+WHERE d.`id_tmpenc` = 1
+AND d.`cuenta` = '1330520600'
+;
+
+--
+
+UPDATE sf_tmpdet d SET d.`debeme` = 0, d.`haberme` = d.`haber`, d.`tc` = 6.96, d.`moneda` = 'D'
+WHERE d.`id_tmpenc` = 1
+AND d.`cuenta` = '1390220000'
+;
+
+UPDATE sf_tmpdet d SET d.`haber` = ROUND(d.`haberme` * d.`tc`, 2)
+WHERE d.`id_tmpenc` = 1
+AND d.`cuenta` = '1390220000'
+;
+/** ---- */
+
+
 
 
 
