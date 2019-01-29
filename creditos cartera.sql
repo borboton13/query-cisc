@@ -75,14 +75,16 @@ LEFT JOIN credito c 	ON s.`idsocio` = c.`idsocio`
 WHERE e.`fapertura` = c.`fechaconcesion`
 ;
 
-
-
 -- UPDATE SECUENCIA SET VALOR=(SELECT MAX(e.`id_tmpdet`)+1 FROM sf_tmpdet e) WHERE TABLA='sf_tmpdet';
+-- UPDATE SECUENCIA SET VALOR=(SELECT MAX(e.`id_tmpenc`)+1 FROM sf_tmpdet e) WHERE TABLA='sf_tmpenc';
+-- UPDATE SECUENCIA SET VALOR=(SELECT MAX(e.`idcredito`)+1 FROM sf_tmpdet e) WHERE TABLA='credito';
+-- UPDATE SECUENCIA SET VALOR=(SELECT MAX(e.`idtransaccioncredito`)+1 FROM transaccioncredito e) WHERE TABLA='transaccioncredito';
+
 
 
 SELECT *
 FROM transaccioncredito t
-WHERE t.`fechatransaccion` >= '2019-01-01'
+WHERE t.`fechacreacion` >= '2019-01-28'
 ;
 -- AND t.`idcredito` IN ();
 
@@ -103,4 +105,28 @@ LEFT JOIN socio s 		ON c.`idsocio` = s.`idsocio`
 LEFT JOIN estadocartera e 	ON s.`noidentificacion` = e.`ci`
 WHERE c.`fechaconcesion` = e.`fapertura`
 ;
+
+
+/** PARA INSERTAR ASIENTOS **/
+SELECT s.`idsocio`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, c.`idcredito`, C.`estado`, c.`codigoant`, c.`fechaconcesion`, c.`importe`, c.`saldo`, 
+t.`idtransaccioncredito`, t.`capital`, t.`interes`, t.`importe`, t.`fechatransaccion`, t.`fechacreacion`, t.`saldo`, t.`tipo`, t.`id_tmpenc`,
+tc.`nombre`, tc.`ctavig`, tc.`ctaven`, tc.`ctaeje`, tc.`ictavig`, tc.`ictaven`
+FROM transaccioncredito t
+JOIN credito c ON t.`idcredito` = c.`idcredito`
+JOIN tipocredito tc ON c.`idtipocredito` = tc.`idtipocredito`
+JOIN socio s   ON c.`idsocio` = s.`idsocio`
+AND t.`fechacreacion` >= '2019-01-28'
+;
+
+
+/** Ahorros socios **/
+SELECT e.`id`, e.`nombrecomp`, e.`nombres`, e.`ap`, e.`am`, e.`ci`, s.`idsocio`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, s.`noidentificacion`
+FROM estadoahorro e, socio s
+WHERE e.`nombres` = s.`nombres`
+AND e.`ap` = s.`apellidopaterno`
+AND e.`am` = s.`apellidomaterno`
+AND e.`ci` IS NULL
+;
+
+
 
