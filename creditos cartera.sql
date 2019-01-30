@@ -86,6 +86,11 @@ SELECT *
 FROM transaccioncredito t
 WHERE t.`fechacreacion` >= '2019-01-28'
 ;
+
+SELECT *
+FROM transaccioncredito t
+WHERE t.`fechatransaccion` >= '2019-01-01'
+;
 -- AND t.`idcredito` IN ();
 
 
@@ -115,7 +120,7 @@ FROM transaccioncredito t
 JOIN credito c ON t.`idcredito` = c.`idcredito`
 JOIN tipocredito tc ON c.`idtipocredito` = tc.`idtipocredito`
 JOIN socio s   ON c.`idsocio` = s.`idsocio`
-AND t.`fechacreacion` >= '2019-01-28'
+AND t.`fechacreacion` >= '2019-01-30'
 ;
 
 
