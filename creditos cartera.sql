@@ -94,22 +94,25 @@ WHERE t.`fechatransaccion` >= '2019-01-01'
 -- AND t.`idcredito` IN ();
 
 
-SELECT a.`cuenta`, a.`descri`, SUM(d.`debe`) AS debe, SUM(d.`haber`) AS haber
+SELECT e.`glosa`, a.`cuenta`, a.`descri`, SUM(d.`debe`) AS debe, SUM(d.`haber`) AS haber, SUM(d.`debeme`) AS debeme, SUM(d.`haberme`) AS haberme
 FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e 	ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a 	ON d.`cuenta` = a.`cuenta`
-WHERE e.`tipo_doc` = 'CD' AND e.`no_doc` = 1
+WHERE e.`tipo_doc` = 'CD' 
+-- AND e.`no_doc` = 1
+AND e.`id_tmpenc` = 100441
 GROUP BY a.`cuenta`, a.`descri`
 ;
 
 
-
-SELECT e.id, c.`idcredito`, c.`codigoant`, c.`importe`, c.`fechaconcesion`, s.`noidentificacion`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, e.`saldoactual`, e.`ultimopago`
-FROM credito c
-LEFT JOIN socio s 		ON c.`idsocio` = s.`idsocio`
-LEFT JOIN estadocartera e 	ON s.`noidentificacion` = e.`ci`
-WHERE c.`fechaconcesion` = e.`fapertura`
+SELECT d.`cuenta`, d.`debe`, d.`haber`, d.`moneda`, a.`cuenta`, a.`descri`
+FROM sf_tmpdet d
+LEFT JOIN arcgms a ON d.`cuenta` = a.`cuenta`
+WHERE d.`id_tmpenc` = 100441
 ;
+
+
+
 
 
 /** PARA INSERTAR ASIENTOS **/
@@ -143,6 +146,7 @@ AND e.`am` = s.`apellidomaterno`
 
 
 /** Cuenta Dolares Bolivianos **/
+/*
 SELECT *
 FROM sf_tmpdet d
 WHERE d.`id_tmpenc` = 1
@@ -170,6 +174,7 @@ UPDATE sf_tmpdet d SET d.`haber` = ROUND(d.`haberme` * d.`tc`, 2)
 WHERE d.`id_tmpenc` = 1
 AND d.`cuenta` = '1390220000'
 ;
+*/
 /** ---- */
 
 

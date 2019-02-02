@@ -22,6 +22,7 @@ WHERE p.`FECHA_ENTREGA` BETWEEN '2015-10-15' AND '2015-11-03'
 SELECT 	p.`FECHA_ENTREGA` AS FECHA, 
 	p.`IDPEDIDOS`, 
 	p.`CODIGO`,
+	P.`ESTADO`,
 	CONCAT(pc.`NOM`,' ',pc.`AP`,' ',pc.`AM`) AS CLIENTE, p.`OBSERVACION`,
 	a.`cod_art`, 
 	a.`IDARTICULOSPEDIDO` AS IdArtP, 
@@ -34,14 +35,14 @@ FROM articulos_pedido a
 LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
 LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-06-29' AND '2018-08-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
 -- AND p.`IDPEDIDOS` >= 23759
 -- AND p.`IDCLIENTE` = 65
 -- AND p.`CODIGO` IN (3908)
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 21928
 -- AND pc.`AP` LIKE '%Car%'
-AND a.`cod_art` = 120
+AND a.`cod_art` = 643
 -- AND p.`IDUSUARIO` = 5
 ;
 
