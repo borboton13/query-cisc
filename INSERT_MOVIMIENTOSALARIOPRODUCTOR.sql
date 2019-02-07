@@ -22,7 +22,7 @@ UPDATE SECUENCIA SET VALOR=(SELECT MAX(p.idplanillaacopio)+1 FROM planillaacopio
 
 SELECT *
 FROM movimientosalarioproductor
-WHERE fecha = '2018-08-01'
+WHERE fecha = '2018-12-16'
 AND descripcion = 'REPOSICION DE FORMULARIO'
 ;
 

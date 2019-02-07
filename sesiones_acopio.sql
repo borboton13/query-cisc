@@ -1,13 +1,3 @@
-SELECT *
-FROM sesionacopio;
-
-SELECT *
-FROM acopiomateriaprima
-WHERE idacopiomateriaprima > 11814
-;
-
-SELECT *
-FROM ZONAPRODUCTIVA
 
 SELECT se.idsesionacopio, se.fecha, se.idzonaproductiva, zo.nombre, zo.numero, ac.idacopiomateriaprima, ac.idproductormateriaprima, ac.cantidad
 FROM acopiomateriaprima ac
@@ -47,8 +37,7 @@ FROM REGISTROACOPIO RA;
 SELECT pl.idplanillaacopio, pl.fecha, pl.totalpesado, ra.idregistroacopio, zo.nombre, zo.numero, ra.cantidadrecibida, ra.cantidadpesada, ra.cantidadrechazada, ra.idzonaproductiva
 FROM REGISTROACOPIO RA
 LEFT JOIN PLANILLAACOPIO PL ON ra.idplanillaacopio = pl.idplanillaacopio
-LEFT JOIN zonaproductiva ZO ON ra.idzonaproductiva = zo.idzonaproductiva
--- WHERE pl.fecha between to_date('29/05/2015','dd/mm/yyyy') and to_date('29/05/2015','dd/mm/yyyy')
+LEFT JOIN zonaproductiva zo ON ra.idzonaproductiva = zo.idzonaproductiva
 WHERE pl.fecha BETWEEN '2016-10-16' AND '2016-10-17'
 AND zo.numero = 543
 ORDER BY pl.fecha
