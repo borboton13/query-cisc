@@ -210,68 +210,8 @@ AND d.`haber` = TRUNCATE(v.`TOTALIMPORTE`*0.13,2)
 AND e.`fecha` BETWEEN '2016-01-27' AND '2016-01-27'
 ;
 -- -----------------------------------------------------------
--- UPDATE PARA USUARIO 5: 28 ENERO
--- UPDATE sf_tmpdet d
-LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
-LEFT JOIN ventadirecta v ON e.`id_tmpenc` = v.`id_tmpenc`
-SET d.`cuenta` = 2420410100
-WHERE e.`tipo_doc` = 'CI'
-AND v.`IDUSUARIO` = 5
-AND d.`cuenta` = '2420410200'
-AND e.`fecha` BETWEEN '2016-01-28' AND '2016-01-28'
-;
-
--- UPDATE sf_tmpdet d
-LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
-LEFT JOIN ventadirecta v ON e.`id_tmpenc` = v.`id_tmpenc`
-SET d.`cuenta` = 2420410200
-WHERE e.`tipo_doc` = 'CI'
-AND v.`IDUSUARIO` = 5
-AND d.`cuenta` = '5420110100'
-AND e.`fecha` BETWEEN '2016-01-28' AND '2016-01-28'
-;
-
--- UPDATE sf_tmpdet d
-LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
-LEFT JOIN ventadirecta v ON e.`id_tmpenc` = v.`id_tmpenc`
-SET d.`cuenta` = 5420110100
-WHERE e.`tipo_doc` = 'CI'
-AND v.`IDUSUARIO` = 5
-AND d.`cuenta` = '5420110201'
-AND e.`fecha` BETWEEN '2016-01-28' AND '2016-01-28'
-;
 -- -----------------------------------------------------------
--- UPDATE PARA USUARIO 4: 27, 28 ENERO
--- UPDATE sf_tmpdet d
-LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
-LEFT JOIN ventadirecta v ON e.`id_tmpenc` = v.`id_tmpenc`
-SET d.`cuenta` = 2420410100
-WHERE e.`tipo_doc` = 'CI'
--- and e.`id_tmpenc` = 4070
-AND v.`IDUSUARIO` = 4
-AND d.`cuenta` = '2420410200'
--- AND e.`no_doc` = '17'
-AND e.`fecha` BETWEEN '2016-01-27' AND '2016-01-27'
-;
-
--- UPDATE sf_tmpdet d
-LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
-LEFT JOIN ventadirecta v ON e.`id_tmpenc` = v.`id_tmpenc`
-SET d.`cuenta` = 2420410200
-WHERE e.`tipo_doc` = 'CI'
--- and e.`id_tmpenc` = 4070
-AND v.`IDUSUARIO` = 4
-AND d.`cuenta` = '5420110100'
--- AND e.`no_doc` = '17'
-AND e.`fecha` BETWEEN '2016-01-27' AND '2016-01-27'
-;
-
--- ----------------------------------------------------------
+-- ----------------------------------------------------
 -- ----------------------------------------------------------
 
 SELECT v.`FECHA_PEDIDO`, v.`IDVENTADIRECTA`, a.`cod_art`, a.`CANTIDAD`, a.`PRECIO`, a.`IMPORTE`, i.`costo_uni`
@@ -282,10 +222,6 @@ WHERE v.`IDUSUARIO` = 5
 AND v.`FECHA_PEDIDO` BETWEEN '2016-01-01' AND '2016-01-28'
 AND v.`ESTADO` <> 'ANULADO'
 ;
-
-
-
-
 
 SELECT MIN(CAST(no_doc AS DECIMAL)) AS MI, MAX(CAST(no_doc AS DECIMAL)) AS MA
 FROM sf_tmpenc
@@ -310,56 +246,6 @@ JOIN sf_tmpenc e ON d.`idtmpenc` = e.`id_tmpenc`
 WHERE e.fecha BETWEEN '2015-01-01' AND '2015-12-31'
 AND dc.`numerotransaccion` IS NOT NULL
 ;
-
--- Eliminar lcompras
--- 1.
-SELECT *
-DELETE FROM cxp_lcompras
-WHERE no_trans IN (
-	SELECT DISTINCT dc.`numerotransaccion`
-	FROM documentocompra d
-	JOIN documentocontable dc ON d.`iddocumentocompra` = dc.`iddocumentocontable`
-	JOIN sf_tmpenc e ON d.`idtmpenc` = e.`id_tmpenc`
-	WHERE e.fecha BETWEEN '2015-01-01' AND '2015-12-31'
-	AND dc.`numerotransaccion` IS NOT NULL
-);
-
--- 2.
-SELECT *
-DELETE FROM documentocontable
-WHERE iddocumentocontable IN (
-	SELECT d.`iddocumentocompra`
-	FROM documentocompra d
-	JOIN sf_tmpenc e ON d.`idtmpenc` = e.`id_tmpenc`
-	WHERE e.fecha BETWEEN '2015-01-01' AND '2015-12-31'
-);
-
--- 4.
-SELECT *
-DELETE FROM documentocompra
-WHERE idtmpenc IN (
-	SELECT id_tmpenc
-	FROM sf_tmpenc
-	WHERE fecha BETWEEN '2015-01-01' AND '2015-12-31'
-);
-
-
-SELECT *
-FROM sf_tmpenc
-WHERE id_tmpenc IN (
-	SELECT idtmpenc
-	FROM documentocompra
-);
-
-SELECT v.`FECHA_PEDIDO`, a.`cod_art`, i.`descri`, v.`CODIGO`, a.`CANTIDAD`, a.`PRECIO`, a.`IMPORTE`, a.`TOTAL`, v.`id_tmpenc`, v.`id_tmpenc_cv`
-FROM articulos_pedido a
-LEFT JOIN ventadirecta v  ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
-LEFT JOIN inv_articulos i ON a.`cod_art` = i.`cod_art`
-WHERE v.`FECHA_PEDIDO` BETWEEN '2016-01-01' AND '2016-02-29'
--- and v.`CODIGO` = 769
-AND a.`cod_art` = 436
-;
-
 
 SELECT *
 FROM sf_tmpenc
@@ -477,7 +363,7 @@ SELECT e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, SUM(d.`debe`) AS tota
 FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
-WHERE e.`fecha` BETWEEN '2018-01-01' AND '2018-08-31'
+WHERE e.`fecha` BETWEEN '2018-09-01' AND '2018-09-31'
 AND e.`estado` <> 'ANL'
 -- AND e.`tipo_doc` IN ('CI', 'CV', 'NE')
 -- AND e.`tipo_doc` IN ('CV')

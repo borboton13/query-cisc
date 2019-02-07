@@ -291,10 +291,10 @@ SELECT p.`FECHA_ENTREGA`, a.`cod_art` AS COD_ART, ar.`descri` AS PRODUCTO, SUM(a
 FROM articulos_pedido a
 LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-06-01' AND '2018-07-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
 AND P.`ESTADO` <> 'ANULADO'
-AND p.`IDUSUARIO` <> 5
-AND a.`cod_art` = 118
+-- AND p.`IDUSUARIO` <> 5
+AND a.`cod_art` = 151
 GROUP BY p.`FECHA_ENTREGA`, a.`cod_art`, ar.`descri`;
 
 -- 06/07/2018 CANTIDAD DE ARTICULOS X FECHA X VENTA CONTADO
@@ -302,10 +302,10 @@ SELECT v.`FECHA_PEDIDO`, a.`cod_art` AS COD_ART, ar.`descri` AS PRODUCTO, SUM(a.
 FROM articulos_pedido a
 LEFT JOIN ventadirecta v ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE v.`FECHA_PEDIDO` BETWEEN '2018-06-01' AND '2018-07-31'
-AND v.`IDUSUARIO` <> 5
+WHERE v.`FECHA_PEDIDO` BETWEEN '2019-01-01' AND '2019-01-31'
+-- AND v.`IDUSUARIO` <> 5
 AND v.`ESTADO` <> 'ANULADO'
-AND a.`cod_art` = 118
+AND a.`cod_art` = 151
 GROUP BY v.`FECHA_PEDIDO`, a.`cod_art`, ar.`descri`
 ;
 
@@ -440,5 +440,16 @@ AND p.`FECHA_ENTREGA` BETWEEN '2018-07-01' AND '2018-07-31'
 ;
 
 UPDATE SECUENCIA SET VALOR=(SELECT MAX(E.IDMOVIMIENTOSALARIOPRODUCTOR)+1 FROM MOVIMIENTOSALARIOPRODUCTOR E) WHERE TABLA='MOVIMIENTOSALARIOPRODUCTOR';
+
+SELECT v.`fecha`,  v.`no_trans`, v.`no_vale`, v.`cod_doc`, v.`estado`, v.`cod_alm`, m.`fecha_cre`, m.`fecha_mov`, m.`descri`, d.`fecha`, d.`cod_art`, a.`descri`, d.`costounitario`, d.`cantidad`, v.`idtmpenc`
+FROM inv_movdet d 
+LEFT JOIN inv_articulos a ON d.`cod_art` = a.`cod_art`
+LEFT JOIN inv_mov m ON d.`no_trans` = m.`no_trans`
+LEFT JOIN inv_vales v ON m.`no_trans` = v.`no_trans`
+WHERE m.`no_usr` = 'SUA'
+AND v.`cod_alm` = 2
+AND v.`fecha` BETWEEN '2019-01-01' AND '2019-02-28'
+AND d.`cod_art` IN (118, 148, 150, 151, 643)
+;
 
 
