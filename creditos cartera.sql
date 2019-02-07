@@ -46,6 +46,16 @@ FROM (
 GROUP BY z.idcredito
 ;
 
+SELECT *
+FROM (
+	SELECT t.`idcredito`, t.`fechatransaccion`, t.`importe`, t.`tipo`
+	FROM transaccioncredito t
+	WHERE t.`tipo` = 'EGR'
+	ORDER BY t.`idcredito`, t.`fechatransaccion` DESC
+	) z
+GROUP BY z.idcredito
+;
+
 -- ESTADO CARTERA JOIN SOCIO CI...?
 SELECT e.id, e.`nombres`, e.`ap`, e.`am`, e.`nombrecomp`, s.`nombres`, s.`apellidopaterno`, s.`noidentificacion`
 FROM estadocartera e, socio s
@@ -177,7 +187,15 @@ AND d.`cuenta` = '1390220000'
 */
 /** ---- */
 
+SELECT c.`estado`, COUNT(c.`idcredito`)
+FROM credito c
+GROUP BY c.`estado`
+;
 
-
-
-
+-- TRASACCION CREDITO CON ASIENTOS
+SELECT t.`idtransaccioncredito`, t.`capital`, t.`interes`, t.`importe`, t.`glosa`, t.`fechatransaccion`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, e.`fecha`
+FROM transaccioncredito t
+JOIN sf_tmpenc e ON t.`id_tmpenc` = e.`id_tmpenc`
+WHERE t.`fechacreacion` >= '2019-01-01'
+AND t.`tipo` = 'EGR'
+;
