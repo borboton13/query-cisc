@@ -126,10 +126,18 @@ SELECT zo.nombre, zo.numero, SUM(ra.cantidadrecibida) AS cantidadrecibida, SUM(r
 FROM REGISTROACOPIO RA
 LEFT JOIN PLANILLAACOPIO PL ON ra.idplanillaacopio = pl.idplanillaacopio
 LEFT JOIN zonaproductiva ZO ON ra.idzonaproductiva = zo.idzonaproductiva
--- WHERE pl.fecha between to_date('29/05/2015','dd/mm/yyyy') and to_date('29/05/2015','dd/mm/yyyy')
-WHERE pl.fecha BETWEEN '2016-11-16' AND '2016-11-30'
+WHERE pl.fecha BETWEEN '2018-12-16' AND '2018-12-31'
 GROUP BY zo.nombre, zo.numero
 ;
+
+SELECT se.idzonaproductiva, zo.nombre, zo.numero, SUM(ac.cantidad) AS cantidad
+FROM acopiomateriaprima ac
+LEFT JOIN sesionacopio se   ON ac.idsesionacopio   = se.idsesionacopio
+LEFT JOIN zonaproductiva zo ON se.idzonaproductiva = zo.idzonaproductiva
+WHERE se.fecha BETWEEN '2018-12-16' AND '2018-12-31'
+GROUP BY se.idzonaproductiva, zo.nombre, zo.numero
+;
+
 
 
 SELECT SUM(totalga)
