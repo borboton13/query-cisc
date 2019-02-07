@@ -192,10 +192,17 @@ FROM credito c
 GROUP BY c.`estado`
 ;
 
+SELECT t.idtransaccioncredito, t.capital, t.interes, t.importe	, t.glosa, t.fechatransaccion, t.saldo, t.tipo, t.idcredito, t.id_tmpenc, tc.`nombre`
+FROM transaccioncredito t
+JOIN credito c ON t.`idcredito` = c.`idcredito`
+JOIN tipocredito tc ON c.`idtipocredito` = tc.`idtipocredito`
+WHERE t.`fechatransaccion` >= '2019-01-01'
+;
+
 -- TRASACCION CREDITO CON ASIENTOS
 SELECT t.`idtransaccioncredito`, t.`capital`, t.`interes`, t.`importe`, t.`glosa`, t.`fechatransaccion`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, e.`fecha`
 FROM transaccioncredito t
 JOIN sf_tmpenc e ON t.`id_tmpenc` = e.`id_tmpenc`
 WHERE t.`fechacreacion` >= '2019-01-01'
-AND t.`tipo` = 'EGR'
+-- AND t.`tipo` = 'EGR'
 ;
