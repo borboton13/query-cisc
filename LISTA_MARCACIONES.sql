@@ -75,10 +75,10 @@ WHERE r.`marfecha` BETWEEN '2018-07-01' AND '2018-07-31'
 
 SELECT *
 FROM vmarcado v
-WHERE v.`marfecha` BETWEEN '2018-12-01' AND '2018-12-31'
+WHERE v.`marfecha` BETWEEN '2019-01-01' AND '2019-01-31'
 ;
 
-
+-- DIAS PARA PASAJES
 SELECT v.`marperid` AS CI, v.`nombre`, COUNT( DISTINCT DAY(v.`marfecha`) ) AS dias
 FROM vmarcado v
 WHERE v.`marfecha` BETWEEN '2018-12-01' AND '2018-12-31'

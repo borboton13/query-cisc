@@ -12,5 +12,7 @@ LEFT JOIN empleado e 		ON c.`idempleado` = e.`idempleado`
 LEFT JOIN persona p 		ON e.`idempleado` = p.`idpersona`
 LEFT JOIN entidad en 		ON p.`idpersona` = en.`identidad`
 LEFT JOIN bono bo 		ON b.`idbono` = bo.`idbono`
-WHERE b.`idciclogeneracionplanilla` = 13
+WHERE b.`idciclogeneracionplanilla` = 14
 ;
+
+
