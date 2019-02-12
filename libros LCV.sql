@@ -17,7 +17,7 @@ SELECT 	d.FECHA AS "FECHA FACTURA O DUI",
 	"" AS "TIPO DE COMPRA", z.estado
 FROM documentocontable d 
 JOIN documentocompra z ON d.iddocumentocontable = z.iddocumentocompra
-WHERE fecha BETWEEN '2018-12-01' AND '2018-12-31'
+WHERE fecha BETWEEN '2019-01-01' AND '2019-01-31'
 AND z.estado <> 'NULLIFIED'
 ;
 
@@ -39,7 +39,7 @@ SELECT 	d.FECHA AS "FECHA FACTURA O DUI",
 FROM documentocontable d 
 LEFT JOIN documentocompra z ON d.iddocumentocontable = z.iddocumentocompra
 LEFT JOIN sf_tmpenc e ON z.idtmpenc = e.id_tmpenc
-WHERE d.fecha BETWEEN '2018-12-01' AND '2018-12-31'
+WHERE d.fecha BETWEEN '2019-01-01' AND '2019-01-31'
 AND z.estado <> 'NULLIFIED'
 ;
 
@@ -126,14 +126,14 @@ FROM documentocontable co
 JOIN documentocompra dc 	ON co.`iddocumentocontable` = dc.`iddocumentocompra`
 JOIN sf_tmpenc e  		ON dc.`idtmpenc` = e.`id_tmpenc`
 -- join sf_tmpdet d 		on e.`id_tmpenc` = d.`id_tmpenc`
-WHERE co.`fecha` BETWEEN '2018-08-01' AND '2018-08-31'
+WHERE co.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
 -- and d.`cuenta` = '1420710000'
 ;
 -- 
 SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`estado`, e.`tipo_doc`, e.`no_doc`, e.`fecha`, d.`debe`, e.`glosa`
 FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-WHERE e.`fecha` BETWEEN '2018-12-01' AND '2018-12-31'
+WHERE e.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
 AND d.`cuenta` = '1420710000'
 AND d.`debe` > 0
  -- AND e.`tipo_doc` NOT IN ('NE')
@@ -142,7 +142,7 @@ AND d.`debe` > 0
 SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`estado`, e.`tipo_doc`, e.`no_doc`, e.`fecha`, d.`debe`, e.`glosa`
 FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-WHERE e.`fecha` BETWEEN '2018-12-01' AND '2018-12-31'
+WHERE e.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
 AND d.`cuenta` = '2420410200'AND d.haber > 0
 ;
 
@@ -175,13 +175,3 @@ SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, p.`IDMOVIMIENTO
 FROM pedidos p
 WHERE p.`FECHA_ENTREGA` BETWEEN '2018-12-01' AND '2018-12-31'
 ;
-
-
-SELECT *
-FROM pedidos p
-WHERE p.`CODIGO` = 8117
-AND p.`FECHA_ENTREGA` >= '2018-12-01'
-;
-
-
--- update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` = 97805;
