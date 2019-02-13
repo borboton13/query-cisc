@@ -35,7 +35,7 @@ FROM articulos_pedido a
 LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
 LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-02-12' AND '2019-02-12'
 -- AND p.`IDPEDIDOS` >= 23759
 -- AND p.`IDCLIENTE` = 65
 -- AND p.`CODIGO` IN (3908)

@@ -96,14 +96,15 @@ WHERE FECHA_FACTURA BETWEEN '2019-01-01' AND '2019-01-31'
 -- -------------
 
 	-- Para anular facturas VENTAS CONTADO
-	SELECT v.`IDMOVIMIENTO` ,v.fecha_pedido, v.estado, v.observacion
+	SELECT v.`IDMOVIMIENTO` ,v.fecha_pedido, v.estado, v.observacion, m.`IDMOVIMIENTO`, m.`ESTADO`
 	FROM ventadirecta v
+	JOIN movimiento m ON v.`IDMOVIMIENTO` = m.`IDMOVIMIENTO`
 	WHERE v.`FECHA_PEDIDO` BETWEEN '2019-01-01' AND '2019-01-31'
 	AND v.`ESTADO` = 'ANULADO'
 	AND v.`IDMOVIMIENTO` IS NOT NULL;
 
 	-- Para anular facturas PEDIDOS
-	    SELECT p.`IDMOVIMIENTO`, p.fecha_entrega, p.`CODIGO`, p.`ESTADO`, m.nrofactura, p.`IMPUESTO`, p.observacion, pc.razonsocial , m.`ESTADO`, pc.`IDPERSONACLIENTE`, p.`id_tmpenc`
+	    SELECT p.`IDPEDIDOS`, p.`IDMOVIMIENTO`, p.fecha_entrega, p.`CODIGO`, p.`ESTADO`, m.nrofactura, p.`IMPUESTO`, p.observacion, pc.razonsocial , m.`ESTADO`, pc.`IDPERSONACLIENTE`, p.`id_tmpenc`
 	-- SELECT p.`IDMOVIMIENTO`
 	FROM pedidos p
 	   JOIN personacliente pc ON p.idcliente = pc.idpersonacliente
@@ -117,6 +118,13 @@ WHERE FECHA_FACTURA BETWEEN '2019-01-01' AND '2019-01-31'
 UPDATE movimiento M SET M.ESTADO = 'A' WHERE M.`IDMOVIMIENTO` IN (
 
 );
+
+UPDATE pedidos p SET p.`ESTADO` = 'PREPARAR' WHERE p.`IDPEDIDOS` IN (29033, 29040);
+
+SELECT *
+FROM pedidos p WHERE p.`IDPEDIDOS` IN (29033, 29040)
+;
+
 
 -- CRUCE COMPRAS CON ASIENTOS
 -- ---------------------------
@@ -154,24 +162,25 @@ LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN (
 	SELECT v.`IDVENTADIRECTA`, v.`FECHA_PEDIDO`, v.`ESTADO`, v.`CODIGO`, v.`IDMOVIMIENTO`, v.`id_tmpenc`
 	FROM ventadirecta v
-	WHERE v.`FECHA_PEDIDO` BETWEEN '2018-12-01' AND '2018-12-31'
+	WHERE v.`FECHA_PEDIDO` BETWEEN '2019-01-01' AND '2019-01-31'
 ) ve ON e.`id_tmpenc` = ve.id_tmpenc
 LEFT JOIN (
 	SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, p.`IDMOVIMIENTO`, p.`id_tmpenc`
 	FROM pedidos p
-	WHERE p.`FECHA_ENTREGA` BETWEEN '2018-12-01' AND '2018-12-31'
+	WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
 ) pe ON e.`id_tmpenc` = pe.id_tmpenc
-WHERE e.`fecha` BETWEEN '2018-12-01' AND '2018-12-31'
+WHERE e.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
 AND d.`cuenta` = '2420410200'AND d.haber > 0
 ;
 
 
 SELECT v.`IDVENTADIRECTA`, v.`FECHA_PEDIDO`, v.`ESTADO`, v.`CODIGO`, v.`IDMOVIMIENTO`, v.`id_tmpenc`
 FROM ventadirecta v
-WHERE v.`FECHA_PEDIDO` BETWEEN '2018-12-01' AND '2018-12-31'
+WHERE v.`FECHA_PEDIDO` BETWEEN '2019-01-01' AND '2019-01-31'
 ;
 
-SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, p.`IDMOVIMIENTO`, p.`id_tmpenc`
+SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, p.`IDMOVIMIENTO`, p.`id_tmpenc`, p.`IDUSUARIO`, pe.`NOM`, p.`IDTIPOPEDIDO`
 FROM pedidos p
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-12-01' AND '2018-12-31'
+JOIN personacliente pe ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
 ;
