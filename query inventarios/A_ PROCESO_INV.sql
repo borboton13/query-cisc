@@ -126,6 +126,9 @@ AND v.`idproductobase` IS NULL
 AND d.`tipo_mov` = 'S'
 GROUP BY d.`cod_art`
 ;
+SELECT *
+FROM inv_articulos i
+WHERE i.`descri` LIKE '%YOG%120%';
 
 -- 2. Actualizando CostoS 
 -- 	Queso Prensado en EDAM, 

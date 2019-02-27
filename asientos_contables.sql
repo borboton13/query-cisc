@@ -317,7 +317,10 @@ WHERE e.`tipo_doc` = 'CD'
 ;
 
 
-
+SELECT *
+FROM arcgms a 
+WHERE a.`descri` LIKE '%REALIZAB%'
+;
 
 -- 
 -- 
@@ -361,10 +364,11 @@ SELECT e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, SUM(d.`debe`) AS tota
 FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
-WHERE e.`fecha` BETWEEN '2018-09-01' AND '2018-09-31'
+WHERE e.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
 AND e.`estado` <> 'ANL'
 -- AND e.`tipo_doc` IN ('CI', 'CV', 'NE')
 -- AND e.`tipo_doc` IN ('CV')
+AND a.`cta_niv3` = '4420000000'
 GROUP BY e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`
 -- )
 ;
