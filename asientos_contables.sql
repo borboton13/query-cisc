@@ -353,10 +353,11 @@ WHERE e.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
 AND e.`estado` <> 'ANL'
 -- AND e.`tipo_doc` IN ('CI', 'CV', 'NE')
 -- AND e.`tipo_doc` IN ('CV')
-AND a.`cta_niv3` = '4420000000'
+-- AND a.`cta_niv3` = '4420000000'
 GROUP BY e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`
 -- )
 ;
+
 
 SELECT e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, SUM(d.`debe`) AS totald, SUM(d.`haber`) AS totalh, (SUM(d.`debe`) - SUM(d.`haber`)) AS dif,
 e.`glosa`
@@ -448,7 +449,7 @@ LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 WHERE d.`cuenta` = '1510110201'
 AND e.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
 AND e.`estado` <> 'ANL'
-AND e.`tipo_doc` <> 'NE'
+-- AND e.`tipo_doc` <> 'NE'
 AND d.`cod_art` IS NULL
 -- AND e.`procedencia` <> 'TRA'
 ;
@@ -537,6 +538,16 @@ WHERE d.`id_tmpdet` IN (
 
 );
 
+SELECT d.`id_tmpdet`, d.`cuenta`, d.`debe`, d.`haber`, d.`cod_art`
+FROM sf_tmpdet d
+WHERE d.`id_tmpenc` = 75764
+;
+
+UPDATE sf_tmpdet d SET d.`cod_art` = 125
+WHERE d.`id_tmpdet` IN (
+
+);
+
 SELECT e.`tipo_doc`, e.`no_doc`, SUM(d.`debe`), SUM(d.`haber`)
 FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
@@ -555,3 +566,17 @@ WHERE e.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
 AND e.`tipo_doc` = 'CV'
 AND e.`glosa` LIKE '%CONTA%LACT%%'
 ;
+
+-- OJO AJUSTES ANULAR
+SELECT *
+FROM sf_tmpenc e
+-- update sf_tmpenc e set e.`estado` = 'ANL'
+WHERE e.`id_tmpenc` IN (
+	
+);
+
+
+
+
+
+

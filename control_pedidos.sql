@@ -35,10 +35,10 @@ FROM articulos_pedido a
 LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
 LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2019-02-01' AND '2019-02-28'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2018-01-01' AND '2018-12-31'
 -- AND p.`IDPEDIDOS` >= 23759
 -- AND p.`IDCLIENTE` = 65
-AND p.`CODIGO` IN (1141)
+AND p.`CODIGO` IN (70)
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 21928
 -- AND pc.`AP` LIKE '%Car%'
@@ -153,7 +153,7 @@ FROM articulos_pedido a
 LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
 LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-02-01' AND '2019-02-28'
 AND P.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` <> 5
 -- AND pc.`NOM` LIKE '%TORRES%'
@@ -169,7 +169,7 @@ FROM articulos_pedido a
 LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
 LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-02-01' AND '2019-02-28'
 AND P.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` <> 5
 -- AND p.`IDCLIENTE` = 165
@@ -187,7 +187,7 @@ FROM articulos_pedido a
 LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
 LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-02-01' AND '2019-02-28'
 AND P.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` <> 5
 -- AND pc.`NOM` LIKE '%TORRES%'
@@ -202,7 +202,7 @@ FROM articulos_pedido a
 LEFT JOIN ventadirecta v ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 LEFT JOIN personacliente pc ON v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE v.`FECHA_PEDIDO` BETWEEN '2019-01-01' AND '2019-01-31'
+WHERE v.`FECHA_PEDIDO` BETWEEN '2019-02-01' AND '2019-02-28'
 AND v.`ESTADO` <> 'ANULADO'
 -- AND ar.`cuenta_art` = '4420110201'
 AND v.`IDUSUARIO` <> 5
@@ -219,7 +219,7 @@ FROM articulos_pedido a
 LEFT JOIN ventadirecta v ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 LEFT JOIN personacliente pc ON v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE v.`FECHA_PEDIDO` BETWEEN '2019-01-01' AND '2019-01-31'
+WHERE v.`FECHA_PEDIDO` BETWEEN '2019-02-01' AND '2019-02-28'
 AND v.`ESTADO` <> 'ANULADO'
 -- AND V.`IDUSUARIO` IN (6, 404)
 AND v.`IDUSUARIO` <> 5
@@ -236,7 +236,7 @@ FROM articulos_pedido a
 LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
 LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2017-01-01' AND '2017-12-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-02-01' AND '2019-02-28'
 AND P.`ESTADO` <> 'ANULADO'
 AND p.`IDCLIENTE` = 180 -- SEMAPA
 -- AND pc.`NOM` LIKE '%TORRES%'
