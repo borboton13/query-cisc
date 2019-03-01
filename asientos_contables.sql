@@ -5,7 +5,7 @@ LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 WHERE d.`id_tmpenc` IN (
-101666
+101150
 )
 -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
@@ -18,8 +18,8 @@ FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
-WHERE e.`tipo_doc` = 'CV'
-AND e.`no_doc` IN (1,2,3,4,5,6)
+WHERE e.`tipo_doc` = 'CD'
+AND e.`no_doc` IN (1)
 ;
 
 -- Detalle por Glosa
@@ -175,7 +175,7 @@ SELECT d.`cuenta`, a.`descri`, SUM(d.`debe`) AS TOTAL_D, SUM(d.`haber`) AS TOTAL
 FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
-WHERE e.`fecha` BETWEEN '2016-05-01' AND '2016-05-31'
+WHERE e.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
 GROUP BY d.`cuenta`, a.`descri`
 ;
 
@@ -269,18 +269,6 @@ SELECT MIN(CAST(no_trans AS DECIMAL)) AS MI, MAX(CAST(no_trans AS DECIMAL)) AS M
 FROM sf_tmpdet
 ;
 
-SELECT *
-FROM arcgms
-WHERE cuenta LIKE '%1130110%'
--- where descri like 'Banco%te%'
-;
-
-
-SELECT * 
-FROM sf_tmpenc e
-WHERE e.`tipo_doc` = 'NE'
-AND e.`no_doc` BETWEEN 1 AND 103;
-
 -- ---------------------------------------------------
 -- Para actualizar secuencias
 -- ---------------------------------------------------
@@ -302,8 +290,10 @@ SELECT e.`id_tmpenc`, e.`fecha`, e.`estado`, e.`tipo_doc`, e.`no_doc`, d.`cuenta
 FROM sf_tmpenc e
 JOIN sf_tmpdet d ON e.`id_tmpenc` = d.`id_tmpenc`
 JOIN arcgms a ON d.`cuenta` = a.`cuenta`
-WHERE e.`tipo_doc` = 'CD'
--- and d.`cuenta` = '1420310100'
+-- WHERE e.`tipo_doc` = 'CD'
+WHERE d.`cuenta` = '2420910300'
+AND e.`fecha` BETWEEN '2016-01-01' AND '2016-12-31'
+AND e.`estado` <> 'ANL'
 ;
 
 
@@ -316,11 +306,6 @@ LEFT JOIN sf_entidades en  ON d.`cod_prov` = en.`cod_enti`
 WHERE e.`tipo_doc` = 'CD'
 ;
 
-
-SELECT *
-FROM arcgms a 
-WHERE a.`descri` LIKE '%REALIZAB%'
-;
 
 -- 
 -- 
@@ -372,6 +357,27 @@ AND a.`cta_niv3` = '4420000000'
 GROUP BY e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`
 -- )
 ;
+
+SELECT e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, SUM(d.`debe`) AS totald, SUM(d.`haber`) AS totalh, (SUM(d.`debe`) - SUM(d.`haber`)) AS dif,
+e.`glosa`
+FROM sf_tmpdet d
+LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
+LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
+WHERE e.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+AND e.`estado` <> 'ANL'
+AND e.`tipo_doc` IN ('CD')
+-- AND a.`cta_niv3` = '4420000000'
+GROUP BY e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`
+-- )
+;
+
+SELECT *
+FROM sf_tmpdet d
+WHERE d.`id_tmpenc` = 78746
+AND d.`cuenta` = 1510110201
+;
+
+
 
 
 SELECT e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, SUM(d.`debe`) AS totald, SUM(d.`haber`) AS totalh, (SUM(d.`debe`) - SUM(d.`haber`)) AS dif
@@ -427,9 +433,125 @@ AND e.`fecha` BETWEEN '2016-07-01' AND '2016-07-31'
 AND e.`estado` <> 'ANL'
 ;
 
---
+-- PARA ACTUALIZAR INV_VALES, COD_ART
+SELECT v.`no_trans`, v.`fecha`, v.`cod_doc`, v.`no_vale`, v.`estado`, v.`idordenproduccion`, v.`idproductobase`, v.`idtmpenc`
+FROM inv_vales	v
+WHERE v.`cod_alm` = 2 
+AND v.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+AND v.`idtmpenc` IS NULL
+;
+
+
+SELECT e.`id_tmpenc`, e.`no_trans`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, e.`glosa`, d.`cuenta`, d.`debe`, d.`haber`, d.`cod_art`, e.`procedencia`
+FROM sf_tmpdet d
+LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
+WHERE d.`cuenta` = '1510110201'
+AND e.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+AND e.`estado` <> 'ANL'
+AND e.`tipo_doc` <> 'NE'
+AND d.`cod_art` IS NULL
+-- AND e.`procedencia` <> 'TRA'
+;
+
+
+UPDATE sf_tmpenc e SET e.`procedencia` = 'TRA'
+WHERE e.`id_tmpenc` IN (
+
+);
+
+
+SELECT *
+FROM inv_vales v
+WHERE v.`no_vale` IN (
+);
+
+
+SELECT v.`fecha`, v.`estado`, v.`cod_alm`, v.`no_vale`, d.`cod_art`, a.`descri`, d.`cantidad`, d.`costounitario`, d.`monto`  ,
+v.`idtmpenc`, e.`no_trans`, e.`tipo_doc`, e.`no_doc`, de.`id_tmpdet`, de.`debe`, de.`haber`
+FROM inv_movdet d
+LEFT JOIN inv_mov m ON d.`no_trans` = m.`no_trans`
+LEFT JOIN inv_vales v ON m.`no_trans` = v.`no_trans`
+LEFT JOIN inv_articulos a ON d.`cod_art` = a.`cod_art`
+LEFT JOIN sf_tmpenc e ON v.`idtmpenc` = e.`id_tmpenc`
+LEFT JOIN sf_tmpdet de ON e.`id_tmpenc` = de.`id_tmpenc`
+WHERE de.`cuenta` = '1510110201' 
+AND v.`idtmpenc` IN (
+
+)
+;
+
+SELECT *
+FROM sf_tmpdet d
+WHERE d.`id_tmpenc` IN (
+
+)
+AND d.`cuenta` = '1510110201' 
+;
+
+
+-- select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, a.`cod_art`, i.`descri`, a.`CANTIDAD`, a.`cu`, (a.`CANTIDAD` * a.`cu`) AS costo_t,  p.`CV`
+SELECT MONTH(P.`FECHA_ENTREGA`), a.`cod_art`, i.`descri`, SUM(a.`CANTIDAD` * a.`cu`) AS costo_t
+FROM articulos_pedido a
+LEFT JOIN pedidos p 		ON a.`IDPEDIDOS` = p.`IDPEDIDOS`
+LEFT JOIN inv_articulos i 	ON a.`cod_art` = i.`cod_art`
+WHERE p.`FECHA_ENTREGA` BETWEEN '2018-01-01' AND '2018-12-31'
+AND p.`ESTADO` <> 'ANULADO'
+AND p.`IDUSUARIO` <> 5
+AND p.`CV` = 1
+GROUP BY MONTH(P.`FECHA_ENTREGA`), a.`cod_art`, i.`descri`
+;
+
+SELECT MONTH(v.`FECHA_PEDIDO`), a.`cod_art`, i.`descri`, SUM(a.`CANTIDAD` * a.`cu`) AS costo_t
+FROM articulos_pedido a
+LEFT JOIN ventadirecta v 	ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
+LEFT JOIN inv_articulos i 	ON a.`cod_art` = i.`cod_art`
+WHERE v.`FECHA_PEDIDO` BETWEEN '2018-01-01' AND '2018-12-31'
+AND v.`ESTADO` <> 'ANULADO'
+AND v.`IDUSUARIO` <> 5
+AND v.`CV` = 1
+GROUP BY MONTH(v.`FECHA_PEDIDO`), a.`cod_art`, i.`descri`
+;
 
 
 
+SELECT e.`id_tmpenc`, e.`no_trans`, e.`fecha`, e.`glosa`, e.`estado`
+FROM sf_tmpenc e
+WHERE e.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+AND e.`tipo_doc` = 'CV'
+AND e.`glosa` LIKE '%CONTADO%LACT%%'
+;
+
+-- delete FROM sf_tmpdet where id_tmpdet in (
+
+);
 
 
+-- update sf_tmpenc e set e.`estado` = 'PEN' WHERE e.`id_tmpenc` in (
+
+);
+
+SELECT *
+FROM sf_tmpdet d
+-- update sf_tmpdet d set d.`id_tmpenc` = 86356, d.`no_trans` = 86611
+WHERE d.`id_tmpdet` IN (
+
+);
+
+SELECT e.`tipo_doc`, e.`no_doc`, SUM(d.`debe`), SUM(d.`haber`)
+FROM sf_tmpdet d
+LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
+WHERE e.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+AND e.`tipo_doc` = 'CV'
+AND e.`glosa` LIKE '%CONTA%LACT%%'
+GROUP BY e.`tipo_doc`, e.`no_doc`
+;
+
+
+
+SELECT MONTH(e.`fecha`), e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`debe`, d.`haber`
+FROM sf_tmpdet d
+LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
+WHERE e.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+AND e.`tipo_doc` = 'CV'
+AND e.`glosa` LIKE '%CONTA%LACT%%'
+;

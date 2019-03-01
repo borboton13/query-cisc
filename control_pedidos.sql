@@ -38,16 +38,16 @@ LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
 WHERE p.`FECHA_ENTREGA` BETWEEN '2019-02-01' AND '2019-02-28'
 -- AND p.`IDPEDIDOS` >= 23759
 -- AND p.`IDCLIENTE` = 65
--- AND p.`CODIGO` IN (1120)
+AND p.`CODIGO` IN (1141)
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 21928
 -- AND pc.`AP` LIKE '%Car%'
-AND a.`cod_art` = 589
+-- AND a.`cod_art` = 589
 -- AND p.`IDUSUARIO` = 5
 ;
 
 -- delete from articulos_pedido where IDARTICULOSPEDIDO = 285984;
--- update pedidos p set p.`FECHA_ENTREGA` = '2019-02-22' where p.`IDPEDIDOS` = 29523;
+-- update pedidos p set p.`FECHA_ENTREGA` = '2019-02-25' where p.`IDPEDIDOS` = 29544; -- 25/02/2018
 
 -- --------------------- DETALLE DE VENTAS CONTADO -----------------------
 SELECT 	v.`FECHA_PEDIDO`,
