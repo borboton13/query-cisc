@@ -38,7 +38,7 @@ LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
 WHERE p.`FECHA_ENTREGA` BETWEEN '2018-01-01' AND '2018-12-31'
 -- AND p.`IDPEDIDOS` >= 23759
 -- AND p.`IDCLIENTE` = 65
-AND p.`CODIGO` IN (70)
+AND p.`CODIGO` IN (19)
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 21928
 -- AND pc.`AP` LIKE '%Car%'

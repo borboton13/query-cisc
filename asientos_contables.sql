@@ -449,7 +449,7 @@ LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 WHERE d.`cuenta` = '1510110201'
 AND e.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
 AND e.`estado` <> 'ANL'
--- AND e.`tipo_doc` <> 'NE'
+AND e.`tipo_doc` <> 'NE'
 AND d.`cod_art` IS NULL
 -- AND e.`procedencia` <> 'TRA'
 ;
@@ -481,14 +481,6 @@ AND v.`idtmpenc` IN (
 )
 ;
 
-SELECT *
-FROM sf_tmpdet d
-WHERE d.`id_tmpenc` IN (
-
-)
-AND d.`cuenta` = '1510110201' 
-;
-
 
 -- select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, a.`cod_art`, i.`descri`, a.`CANTIDAD`, a.`cu`, (a.`CANTIDAD` * a.`cu`) AS costo_t,  p.`CV`
 SELECT MONTH(P.`FECHA_ENTREGA`), a.`cod_art`, i.`descri`, SUM(a.`CANTIDAD` * a.`cu`) AS costo_t
@@ -515,65 +507,8 @@ GROUP BY MONTH(v.`FECHA_PEDIDO`), a.`cod_art`, i.`descri`
 
 
 
-SELECT e.`id_tmpenc`, e.`no_trans`, e.`fecha`, e.`glosa`, e.`estado`
-FROM sf_tmpenc e
-WHERE e.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
-AND e.`tipo_doc` = 'CV'
-AND e.`glosa` LIKE '%CONTADO%LACT%%'
-;
-
--- delete FROM sf_tmpdet where id_tmpdet in (
-
-);
 
 
--- update sf_tmpenc e set e.`estado` = 'PEN' WHERE e.`id_tmpenc` in (
-
-);
-
-SELECT *
-FROM sf_tmpdet d
--- update sf_tmpdet d set d.`id_tmpenc` = 86356, d.`no_trans` = 86611
-WHERE d.`id_tmpdet` IN (
-
-);
-
-SELECT d.`id_tmpdet`, d.`cuenta`, d.`debe`, d.`haber`, d.`cod_art`
-FROM sf_tmpdet d
-WHERE d.`id_tmpenc` = 75764
-;
-
-UPDATE sf_tmpdet d SET d.`cod_art` = 125
-WHERE d.`id_tmpdet` IN (
-
-);
-
-SELECT e.`tipo_doc`, e.`no_doc`, SUM(d.`debe`), SUM(d.`haber`)
-FROM sf_tmpdet d
-LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-WHERE e.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
-AND e.`tipo_doc` = 'CV'
-AND e.`glosa` LIKE '%CONTA%LACT%%'
-GROUP BY e.`tipo_doc`, e.`no_doc`
-;
-
-
-
-SELECT MONTH(e.`fecha`), e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`debe`, d.`haber`
-FROM sf_tmpdet d
-LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-WHERE e.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
-AND e.`tipo_doc` = 'CV'
-AND e.`glosa` LIKE '%CONTA%LACT%%'
-;
-
--- OJO AJUSTES ANULAR
-SELECT *
-FROM sf_tmpenc e
--- update sf_tmpenc e set e.`estado` = 'ANL'
-WHERE e.`id_tmpenc` IN (
-	
-);
 
 
 
