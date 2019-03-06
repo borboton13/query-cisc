@@ -123,3 +123,11 @@ AND p.`IDTIPOPEDIDO` IN (1)
 ;
 
 
+
+
+
+
+
+
+
+
