@@ -15,15 +15,13 @@ LEFT JOIN (
 	JOIN inv_inventario i ON v.`cod_art` = i.`cod_art`
 	JOIN inv_articulos a  ON i.`cod_art` = a.`cod_art`
 	WHERE i.`cod_alm` = 2
-	-- AND v.`FECHA` BETWEEN '2018-01-01' AND '2018-10-31'
-	AND v.`FECHA` BETWEEN '2018-01-01' AND '2018-12-31'
+	AND v.`FECHA` BETWEEN '2019-01-01' AND '2019-12-31'
 	GROUP BY v.`cod_art`, a.`descri`
 	) vv ON t.`cod_art` = vv.cod_art
 LEFT JOIN (
 	SELECT p.`COD_ART`, p.`NOMBRE`, SUM((p.`CANTIDAD_SP` + p.`REPROCESO_SP`)) AS prod_total
 	FROM producciontotal p
-	-- WHERE p.`FECHA` BETWEEN '2018-01-01' AND '2018-10-31'
-	WHERE p.`FECHA` BETWEEN '2018-01-01' AND '2018-12-31'
+	WHERE p.`FECHA` BETWEEN '2019-01-01' AND '2019-12-31'
 	GROUP BY p.`COD_ART`, p.`NOMBRE`
 	) pp ON t.`cod_art` = pp.cod_art
 LEFT JOIN (
@@ -40,8 +38,7 @@ LEFT JOIN (
 				JOIN composicionproducto c ON op.`idcomposicionproducto` = c.`idcomposicionproducto`
 				JOIN productoprocesado pp ON c.`idproductoprocesado` = pp.`idproductoprocesado`
 				JOIN metaproductoproduccion m ON pp.`idproductoprocesado` = m.`idmetaproductoproduccion`
-				-- WHERE p.fecha BETWEEN '2018-01-01' AND '2018-10-31'
-				WHERE p.fecha BETWEEN '2018-01-01' AND '2018-12-31'
+				WHERE p.fecha BETWEEN '2019-01-01' AND '2019-12-31'
 				GROUP BY m.`cod_art`, m.`descripcion`
 		) b 	ON a.cod_art = b.cod_art
 	LEFT JOIN (	-- COSTOS TOTALES REPROCESOS
@@ -51,8 +48,7 @@ LEFT JOIN (
 				JOIN planificacionproduccion p ON pb.`idplanificacionproduccion` = p.`idplanificacionproduccion`
 				JOIN productosimpleprocesado pr ON ps.`idproductosimple` = pr.`idproductosimple`
 				JOIN metaproductoproduccion m ON pr.`idmetaproductoproduccion` = m.`idmetaproductoproduccion`
-				-- WHERE p.fecha BETWEEN '2018-01-01' AND '2018-10-31'
-				WHERE p.fecha BETWEEN '2018-01-01' AND '2018-12-31'
+				WHERE p.fecha BETWEEN '2019-01-01' AND '2019-12-31'
 				GROUP BY m.`cod_art`, m.`descripcion`
 		) c 	ON a.cod_art = c.cod_art
 	LEFT JOIN inv_articulos i ON a.cod_art = i.`cod_art`
@@ -62,8 +58,7 @@ LEFT JOIN (
 	SELECT d.`cod_art`, d.`descri`, SUM(d.`cantidad`) AS cantidad
 	FROM inv_devolucion d
 	WHERE d.`cod_alm` = 2
-	-- AND d.`fecha` BETWEEN '2018-01-01' AND '2018-10-31'
-	AND d.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+	AND d.`fecha` BETWEEN '2019-01-01' AND '2019-12-31'
 	GROUP BY d.`cod_art`, d.`descri`
 	) d ON t.cod_art = d.cod_art
 LEFT JOIN (
@@ -71,8 +66,7 @@ LEFT JOIN (
 	SELECT b.`cod_art`, b.`descri`, SUM(b.`cantidad`)  AS cantidad
 	FROM inv_bajas b
 	WHERE b.`cod_alm` = 2
-	-- AND b.`fecha` BETWEEN '2018-01-01' AND '2018-10-31'
-	AND b.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+	AND b.`fecha` BETWEEN '2019-01-01' AND '2019-12-31'
 	GROUP BY b.`cod_art`, b.`descri`
 	) ba ON t.cod_art = ba.cod_art
 LEFT JOIN (
@@ -80,8 +74,7 @@ LEFT JOIN (
 	SELECT b.`cod_art`, b.`descri`, SUM(b.`cantidad`)  AS cantidad
 	FROM inv_reprocesos b
 	WHERE b.`cod_alm` = 2
-	-- AND b.`fecha` BETWEEN '2018-01-01' AND '2018-10-31'
-	AND b.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+	AND b.`fecha` BETWEEN '2019-01-01' AND '2019-12-31'
 	GROUP BY b.`cod_art`, b.`descri`
 	) br ON t.cod_art = br.cod_art
 
@@ -89,8 +82,7 @@ LEFT JOIN (
 	SELECT d.`cod_art`, SUM(d.`cantidad`) AS cantidad
 	FROM inv_movdet d
 	LEFT JOIN inv_vales v ON d.`no_trans` = v.`no_trans`
-	-- WHERE v.`fecha` BETWEEN '2018-01-01' AND '2018-10-31'
-	WHERE v.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+	WHERE v.`fecha` BETWEEN '2019-01-01' AND '2019-12-31'
 	AND v.`cod_doc` IN ('REC', 'EGR')
 	AND v.`cod_alm` = 2
 	AND v.`idordenproduccion` IS NULL
@@ -102,8 +94,7 @@ LEFT JOIN (
 	SELECT d.`cod_art`, SUM(d.`cantidad`) AS cantidad
 	FROM inv_movdet d
 	LEFT JOIN inv_vales v ON d.`no_trans` = v.`no_trans`
-	-- WHERE v.`fecha` BETWEEN '2018-01-01' AND '2018-10-31'
-	WHERE v.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+	WHERE v.`fecha` BETWEEN '2019-01-01' AND '2019-12-31'
 	AND v.`cod_doc` IN ('REC', 'EGR')
 	AND v.`cod_alm` = 2
 	AND v.`idordenproduccion` IS NULL
@@ -111,7 +102,7 @@ LEFT JOIN (
 	AND d.`tipo_mov` = 'S'
 	GROUP BY d.`cod_art`
 	) egr ON t.cod_art = egr.cod_art
-WHERE t.alm = 2 AND t.gestion = 2018
+WHERE t.alm = 2 AND t.gestion = 2019
 ;
 
 

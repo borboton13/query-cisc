@@ -5,10 +5,11 @@ LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 WHERE d.`id_tmpenc` IN (
-101150
+91619
 )
 -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
+
 
 
 --
@@ -18,8 +19,9 @@ FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
-WHERE e.`tipo_doc` = 'CD'
-AND e.`no_doc` IN (1)
+WHERE e.`tipo_doc` = 'CB'
+AND e.`no_doc` IN (328)
+AND e.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
 ;
 
 -- Detalle por Glosa
@@ -443,14 +445,15 @@ AND v.`idtmpenc` IS NULL
 ;
 
 
-SELECT e.`id_tmpenc`, e.`no_trans`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, e.`glosa`, d.`cuenta`, d.`debe`, d.`haber`, d.`cod_art`, e.`procedencia`
+SELECT e.`id_tmpenc`, e.`no_trans`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, e.`glosa`, d.`cuenta`, d.`debe`, d.`haber`, d.`cod_art`, e.`procedencia`, d.`idpersonacliente`, d.`cod_prov`
 FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-WHERE d.`cuenta` = '1510110201'
+WHERE d.`cuenta` = '1421010100'
 AND e.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
 AND e.`estado` <> 'ANL'
-AND e.`tipo_doc` <> 'NE'
-AND d.`cod_art` IS NULL
+AND d.`idpersonacliente` IS NULL
+-- AND e.`tipo_doc` <> 'NE'
+-- AND d.`cod_art` IS NULL
 -- AND e.`procedencia` <> 'TRA'
 ;
 
@@ -504,9 +507,6 @@ AND v.`IDUSUARIO` <> 5
 AND v.`CV` = 1
 GROUP BY MONTH(v.`FECHA_PEDIDO`), a.`cod_art`, i.`descri`
 ;
-
-
-
 
 
 

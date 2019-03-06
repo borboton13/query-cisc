@@ -82,9 +82,16 @@ AND p.`IDTIPOPEDIDO` = 6
 
 SELECT *
 FROM movimientosalarioproductor m
-WHERE m.`fecha` BETWEEN '2018-09-01' AND '2018-09-15'
+WHERE m.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
 AND m.`descripcion` <> 'REPOSICION DE FORMULARIO'
+AND m.`idproductormateriaprima` = 267
 ;
+
+
+SELECT *
+FROM pedidos p
+WHERE p.`CODIGO` = 6414;
+
 
 -- ACOPIO, INSERTAR DESCUENTOS LACTEOS
 SET @folio = (SELECT MAX(idmovimientosalarioproductor) FROM movimientosalarioproductor);
@@ -113,32 +120,35 @@ AND p.`IDUSUARIO` <> 5
 AND p.`IDTIPOPEDIDO` = 5
 ;
 
---
+
+-- 11312
 -- CONTABILIZAR DESCUENTOS VETERINARIOS
-SET @folio = (SELECT MAX(id_tmpdet) FROM sf_tmpdet);
+-- SET @folio = (SELECT MAX(id_tmpdet) FROM sf_tmpdet);
+SET @folio = 11448;
 -- INSERT INTO sf_tmpdet (id_tmpdet, cuenta, no_cia, debe, haber, moneda, no_trans, id_tmpenc, idpersonacliente) 
-SELECT (@folio := @folio+1), '1421010200', '01', 0, p.`TOTALIMPORTE`, 'P', 88736, 88481, pe.`IDPERSONACLIENTE`
+SELECT (@folio := @folio+1), '1421010200', '01', 0, p.`TOTALIMPORTE`, 'P', 98739, 98701, pe.`IDPERSONACLIENTE`
 FROM pedidos p
 JOIN personacliente pe ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 JOIN entidad e         ON pe.`NRO_DOC` = e.`noidentificacion`
 JOIN persona per       ON e.`identidad` = per.`idpersona`
 JOIN productormateriaprima pr ON e.`identidad` = pr.`idproductormateriaprima`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-08-16' AND '2018-08-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2018-12-16' AND '2018-12-31'
 AND p.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` = 5
 AND p.`IDTIPOPEDIDO` = 6
 ;
 
 -- CONTABILIZAR DESCUENTOS LACTEOS
-SET @folio = (SELECT MAX(id_tmpdet) FROM sf_tmpdet);
+-- SET @folio = (SELECT MAX(id_tmpdet) FROM sf_tmpdet);
+SET @folio = 11454;
 -- INSERT INTO sf_tmpdet (id_tmpdet, cuenta, no_cia, debe, haber, moneda, no_trans, id_tmpenc, idpersonacliente) 
-SELECT (@folio := @folio+1), '1421010100', '01', 0, p.`TOTALIMPORTE`, 'P', 88736, 88481, pe.`IDPERSONACLIENTE`
+SELECT (@folio := @folio+1), '1421010100', '01', 0, p.`TOTALIMPORTE`, 'P', 98739, 98701, pe.`IDPERSONACLIENTE`
 FROM pedidos p
 JOIN personacliente pe ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 JOIN entidad e         ON pe.`NRO_DOC` = e.`noidentificacion`
 JOIN persona per       ON e.`identidad` = per.`idpersona`
 JOIN productormateriaprima pr ON e.`identidad` = pr.`idproductormateriaprima`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-08-01' AND '2018-08-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2018-12-16' AND '2018-12-31'
 AND p.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` <> 5
 AND p.`IDTIPOPEDIDO` = 5

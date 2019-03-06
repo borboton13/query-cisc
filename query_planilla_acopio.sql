@@ -72,9 +72,9 @@ JOIN persona pe        			ON d.`idproductormateriaprima` = pe.`idpersona`
 JOIN entidad e 				ON pe.`idpersona` = e.`identidad`
 JOIN planillapagomateriaprima p 	ON r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
 JOIN zonaproductiva z 			ON p.`idzonaproductiva` = z.`idzonaproductiva`
-WHERE p.fechainicio = '2018-08-01'
-AND z.`numero` = 001
--- and pe.`idpersona` in (23,579, 628)
+WHERE p.fechainicio > '2018-01-01'
+-- AND z.`numero` = 001
+AND pe.`idpersona` IN (352)
 AND r.`liquidopagable` <> 0
 ;
 -- ---------------------------------------------------------------
@@ -237,7 +237,7 @@ JOIN persona pe        			ON d.`idproductormateriaprima` = pe.`idpersona`
 JOIN entidad e 				ON pe.`idpersona` = e.`identidad`
 JOIN planillapagomateriaprima p 	ON r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
 JOIN zonaproductiva z 			ON p.`idzonaproductiva` = z.`idzonaproductiva`
-WHERE p.fechainicio = '2018-09-16'
+WHERE p.fechainicio = '2018-11-16'
 -- AND z.`numero` = 001
 AND r.`liquidopagable` <> 0
 ORDER BY z.`nombre`, pe.`nombres`
