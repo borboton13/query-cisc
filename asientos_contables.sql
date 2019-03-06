@@ -458,16 +458,6 @@ AND d.`idpersonacliente` IS NULL
 ;
 
 
-UPDATE sf_tmpenc e SET e.`procedencia` = 'TRA'
-WHERE e.`id_tmpenc` IN (
-
-);
-
-
-SELECT *
-FROM inv_vales v
-WHERE v.`no_vale` IN (
-);
 
 
 SELECT v.`fecha`, v.`estado`, v.`cod_alm`, v.`no_vale`, d.`cod_art`, a.`descri`, d.`cantidad`, d.`costounitario`, d.`monto`  ,
