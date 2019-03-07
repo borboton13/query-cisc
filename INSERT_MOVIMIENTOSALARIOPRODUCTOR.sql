@@ -84,11 +84,14 @@ SELECT *
 FROM movimientosalarioproductor m
 WHERE m.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
 AND m.`descripcion` <> 'REPOSICION DE FORMULARIO'
-AND m.`idproductormateriaprima` = 267
+AND m.`idproductormateriaprima` = 352
 ;
 
+SELECT * FROM personacliente p WHERE p.`NRO_DOC` = 5237757;
+SELECT * FROM entidad e WHERE e.`noidentificacion` = 5237757;
+
 -- update movimientosalarioproductor m set m.`fecha` = '2018-09-19' where m.`idmovimientosalarioproductor` = 223680, m.`valor` = 0; -- 300Bs
-DELETE FROM movimientosalarioproductor WHERE idmovimientosalarioproductor = 223680;
+-- DELETE FROM movimientosalarioproductor WHERE idmovimientosalarioproductor = 223680;
 
 SELECT *
 FROM pedidos p

@@ -448,10 +448,10 @@ AND v.`idtmpenc` IS NULL
 SELECT e.`id_tmpenc`, e.`no_trans`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, e.`glosa`, d.`cuenta`, d.`debe`, d.`haber`, d.`cod_art`, e.`procedencia`, d.`idpersonacliente`, d.`cod_prov`
 FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-WHERE d.`cuenta` = '1421010100'
+WHERE d.`cuenta` = '1421010200'
 AND e.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
 AND e.`estado` <> 'ANL'
-AND d.`idpersonacliente` IS NULL
+AND d.`idpersonacliente` = 477
 -- AND e.`tipo_doc` <> 'NE'
 -- AND d.`cod_art` IS NULL
 -- AND e.`procedencia` <> 'TRA'
