@@ -46,7 +46,7 @@ SELECT * FROM `descuentproductmateriaprima`;
 -- ---------------------------------------------------------------
 -- --------------- PLANILLA DE PAGO X QUINCENA -------------------
 -- ---------------------------------------------------------------
-SELECT  /*r.`idregistropagomateriaprima`, r.`idplanillapagomateriaprima`, z.`idzonaproductiva`,*/
+SELECT  r.`idregistropagomateriaprima`, p.`idplanillapagomateriaprima`, z.`idzonaproductiva`, d.`iddescuentproductmateriaprima`,
 	p.`fechainicio`,
 	z.`nombre`, z.`numero`,
 	pe.`idpersona`, e.`noidentificacion` AS ci, pe.`nombres`, pe.`apellidopaterno`, pe.`apellidomaterno`,
@@ -72,11 +72,21 @@ JOIN persona pe        			ON d.`idproductormateriaprima` = pe.`idpersona`
 JOIN entidad e 				ON pe.`idpersona` = e.`identidad`
 JOIN planillapagomateriaprima p 	ON r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
 JOIN zonaproductiva z 			ON p.`idzonaproductiva` = z.`idzonaproductiva`
-WHERE p.fechainicio > '2018-01-01'
+WHERE p.fechainicio = '2018-11-01'
 -- AND z.`numero` = 001
-AND pe.`idpersona` IN (352)
+-- AND pe.`idpersona` IN (352)
 AND r.`liquidopagable` <> 0
 ;
+
+SELECT * FROM registropagomateriaprima r WHERE r.`idregistropagomateriaprima` = 301640;
+SELECT * FROM descuentproductmateriaprima d WHERE d.`iddescuentproductmateriaprima` = 301640;
+UPDATE descuentproductmateriaprima d SET d.`veterinario` = 0 WHERE d.`iddescuentproductmateriaprima` = 298903; -- 300bs
+UPDATE descuentproductmateriaprima d SET d.`veterinario` = 0 WHERE d.`iddescuentproductmateriaprima` = 301640; -- 300bs
+
+SELECT * FROM planillapagomateriaprima p WHERE p.`idplanillapagomateriaprima` = 38514;
+UPDATE planillapagomateriaprima p SET p.`totalveterinarioxgab` = 0, p.`totaliquidoxgab` = 18947.71 WHERE p.`idplanillapagomateriaprima` = 38115; -- 300bs
+UPDATE planillapagomateriaprima p SET p.`totalveterinarioxgab` = 0, p.`totaliquidoxgab` = 24827.8 WHERE p.`idplanillapagomateriaprima` = 38514; -- 300bs
+
 -- ---------------------------------------------------------------
 -- ---------------------------------------------------------------
 -- --------------- REPORTE TOTAL X PRODUCTOR A PARTIR PLANILLA ---
@@ -237,7 +247,7 @@ JOIN persona pe        			ON d.`idproductormateriaprima` = pe.`idpersona`
 JOIN entidad e 				ON pe.`idpersona` = e.`identidad`
 JOIN planillapagomateriaprima p 	ON r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
 JOIN zonaproductiva z 			ON p.`idzonaproductiva` = z.`idzonaproductiva`
-WHERE p.fechainicio = '2018-11-16'
+WHERE p.fechainicio = '2018-09-16'
 -- AND z.`numero` = 001
 AND r.`liquidopagable` <> 0
 ORDER BY z.`nombre`, pe.`nombres`

@@ -87,10 +87,12 @@ AND m.`descripcion` <> 'REPOSICION DE FORMULARIO'
 AND m.`idproductormateriaprima` = 267
 ;
 
+-- update movimientosalarioproductor m set m.`fecha` = '2018-09-19' where m.`idmovimientosalarioproductor` = 223680, m.`valor` = 0; -- 300Bs
+DELETE FROM movimientosalarioproductor WHERE idmovimientosalarioproductor = 223680;
 
 SELECT *
 FROM pedidos p
-WHERE p.`CODIGO` = 6414;
+WHERE p.`CODIGO` = 5969;
 
 
 -- ACOPIO, INSERTAR DESCUENTOS LACTEOS
