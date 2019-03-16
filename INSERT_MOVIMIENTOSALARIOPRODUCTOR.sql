@@ -3,13 +3,13 @@
 
 SELECT MAX(idmovimientosalarioproductor)+1 FROM movimientosalarioproductor;
 
-SET @folio = 224982;
+-- SET @folio = (SELECT MAX(idmovimientosalarioproductor)+1 FROM movimientosalarioproductor);
 INSERT INTO movimientosalarioproductor(idmovimientosalarioproductor,fecha,descripcion,estado,valor,idcompania,idzonaproductiva,idproductormateriaprima,idtipomovimientoproductor)
-SELECT (@folio := @folio + 1), '2019-01-16' AS fecha, 'REPOSICION DE FORMULARIO' AS descripcion, 'PENDING' AS estado, 0.80 AS valor, 1 AS idcompania, p.`idzonaproductiva`, d.`idproductormateriaprima`, 5 AS idtipomovimientoproductor 
+SELECT (@folio := @folio + 1), '2019-02-16' AS fecha, 'REPOSICION DE FORMULARIO' AS descripcion, 'PENDING' AS estado, 0.80 AS valor, 1 AS idcompania, p.`idzonaproductiva`, d.`idproductormateriaprima`, 5 AS idtipomovimientoproductor 
 FROM registropagomateriaprima r
 LEFT JOIN planillapagomateriaprima p 	ON r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
 LEFT JOIN descuentproductmateriaprima d ON r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
-WHERE p.fechainicio = '2019-01-16'
+WHERE p.fechainicio = '2019-02-16'
 AND r.`liquidopagable` > 0
 ;
 
@@ -131,13 +131,14 @@ AND p.`IDTIPOPEDIDO` = 5
 -- SET @folio = (SELECT MAX(id_tmpdet) FROM sf_tmpdet);
 SET @folio = 11448;
 -- INSERT INTO sf_tmpdet (id_tmpdet, cuenta, no_cia, debe, haber, moneda, no_trans, id_tmpenc, idpersonacliente) 
-SELECT (@folio := @folio+1), '1421010200', '01', 0, p.`TOTALIMPORTE`, 'P', 98739, 98701, pe.`IDPERSONACLIENTE`
+SELECT (@folio := @folio+1), '1421010200', '01', 0, p.`TOTALIMPORTE`, 'P', 98739, 98701, pe.`IDPERSONACLIENTE`, 
+pe.`NOM`, pe.`AP`, pe.`AM`
 FROM pedidos p
 JOIN personacliente pe ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 JOIN entidad e         ON pe.`NRO_DOC` = e.`noidentificacion`
 JOIN persona per       ON e.`identidad` = per.`idpersona`
 JOIN productormateriaprima pr ON e.`identidad` = pr.`idproductormateriaprima`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-12-16' AND '2018-12-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-02-01' AND '2019-02-15'
 AND p.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` = 5
 AND p.`IDTIPOPEDIDO` = 6
@@ -147,13 +148,14 @@ AND p.`IDTIPOPEDIDO` = 6
 -- SET @folio = (SELECT MAX(id_tmpdet) FROM sf_tmpdet);
 SET @folio = 11454;
 -- INSERT INTO sf_tmpdet (id_tmpdet, cuenta, no_cia, debe, haber, moneda, no_trans, id_tmpenc, idpersonacliente) 
-SELECT (@folio := @folio+1), '1421010100', '01', 0, p.`TOTALIMPORTE`, 'P', 98739, 98701, pe.`IDPERSONACLIENTE`
+SELECT (@folio := @folio+1), '1421010100', '01', 0, p.`TOTALIMPORTE`, 'P', 98739, 98701, pe.`IDPERSONACLIENTE`,
+pe.`NOM`, pe.`AP`, pe.`AM`
 FROM pedidos p
 JOIN personacliente pe ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 JOIN entidad e         ON pe.`NRO_DOC` = e.`noidentificacion`
 JOIN persona per       ON e.`identidad` = per.`idpersona`
 JOIN productormateriaprima pr ON e.`identidad` = pr.`idproductormateriaprima`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-12-16' AND '2018-12-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-02-01' AND '2019-02-28'
 AND p.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` <> 5
 AND p.`IDTIPOPEDIDO` = 5

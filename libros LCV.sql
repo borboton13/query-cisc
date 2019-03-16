@@ -17,7 +17,7 @@ SELECT 	d.FECHA AS "FECHA FACTURA O DUI",
 	"" AS "TIPO DE COMPRA", z.estado
 FROM documentocontable d 
 JOIN documentocompra z ON d.iddocumentocontable = z.iddocumentocompra
-WHERE fecha BETWEEN '2019-01-01' AND '2019-01-31'
+WHERE fecha BETWEEN '2019-02-01' AND '2019-02-28'
 AND z.estado <> 'NULLIFIED'
 ;
 
@@ -42,6 +42,19 @@ LEFT JOIN sf_tmpenc e ON z.idtmpenc = e.id_tmpenc
 WHERE d.fecha BETWEEN '2019-01-01' AND '2019-01-31'
 AND z.estado <> 'NULLIFIED'
 ;
+
+
+UPDATE documentocompra d SET d.`estado` = 'NULLIFIED'
+WHERE d.`iddocumentocompra` IN (
+7350,
+7352,
+7354,
+7356,
+7357,
+7358,
+7359,
+7361
+);
 
 
 
@@ -134,19 +147,21 @@ FROM documentocontable co
 JOIN documentocompra dc 	ON co.`iddocumentocontable` = dc.`iddocumentocompra`
 JOIN sf_tmpenc e  		ON dc.`idtmpenc` = e.`id_tmpenc`
 -- join sf_tmpdet d 		on e.`id_tmpenc` = d.`id_tmpenc`
-WHERE co.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+WHERE co.`fecha` BETWEEN '2019-02-01' AND '2019-02-28'
 -- and d.`cuenta` = '1420710000'
 ;
 -- 
 SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`estado`, e.`tipo_doc`, e.`no_doc`, e.`fecha`, d.`debe`, e.`glosa`
 FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-WHERE e.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+WHERE e.`fecha` BETWEEN '2019-02-01' AND '2019-02-28'
 AND d.`cuenta` = '1420710000'
 AND d.`debe` > 0
+AND e.`estado` <> 'ANL'
  -- AND e.`tipo_doc` NOT IN ('NE')
 ;
 -- ---------------------------
+
 SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`estado`, e.`tipo_doc`, e.`no_doc`, e.`fecha`, d.`debe`, e.`glosa`
 FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
@@ -154,7 +169,10 @@ WHERE e.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
 AND d.`cuenta` = '2420410200'AND d.haber > 0
 ;
 
+SELECT * FROM pedidos p
+WHERE p.`id_tmpenc` = 102522;
 
+SELECT * FROM movimiento m WHERE m.`IDMOVIMIENTO` = 48641;
 
 SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`estado`, e.`tipo_doc`, e.`no_doc`, e.`fecha`, d.`debe`, d.`haber`, e.`glosa`, ve.idventadirecta, ve.estado, ve.idmovimiento, pe.idpedidos, pe.estado, pe.idmovimiento
 FROM sf_tmpdet d

@@ -22,8 +22,8 @@ LEFT JOIN contrato c ON cp.`idcontrato` = c.`idcontrato`
 LEFT JOIN empleado e ON c.`idempleado` = e.`idempleado`
 LEFT JOIN persona p  ON e.`idempleado` = p.`idpersona`
 LEFT JOIN entidad en ON p.`idpersona` = en.`identidad`
-WHERE en.`noidentificacion` = 6517642
-AND bc.`fechafin` > '2019-01-01'
+WHERE en.`noidentificacion` = 9398561
+AND bc.`fechafin` >= '2019-02-01'
 ;
 
 /** Cambiando Horario **/
@@ -39,16 +39,21 @@ WHERE en.`noidentificacion` = 6517642
 ;
 
 
-UPDATE bandahorariacontrato b SET b.`fechafin` = '2018-12-31'
+UPDATE bandahorariacontrato b SET b.`fechafin` = '2019-03-02'
 WHERE b.`idbandahorariacontrato` IN (
 
 );
 
 
 -- delete from bandahorariacontrato
--- DELETE FROM bandahoraria
+DELETE FROM bandahoraria
 WHERE idbandahoraria IN (
-
+2352,
+2353,
+2354,
+2355,
+2356,
+2357
 );
 
 
