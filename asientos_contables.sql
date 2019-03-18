@@ -474,6 +474,22 @@ GROUP BY MONTH(v.`FECHA_PEDIDO`), a.`cod_art`, i.`descri`
 ;
 
 
+-- 
+-- CHECKANDO CUENTAS EN ME
+SELECT e.`id_tmpenc`, e.`estado`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`tc`, d.`debeme`, d.`haberme`, e.`glosa`
+FROM sf_tmpdet d 
+LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
+LEFT JOIN arcgms a ON d.`cuenta` = a.`cuenta`
+WHERE e.`fecha` BETWEEN '2019-01-01' AND '2019-12-31'
+AND SUBSTRING(d.`cuenta`, 6, 1) = '2'
+;
+-- UPDATE sf_tmpdet d SET	d.tc = 6.96,
+			d.`debeme`  = ROUND((d.`debe` / 6.96), 2), 
+			d.`haberme` = ROUND((d.`haber` / 6.96), 2) 
+WHERE d.`id_tmpdet` IN (
+
+);
+-- END
 
 
 

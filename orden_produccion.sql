@@ -5,8 +5,8 @@ SELECT *
 FROM ordenproduccion o
 -- UPDATE ordenproduccion o
 JOIN planificacionproduccion p ON o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
-SET o.`estadoorden` = 'TABULATED'
-WHERE p.`fecha` BETWEEN '2018-12-20' AND '2018-12-20'
+SET o.`estadoorden` = 'FINALIZED'
+WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
 -- AND o.codigo = '1611-0035'
 ;
 
@@ -16,8 +16,8 @@ FROM productosimple ps
 -- UPDATE productosimple ps 
 JOIN productobase pb ON ps.`idproductobase` = pb.`idproductobase`
 JOIN planificacionproduccion p ON pb.`idplanificacionproduccion` = p.`idplanificacionproduccion`
-SET ps.`estado` = 'TABULATED'
-WHERE p.`fecha` BETWEEN '2018-12-20' AND '2018-12-20'
+SET ps.`estado` = 'FINALIZED'
+WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
 ;
 -- ------------------------------------------------------
 -- ------

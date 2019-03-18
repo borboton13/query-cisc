@@ -6,7 +6,7 @@ SELECT p.`FECHA_ENTREGA`, a.`IDARTICULOSPEDIDO`, i.`cod_art`, i.`descri`, a.`PRE
 FROM articulos_pedido a
 JOIN pedidos p 		ON a.`IDPEDIDOS` = p.`IDPEDIDOS`
 JOIN inv_articulos i 	ON a.`cod_art` = i.`cod_art` 
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-12-01' AND '2018-12-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
 AND p.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` <> 5
 -- AND p.`IDUSUARIO` = 5
@@ -17,7 +17,7 @@ SELECT v.`FECHA_PEDIDO`, a.`IDARTICULOSPEDIDO`, i.`cod_art`, i.`descri`, a.`PREC
 FROM articulos_pedido a
 JOIN ventadirecta v 	ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 JOIN inv_articulos i 	ON a.`cod_art` = i.`cod_art` 
-WHERE v.`FECHA_PEDIDO` BETWEEN '2018-12-01' AND '2018-12-31'
+WHERE v.`FECHA_PEDIDO` BETWEEN '2019-01-01' AND '2019-01-31'
 AND v.`ESTADO` <> 'ANULADO'
 AND v.`IDUSUARIO` IN (6,404)
 ;
