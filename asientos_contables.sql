@@ -5,7 +5,7 @@ LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 WHERE d.`id_tmpenc` IN (
-420
+104280
 )
 -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
@@ -208,8 +208,8 @@ ORDER BY d.`cuenta`
 
 SELECT MIN(CAST(no_doc AS DECIMAL)) AS MI, MAX(CAST(no_doc AS DECIMAL)) AS MA
 FROM sf_tmpenc
-WHERE tipo_doc = 'CI'
--- AND fecha BETWEEN '2015-01-01' AND '2016-12-31'
+WHERE tipo_doc = 'CD'
+AND fecha BETWEEN '2018-01-01' AND '2018-12-31'
 ;
 
 
@@ -343,8 +343,8 @@ LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 WHERE e.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
 AND e.`estado` <> 'ANL'
-AND e.`tipo_doc` IN ('CD')
--- AND a.`cta_niv3` = '4420000000'
+-- AND e.`tipo_doc` IN ('CD')
+AND a.`cta_niv3` = '4460000000'
 GROUP BY e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`
 -- )
 ;
