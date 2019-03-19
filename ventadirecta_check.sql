@@ -1,0 +1,132 @@
+SELECT *
+FROM pedidos
+WHERE IDCLIENTE IN
+(
+346,354
+);
+
+SELECT *
+FROM ventadirecta
+WHERE IDCLIENTE IN
+(
+346,354
+);
+
+
+SELECT *
+FROM ventadirecta
+WHERE IDVENTADIRECTA = 2032;
+
+SELECT * FROM movimiento
+WHERE IDMOVIMIENTO IN (
+	SELECT IDMOVIMIENTO
+	FROM ventadirecta
+	WHERE IDCLIENTE IN
+	(346,354)
+);
+
+
+SELECT COUNT(*)
+FROM ventadirecta
+WHERE FECHA_PEDIDO BETWEEN '2016-01-01' AND '2016-02-09'
+;
+
+SELECT COUNT(*)
+FROM sf_tmpenc
+WHERE FECHA BETWEEN '2016-01-01' AND '2016-02-09'
+;
+
+SELECT *
+FROM pedidos p
+WHERE p.`FECHA_ENTREGA` BETWEEN '2016-01-01' AND '2016-01-31'
+AND p.`ESTADO` = 'ANULADO'
+AND IDMOVIMIENTO IS NOT NULL
+;
+
+
+SELECT *
+FROM pedidos
+WHERE IDCLIENTE IN
+(
+346,354
+);
+
+SELECT *
+FROM ventadirecta
+WHERE IDCLIENTE IN
+(346,354);
+
+346
+354 ok
+;
+
+SELECT *
+FROM personacliente
+WHERE IDPERSONACLIENTE IN 
+(346,354);
+
+SELECT * FROM movimiento
+WHERE IDMOVIMIENTO IN (
+	SELECT IDMOVIMIENTO
+	FROM ventadirecta
+	WHERE IDCLIENTE IN
+	(346,354)
+);
+
+
+SELECT *
+FROM articulos_pedido 
+WHERE IDVENTADIRECTA IN (
+	SELECT IDVENTADIRECTA 
+	FROM ventadirecta
+	WHERE IDCLIENTE IN
+	(346,354)
+);
+
+
+SELECT *
+FROM ventadirecta
+WHERE IDUSUARIO IN (5, 3)
+AND FECHA_PEDIDO BETWEEN '2016-01-01' AND '2016-01-31'
+AND `id_tmpenc_cv` IS NULL
+;
+
+SELECT v.`IDVENTADIRECTA`, v.`FECHA_PEDIDO`, v.`CODIGO`, v.`IDCLIENTE`, a.`cod_art`, a.`CANTIDAD`, a.`TOTAL`, a.`PRECIO`, i.`costo_uni`, i.`cuenta_art`
+FROM articulos_pedido a
+JOIN ventadirecta v  ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
+JOIN inv_articulos i ON a.`cod_art` = i.`cod_art`
+WHERE v.IDUSUARIO = 5
+AND v.FECHA_PEDIDO BETWEEN '2016-02-01' AND '2016-02-31'
+-- AND v.`id_tmpenc_cv` IS NULL
+;
+
+
+
+SELECT * FROM sf_tmpenc
+WHERE id_tmpenc IN (
+	SELECT id_tmpenc
+	FROM ventadirecta
+	WHERE IDCLIENTE IN
+	(346,354)
+);
+
+SELECT * FROM sf_tmpdet
+WHERE id_tmpenc IN (
+	SELECT id_tmpenc
+	FROM ventadirecta
+	WHERE IDCLIENTE IN
+	(346,354)
+);
+
+
+SELECT *
+FROM ventadirecta
+WHERE FECHA_PEDIDO BETWEEN '2016-01-01' AND '2016-02-09'
+;
+
+SELECT COUNT(*)
+FROM sf_tmpenc
+WHERE FECHA BETWEEN '2016-01-01' AND '2016-02-09'
+;
+
+
