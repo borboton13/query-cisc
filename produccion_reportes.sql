@@ -7,7 +7,7 @@ LEFT JOIN inv_movdet m 		ON v.`no_trans` = m.`no_trans`
 LEFT JOIN inv_articulos i 	ON m.`cod_art`  = i.`cod_art` 
 LEFT JOIN sf_tmpenc e 		ON v.`idtmpenc` = e.`id_tmpenc`
 LEFT JOIN sf_tmpdet d 		ON e.`id_tmpenc` = d.`id_tmpenc`
-WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+WHERE p.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
 AND d.`cuenta` = '1510110201'
 -- mand v.`no_vale` is not null
 ;
@@ -53,7 +53,7 @@ LEFT JOIN planificacionproduccion p  ON pb.`idplanificacionproduccion` = p.`idpl
 LEFT JOIN inv_articulos i 	     ON m.`cod_art`  = i.`cod_art`
 LEFT JOIN sf_tmpenc e 		ON pb.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN sf_tmpdet d 		ON e.`id_tmpenc` = d.`id_tmpenc`
-WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+WHERE p.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
 AND d.`cuenta` = '1510110201'
 GROUP BY MONTH(p.`fecha`), i.`cod_art`, i.`descri`
 ;
@@ -70,7 +70,7 @@ FROM (
 	LEFT JOIN inv_articulos i 	ON m.`cod_art`  = i.`cod_art` 
 	LEFT JOIN sf_tmpenc e 		ON v.`idtmpenc` = e.`id_tmpenc`
 	LEFT JOIN sf_tmpdet d 		ON e.`id_tmpenc` = d.`id_tmpenc`
-	WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+	WHERE p.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
 	AND d.`cuenta` = '1510110201'
 	GROUP BY MONTH(p.`fecha`) , m.`cod_art`, i.`descri`
 	UNION ALL
@@ -83,42 +83,9 @@ FROM (
 	LEFT JOIN inv_articulos i 	     ON m.`cod_art`  = i.`cod_art`
 	LEFT JOIN sf_tmpenc e 		ON pb.`id_tmpenc` = e.`id_tmpenc`
 	LEFT JOIN sf_tmpdet d 		ON e.`id_tmpenc` = d.`id_tmpenc`
-	WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+	WHERE p.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
 	AND d.`cuenta` = '1510110201'
 	GROUP BY MONTH(p.`fecha`), i.`cod_art`, i.`descri`
-) z
-GROUP BY z.mes, z.cod_art, z.nombrecorto
-;
- 
---
--- REPORTE TOTAL POR DIA
--- Union Normal - Reproceso
-SELECT z.mes, z.cod_art, z.nombrecorto, SUM(z.cantidad) AS cantidad, SUM(z.costo) AS costo, SUM(z.costo) / SUM(z.cantidad) AS unit
-FROM (
-	SELECT DAY(p.`fecha`) AS mes, m.`cod_art`, i.nombrecorto , SUM(m.`cantidad`) AS cantidad, SUM(d.`debe`) AS costo
-	FROM ordenproduccion o
-	LEFT JOIN planificacionproduccion p ON o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
-	LEFT JOIN inv_vales v  		ON o.`no_vale`  = v.`no_vale`
-	LEFT JOIN inv_movdet m 		ON v.`no_trans` = m.`no_trans`
-	LEFT JOIN inv_articulos i 	ON m.`cod_art`  = i.`cod_art` 
-	LEFT JOIN sf_tmpenc e 		ON v.`idtmpenc` = e.`id_tmpenc`
-	LEFT JOIN sf_tmpdet d 		ON e.`id_tmpenc` = d.`id_tmpenc`
-	WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
-	AND d.`cuenta` = '1510110201'
-	GROUP BY DAY(p.`fecha`) , m.`cod_art`, i.`descri`
-	UNION ALL
-	SELECT  DAY(p.`fecha`)AS mes, i.`cod_art`, i.`nombrecorto`, SUM(ps.`cantidad`) AS cantidad, SUM(d.`debe`) AS costo
-	FROM productosimple ps
-	LEFT JOIN productosimpleprocesado pp ON ps.`idproductosimple` = pp.`idproductosimple`
-	LEFT JOIN metaproductoproduccion m   ON pp.`idmetaproductoproduccion` = m.`idmetaproductoproduccion`
-	LEFT JOIN productobase pb            ON ps.`idproductobase` = pb.`idproductobase`
-	LEFT JOIN planificacionproduccion p  ON pb.`idplanificacionproduccion` = p.`idplanificacionproduccion`
-	LEFT JOIN inv_articulos i 	     ON m.`cod_art`  = i.`cod_art`
-	LEFT JOIN sf_tmpenc e 		ON pb.`id_tmpenc` = e.`id_tmpenc`
-	LEFT JOIN sf_tmpdet d 		ON e.`id_tmpenc` = d.`id_tmpenc`
-	WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
-	AND d.`cuenta` = '1510110201'
-	GROUP BY DAY(p.`fecha`), i.`cod_art`, i.`descri`
 ) z
 GROUP BY z.mes, z.cod_art, z.nombrecorto
 ;
