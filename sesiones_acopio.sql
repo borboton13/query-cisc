@@ -38,8 +38,8 @@ SELECT pl.idplanillaacopio, pl.fecha, pl.totalpesado, ra.idregistroacopio, zo.no
 FROM REGISTROACOPIO RA
 LEFT JOIN PLANILLAACOPIO PL ON ra.idplanillaacopio = pl.idplanillaacopio
 LEFT JOIN zonaproductiva zo ON ra.idzonaproductiva = zo.idzonaproductiva
-WHERE pl.fecha BETWEEN '2016-10-16' AND '2016-10-17'
-AND zo.numero = 543
+WHERE pl.fecha BETWEEN '2019-02-01' AND '2019-02-15'
+-- AND zo.numero = 543
 ORDER BY pl.fecha
 ;
 
@@ -70,7 +70,7 @@ LEFT JOIN sesionacopio sa ON am.`idsesionacopio` = sa.`idsesionacopio`
 LEFT JOIN zonaproductiva zp ON sa.`idzonaproductiva` = zp.`idzonaproductiva`
 LEFT JOIN persona p ON am.`idproductormateriaprima` = p.`idpersona`
 LEFT JOIN entidad e ON p.`idpersona` = e.`identidad`
-WHERE sa.`fecha` BETWEEN '2018-01-01' AND '2019-02-28'
+WHERE sa.`fecha` BETWEEN '2019-02-01' AND '2019-02-15'
 AND am.`cantidad` > 0
 GROUP BY MONTH(sa.`fecha`), zp.`numero`, zp.`nombre`, am.`idproductormateriaprima`, e.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`
 ;
