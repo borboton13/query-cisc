@@ -5,11 +5,7 @@ LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 WHERE d.`id_tmpenc` IN (
-<<<<<<< HEAD
-97789
-=======
-104280
->>>>>>> eaf3d7ab42aa61445ba1b52ef4111443acccf6df
+100155
 )
 -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;

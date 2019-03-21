@@ -5,8 +5,8 @@ SELECT *
 FROM ordenproduccion o
 -- UPDATE ordenproduccion o
 JOIN planificacionproduccion p ON o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
-SET o.`estadoorden` = 'TABULATED'
-WHERE p.`fecha` BETWEEN '2018-12-20' AND '2018-12-20'
+SET o.`estadoorden` = 'FINALIZED'
+WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
 -- AND o.codigo = '1611-0035'
 ;
 
@@ -16,26 +16,27 @@ FROM productosimple ps
 -- UPDATE productosimple ps 
 JOIN productobase pb ON ps.`idproductobase` = pb.`idproductobase`
 JOIN planificacionproduccion p ON pb.`idplanificacionproduccion` = p.`idplanificacionproduccion`
-SET ps.`estado` = 'TABULATED'
-WHERE p.`fecha` BETWEEN '2018-12-20' AND '2018-12-20'
+SET ps.`estado` = 'FINALIZED' -- , pb.`estado` = 'FINALIZED'
+WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
 ;
 -- ------------------------------------------------------
 -- ------
 -- ORDEN PRODUCCION - VALES
 -- ORDEN DE PRODUCCION POR MES + COSTO
-SELECT o.`idordenproduccion`, p.`fecha`, o.`codigo`, o.`estadoorden`, v.`no_trans`, v.`no_vale`, o.`no_vale`, m.`cod_art`, i.`descri`, o.`cantidadproducida`, o.`costotoalproduccion`, o.`costounitario`
+SELECT o.`idordenproduccion`, p.`fecha`, p.`estado`, o.`codigo`, o.`estadoorden`, v.`no_trans`, v.`no_vale`, o.`no_vale`, m.`cod_art`, i.`descri`, o.`cantidadproducida`, o.`costotoalproduccion`, o.`costounitario`, o.`id_tmpenc`
 FROM ordenproduccion o
 LEFT JOIN planificacionproduccion p ON o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
 LEFT JOIN inv_vales v  		ON o.`no_vale`  = v.`no_vale`
+-- LEFT JOIN inv_vales v  		ON o.`no_trans`  = v.`no_trans`
 LEFT JOIN inv_movdet m 		ON v.`no_trans` = m.`no_trans`
 LEFT JOIN inv_articulos i 	ON m.`cod_art`  = i.`cod_art` 
-WHERE p.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+WHERE p.`fecha` BETWEEN '2019-01-25' AND '2019-01-25'
 -- mand v.`no_vale` is not null
 ;
 
--- 
+-- ORDEN DE PRODUCCION POR MES + COSTO + asiento
 SELECT o.`idordenproduccion`, p.`fecha`, m.`cod_art`, i.`descri`, v.`no_vale`,
-v.`idtmpenc`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`debe`, d.`cod_art`
+v.`idtmpenc`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`debe`, d.`cod_art`, d.`cant_art`
 FROM ordenproduccion o
 LEFT JOIN planificacionproduccion p ON o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
 LEFT JOIN inv_vales v  		ON o.`no_vale`  = v.`no_vale`
@@ -43,25 +44,26 @@ LEFT JOIN inv_movdet m 		ON v.`no_trans` = m.`no_trans`
 LEFT JOIN inv_articulos i 	ON m.`cod_art`  = i.`cod_art` 
 LEFT JOIN sf_tmpenc e 		ON v.`idtmpenc` = e.`id_tmpenc`
 LEFT JOIN sf_tmpdet d 		ON e.`id_tmpenc` = d.`id_tmpenc`
-WHERE p.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+WHERE p.`fecha` BETWEEN '2019-01-25' AND '2019-01-25'
 AND d.`cuenta` = '1510110201'
 -- mand v.`no_vale` is not null
 ;
 
 -- REPROCESOS
-SELECT p.`fecha`, pb.`codigo`, pb.`estado`, i.`cod_art`, i.`descri`, ps.`cantidad` AS cantidad, ps.`costototalproduccion`, ps.`costounitario`
+SELECT pb.`idproductobase`, p.`fecha`, pb.`codigo`, pb.`estado`, i.`cod_art`, i.`descri`, ps.`idproductosimple`, ps.`estado`, ps.`cantidad` AS cantidad, ps.`costototalproduccion`, ps.`costounitario`, pb.`no_vale`, 
+pb.`id_tmpenc`
 FROM productosimple ps
 LEFT JOIN productosimpleprocesado pp ON ps.`idproductosimple` = pp.`idproductosimple`
 LEFT JOIN metaproductoproduccion m   ON pp.`idmetaproductoproduccion` = m.`idmetaproductoproduccion`
 LEFT JOIN productobase pb            ON ps.`idproductobase` = pb.`idproductobase`
 LEFT JOIN planificacionproduccion p  ON pb.`idplanificacionproduccion` = p.`idplanificacionproduccion`
 LEFT JOIN inv_articulos i 	     ON m.`cod_art`  = i.`cod_art`
-WHERE p.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
 -- GROUP BY i.`cod_art`, i.`descri`
 ;
 
 SELECT p.`fecha`, pb.`codigo`, pb.`estado`, pb.`no_vale`, i.`cod_art`, i.`descri`, ps.`cantidad` AS cantidad, ps.`costototalproduccion`, ps.`costounitario`, 
-pb.`id_tmpenc`, e.`no_trans`, e.`tipo_doc`, e.`no_doc`, e.`estado`, d.`id_tmpdet`, d.`debe`, d.`cod_art`
+pb.`id_tmpenc`, e.`no_trans`, e.`tipo_doc`, e.`no_doc`, e.`estado`, d.`id_tmpdet`, d.`debe`, d.`cod_art`, d.`cant_art`
 FROM productosimple ps
 LEFT JOIN productosimpleprocesado pp ON ps.`idproductosimple` = pp.`idproductosimple`
 LEFT JOIN metaproductoproduccion m   ON pp.`idmetaproductoproduccion` = m.`idmetaproductoproduccion`
@@ -70,7 +72,7 @@ LEFT JOIN planificacionproduccion p  ON pb.`idplanificacionproduccion` = p.`idpl
 LEFT JOIN inv_articulos i 	     ON m.`cod_art`  = i.`cod_art`
 LEFT JOIN sf_tmpenc e 		ON pb.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN sf_tmpdet d 		ON e.`id_tmpenc` = d.`id_tmpenc`
-WHERE p.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
 AND d.`cuenta` = '1510110201'
 ;
 
@@ -81,7 +83,7 @@ LEFT JOIN productobase pb 	     ON pr.`idproductobase` = pb.`idproductobase`
 LEFT JOIN planificacionproduccion p  ON pb.`idplanificacionproduccion` = p.`idplanificacionproduccion`
 LEFT JOIN metaproductoproduccion m   ON pr.`idmetaproductoproduccion` = m.`idmetaproductoproduccion`
 LEFT JOIN inv_articulos i 	     ON m.`cod_art`  = i.`cod_art`
-WHERE p.`fecha` BETWEEN '2018-01-01' AND '2018-04-25'
+WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
 ;
 
 -- PRODUCTOS REPROCESADOS GROUP BY
@@ -91,16 +93,16 @@ LEFT JOIN productobase pb 	     ON pr.`idproductobase` = pb.`idproductobase`
 LEFT JOIN planificacionproduccion p  ON pb.`idplanificacionproduccion` = p.`idplanificacionproduccion`
 LEFT JOIN metaproductoproduccion m   ON pr.`idmetaproductoproduccion` = m.`idmetaproductoproduccion`
 LEFT JOIN inv_articulos i 	     ON m.`cod_art`  = i.`cod_art`
-WHERE p.`fecha` BETWEEN '2018-01-01' AND '2018-06-01'
+WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
 GROUP BY i.`cod_art`, i.`descri`
 ;
 
 
-SELECT pb.`idproductobase`, pb.`codigo`, pp.`fecha`, pr.`idproductoreprocesado`, pr.`unidades`, pr.`volumen`
+SELECT pb.`idproductobase`, pb.`estado`, pb.`codigo`, pp.`fecha`, pr.`idproductoreprocesado`, pr.`unidades`, pr.`volumen`
 FROM productobase pb 
 LEFT JOIN planificacionproduccion pp ON pb.`idplanificacionproduccion` = pp.`idplanificacionproduccion`
 LEFT JOIN productoreprocesado pr     ON pb.`idproductobase` = pr.`idproductobase`
-WHERE pp.`fecha` BETWEEN '2018-01-01' AND '2018-04-25'
+WHERE pp.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
 ;
 
 -- -------------------------------------------------------------------------
@@ -297,4 +299,7 @@ WHERE p.fecha BETWEEN '2018-01-01' AND '2018-12-31'
 
 
 
-
+SELECT * FROM planificacionproduccion p
+-- update planificacionproduccion p set p.`estado` = 'PENDING'
+WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+;
