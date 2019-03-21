@@ -5,19 +5,13 @@ LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 WHERE d.`id_tmpenc` IN (
-<<<<<<< HEAD
-97789
-=======
-104280
->>>>>>> eaf3d7ab42aa61445ba1b52ef4111443acccf6df
+98543
 )
 -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
--- Actualizar a Credito Fiscal
--- update sf_tmpdet d set d.`cuenta` = '1420710000' where d.`id_tmpdet` = 576408;
-
-
+-- delete from sf_tmpdet where id_tmpenc in (104877,104878);
+-- DELETE FROM sf_tmpenc WHERE id_tmpenc in (104877,104878);
 
 --
 -- Detalle por TipoDoc
@@ -37,10 +31,10 @@ FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 WHERE e.`tipo_doc` = 'TR'
-AND e.`glosa` LIKE '%RECEPCION, ALMACEN (ALM PRODUCTOS TERMINADOS)%'
+AND e.`glosa` LIKE '%RECEPCION%ALM PRODUCTOS TERMINADOS)%'
 -- AND e.`glosa` LIKE '%CONSUMO, EGRESO, ALMACEN (ALM INSUMOS DE PRODUCCION)%'
 -- AND e.`glosa` LIKE '%CONSUMO, EGRESO, ALMACEN (ALM MATERIALES DE PRODUCCION)%'
-AND e.`fecha` BETWEEN '2017-02-01' AND '2017-02-28'
+AND e.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
 -- AND e.`estado` <> 'ANL'
 ;
 

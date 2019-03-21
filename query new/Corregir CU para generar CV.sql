@@ -9,7 +9,17 @@ JOIN inv_articulos i 	ON a.`cod_art` = i.`cod_art`
 WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
 AND p.`ESTADO` <> 'ANULADO'
 -- AND p.`IDUSUARIO` <> 5
-AND p.`IDUSUARIO` = 5
+AND p.`IDUSUARIO` <> 5
+;
+
+SELECT a.`cod_art`, SUM(a.`CANTIDAD`) AS cantidad,  (SUM(a.`CANTIDAD`) * a.`cu`) AS cost_total
+FROM articulos_pedido a
+JOIN pedidos p 		ON a.`IDPEDIDOS` = p.`IDPEDIDOS`
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
+AND p.`IDTIPOPEDIDO` = 1
+AND p.`ESTADO` <> 'ANULADO'
+AND p.`IDUSUARIO` <> 5
+GROUP BY a.`cod_art`
 ;
 
 -- DETALLE DE ARTICULOS VENDIDOS (CONTADO), VERIFICAR CU
@@ -19,7 +29,17 @@ JOIN ventadirecta v 	ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 JOIN inv_articulos i 	ON a.`cod_art` = i.`cod_art` 
 WHERE v.`FECHA_PEDIDO` BETWEEN '2019-01-01' AND '2019-01-31'
 AND v.`ESTADO` <> 'ANULADO'
-AND v.`IDUSUARIO` IN (6,404)
+-- AND v.`IDUSUARIO` IN (6,404)
+AND v.`IDUSUARIO` <> 5
+;
+
+SELECT a.`cod_art`, (SUM(a.`CANTIDAD`) * a.`cu`) AS costo_total
+FROM articulos_pedido a
+JOIN ventadirecta v 	ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
+WHERE v.`FECHA_PEDIDO` BETWEEN '2019-01-01' AND '2019-01-31'
+AND v.`ESTADO` <> 'ANULADO'
+AND v.`IDUSUARIO` <> 5
+GROUP BY a.`cod_art`
 ;
 
 
@@ -32,6 +52,7 @@ WHERE v.`FECHA_PEDIDO` BETWEEN '2018-12-01' AND '2018-12-31'
 AND v.`ESTADO` <> 'ANULADO'
 AND v.`IDUSUARIO` IN (5)
 ;
+
 
 
 -- 1.- Eliminar de la tabla auxiliar
@@ -74,6 +95,7 @@ AND p.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` <> 5
 ;
 
+
 -- 6.- Actualizar CU ventas contado
 SELECT v.`FECHA_PEDIDO`, a.`IDARTICULOSPEDIDO`, a.`cod_art`, a.`PRECIO`, a.`CANTIDAD`, a.`PROMOCION`, a.`REPOSICION`, a.`TOTAL`, a.`IMPORTE`, a.`cu`, ai.`costo_prom`
 FROM articulos_pedido a
@@ -83,10 +105,9 @@ JOIN auxinv ai		ON a.`cod_art` = ai.`cod_art`
 SET a.`cu` = ai.costo_prom
 WHERE v.`FECHA_PEDIDO` BETWEEN '2019-01-01' AND '2019-01-31'
 AND v.`ESTADO` <> 'ANULADO'
-AND v.`IDUSUARIO` IN (6,404)
+AND v.`IDUSUARIO` <> 5
 ;
 
-SELECT DISTINCT v.`IDUSUARIO`, u.`usuario` FROM ventadirecta v JOIN usuario u ON v.`IDUSUARIO` = u.`idusuario`;
 
 --
 --
@@ -107,9 +128,6 @@ AND p.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` <> 5
 ;
 
--- update pedidos p set p.`CV` = 0 WHERE p.`FECHA_ENTREGA` BETWEEN '2018-01-01' AND '2018-01-31';
--- update ventadirecta v set v.`CV` = 0 where v.`FECHA_PEDIDO` BETWEEN '2018-01-01' AND '2018-01-31';
-
 SELECT *
 FROM ventadirecta v
 WHERE v.`FECHA_PEDIDO` BETWEEN '2018-07-01' AND '2018-07-31'
@@ -120,17 +138,15 @@ AND v.`IDUSUARIO` <> 5
 -- PEDIDOS
 SELECT * FROM pedidos p
 -- UPDATE pedidos p SET p.`CV` = 0
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-06-01' AND '2018-06-30'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
 AND p.`IDUSUARIO` <> 5
 ;
 
 -- CONTADO
 -- UPDATE ventadirecta v SET v.`CV` = 0 
-WHERE v.`FECHA_PEDIDO` BETWEEN '2018-09-01' AND '2018-09-30'
-AND v.`IDUSUARIO` = 5
+WHERE v.`FECHA_PEDIDO` BETWEEN '2019-01-01' AND '2019-01-31'
+AND v.`IDUSUARIO` <> 5
 ;
-
-
 
 
 
