@@ -43,6 +43,13 @@ WHERE pl.fecha BETWEEN '2019-02-01' AND '2019-02-15'
 ORDER BY pl.fecha
 ;
 
+SELECT zo.`idzonaproductiva`, zo.nombre, zo.numero, SUM(ra.cantidadrecibida)AS recibida, SUM(ra.cantidadpesada) AS pesada
+FROM REGISTROACOPIO RA
+LEFT JOIN PLANILLAACOPIO PL ON ra.idplanillaacopio = pl.idplanillaacopio
+LEFT JOIN zonaproductiva zo ON ra.idzonaproductiva = zo.idzonaproductiva
+WHERE pl.fecha BETWEEN '2019-02-01' AND '2019-02-15'
+GROUP BY zo.`idzonaproductiva`, zo.nombre, zo.numero
+;
 
 
 SELECT *
@@ -58,7 +65,7 @@ FROM acopiomateriaprima am
 LEFT JOIN sesionacopio sa ON am.`idsesionacopio` = sa.`idsesionacopio`
 LEFT JOIN zonaproductiva zp ON sa.`idzonaproductiva` = zp.`idzonaproductiva`
 LEFT JOIN persona p ON am.`idproductormateriaprima` = p.`idpersona`
-WHERE sa.`fecha` BETWEEN '2018-06-01' AND '2018-06-30'
+WHERE sa.`fecha` BETWEEN '2019-02-01' AND '2019-02-15'
 GROUP BY MONTH(sa.`fecha`), zp.`numero`, zp.`nombre`, am.`idproductormateriaprima`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`
 ;
 
@@ -75,6 +82,19 @@ AND am.`cantidad` > 0
 GROUP BY MONTH(sa.`fecha`), zp.`numero`, zp.`nombre`, am.`idproductormateriaprima`, e.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`
 ;
 
+-- REPORTE DE ACOPIO POR PRODUCTOR X MES + ci
+-- SELECT day(sa.`fecha`) AS dia, zp.`numero`, zp.`nombre`, am.`idproductormateriaprima` AS idprod, e.`noidentificacion` AS ci, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, SUM(am.`cantidad`) AS CANT
+SELECT DAY(sa.`fecha`) AS dia, zp.`numero`, zp.`nombre`, SUM(am.`cantidad`) AS CANT
+FROM acopiomateriaprima am
+LEFT JOIN sesionacopio sa ON am.`idsesionacopio` = sa.`idsesionacopio`
+LEFT JOIN zonaproductiva zp ON sa.`idzonaproductiva` = zp.`idzonaproductiva`
+LEFT JOIN persona p ON am.`idproductormateriaprima` = p.`idpersona`
+LEFT JOIN entidad e ON p.`idpersona` = e.`identidad`
+WHERE sa.`fecha` BETWEEN '2019-02-01' AND '2019-02-15'
+AND am.`cantidad` > 0
+AND zp.`numero` = 074
+GROUP BY DAY(sa.`fecha`), zp.`numero`, zp.`nombre`
+;
 
 
 

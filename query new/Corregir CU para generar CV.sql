@@ -1,56 +1,50 @@
 -- PROCESO PARA CORREGIR CU EN ARTICULOS PEDIDOS, PARA GENEREAR CV
 -- COSTO DE VENTAS
 --
--- DETALLE DE ARTICULOS VENDIDOS (PEDIDOS), VERIFICAR CU
+-- VENTAS CREDITO - DETALLE VERIFICAR CU
 SELECT p.`FECHA_ENTREGA`, a.`IDARTICULOSPEDIDO`, i.`cod_art`, i.`descri`, a.`PRECIO`, a.`CANTIDAD`, a.`PROMOCION`, a.`REPOSICION`, a.`TOTAL`, a.`IMPORTE`, a.`cu`, p.`CV`
 FROM articulos_pedido a
 JOIN pedidos p 		ON a.`IDPEDIDOS` = p.`IDPEDIDOS`
 JOIN inv_articulos i 	ON a.`cod_art` = i.`cod_art` 
 WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
 AND p.`ESTADO` <> 'ANULADO'
+AND p.idtipopedido IN (1, 6) 
 -- AND p.`IDUSUARIO` <> 5
-AND p.`IDUSUARIO` <> 5
+AND p.`IDUSUARIO` = 5
 ;
 
-SELECT a.`cod_art`, SUM(a.`CANTIDAD`) AS cantidad,  (SUM(a.`CANTIDAD`) * a.`cu`) AS cost_total
+-- VENTAS A CREDITO - COSTO TOTAL
+SELECT a.`cod_art`, a.`cu`, SUM(a.`CANTIDAD`) AS cantidad,  (SUM(a.`CANTIDAD`) * a.`cu`) AS cost_total
 FROM articulos_pedido a
 JOIN pedidos p 		ON a.`IDPEDIDOS` = p.`IDPEDIDOS`
 WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
-AND p.`IDTIPOPEDIDO` = 1
+-- AND p.`IDTIPOPEDIDO` = 1
+AND p.idtipopedido IN (1, 6) 
 AND p.`ESTADO` <> 'ANULADO'
-AND p.`IDUSUARIO` <> 5
-GROUP BY a.`cod_art`
+AND p.`IDUSUARIO` = 5
+GROUP BY a.`cod_art`, a.`cu`
 ;
 
--- DETALLE DE ARTICULOS VENDIDOS (CONTADO), VERIFICAR CU
+-- VENTAS AL CONTADO - DETALLE VERIFICAR CU
 SELECT v.`FECHA_PEDIDO`, a.`IDARTICULOSPEDIDO`, i.`cod_art`, i.`descri`, a.`PRECIO`, a.`CANTIDAD`, a.`PROMOCION`, a.`REPOSICION`, a.`TOTAL`, a.`IMPORTE`, a.`cu`
 FROM articulos_pedido a
 JOIN ventadirecta v 	ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 JOIN inv_articulos i 	ON a.`cod_art` = i.`cod_art` 
 WHERE v.`FECHA_PEDIDO` BETWEEN '2019-01-01' AND '2019-01-31'
 AND v.`ESTADO` <> 'ANULADO'
--- AND v.`IDUSUARIO` IN (6,404)
-AND v.`IDUSUARIO` <> 5
+-- AND v.`IDUSUARIO` <> 5
+AND v.`IDUSUARIO` = 5
 ;
 
-SELECT a.`cod_art`, (SUM(a.`CANTIDAD`) * a.`cu`) AS costo_total
+-- VENTAS AL CONTADO - COSTO TOTAL
+SELECT a.`cod_art`, SUM(a.`CANTIDAD`) AS cantidad,  (SUM(a.`CANTIDAD`) * a.`cu`) AS cost_total
 FROM articulos_pedido a
 JOIN ventadirecta v 	ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 WHERE v.`FECHA_PEDIDO` BETWEEN '2019-01-01' AND '2019-01-31'
 AND v.`ESTADO` <> 'ANULADO'
-AND v.`IDUSUARIO` <> 5
+-- AND v.`IDUSUARIO` <> 5
+AND v.`IDUSUARIO` = 5
 GROUP BY a.`cod_art`
-;
-
-
--- DETALLE DE ARTICULOS VENDIDOS (CONTADO VETERINARIO), VERIFICAR CU
-SELECT v.`FECHA_PEDIDO`, a.`IDARTICULOSPEDIDO`, i.`cod_art`, i.`descri`, a.`PRECIO`, a.`CANTIDAD`, a.`PROMOCION`, a.`REPOSICION`, a.`TOTAL`, a.`IMPORTE`, a.`cu`
-FROM articulos_pedido a
-JOIN ventadirecta v 	ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
-JOIN inv_articulos i 	ON a.`cod_art` = i.`cod_art` 
-WHERE v.`FECHA_PEDIDO` BETWEEN '2018-12-01' AND '2018-12-31'
-AND v.`ESTADO` <> 'ANULADO'
-AND v.`IDUSUARIO` IN (5)
 ;
 
 
@@ -147,6 +141,7 @@ AND p.`IDUSUARIO` <> 5
 WHERE v.`FECHA_PEDIDO` BETWEEN '2019-01-01' AND '2019-01-31'
 AND v.`IDUSUARIO` <> 5
 ;
+
 
 
 

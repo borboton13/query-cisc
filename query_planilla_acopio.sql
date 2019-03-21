@@ -39,6 +39,15 @@ WHERE P.FECHA BETWEEN '2019-02-01' AND '2019-02-15'
 GROUP BY MONTH(P.FECHA)
 ;
 
+SELECT DAY(P.FECHA) AS dia, z.`idzonaproductiva`, z.`numero`, z.`nombre`, SUM(R.CANTIDADRECIBIDA) AS RECIBIDA, SUM(R.CANTIDADPESADA) AS PESADA
+FROM REGISTROACOPIO R
+LEFT JOIN PLANILLAACOPIO P ON R.IDPLANILLAACOPIO = P.IDPLANILLAACOPIO
+LEFT JOIN zonaproductiva z ON r.`idzonaproductiva` = z.`idzonaproductiva`
+WHERE P.FECHA BETWEEN '2019-02-01' AND '2019-02-15'
+AND z.`numero` = 074
+GROUP BY DAY(P.FECHA), z.`idzonaproductiva`, z.`numero`, z.`nombre`
+;
+
 
 SELECT * FROM planillapagomateriaprima;
 SELECT * FROM `descuentproductmateriaprima`;
@@ -78,14 +87,20 @@ WHERE p.fechainicio = '2019-02-01'
 AND r.`liquidopagable` <> 0
 ;
 
-SELECT * FROM registropagomateriaprima r WHERE r.`idregistropagomateriaprima` = 301640;
-SELECT * FROM descuentproductmateriaprima d WHERE d.`iddescuentproductmateriaprima` = 301640;
-UPDATE descuentproductmateriaprima d SET d.`veterinario` = 0 WHERE d.`iddescuentproductmateriaprima` = 298903; -- 300bs
-UPDATE descuentproductmateriaprima d SET d.`veterinario` = 0 WHERE d.`iddescuentproductmateriaprima` = 301640; -- 300bs
 
-SELECT * FROM planillapagomateriaprima p WHERE p.`idplanillapagomateriaprima` = 38514;
-UPDATE planillapagomateriaprima p SET p.`totalveterinarioxgab` = 0, p.`totaliquidoxgab` = 18947.71 WHERE p.`idplanillapagomateriaprima` = 38115; -- 300bs
-UPDATE planillapagomateriaprima p SET p.`totalveterinarioxgab` = 0, p.`totaliquidoxgab` = 24827.8 WHERE p.`idplanillapagomateriaprima` = 38514; -- 300bs
+SELECT  z.`idzonaproductiva`, z.`nombre`, z.`numero`, SUM(r.`cantidadtotal`) AS cantidad
+FROM registropagomateriaprima r
+JOIN descuentproductmateriaprima d 	ON r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
+JOIN persona pe        			ON d.`idproductormateriaprima` = pe.`idpersona`
+JOIN entidad e 				ON pe.`idpersona` = e.`identidad`
+JOIN planillapagomateriaprima p 	ON r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
+JOIN zonaproductiva z 			ON p.`idzonaproductiva` = z.`idzonaproductiva`
+WHERE p.fechainicio = '2019-02-01'
+-- AND r.`liquidopagable` <> 0
+GROUP BY z.`idzonaproductiva`, z.`nombre`, z.`numero`
+;
+
+
 
 -- ---------------------------------------------------------------
 -- ---------------------------------------------------------------
