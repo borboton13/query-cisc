@@ -185,7 +185,11 @@ UPDATE inv_inventario_detalle i SET i.`cantidad`  = 0 WHERE i.`cod_art` = 196;
 SELECT a.`cod_art`, a.`descri`, a.`saldo_mon`, a.`ct`, a.`costo_uni`, a.`cu`, i.`cod_art`, i.`nombre`, i.`costo_uni`
 FROM inv_articulos a
 LEFT JOIN inv_inicio i ON a.`cod_art` = i.`cod_art`
-WHERE a.`cod_alm` = 5
+WHERE a.`cod_alm` = 3
 AND i.`gestion` = 2019
 ;
+
+
+UPDATE inv_inventario i SET i.`saldo_uni` = 0, i.`version` = 0 WHERE i.`cod_alm` = 1;
+UPDATE inv_inventario_detalle i SET i.`cantidad` = 0, i.`version` = 0 WHERE i.`cod_alm` = 1;
 
