@@ -14,7 +14,7 @@ AND p.`IDUSUARIO` = 5
 ;
 
 -- VENTAS A CREDITO - COSTO TOTAL
-SELECT a.`cod_art`, a.`cu`, SUM(a.`CANTIDAD`) AS cantidad,  (SUM(a.`CANTIDAD`) * a.`cu`) AS cost_total
+SELECT a.`cod_art`, SUM(a.`CANTIDAD`) AS cantidad,  (SUM(a.`CANTIDAD`) * a.`cu`) AS cost_total
 FROM articulos_pedido a
 JOIN pedidos p 		ON a.`IDPEDIDOS` = p.`IDPEDIDOS`
 WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
@@ -22,7 +22,7 @@ WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
 AND p.idtipopedido IN (1, 6) 
 AND p.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` = 5
-GROUP BY a.`cod_art`, a.`cu`
+GROUP BY a.`cod_art`
 ;
 
 -- VENTAS AL CONTADO - DETALLE VERIFICAR CU
@@ -54,11 +54,15 @@ GROUP BY a.`cod_art`
 SELECT *
 -- DELETE FROM auxinv
 -- FROM auxinv
-WHERE alm = 2;
+WHERE alm = 5;
 
 -- 2.- Insertar en tabla auxiliar
 -- INSERT INTO auxinv... (A_PROCESO_INV)
-
+INSERT INTO auxinv
+SELECT i.`cod_art`, i.`descri`, NULL, NULL, NULL, NULL, 5, NULL, i.`costo_uni`
+FROM inv_articulos i
+WHERE i.`cod_alm` = 5
+;
 
 --
 -- 3.- actualizar costos
@@ -86,7 +90,8 @@ JOIN auxinv ai		ON a.`cod_art` = ai.`cod_art`
 SET a.`cu` = ai.costo_prom
 WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
 AND p.`ESTADO` <> 'ANULADO'
-AND p.`IDUSUARIO` <> 5
+-- AND p.`IDUSUARIO` <> 5
+AND p.`IDUSUARIO` = 5
 ;
 
 
@@ -99,7 +104,8 @@ JOIN auxinv ai		ON a.`cod_art` = ai.`cod_art`
 SET a.`cu` = ai.costo_prom
 WHERE v.`FECHA_PEDIDO` BETWEEN '2019-01-01' AND '2019-01-31'
 AND v.`ESTADO` <> 'ANULADO'
-AND v.`IDUSUARIO` <> 5
+-- AND v.`IDUSUARIO` <> 5
+AND v.`IDUSUARIO` = 5
 ;
 
 
