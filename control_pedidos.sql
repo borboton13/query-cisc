@@ -65,11 +65,11 @@ FROM articulos_pedido a
 LEFT JOIN ventadirecta v ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 LEFT JOIN personacliente pc ON v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE v.`FECHA_PEDIDO` BETWEEN '2019-01-02' AND '2019-01-02'
+WHERE v.`FECHA_PEDIDO` BETWEEN '2019-01-02' AND '2019-12-31'
 -- AND v.idventadirecta >= 25681
 -- AND p.`IDPEDIDOS` IN (21928)
 -- AND p.`IDCLIENTE` = 65
--- AND v.`CODIGO` = 4177
+AND v.`CODIGO` IN (2396)
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 2584
 -- AND pc.`AP` LIKE '%Car%'
