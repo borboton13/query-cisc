@@ -186,12 +186,12 @@ SELECT 	DISTINCT
 	op.`idordenproduccion`, 
 	pl.`fecha`,
 	op.`codigo`, 
-	op.`cantidadproducida`, 
 	op.`preciototalmaterial`, 	
 	op.`preciototalinsumo`,
 	op.`preciototalmanoobra`,
 	op.`totalcostoindirecto`,
 	op.`costotoalproduccion`,
+	op.`cantidadproducida`, 
 	op.`costounitario`,
 	oi.`idordeninsumo`,
 	oi.`cod_art`, oi.`cantidad`, oi.`costototal`, oi.`costounitario`
@@ -200,8 +200,8 @@ LEFT JOIN ordeninsumo oi		ON op.`idordenproduccion` = oi.`idordenproduccion`
 LEFT JOIN ordenmaterial om		ON op.`idordenproduccion` = om.`idordenproduccion`
 LEFT JOIN costosindirectos ci 		ON op.`idordenproduccion` = ci.`idordenproduccion`
 LEFT JOIN planificacionproduccion pl 	ON op.`idplanificacionproduccion` = pl.`idplanificacionproduccion`
-WHERE pl.`fecha` BETWEEN '2019-01-27' AND '2019-01-27'
-AND oi.`cod_art` = 1
+WHERE pl.`fecha` BETWEEN '2018-12-26' AND '2018-12-26'
+-- AND oi.`cod_art` = 1
 -- AND om.`cod_art` = 74
 ;
 
@@ -222,8 +222,8 @@ LEFT JOIN ordeninsumo oi		ON pb.`idproductobase` = oi.`idproductobase`
 -- LEFT JOIN ordenmaterial om		ON om.`idordenproduccion`
 LEFT JOIN costosindirectos ci 		ON ps.`idproductosimple` = ci.`idproductosimple`
 LEFT JOIN planificacionproduccion pl 	ON pb.`idplanificacionproduccion` = pl.`idplanificacionproduccion`
-WHERE pl.`fecha` BETWEEN '2017-02-01' AND '2017-02-28'
-AND oi.`cod_art` = 1
+WHERE pl.`fecha` BETWEEN '2018-12-26' AND '2018-12-26'
+-- AND oi.`cod_art` = 1
 ;
 
 SELECT *
