@@ -168,18 +168,6 @@ LEFT JOIN (
 LEFT JOIN inv_articulos i ON ped.cod_Art = i.`cod_art`
 ;
 
-SELECT *
-FROM productosimple p
-UPDATE productosimple p SET p.`estado` = ''
-WHERE p.`idproductosimple` IN (
-
-);
-
-SELECT *
-FROM planificacionproduccion p
-WHERE p.`fecha` BETWEEN '2017-01-01' AND '2017-01-31'
-;
-
 
 /** PARA CAMBIAR COSTO UNITARIO DEL AGUA 152 **/
 SELECT 	DISTINCT
@@ -300,7 +288,68 @@ WHERE p.fecha BETWEEN '2019-01-01' AND '2019-01-31'
 
 
 
-SELECT * FROM planificacionproduccion p
--- update planificacionproduccion p set p.`estado` = 'PENDING'
-WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+
+
+-- COSTOS TOTALES PRODUCCION NORMAL
+	SELECT m.`cod_art`, m.`descripcion`, SUM(op.`cantidadproducida`) AS cantidad, SUM(op.`costotoalproduccion`) AS costototal, (SUM(op.`costotoalproduccion`) / SUM(op.`cantidadproducida`)) AS cu
+	FROM ordenproduccion op
+	LEFT JOIN planificacionproduccion p 	ON op.`idplanificacionproduccion` = p.`idplanificacionproduccion`
+	LEFT JOIN composicionproducto c 	ON op.`idcomposicionproducto` = c.`idcomposicionproducto`
+	LEFT JOIN productoprocesado pp 		ON c.`idproductoprocesado` = pp.`idproductoprocesado`
+	LEFT JOIN metaproductoproduccion m 	ON pp.`idproductoprocesado` = m.`idmetaproductoproduccion`
+	WHERE p.fecha BETWEEN '2019-01-01' AND '2019-01-31'
+	GROUP BY m.`cod_art`, m.`descripcion`
+	;
+
+
+	-- COSTOS TOTALES REPROCESOS
+	SELECT m.`cod_art`, m.`descripcion`, SUM(ps.`cantidad`) AS cantidad, SUM(ps.`costototalproduccion`) AS costototal 
+	FROM productosimple ps
+	LEFT JOIN productobase pb ON ps.`idproductobase` = pb.`idproductobase`
+	LEFT JOIN planificacionproduccion p ON pb.`idplanificacionproduccion` = p.`idplanificacionproduccion`
+	LEFT JOIN productosimpleprocesado pr ON ps.`idproductosimple` = pr.`idproductosimple`
+	LEFT JOIN metaproductoproduccion m ON pr.`idmetaproductoproduccion` = m.`idmetaproductoproduccion`
+	WHERE p.fecha BETWEEN '2019-01-01' AND '2019-01-31'
+	GROUP BY m.`cod_art`, m.`descripcion`
+	;
+
+
+
+
+SELECT t.`COD_ART`, t.`NOMBRE`, SUM(t.`COSTOTOTALPRODUCCION`) AS COSTO_TOTAL, SUM(t.`CANT_TOTAL`) AS CANT_TOTAL, SUM(t.`COSTOTOTALPRODUCCION`) / SUM(t.`CANT_TOTAL`) AS COSTO_UNI
+FROM producciontotal t
+WHERE t.`FECHA` BETWEEN '2019-01-01' AND '2019-01-31'
+GROUP BY t.`COD_ART`, t.`NOMBRE`
 ;
+
+SELECT CONCAT(i.`gestion`, '-01-01') AS fecha, i.`cod_art`, i.`nombre`, '0000-0000', i.`cantidad`, 0, 0, 0, (i.`cantidad` * i.`costo_uni`) AS COSTOTOTALPRODUCCION
+FROM inv_inicio i 
+WHERE i.`alm` = 2
+AND i.`cantidad` > 0
+;
+
+
+-- Produccion Total - costo_uni
+SELECT t.`COD_ART`, t.`NOMBRE`, SUM(t.`COSTOTOTALPRODUCCION`), SUM(t.`CANT_TOTAL`), (SUM(t.`COSTOTOTALPRODUCCION`)/SUM(t.`CANT_TOTAL`))
+FROM producciontotal t
+WHERE t.`FECHA` BETWEEN '2019-01-01' AND '2019-01-31'
+GROUP BY t.`COD_ART`, t.`NOMBRE`
+;
+
+SELECT t.`COD_ART`, t.`NOMBRE`, SUM(t.`COSTOTOTALPRODUCCION`), SUM(t.`CANT_TOTAL`), (SUM(t.`COSTOTOTALPRODUCCION`)/SUM(t.`CANT_TOTAL`))
+FROM producciontotal t
+WHERE t.`FECHA` BETWEEN '2019-01-01' AND '2019-01-31'
+AND t.`COD_ART` = 118
+GROUP BY t.`COD_ART`, t.`NOMBRE`
+;
+
+-- Ventas Totales
+SELECT v.`cod_art`, a.`descri`, SUM(v.`CANTIDAD`), SUM(v.`PROMOCION`), SUM(v.`REPOSICION`), SUM(v.`TOTAL`)
+FROM ventas v
+LEFT JOIN inv_articulos a ON v.`cod_art` = a.`cod_art`
+WHERE v.`FECHA` BETWEEN '2019-01-01' AND '2019-01-31'
+AND v.`idusuario` <> 5
+GROUP BY v.`cod_art`, a.`descri`
+;
+
+
