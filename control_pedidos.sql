@@ -13,10 +13,25 @@ AND a.`cod_art` IN (237)
 SELECT p.`IDPEDIDOS`, pc.`NOM`, pc.`AP`, pc.`AM`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`TOTAL`, p.`TOTALIMPORTE`, p.`id_tmpenc`
 FROM pedidos p
 LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-05'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
 -- AND p.`ESTADO` <> 'ANULADO'
 -- AND pc.`NOM` LIKE '%Edelfr%'
 ;
+
+-- PEDIDOS - ASIENTOS
+SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`IDTIPOPEDIDO`, t.`NOMBRE`, p.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`
+FROM pedidos p
+JOIN tipopedido t ON p.`IDTIPOPEDIDO` = t.`IDTIPOPEDIDO`
+JOIN sf_tmpenc e ON p.`id_tmpenc` = e.`id_tmpenc`
+JOIN sf_tmpdet d ON e.`id_tmpenc` = d.`id_tmpenc`
+JOIN arcgms a 	 ON d.`cuenta` = a.`cuenta`
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-03-31'
+AND p.`ESTADO` <> 'ANULADO'
+AND p.`IDUSUARIO` <> 5
+;
+
+
+
 -- ----------------------------------------------------------------
 -- --------------------- DETALLE DE PEDIDOS -----------------------
 SELECT 	p.`FECHA_ENTREGA` AS FECHA, 

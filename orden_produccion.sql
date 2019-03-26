@@ -342,6 +342,14 @@ WHERE t.`FECHA` BETWEEN '2019-01-01' AND '2019-01-31'
 GROUP BY t.`COD_ART`, t.`NOMBRE`
 ;
 
+SELECT d.`cod_art`, SUM(d.`monto`), SUM(d.`cantidad`), SUM(d.`monto`) / SUM(d.`cantidad`)
+FROM inv_movdet d
+LEFT JOIN inv_vales v ON d.`no_trans` = v.`no_trans`
+WHERE v.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+AND v.`cod_alm` = 2 AND v.id
+GROUP BY d.`cod_art`
+;
+
 SELECT t.`COD_ART`, t.`NOMBRE`, SUM(t.`COSTOTOTALPRODUCCION`), SUM(t.`CANT_TOTAL`), (SUM(t.`COSTOTOTALPRODUCCION`)/SUM(t.`CANT_TOTAL`))
 FROM producciontotal t
 WHERE t.`FECHA` BETWEEN '2019-01-01' AND '2019-01-31'
@@ -349,11 +357,43 @@ WHERE t.`FECHA` BETWEEN '2019-01-01' AND '2019-01-31'
 GROUP BY t.`COD_ART`, t.`NOMBRE`
 ;
 
+	SELECT d.`cod_art`, SUM(d.`monto`), SUM(d.`cantidad`), SUM(d.`monto`) / SUM(d.`cantidad`)
+	-- SELECT d.`cod_art`, d.`monto`, d.`cantidad`, d.`preciounitcompra`, v.`id_com_encoc`
+	FROM inv_movdet d
+	LEFT JOIN inv_vales v ON d.`no_trans` = v.`no_trans`
+	WHERE v.`fecha` BETWEEN '2019-01-01' AND '2019-03-31'
+	AND v.`cod_alm` = 2 AND d.tipo_mov = 'E' AND v.id_com_encoc IS NOT NULL
+	GROUP BY d.`cod_art`
+	;
+
+
 SELECT t.`COD_ART`, (SUM(t.`COSTOTOTALPRODUCCION`)/SUM(t.`CANT_TOTAL`))
 FROM producciontotal t
 WHERE t.`FECHA` BETWEEN '2019-01-01' AND '2019-01-31'
 GROUP BY t.`COD_ART`
 ;
+
+SELECT z.cod_art, SUM(z.monto) / SUM(z.cantidad)
+FROM (
+	SELECT d.`cod_art`, SUM(d.`monto`) AS monto, SUM(d.`cantidad`) AS cantidad
+	FROM inv_movdet d
+	LEFT JOIN inv_vales v ON d.`no_trans` = v.`no_trans`
+	WHERE v.`fecha` BETWEEN '2019-01-01' AND '2019-03-31'
+	AND v.`cod_alm` = 2 AND d.tipo_mov = 'E' AND v.id_com_encoc IS NOT NULL
+	GROUP BY d.`cod_art`
+	UNION
+	SELECT t.`COD_ART`, SUM(t.`COSTOTOTALPRODUCCION`) AS monto,   SUM(t.`CANT_TOTAL`) AS cantidad
+	FROM producciontotal t
+	WHERE t.`FECHA` BETWEEN '2019-01-01' AND '2019-01-31'
+	GROUP BY t.`COD_ART`
+) z 
+GROUP BY z.cod_art
+;
+
+
+
+
+
 
 -- Ventas Totales
 SELECT v.`cod_art`, a.`descri`, SUM(v.`CANTIDAD`), SUM(v.`PROMOCION`), SUM(v.`REPOSICION`), SUM(v.`TOTAL`)
@@ -394,6 +434,7 @@ AND v.`cod_alm` = 5
 GROUP BY d.`cod_art`
 ;
 
+-- compras veterinarias
 SELECT z.cod_art, SUM(z.monto) / SUM(z.cantidad)
 FROM (
 	SELECT d.`cod_art`, d.`monto`, d.`cantidad`
@@ -411,6 +452,7 @@ FROM (
 ) z 
 GROUP BY z.cod_art
 ;
+
 
 
 

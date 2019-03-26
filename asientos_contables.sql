@@ -472,6 +472,19 @@ AND v.`CV` = 1
 GROUP BY MONTH(v.`FECHA_PEDIDO`), a.`cod_art`, i.`descri`
 ;
 
+--
+-- CUENTA PRODUCTOS TERMINADOS MIRABEL - VALES
+SELECT e.`id_tmpenc`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, e.`cod_prov`, v.`no_trans`, v.`cod_doc`, v.`no_vale`, v.`cod_alm`, v.`id_com_encoc`, e.`glosa`
+FROM sf_tmpenc e 
+JOIN sf_tmpdet d ON e.`id_tmpenc` = d.`id_tmpenc`
+JOIN arcgms a 	 ON d.`cuenta` = a.`cuenta`
+JOIN inv_vales v ON e.`id_tmpenc` = v.`idtmpenc`
+WHERE e.`fecha` BETWEEN '2019-01-01' AND '2019-03-31'
+AND e.`estado` <> 'ANL'
+AND e.`tipo_doc` = 'TR'
+AND d.`cuenta` = '1510110201'
+-- and e.`no_doc` in (1819)
+;
 
 
 
