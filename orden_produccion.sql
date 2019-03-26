@@ -336,11 +336,23 @@ WHERE t.`FECHA` BETWEEN '2019-01-01' AND '2019-01-31'
 GROUP BY t.`COD_ART`, t.`NOMBRE`
 ;
 
+SELECT *
+FROM producciontotal t
+WHERE t.`FECHA` BETWEEN '2019-01-01' AND '2019-01-31'
+GROUP BY t.`COD_ART`, t.`NOMBRE`
+;
+
 SELECT t.`COD_ART`, t.`NOMBRE`, SUM(t.`COSTOTOTALPRODUCCION`), SUM(t.`CANT_TOTAL`), (SUM(t.`COSTOTOTALPRODUCCION`)/SUM(t.`CANT_TOTAL`))
 FROM producciontotal t
 WHERE t.`FECHA` BETWEEN '2019-01-01' AND '2019-01-31'
-AND t.`COD_ART` = 118
+-- AND t.`COD_ART` = 118
 GROUP BY t.`COD_ART`, t.`NOMBRE`
+;
+
+SELECT t.`COD_ART`, (SUM(t.`COSTOTOTALPRODUCCION`)/SUM(t.`CANT_TOTAL`))
+FROM producciontotal t
+WHERE t.`FECHA` BETWEEN '2019-01-01' AND '2019-01-31'
+GROUP BY t.`COD_ART`
 ;
 
 -- Ventas Totales
@@ -348,8 +360,62 @@ SELECT v.`cod_art`, a.`descri`, SUM(v.`CANTIDAD`), SUM(v.`PROMOCION`), SUM(v.`RE
 FROM ventas v
 LEFT JOIN inv_articulos a ON v.`cod_art` = a.`cod_art`
 WHERE v.`FECHA` BETWEEN '2019-01-01' AND '2019-01-31'
-AND v.`idusuario` <> 5
+AND v.`idusuario` = 5
 GROUP BY v.`cod_art`, a.`descri`
 ;
+
+-- COMPRAS PROD VETE
+SELECT *
+FROM com_detoc d
+JOIN com_encoc e ON d.`id_com_encoc` = e.`id_com_encoc`
+WHERE e.`fecha_recepcion` BETWEEN '2019-01-01' AND '2019-01-31'
+AND e.`cod_alm` = 5
+;
+
+SELECT *
+FROM inv_movdet d
+LEFT JOIN inv_vales v ON d.`no_trans` = v.`no_trans`
+WHERE v.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+AND v.`cod_alm` = 5
+;
+SELECT d.`cod_art`, SUM(d.`monto`), SUM(d.`cantidad`), SUM(d.`monto`) / SUM(d.`cantidad`)
+FROM inv_movdet d
+LEFT JOIN inv_vales v ON d.`no_trans` = v.`no_trans`
+WHERE v.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+AND v.`cod_alm` = 5
+GROUP BY d.`cod_art`
+;
+
+SELECT d.`cod_art`, SUM(d.`monto`) / SUM(d.`cantidad`)
+FROM inv_movdet d
+LEFT JOIN inv_vales v ON d.`no_trans` = v.`no_trans`
+WHERE v.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+AND v.`cod_alm` = 5
+GROUP BY d.`cod_art`
+;
+
+SELECT z.cod_art, SUM(z.monto) / SUM(z.cantidad)
+FROM (
+	SELECT d.`cod_art`, d.`monto`, d.`cantidad`
+	FROM inv_movdet d
+	LEFT JOIN inv_vales v ON d.`no_trans` = v.`no_trans`
+	WHERE v.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+	AND v.`cod_alm` = 5
+	AND d.tipo_mov = 'E' AND v.id_com_encoc IS NOT NULL
+	UNION
+	SELECT i.`cod_art`, (i.`costo_uni` * i.`cantidad`) AS monto, i.cantidad
+	FROM inv_inicio i
+	WHERE i.`gestion` = 2019
+	AND i.`alm` = 5
+	AND i.`cantidad` > 0
+) z 
+GROUP BY z.cod_art
+;
+
+
+
+
+
+
 
 
