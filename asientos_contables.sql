@@ -11,18 +11,19 @@ WHERE d.`id_tmpenc` IN (
 -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
--- delete from sf_tmpdet where id_tmpenc in (104877,104878);
--- DELETE FROM sf_tmpenc WHERE id_tmpenc in (104877,104878);
+-- delete from sf_tmpdet where id_tmpenc in (104879, 104880);
+-- DELETE FROM sf_tmpenc WHERE id_tmpenc in (104879, 104880);
 
 --
 -- Detalle por TipoDoc
-SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` AS tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`id_tmpenc`, e.`estado`, d.`idpersonacliente`, d.`cod_prov`
+SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` AS tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`id_tmpenc`, e.`estado`, 
+d.`idpersonacliente`, d.`cod_prov`, d.`cod_art`, d.`cant_art`
 FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
-WHERE e.`tipo_doc` = 'CP'
-AND e.`no_doc` IN (235)
+WHERE e.`tipo_doc` = 'PD'
+AND e.`no_doc` IN (20)
 AND e.`fecha` BETWEEN '2019-01-01' AND '2019-12-31'
 ;
 
@@ -31,11 +32,11 @@ SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` AS tipo, e.`no_doc`
 FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
-WHERE e.`tipo_doc` = 'TR'
-AND e.`glosa` LIKE '%RECEPCION%ALM PRODUCTOS TERMINADOS)%'
+WHERE e.`tipo_doc` = 'CV'
+-- AND e.`glosa` LIKE '%RECEPCION%ALM PRODUCTOS TERMINADOS)%'
 -- AND e.`glosa` LIKE '%CONSUMO, EGRESO, ALMACEN (ALM INSUMOS DE PRODUCCION)%'
 -- AND e.`glosa` LIKE '%CONSUMO, EGRESO, ALMACEN (ALM MATERIALES DE PRODUCCION)%'
-AND e.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+AND e.`fecha` BETWEEN '2019-01-01' AND '2019-03-31'
 -- AND e.`estado` <> 'ANL'
 ;
 
@@ -485,6 +486,7 @@ AND e.`tipo_doc` = 'TR'
 AND d.`cuenta` = '1510110201'
 -- and e.`no_doc` in (1819)
 ;
+
 
 
 

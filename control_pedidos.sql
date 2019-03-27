@@ -351,6 +351,18 @@ WHERE p.`FECHA_ENTREGA` BETWEEN '2016-09-01' AND '2016-09-30'
 AND P.`ESTADO` <> 'ANULADO'
 GROUP BY a.`cod_art`, ar.`descri`;
 
+-- Degustacion, Reposicion
+SELECT a.`cod_art` AS COD_ART, ar.`descri` AS PRODUCTO, SUM(a.`CANTIDAD`) AS CANTIDAD
+FROM articulos_pedido a
+LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
+LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
+-- and p.`IDTIPOPEDIDO` = 2 	-- Degustacion
+-- and p.`IDTIPOPEDIDO` = 3 	-- Refrigerio
+AND p.`IDTIPOPEDIDO` = 4 	-- Reposicion
+AND P.`ESTADO` <> 'ANULADO'
+GROUP BY a.`cod_art`, ar.`descri`;
+
 --
 
 

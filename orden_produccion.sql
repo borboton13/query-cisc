@@ -391,10 +391,6 @@ GROUP BY z.cod_art
 ;
 
 
-
-
-
-
 -- Ventas Totales
 SELECT v.`cod_art`, a.`descri`, SUM(v.`CANTIDAD`), SUM(v.`PROMOCION`), SUM(v.`REPOSICION`), SUM(v.`TOTAL`)
 FROM ventas v
@@ -403,6 +399,54 @@ WHERE v.`FECHA` BETWEEN '2019-01-01' AND '2019-01-31'
 AND v.`idusuario` = 5
 GROUP BY v.`cod_art`, a.`descri`
 ;
+
+SELECT v.`cod_art`, a.`descri`, v.`CANTIDAD`, v.`PROMOCION`, v.`REPOSICION`, v.`TOTAL`, v.`idtipopedido`
+FROM ventas v
+LEFT JOIN inv_articulos a ON v.`cod_art` = a.`cod_art`
+WHERE v.`FECHA` BETWEEN '2019-01-01' AND '2019-01-31'
+AND v.`idusuario` <> 5 AND v.`idtipopedido` IN (1,5)
+;
+
+-- REPOSICIONES y PROMOCIONES
+SELECT z.cod_art, SUM(z.cantidad)
+FROM (	-- REPOSICIONES + PROMOCION EN PEDIDOS NORMALES
+	SELECT a.`cod_art`, SUM(a.`REPOSICION`) + SUM(a.`PROMOCION`) AS cantidad
+	FROM articulos_pedido a
+	LEFT JOIN pedidos p ON a.`IDPEDIDOS` = p.`IDPEDIDOS`
+	WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
+	AND p.`IDTIPOPEDIDO` = 1 AND p.`ESTADO` <> 'ANULADO'
+	GROUP BY a.`cod_art`
+	UNION
+	-- REPOSICIONES
+	SELECT a.`cod_art`, SUM(a.`CANTIDAD`) AS cantidad
+	FROM articulos_pedido a
+	LEFT JOIN pedidos p ON a.`IDPEDIDOS` = p.`IDPEDIDOS`
+	WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
+	AND p.`IDTIPOPEDIDO` = 4 AND p.`ESTADO` <> 'ANULADO'
+	GROUP BY a.`cod_art`
+) z 
+GROUP BY z.cod_art
+;
+
+
+SELECT a.`cod_art`, SUM(a.`REPOSICION`) + SUM(a.`PROMOCION`)
+FROM articulos_pedido a
+LEFT JOIN pedidos p ON a.`IDPEDIDOS` = p.`IDPEDIDOS`
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
+AND p.`IDTIPOPEDIDO` = 1 AND p.`ESTADO` <> 'ANULADO'
+GROUP BY a.`cod_art`
+;	
+
+
+-- DEGUSTACION
+SELECT a.`cod_art`, SUM(a.`CANTIDAD`) AS degustacion
+FROM articulos_pedido a
+LEFT JOIN pedidos p ON a.`IDPEDIDOS` = p.`IDPEDIDOS`
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
+AND p.`IDTIPOPEDIDO` = 2 AND p.`ESTADO` <> 'ANULADO'
+GROUP BY a.`cod_art`
+;
+
 
 -- COMPRAS PROD VETE
 SELECT *
