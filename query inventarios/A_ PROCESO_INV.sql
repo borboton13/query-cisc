@@ -19,7 +19,7 @@ LEFT JOIN (
 	GROUP BY v.`cod_art`, a.`descri`
 	) vv ON t.`cod_art` = vv.cod_art
 LEFT JOIN (
-	SELECT p.`COD_ART`, p.`NOMBRE`, SUM((p.`CANTIDAD_SP` + p.`REPROCESO_SP`)) AS prod_total
+	SELECT p.`COD_ART`, p.`NOMBRE`, SUM((p.`CANTIDAD_SC` + p.`REPROCESO_SC`)) AS prod_total
 	FROM producciontotal p
 	WHERE p.`FECHA` BETWEEN '2019-01-01' AND '2019-12-31'
 	GROUP BY p.`COD_ART`, p.`NOMBRE`
@@ -190,6 +190,6 @@ AND i.`gestion` = 2019
 ;
 
 
-UPDATE inv_inventario i SET i.`saldo_uni` = 0, i.`version` = 0 WHERE i.`cod_alm` = 1;
-UPDATE inv_inventario_detalle i SET i.`cantidad` = 0, i.`version` = 0 WHERE i.`cod_alm` = 1;
+-- UPDATE inv_inventario i SET i.`saldo_uni` = 0, i.`version` = 0 WHERE i.`cod_alm` = 1;
+-- UPDATE inv_inventario_detalle i SET i.`cantidad` = 0, i.`version` = 0 WHERE i.`cod_alm` = 1;
 

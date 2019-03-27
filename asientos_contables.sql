@@ -11,8 +11,8 @@ WHERE d.`id_tmpenc` IN (
 -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
--- delete from sf_tmpdet where id_tmpenc in (104879, 104880);
--- DELETE FROM sf_tmpenc WHERE id_tmpenc in (104879, 104880);
+-- delete from sf_tmpdet where id_tmpenc in (105559);
+-- DELETE FROM sf_tmpenc WHERE id_tmpenc in (105559);
 
 --
 -- Detalle por TipoDoc
@@ -22,10 +22,16 @@ FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
-WHERE e.`tipo_doc` = 'PD'
-AND e.`no_doc` IN (20)
+WHERE e.`tipo_doc` = 'CV'
+AND e.`no_doc` IN (5)
 AND e.`fecha` BETWEEN '2019-01-01' AND '2019-12-31'
 ;
+
+UPDATE sf_tmpenc e SET e.`glosa` = ''
+WHERE e.`id_tmpenc` = ;
+
+
+
 
 -- Detalle por Glosa
 SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` AS tipo, e.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`id_tmpenc`, e.`estado`, d.`idpersonacliente`, d.`cod_prov`
@@ -66,7 +72,7 @@ WHERE v.`cod_doc` = 'EGR'
 ;
 
 -- -------------------------------------------------
--- ASIENTOS, PEDIDOS COMISION
+-- ASIENTOS, PEDIDOS 
 SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` AS tipo, e.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, p.`TOTALIMPORTE`, p.`PORCENTAJECOMISION`, p.`VALORCOMISION`, d.`debe`, d.`haber`, d.`id_tmpenc`, e.`estado`, d.`idpersonacliente`, d.`cod_prov`
 FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
@@ -75,12 +81,14 @@ LEFT JOIN pedidos p   ON e.`id_tmpenc` = p.`id_tmpenc`
 WHERE d.`id_tmpenc` IN (
 	SELECT p.`id_tmpenc`
 	FROM pedidos p
-	WHERE p.`FECHA_ENTREGA` BETWEEN '2016-05-01' AND '2016-08-11'
-	-- AND p.`IDMOVIMIENTO` IS NOT NULL
+	WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-12-31'
+	AND p.`CODIGO` = 1935
 	AND p.`ESTADO` <> 'ANULADO'
-	AND p.`VALORCOMISION` > 0
+	-- AND p.`VALORCOMISION` > 0
 )
 ;
+
+-- delete_ from sf_tmpdet where id_tmpdet in (589056, 589057, 589078, 589079, 589085, 589086, 589092, 589093, 589109, 589110)
 -- --------------------------------------------------
 
 SELECT d.`id_tmpdet`, e.`tipo_doc`, e.`no_trans`, e.`glosa`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`no_trans`, d.`id_tmpenc`
