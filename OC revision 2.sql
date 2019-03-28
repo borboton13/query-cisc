@@ -26,9 +26,8 @@ AND d.`cod_art` = 35
 SELECT e.`id_com_encoc`, e.`fecha`, e.`fecha_recepcion`, e.`no_orden`, d.`cod_art`, d.`cant_sol`, d.`costo_uni`, d.`total` , e.`glosa`
 FROM com_detoc d
 LEFT JOIN com_encoc e ON d.`id_com_encoc` = e.`id_com_encoc`
-WHERE e.fecha BETWEEN '2017-01-01' AND '2017-12-31'
--- WHERE e.`fecha_recepcion` BETWEEN '2017-01-01' AND '2017-12-31'
-AND d.`cod_art` = 280
+WHERE e.fecha BETWEEN '2019-01-01' AND '2019-12-31'
+AND e.`no_orden` = 'CISC-INV-4'
 ;
 
 

@@ -6,7 +6,7 @@ FROM ordenproduccion o
 -- UPDATE ordenproduccion o
 JOIN planificacionproduccion p ON o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
 SET o.`estadoorden` = 'FINALIZED'
-WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+WHERE p.`fecha` BETWEEN '2019-02-01' AND '2019-02-28'
 -- AND o.codigo = '1611-0035'
 ;
 
@@ -16,10 +16,13 @@ FROM productosimple ps
 -- UPDATE productosimple ps 
 JOIN productobase pb ON ps.`idproductobase` = pb.`idproductobase`
 JOIN planificacionproduccion p ON pb.`idplanificacionproduccion` = p.`idplanificacionproduccion`
-WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
-SET ps.`estado` = 'FINALIZED' -- , pb.`estado` = 'FINALIZED'
-WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+-- WHERE p.`fecha` BETWEEN '2019-02-01' AND '2019-02-28'
+SET ps.`estado` = 'FINALIZED' 
+WHERE p.`fecha` BETWEEN '2019-02-01' AND '2019-02-28'
 ;
+
+-- , pb.`estado` = 'FINALIZED'
+
 -- ------------------------------------------------------
 -- ------
 -- ORDEN PRODUCCION - VALES
