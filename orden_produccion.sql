@@ -551,17 +551,18 @@ GROUP BY i.`cod_art`
 ;
 
 -- VALES PROD TERM
-SELECT v.`fecha`, v.`no_vale`, v.`no_trans`, d.cod_art, a.`descri`, v.`cod_doc`, d.`tipo_mov`, d.monto, d.cantidad, d.`costounitario`, d.`preciounitcompra`, v.`orig`, v.`idordenproduccion`, v.`idproductobase`, v.`id_com_encoc`, v.`idtmpenc`, m.`descri`
+SELECT v.`fecha`, v.`no_vale`, v.`no_trans`, d.cod_art, a.`descri`, v.`cod_doc`, d.`tipo_mov`, d.monto, d.cantidad, d.`costounitario`, d.`preciounitcompra`, v.`oper`, v.`idordenproduccion`, v.`idproductobase`, v.`id_com_encoc`, v.`idtmpenc`, m.`descri`
 FROM inv_movdet d 
 LEFT JOIN inv_articulos a ON d.`cod_art` = a.`cod_art`
 LEFT JOIN inv_mov m ON d.`no_trans` = m.`no_trans`
 LEFT JOIN inv_vales v ON d.no_trans = v.no_trans 
 WHERE v.fecha BETWEEN '2019-01-01' AND '2019-03-31'
 AND v.cod_alm = 2 
--- AND d.tipo_mov = 'E' 
-AND v.id_com_encoc IS NULL  
-AND v.`idordenproduccion` IS NULL
-AND v.`idproductobase` IS NULL
+AND v.`oper` IN ('TP', 'BA', 'DE')
+AND v.`idtmpenc` IS NULL
+-- AND v.id_com_encoc IS NULL  
+-- AND v.`idordenproduccion` IS NULL
+-- AND v.`idproductobase` IS NULL
 ;
 
 
