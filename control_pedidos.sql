@@ -53,7 +53,7 @@ LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
 WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-12-31'
 -- AND p.`IDPEDIDOS` >= 23759
 -- AND p.`IDCLIENTE` = 65
-AND p.`CODIGO` IN (1898)
+AND p.`CODIGO` IN (2054)
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 29988
 -- AND pc.`AP` LIKE '%Car%'
@@ -62,7 +62,7 @@ AND p.`CODIGO` IN (1898)
 ;
 
 -- delete from articulos_pedido where IDARTICULOSPEDIDO = 285984;
-UPDATE pedidos p SET p.`FECHA_ENTREGA` = '2019-03-27' WHERE p.`IDPEDIDOS` = 30300; 
+-- UPDATE pedidos p SET p.`FECHA_ENTREGA` = '2019-04-01' WHERE p.`IDPEDIDOS` = 30456; -- 2019-04-01
 
 SELECT *
 FROM ventaarticulo a
@@ -173,7 +173,7 @@ FROM articulos_pedido a
 LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
 LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2019-02-01' AND '2019-02-28'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-03-01' AND '2019-03-31'
 AND P.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` <> 5
 -- AND pc.`NOM` LIKE '%TORRES%'
@@ -189,7 +189,7 @@ FROM articulos_pedido a
 LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
 LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2019-02-01' AND '2019-02-28'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-03-01' AND '2019-03-31'
 AND P.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` <> 5
 -- AND p.`IDCLIENTE` = 165
@@ -207,7 +207,7 @@ FROM articulos_pedido a
 LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
 LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2019-02-01' AND '2019-02-28'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-03-01' AND '2019-03-31'
 AND P.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` <> 5
 -- AND pc.`NOM` LIKE '%TORRES%'
@@ -222,7 +222,7 @@ FROM articulos_pedido a
 LEFT JOIN ventadirecta v ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 LEFT JOIN personacliente pc ON v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE v.`FECHA_PEDIDO` BETWEEN '2019-02-01' AND '2019-02-28'
+WHERE v.`FECHA_PEDIDO` BETWEEN '2019-03-01' AND '2019-03-31'
 AND v.`ESTADO` <> 'ANULADO'
 -- AND ar.`cuenta_art` = '4420110201'
 AND v.`IDUSUARIO` <> 5
@@ -239,7 +239,7 @@ FROM articulos_pedido a
 LEFT JOIN ventadirecta v ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 LEFT JOIN personacliente pc ON v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE v.`FECHA_PEDIDO` BETWEEN '2019-02-01' AND '2019-02-28'
+WHERE v.`FECHA_PEDIDO` BETWEEN '2019-03-01' AND '2019-03-31'
 AND v.`ESTADO` <> 'ANULADO'
 -- AND V.`IDUSUARIO` IN (6, 404)
 AND v.`IDUSUARIO` <> 5
