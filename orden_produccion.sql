@@ -5,23 +5,23 @@ SELECT *
 FROM ordenproduccion o
 -- UPDATE ordenproduccion o
 JOIN planificacionproduccion p ON o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
-SET o.`estadoorden` = 'PENDING'
-WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+SET o.`estadoorden` = 'INSTOCK'
+WHERE p.`fecha` BETWEEN '2019-02-25' AND '2019-02-25'
 -- AND o.codigo = '1611-0035'
 ;
 
 -- 2. Select, Update. Estado Orden de produccion Reproceso
 SELECT *
 FROM productosimple ps
- UPDATE productosimple ps 
+-- UPDATE productosimple ps 
 JOIN productobase pb ON ps.`idproductobase` = pb.`idproductobase`
 JOIN planificacionproduccion p ON pb.`idplanificacionproduccion` = p.`idplanificacionproduccion`
 -- WHERE p.`fecha` BETWEEN '2019-02-01' AND '2019-02-28'
-SET ps.`estado` = 'PENDING' , pb.`estado` = 'PENDING'
-WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+SET ps.`estado` = 'INSTOCK' , pb.`estado` = 'INSTOCK'
+WHERE p.`fecha` BETWEEN '2019-02-25' AND '2019-02-25'
 ;
 
--- update planificacionproduccion p set p.`estado` = 'PENDING' where p.`fecha` between '2019-01-01' and '2019-01-31'
+-- update planificacionproduccion p set p.`estado` = 'INSTOCK' where p.`fecha` between '2019-02-25' AND '2019-02-25'
 
 -- , pb.`estado` = 'FINALIZED'
 
@@ -29,6 +29,9 @@ SELECT *
 FROM planificacionproduccion p
 -- update planificacionproduccion p set p.`estado` = 'PENDING' where p.`fecha` between '2019-01-01' and '2019-01-31'
 ;
+UPDATE ordenproduccion SET no_vale = 	'2-6574'	 WHERE idordenproduccion = 	10187	;
+UPDATE ordenproduccion SET no_vale = 	'2-6575'	 WHERE idordenproduccion = 	10186	;
+UPDATE ordenproduccion SET no_vale = 	'2-6576'	 WHERE idordenproduccion = 	10185	;
 
 -- ------------------------------------------------------
 -- ------
@@ -37,11 +40,26 @@ FROM planificacionproduccion p
 SELECT o.`idordenproduccion`, p.`fecha`, p.`estado`, o.`codigo`, o.`estadoorden`, v.`no_trans`, v.`no_vale`, o.`no_vale`, m.`cod_art`, i.`descri`, o.`cantidadproducida`, o.`costotoalproduccion`, o.`costounitario`, o.`id_tmpenc`
 FROM ordenproduccion o
 LEFT JOIN planificacionproduccion p ON o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
-LEFT JOIN inv_vales v  		ON o.`no_vale`  = v.`no_vale`
--- LEFT JOIN inv_vales v  		ON o.`no_trans`  = v.`no_trans`
+-- LEFT JOIN inv_vales v  		ON o.`no_vale`  = v.`no_vale`
+LEFT JOIN inv_vales v  		ON o.`no_trans`  = v.`no_trans`
 LEFT JOIN inv_movdet m 		ON v.`no_trans` = m.`no_trans`
 LEFT JOIN inv_articulos i 	ON m.`cod_art`  = i.`cod_art` 
-WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+WHERE p.`fecha` BETWEEN '2019-02-25' AND '2019-02-25'
+-- mand v.`no_vale` is not null
+;
+
+SELECT * FROM inv_vales i
+WHERE i.`no_vale` IN (
+'2-6577',
+'2-6576',
+'2-6575',
+'2-6574'
+);
+
+SELECT o.`idordenproduccion`, p.`fecha`, p.`estado`, o.`codigo`, o.`estadoorden`, o.`no_vale`, o.`cantidadproducida`, o.`costotoalproduccion`, o.`costounitario`, o.`id_tmpenc`
+FROM ordenproduccion o
+LEFT JOIN planificacionproduccion p ON o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
+WHERE p.`fecha` BETWEEN '2019-02-25' AND '2019-02-25'
 -- mand v.`no_vale` is not null
 ;
 
@@ -69,7 +87,7 @@ LEFT JOIN metaproductoproduccion m   ON pp.`idmetaproductoproduccion` = m.`idmet
 LEFT JOIN productobase pb            ON ps.`idproductobase` = pb.`idproductobase`
 LEFT JOIN planificacionproduccion p  ON pb.`idplanificacionproduccion` = p.`idplanificacionproduccion`
 LEFT JOIN inv_articulos i 	     ON m.`cod_art`  = i.`cod_art`
-WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+WHERE p.`fecha` BETWEEN '2019-02-25' AND '2019-02-25'
 -- GROUP BY i.`cod_art`, i.`descri`
 ;
 
@@ -573,6 +591,60 @@ AND v.`idtmpenc` IS NULL
 -- AND v.`idproductobase` IS NULL
 ;
 
+-- ================================
+SELECT 	DISTINCT
+	op.`idordenproduccion`, 
+	pl.`fecha`,
+	op.`codigo`, 
+	op.`cantidadproducida`, 
+	op.`preciototalmaterial`, 	
+	op.`preciototalinsumo`,
+	op.`preciototalmanoobra`,
+	op.`totalcostoindirecto`,
+	op.`costotoalproduccion`,
+	op.`costounitario`,
+	oi.`idordeninsumo`,
+	oi.`cod_art`, oi.`cantidad`, oi.`costototal`, oi.`costounitario`
+FROM ordenproduccion op
+LEFT JOIN ordeninsumo oi		ON op.`idordenproduccion` = oi.`idordenproduccion`
+-- LEFT JOIN ordenmaterial om		ON op.`idordenproduccion` = om.`idordenproduccion`
+LEFT JOIN costosindirectos ci 		ON op.`idordenproduccion` = ci.`idordenproduccion`
+LEFT JOIN planificacionproduccion pl 	ON op.`idplanificacionproduccion` = pl.`idplanificacionproduccion`
+WHERE pl.`fecha` BETWEEN '2019-02-01' AND '2019-03-31'
+AND op.`codigo` = '1902-0028'
+-- and oi.`costounitario` = 0
+-- and oi.`cod_art` not in (152, 50)
+-- AND oi.`cod_art` = 1
+;
+
+-- ERR LECHE, Actualizar costo total insumo
+SELECT
+	pl.`fecha`,
+	op.`idordenproduccion`, 
+	op.`codigo`, 
+	op.`preciototalinsumo`,
+	op.`costotoalproduccion`,
+	SUM(oi.`costototal`) AS costototali
+FROM ordenproduccion op
+LEFT JOIN ordeninsumo oi		ON op.`idordenproduccion` = oi.`idordenproduccion`
+-- LEFT JOIN ordenmaterial om		ON op.`idordenproduccion` = om.`idordenproduccion`
+-- LEFT JOIN costosindirectos ci 		ON op.`idordenproduccion` = ci.`idordenproduccion`
+LEFT JOIN planificacionproduccion pl 	ON op.`idplanificacionproduccion` = pl.`idplanificacionproduccion`
+WHERE pl.`fecha` BETWEEN '2019-02-01' AND '2019-04-31'
+-- AND op.`codigo` = '1902-0028'
+GROUP BY pl.`fecha`, op.`idordenproduccion`, op.`codigo`, op.`preciototalinsumo`,op.`costotoalproduccion`
+;
+
+
+
+
+
+
+SELECT v.`fecha`, v.`no_trans`, v.`no_vale`, m.`descri`, v.`idordenproduccion`, v.`idproductobase`, v.`idtmpenc`
+FROM inv_mov m
+LEFT JOIN inv_vales v ON m.`no_trans` = v.`no_trans`
+WHERE m.`no_trans` IN (18256, 18255, 18254, 18253)
+;
 
 
 
