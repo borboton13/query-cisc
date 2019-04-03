@@ -5,23 +5,30 @@ SELECT *
 FROM ordenproduccion o
 -- UPDATE ordenproduccion o
 JOIN planificacionproduccion p ON o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
-SET o.`estadoorden` = 'FINALIZED'
-WHERE p.`fecha` BETWEEN '2019-02-01' AND '2019-02-28'
+SET o.`estadoorden` = 'PENDING'
+WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
 -- AND o.codigo = '1611-0035'
 ;
 
 -- 2. Select, Update. Estado Orden de produccion Reproceso
 SELECT *
 FROM productosimple ps
--- UPDATE productosimple ps 
+ UPDATE productosimple ps 
 JOIN productobase pb ON ps.`idproductobase` = pb.`idproductobase`
 JOIN planificacionproduccion p ON pb.`idplanificacionproduccion` = p.`idplanificacionproduccion`
 -- WHERE p.`fecha` BETWEEN '2019-02-01' AND '2019-02-28'
-SET ps.`estado` = 'FINALIZED' 
-WHERE p.`fecha` BETWEEN '2019-02-01' AND '2019-02-28'
+SET ps.`estado` = 'PENDING' , pb.`estado` = 'PENDING'
+WHERE p.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
 ;
 
+-- update planificacionproduccion p set p.`estado` = 'PENDING' where p.`fecha` between '2019-01-01' and '2019-01-31'
+
 -- , pb.`estado` = 'FINALIZED'
+
+SELECT *
+FROM planificacionproduccion p
+-- update planificacionproduccion p set p.`estado` = 'PENDING' where p.`fecha` between '2019-01-01' and '2019-01-31'
+;
 
 -- ------------------------------------------------------
 -- ------
@@ -191,7 +198,8 @@ LEFT JOIN ordeninsumo oi		ON op.`idordenproduccion` = oi.`idordenproduccion`
 LEFT JOIN ordenmaterial om		ON op.`idordenproduccion` = om.`idordenproduccion`
 LEFT JOIN costosindirectos ci 		ON op.`idordenproduccion` = ci.`idordenproduccion`
 LEFT JOIN planificacionproduccion pl 	ON op.`idplanificacionproduccion` = pl.`idplanificacionproduccion`
-WHERE pl.`fecha` BETWEEN '2018-12-26' AND '2018-12-26'
+WHERE pl.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+AND op.`codigo` = '1901-0204'
 -- AND oi.`cod_art` = 1
 -- AND om.`cod_art` = 74
 ;

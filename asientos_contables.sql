@@ -11,8 +11,8 @@ WHERE d.`id_tmpenc` IN (
 -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
--- delete from sf_tmpdet where id_tmpenc in ();
--- DELETE FROM sf_tmpenc WHERE id_tmpenc in (105559);
+-- delete from sf_tmpdet where id_tmpenc in (105555, 105556, 105557, 105558, 105565);
+-- DELETE FROM sf_tmpenc WHERE id_tmpenc in (105555, 105556, 105557, 105558, 105565);
 
 --
 -- Detalle por TipoDoc
