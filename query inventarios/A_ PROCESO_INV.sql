@@ -166,7 +166,7 @@ JOIN auxinv a ON i.`cod_art` = a.`cod_art`
 SET i.`saldo_uni` = a.`cantidad`
 WHERE i.`cod_alm` = 2
 ;
-
+Recepción, RECEPCION, almacen (ALM PRODUCTOS TERMINADOS), articulos(118), fecha(01/02/2019), aprobación del vale nro. 2-6528(VALE AUTOMATICO, ORDEN DE PRODUCCION NRO. : 1902-0013)
 UPDATE inv_inventario_detalle i
 JOIN auxinv a ON i.`cod_art` = a.`cod_art`
 SET i.`cantidad` = a.`cantidad`
