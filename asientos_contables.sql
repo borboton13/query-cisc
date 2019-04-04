@@ -276,8 +276,8 @@ FROM sf_tmpenc e
 JOIN sf_tmpdet d ON e.`id_tmpenc` = d.`id_tmpenc`
 JOIN arcgms a ON d.`cuenta` = a.`cuenta`
 -- WHERE e.`tipo_doc` = 'CD'
-WHERE d.`cuenta` = '1000000000'
-AND e.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+WHERE d.`cuenta` = '2420910300'
+AND e.`fecha` BETWEEN '2016-01-01' AND '2018-12-31'
 AND e.`estado` <> 'ANL'
 ;
 
@@ -498,6 +498,9 @@ AND d.`cuenta` = '1510110201'
 
 
 
+
+CISC-INV-145 1685 / vale 18287
+CISC-INV-146 1686 / vale 18289
 
 
 
