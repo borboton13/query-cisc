@@ -11,14 +11,13 @@ WHERE p.`fecha` BETWEEN '2019-02-25' AND '2019-02-25'
 ;
 
 -- 2. Select, Update. Estado Orden de produccion Reproceso
-SELECT *
+SELECT ps.`idproductosimple`, ps.`estado`, pb.`idproductobase`, pb.`estado`, p.`idplanificacionproduccion`, p.`estado`
 FROM productosimple ps
 -- UPDATE productosimple ps 
 JOIN productobase pb ON ps.`idproductobase` = pb.`idproductobase`
 JOIN planificacionproduccion p ON pb.`idplanificacionproduccion` = p.`idplanificacionproduccion`
--- WHERE p.`fecha` BETWEEN '2019-02-01' AND '2019-02-28'
-SET ps.`estado` = 'INSTOCK' , pb.`estado` = 'INSTOCK'
-WHERE p.`fecha` BETWEEN '2019-02-25' AND '2019-02-25'
+-- SET ps.`estado` = 'INSTOCK' , pb.`estado` = 'INSTOCK'
+WHERE p.`fecha` BETWEEN '2019-02-25' AND '2019-02-26'
 ;
 
 -- update planificacionproduccion p set p.`estado` = 'INSTOCK' where p.`fecha` between '2019-02-25' AND '2019-02-25'
@@ -29,9 +28,6 @@ SELECT *
 FROM planificacionproduccion p
 -- update planificacionproduccion p set p.`estado` = 'PENDING' where p.`fecha` between '2019-01-01' and '2019-01-31'
 ;
-UPDATE ordenproduccion SET no_vale = 	'2-6574'	 WHERE idordenproduccion = 	10187	;
-UPDATE ordenproduccion SET no_vale = 	'2-6575'	 WHERE idordenproduccion = 	10186	;
-UPDATE ordenproduccion SET no_vale = 	'2-6576'	 WHERE idordenproduccion = 	10185	;
 
 -- ------------------------------------------------------
 -- ------
@@ -646,7 +642,9 @@ LEFT JOIN inv_vales v ON m.`no_trans` = v.`no_trans`
 WHERE m.`no_trans` IN (18256, 18255, 18254, 18253)
 ;
 
-
+-- update inv_vales v set v.`idtmpenc` = null
+WHERE v.`no_trans` IN (18256, 18255, 18254, 18253)
+;
 
 
 

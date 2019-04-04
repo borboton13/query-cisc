@@ -6,7 +6,7 @@ LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 WHERE d.`id_tmpenc` IN (
-103593
+106246
 )
 -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
@@ -26,7 +26,7 @@ WHERE e.`tipo_doc` = 'CV'
 AND e.`no_doc` IN (5)
 AND e.`fecha` BETWEEN '2019-01-01' AND '2019-12-31'
 ;
-
+1594
 UPDATE sf_tmpenc e SET e.`glosa` = ''
 WHERE e.`id_tmpenc` = ;
 
@@ -488,7 +488,7 @@ FROM sf_tmpenc e
 JOIN sf_tmpdet d ON e.`id_tmpenc` = d.`id_tmpenc`
 JOIN arcgms a 	 ON d.`cuenta` = a.`cuenta`
 JOIN inv_vales v ON e.`id_tmpenc` = v.`idtmpenc`
-WHERE e.`fecha` BETWEEN '2019-01-01' AND '2019-03-31'
+WHERE e.`fecha` BETWEEN '2019-01-01' AND '2019-02-31'
 AND e.`estado` <> 'ANL'
 AND e.`tipo_doc` = 'TR'
 AND d.`cuenta` = '1510110201'
