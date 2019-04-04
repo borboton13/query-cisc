@@ -647,5 +647,14 @@ WHERE v.`no_trans` IN (18256, 18255, 18254, 18253)
 ;
 
 
-
+-- VALES TP, BA, DE
+SELECT v.`no_trans`, v.`fecha`, v.`estado`, v.`cod_doc`, v.`oper`, v.`no_vale`, m.`descri`, v.`idordenproduccion`, v.`idproductobase`, v.`id_com_encoc`
+FROM inv_vales v
+JOIN inv_mov m ON v.`no_trans` = m.`no_trans`
+WHERE v.`fecha` BETWEEN '2019-02-01' AND '2019-02-28'
+AND v.`cod_alm` = 2
+AND v.`id_com_encoc` IS NULL
+AND v.`idordenproduccion` IS NULL
+AND v.`idproductobase` IS NULL
+;
 
