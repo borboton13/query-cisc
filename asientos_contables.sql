@@ -132,15 +132,16 @@ AND pc.`NOM` LIKE '%munici%cbba%'
 ;
 
 
-SELECT e.`fecha`, d.`id_tmpdet`, e.`tipo_doc`, e.`no_doc`, e.`no_trans`, e.`glosa`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`no_trans`, d.`id_tmpenc`
+SELECT e.`fecha`, d.`id_tmpdet`, e.`tipo_doc`, e.`no_doc`, e.`no_trans`, e.`glosa`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`no_trans`, d.`id_tmpenc`, d.`idpersonacliente`
 FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 2
-WHERE e.`tipo_doc` = 'CI'
--- AND d.`cuenta` = '1110110100'
+-- WHERE e.`tipo_doc` = 'CI'
+WHERE d.`cuenta` = '1421010100'
 -- AND e.`no_doc` = '17'
-AND e.`fecha` BETWEEN '2016-01-29' AND '2016-01-29'
+AND d.`idpersonacliente` = 984
+AND e.`fecha` BETWEEN '2018-01-01' AND '2019-12-31'
 ;
 
 -- RESUMEN DE RECAUDACION
