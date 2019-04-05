@@ -503,7 +503,7 @@ LEFT JOIN inv_articulos a ON d.`cod_art` = a.`cod_art`
 WHERE v.`fecha` BETWEEN '2019-02-01' AND '2019-02-28'
 -- and v.`oper` is not null
 AND v.`cod_alm_dest` IS NOT NULL
--- AND v.`idtmpenc` IS NULL
+AND v.`idtmpenc` IS NULL
 -- and d.`cod_art` in (151, 148)
 ;
 
@@ -514,6 +514,8 @@ LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 WHERE e.`fecha` BETWEEN '2019-01-01' AND '2019-12-28'
 AND d.`cod_art` = 151
 ;
+
+
 
 -- VALES ENTRADAS DE PRODUCCION
 SELECT d.cod_art, SUM(d.monto) AS monto, SUM(d.cantidad) AS cantidad, SUM(d.monto) / SUM(d.cantidad) AS costoUni
