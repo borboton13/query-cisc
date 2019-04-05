@@ -6,7 +6,7 @@ LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 WHERE d.`id_tmpenc` IN (
-106246
+
 )
 -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
@@ -453,10 +453,7 @@ LEFT JOIN inv_articulos a ON d.`cod_art` = a.`cod_art`
 LEFT JOIN sf_tmpenc e ON v.`idtmpenc` = e.`id_tmpenc`
 LEFT JOIN sf_tmpdet de ON e.`id_tmpenc` = de.`id_tmpenc`
 WHERE de.`cuenta` = '1510110201' 
-AND v.`idtmpenc` IN (
-
-)
-;
+AND v.`idtmpenc` IN ();
 
 
 -- select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, a.`cod_art`, i.`descri`, a.`CANTIDAD`, a.`cu`, (a.`CANTIDAD` * a.`cu`) AS costo_t,  p.`CV`
@@ -497,11 +494,50 @@ AND d.`cuenta` = '1510110201'
 ;
 
 
+-- VALES TRANSFERENCIAS
+SELECT v.`fecha`, v.`no_trans`, v.`cod_doc`, v.`oper`, a.`descri`, d.`tipo_mov`, d.`cod_art` , d.`cantidad`, v.`cod_alm_dest`, v.`idtmpenc`, m.`descri`
+FROM inv_movdet d
+LEFT JOIN inv_mov m   ON d.`no_trans` = m.`no_trans` 
+LEFT JOIN inv_vales v ON m.`no_trans` = v.`no_trans`
+LEFT JOIN inv_articulos a ON d.`cod_art` = a.`cod_art`
+WHERE v.`fecha` BETWEEN '2019-02-01' AND '2019-02-28'
+-- and v.`oper` is not null
+AND v.`cod_alm_dest` IS NOT NULL
+-- AND v.`idtmpenc` IS NULL
+-- and d.`cod_art` in (151, 148)
+;
+
+-- REVISION MOVIMIENTO PRODUCTO X CONTABILIDAD
+SELECT e.`id_tmpenc`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, d.`cuenta`, d.`debe`, d.`haber`, d.`cod_art`, d.`cant_art`, e.`glosa`
+FROM sf_tmpdet d
+LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
+WHERE e.`fecha` BETWEEN '2019-01-01' AND '2019-12-28'
+AND d.`cod_art` = 151
+;
+
+-- VALES ENTRADAS DE PRODUCCION
+SELECT d.cod_art, SUM(d.monto) AS monto, SUM(d.cantidad) AS cantidad, SUM(d.monto) / SUM(d.cantidad) AS costoUni
+FROM inv_vales i 
+JOIN inv_movdet d ON i.no_trans = d.no_trans
+WHERE i.fecha BETWEEN '2019-02-01' AND '2019-02-28'
+AND i.cod_alm = 2
+AND (i.idordenproduccion IS NOT NULL OR i.idproductobase IS NOT NULL)
+AND d.cod_art = 118
+GROUP BY d.cod_art
+;
+
+-- 
+SELECT * FROM inv_vales v
+-- update inv_vales v set v.`cod_alm_dest` = v.`oper`
+-- UPDATE inv_vales v SET v.`oper` = null
+WHERE v.`fecha` BETWEEN '2019-02-01' AND '2019-02-28'
+AND v.`oper` IS NOT NULL
+;
 
 
 
-CISC-INV-145 1685 / vale 18287
-CISC-INV-146 1686 / vale 18289
+
+
 
 
 
