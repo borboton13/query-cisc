@@ -495,7 +495,7 @@ AND d.`cuenta` = '1510110201'
 
 
 -- VALES TRANSFERENCIAS
-SELECT v.`fecha`, v.`no_trans`, v.`cod_doc`, v.`oper`, a.`descri`, d.`tipo_mov`, d.`cod_art` , d.`cantidad`, v.`cod_alm_dest`, v.`idtmpenc`, m.`descri`
+SELECT v.`fecha`, v.`no_trans`, v.`no_vale`, v.`cod_doc`, v.`oper`, a.`descri`, d.`tipo_mov`, d.`cod_art` , d.`cantidad`, v.`orig`, v.`dest`, v.`cod_alm_dest`, v.`idtmpenc`, m.`descri`
 FROM inv_movdet d
 LEFT JOIN inv_mov m   ON d.`no_trans` = m.`no_trans` 
 LEFT JOIN inv_vales v ON m.`no_trans` = v.`no_trans`
@@ -514,8 +514,6 @@ LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 WHERE e.`fecha` BETWEEN '2019-01-01' AND '2019-12-28'
 AND d.`cod_art` = 151
 ;
-
-
 
 -- VALES ENTRADAS DE PRODUCCION
 SELECT d.cod_art, SUM(d.monto) AS monto, SUM(d.cantidad) AS cantidad, SUM(d.monto) / SUM(d.cantidad) AS costoUni
@@ -537,8 +535,12 @@ AND v.`oper` IS NOT NULL
 ;
 
 
+UPDATE inv_vales i SET i.`dest` = 17252 WHERE i.`no_trans` = 17251;
+UPDATE inv_vales i SET i.`orig` = 17251 WHERE i.`no_trans` = 17252;
 
 
+UPDATE inv_vales i SET i.`oper` = 'TP' WHERE i.`no_trans` = 17251;
+UPDATE inv_vales i SET i.`oper` = 'TP' WHERE i.`no_trans` = 17252;
 
 
 
