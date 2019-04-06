@@ -548,3 +548,9 @@ SELECT * FROM inv_vales i
 WHERE i.`no_trans` IN (17392,17393,17497,17497,17735,17749,17951,17958);
 
 
+SELECT *
+FROM sf_tmpenc e 
+WHERE e.`fecha` > '2019-01-01'
+AND e.`tipo_doc` = 'CV'
+;
+
