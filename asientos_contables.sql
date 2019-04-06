@@ -6,7 +6,7 @@ LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 WHERE d.`id_tmpenc` IN (
-
+106705
 )
 -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
@@ -500,10 +500,10 @@ FROM inv_movdet d
 LEFT JOIN inv_mov m   ON d.`no_trans` = m.`no_trans` 
 LEFT JOIN inv_vales v ON m.`no_trans` = v.`no_trans`
 LEFT JOIN inv_articulos a ON d.`cod_art` = a.`cod_art`
-WHERE v.`fecha` BETWEEN '2019-02-01' AND '2019-02-28'
--- and v.`oper` is not null
-AND v.`cod_alm_dest` IS NOT NULL
-AND v.`idtmpenc` IS NULL
+WHERE v.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+AND v.`oper` IS NOT NULL
+-- AND v.`cod_alm_dest` IS NOT NULL
+-- AND v.`idtmpenc` IS NULL
 -- and d.`cod_art` in (151, 148)
 ;
 
@@ -511,8 +511,8 @@ AND v.`idtmpenc` IS NULL
 SELECT e.`id_tmpenc`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, d.`cuenta`, d.`debe`, d.`haber`, d.`cod_art`, d.`cant_art`, e.`glosa`
 FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-WHERE e.`fecha` BETWEEN '2019-01-01' AND '2019-12-28'
-AND d.`cod_art` = 151
+WHERE e.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+AND d.`cod_art` = 703
 ;
 
 -- VALES ENTRADAS DE PRODUCCION
@@ -535,14 +535,16 @@ AND v.`oper` IS NOT NULL
 ;
 
 
-UPDATE inv_vales i SET i.`dest` = 17252 WHERE i.`no_trans` = 17251;
-UPDATE inv_vales i SET i.`orig` = 17251 WHERE i.`no_trans` = 17252;
+-- UPDATE inv_vales i SET i.`dest` = 17252 WHERE i.`no_trans` = 17251;
+-- UPDATE inv_vales i SET i.`orig` = 17251 WHERE i.`no_trans` = 17252;
 
+-- UPDATE inv_vales i SET i.`oper` = 'TP' WHERE i.`no_trans` = 17251;
+-- UPDATE inv_vales i SET i.`oper` = 'TP' WHERE i.`no_trans` = 17252;
 
-UPDATE inv_vales i SET i.`oper` = 'TP' WHERE i.`no_trans` = 17251;
-UPDATE inv_vales i SET i.`oper` = 'TP' WHERE i.`no_trans` = 17252;
-
-
-
+-- OJO
+-- Eliminar estos vales y actualizar secuencia de vales
+SELECT * FROM inv_vales i 
+-- UPDATE inv_vales i SET i.`estado` = 'ANL', i.`oper` = NULL, i.`cod_alm_dest` = NULL, i.`cod_doc` = 'REC'
+WHERE i.`no_trans` IN (17392,17393,17497,17497,17735,17749,17951,17958);
 
 
