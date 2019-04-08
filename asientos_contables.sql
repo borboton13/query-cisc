@@ -6,13 +6,10 @@ LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 WHERE d.`id_tmpenc` IN (
-106705
+104304
 )
 -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
-
--- delete from sf_tmpdet where id_tmpenc in (105555, 105556, 105557, 105558, 105565);
--- DELETE FROM sf_tmpenc WHERE id_tmpenc in (105555, 105556, 105557, 105558, 105565);
 
 --
 -- Detalle por TipoDoc
@@ -26,11 +23,6 @@ WHERE e.`tipo_doc` = 'CV'
 AND e.`no_doc` IN (5)
 AND e.`fecha` BETWEEN '2019-01-01' AND '2019-12-31'
 ;
-1594
-UPDATE sf_tmpenc e SET e.`glosa` = ''
-WHERE e.`id_tmpenc` = ;
-
-
 
 
 -- Detalle por Glosa
@@ -88,7 +80,6 @@ WHERE d.`id_tmpenc` IN (
 )
 ;
 
--- delete_ from sf_tmpdet where id_tmpdet in (589056, 589057, 589078, 589079, 589085, 589086, 589092, 589093, 589109, 589110)
 -- --------------------------------------------------
 
 SELECT d.`id_tmpdet`, e.`tipo_doc`, e.`no_trans`, e.`glosa`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`no_trans`, d.`id_tmpenc`
@@ -232,13 +223,6 @@ AND dc.`numerotransaccion` IS NOT NULL
 ;
 
 SELECT *
-FROM sf_tmpenc
-UPDATE sf_tmpenc SET descri = CONCAT("Deuda al 31/12/2015", " " , nombrecliente), GLOSA = CONCAT("Deuda al 31/12/2015", " " , nombrecliente)
-WHERE fecha BETWEEN '2015-01-01' AND '2015-12-31'
-AND tipo_doc = 'NE'
-;
-
-SELECT *
 FROM sf_tmpdet
 WHERE id_tmpenc IN (
 	SELECT id_tmpenc
@@ -246,14 +230,6 @@ WHERE id_tmpenc IN (
 	WHERE fecha BETWEEN '2015-01-01' AND '2015-12-31'
 	AND tipo_doc = 'TR'
 );
-
-SELECT MIN(id_tmpenc)
-FROM sf_tmpenc
-;
-
-SELECT MIN(CAST(no_trans AS DECIMAL)) AS MI, MAX(CAST(no_trans AS DECIMAL)) AS MA
-FROM sf_tmpdet
-;
 
 -- ---------------------------------------------------
 -- Para actualizar secuencias
@@ -358,14 +334,6 @@ GROUP BY e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`
 -- )
 ;
 
-SELECT *
-FROM sf_tmpdet d
-WHERE d.`id_tmpenc` = 78746
-AND d.`cuenta` = 1510110201
-;
-
-
-
 
 SELECT e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, SUM(d.`debe`) AS totald, SUM(d.`haber`) AS totalh, (SUM(d.`debe`) - SUM(d.`haber`)) AS dif
 FROM sf_tmpdet d
@@ -377,13 +345,6 @@ AND e.`estado` <> 'ANL'
 -- AND e.`tipo_doc` IN ('NE')
 GROUP BY e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`
 ;
-
-SELECT *
-FROM diferencias d
-WHERE d.`tipo_doc` = 'NE'
-AND d.`dif` <> 0
-;
-
 
 
 SELECT v.`IDVENTADIRECTA`, v.`FECHA_PEDIDO`, v.`CODIGO`, v.`ESTADO`, v.`TOTALIMPORTE`, v.`IMPUESTO`, v.`IDMOVIMIENTO`, v.`id_tmpenc`, v.`id_tmpenc_cv`, v.`IDUSUARIO`
@@ -481,7 +442,8 @@ GROUP BY MONTH(v.`FECHA_PEDIDO`), a.`cod_art`, i.`descri`
 
 --
 -- CUENTA PRODUCTOS TERMINADOS MIRABEL - VALES
-SELECT e.`id_tmpenc`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, e.`cod_prov`, v.`no_trans`, v.`cod_doc`, v.`no_vale`, v.`cod_alm`, v.`id_com_encoc`, e.`glosa`
+SELECT e.`id_tmpenc`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`cod_art`, d.`cant_art`,
+ e.`cod_prov`, v.`no_trans`, v.`cod_doc`, v.`no_vale`, v.`cod_alm`, v.`id_com_encoc`, e.`glosa`
 FROM sf_tmpenc e 
 JOIN sf_tmpdet d ON e.`id_tmpenc` = d.`id_tmpenc`
 JOIN arcgms a 	 ON d.`cuenta` = a.`cuenta`
@@ -489,22 +451,48 @@ JOIN inv_vales v ON e.`id_tmpenc` = v.`idtmpenc`
 WHERE e.`fecha` BETWEEN '2019-01-01' AND '2019-02-31'
 AND e.`estado` <> 'ANL'
 AND e.`tipo_doc` = 'TR'
-AND d.`cuenta` = '1510110201'
+AND d.`cuenta` = '1520110100'
 -- and e.`no_doc` in (1819)
 ;
 
 
--- VALES TRANSFERENCIAS
+SELECT e.`tipo_doc`, e.`no_doc`, d.cod_art, a.descri, a.cod_med,
+SUM(d.debe)     AS debe,
+SUM(d.haber)    AS haber,
+SUM(IF(d.debe>0, d.cant_art, 0))  AS cant_e,
+SUM(IF(d.haber>0, d.cant_art, 0)) AS cant_s
+FROM sf_tmpdet d
+LEFT JOIN sf_tmpenc e ON d.id_tmpenc = e.id_tmpenc
+LEFT JOIN inv_articulos a ON d.cod_art = a.cod_art
+WHERE d.cuenta = 1580110200
+AND e.fecha BETWEEN '2019-01-01' AND '2019-01-31'
+AND e.estado <> 'ANL'
+GROUP BY e.`tipo_doc`, e.`no_doc`, d.cod_art, a.descri, a.cod_med
+;
+
+-- VALES TRANSFERENCIAS, BAJ, DEV
 SELECT v.`fecha`, v.`no_trans`, v.`no_vale`, v.`cod_doc`, v.`oper`, a.`descri`, d.`tipo_mov`, d.`cod_art` , d.`cantidad`, v.`orig`, v.`dest`, v.`cod_alm_dest`, v.`idtmpenc`, m.`descri`
 FROM inv_movdet d
 LEFT JOIN inv_mov m   ON d.`no_trans` = m.`no_trans` 
 LEFT JOIN inv_vales v ON m.`no_trans` = v.`no_trans`
 LEFT JOIN inv_articulos a ON d.`cod_art` = a.`cod_art`
-WHERE v.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+WHERE v.`fecha` BETWEEN '2019-02-01' AND '2019-02-28'
 AND v.`oper` IS NOT NULL
 -- AND v.`cod_alm_dest` IS NOT NULL
 -- AND v.`idtmpenc` IS NULL
--- and d.`cod_art` in (151, 148)
+-- and d.`cod_art` in (703)
+;
+
+-- SELECT v.`cod_doc`, v.`oper`, d.`cod_art` , d.`cantidad`, v.`orig`, v.`dest`, v.`cod_alm_dest`, v.`idtmpenc`, m.`descri`, t.`cod_art`, t.`cant_art`, t.`debe`, t.`haber` 
+SELECT d.`cod_art`, d.`tipo_mov`, d.`cantidad`, t.`debe`, t.`haber`, IF(t.debe>0, d.cantidad, 0) AS cant_d, IF(t.haber>0, d.cantidad, 0) AS cant_h
+FROM inv_movdet d
+LEFT JOIN inv_mov m   ON d.`no_trans` = m.`no_trans` 
+LEFT JOIN inv_vales v ON m.`no_trans` = v.`no_trans`
+LEFT JOIN sf_tmpdet t ON v.`idtmpenc` = t.`id_tmpenc`
+WHERE v.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+AND v.`oper` IS NULL
+AND d.`cod_art` = t.`cod_art`
+AND d.`cod_art` IN (705)
 ;
 
 -- REVISION MOVIMIENTO PRODUCTO X CONTABILIDAD
@@ -522,9 +510,55 @@ JOIN inv_movdet d ON i.no_trans = d.no_trans
 WHERE i.fecha BETWEEN '2019-02-01' AND '2019-02-28'
 AND i.cod_alm = 2
 AND (i.idordenproduccion IS NOT NULL OR i.idproductobase IS NOT NULL)
-AND d.cod_art = 118
+AND d.cod_art = 703
 GROUP BY d.cod_art
 ;
+
+-- VALES DE COMPRAS - ASIENTOS DETALLE
+SELECT DISTINCT e.`id_tmpenc`, e.`no_trans`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, d.`cuenta`, d.`id_tmpdet`, d.`debe`, d.`haber`,  de.`tipo_mov`,
+e.`glosa`, d.`cod_art`, d.`cant_art`,
+ e.`cod_prov`, v.`no_trans`, v.`cod_doc`, v.`no_vale`, v.`cod_alm`, v.`id_com_encoc`, de.`cod_art`, de.`cantidad`, de.`monto`
+FROM sf_tmpenc e 
+JOIN sf_tmpdet d ON e.`id_tmpenc` = d.`id_tmpenc`
+JOIN arcgms a 	 ON d.`cuenta` = a.`cuenta`
+JOIN inv_vales v ON e.`id_tmpenc` = v.`idtmpenc`
+JOIN inv_movdet de ON v.`no_trans` = de.`no_trans`
+WHERE e.`fecha` BETWEEN '2019-01-01' AND '2019-04-31'
+AND e.`estado` <> 'ANL'
+AND e.`tipo_doc` = 'TR'
+AND d.`cuenta` IN ('1580110100', '1580110200')
+-- and de.`tipo_mov` = 'E'
+;
+
+SELECT *
+FROM sf_tmpenc e 
+JOIN sf_tmpdet d ON e.`id_tmpenc` = d.`id_tmpenc`
+WHERE e.`fecha` >= '2019-01-01'
+AND e.`tipo_doc` = 'CD'
+AND e.`no_doc` = 3
+-- and d.`cuenta` IN ('1580110100', '1580110200')
+;
+
+
+-- Insertar de INV_INICIO a INV_PERIODO
+SET @folio = (SELECT MAX(id_inv_periodo)+1 FROM inv_periodo);
+INSERT INTO inv_periodo
+SELECT (@folio := @folio + 1), i.cod_art, i.cantidad, /*ROUND((i.costo_uni * i.cantidad),2)*/ (i.costo_uni * i.cantidad) AS saldo_val, i.costo_uni, 1, 2019, 1, 0
+FROM inv_inicio i
+WHERE i.gestion = 2019
+AND i.alm = 1
+AND i.cantidad > 0
+;
+	
+-- SELECT p.cod_art, (p.saldofis * p.costouni) AS monto, p.saldofis AS cantidad 
+SELECT *
+FROM inv_periodo p 
+WHERE p.cod_alm IN (1, 3)
+AND p.mes = 1
+AND p.gestion = 2019
+AND p.saldofis > 0 
+;
+
 
 -- 
 SELECT * FROM inv_vales v
@@ -534,13 +568,6 @@ WHERE v.`fecha` BETWEEN '2019-02-01' AND '2019-02-28'
 AND v.`oper` IS NOT NULL
 ;
 
-
--- UPDATE inv_vales i SET i.`dest` = 17252 WHERE i.`no_trans` = 17251;
--- UPDATE inv_vales i SET i.`orig` = 17251 WHERE i.`no_trans` = 17252;
-
--- UPDATE inv_vales i SET i.`oper` = 'TP' WHERE i.`no_trans` = 17251;
--- UPDATE inv_vales i SET i.`oper` = 'TP' WHERE i.`no_trans` = 17252;
-
 -- OJO
 -- Eliminar estos vales y actualizar secuencia de vales
 SELECT * FROM inv_vales i 
@@ -548,9 +575,28 @@ SELECT * FROM inv_vales i
 WHERE i.`no_trans` IN (17392,17393,17497,17497,17735,17749,17951,17958);
 
 
+
 SELECT *
 FROM sf_tmpenc e 
 WHERE e.`fecha` > '2019-01-01'
 AND e.`tipo_doc` = 'CV'
 ;
+
+
+-- delete from sf_tmpdet 
+-- DELETE FROM sf_tmpenc 
+WHERE id_tmpenc IN (
+
+);
+
+-- delete from sf_tmpdet 
+WHERE id_tmpdet IN (
+
+);
+
+-- UPDATE inv_vales i SET i.`idtmpenc` = NULL
+WHERE i.`no_trans` IN (
+
+);
+
 
