@@ -62,7 +62,7 @@ GROUP BY MONTH(p.`fecha`), i.`cod_art`, i.`descri`
 -- Union Normal - Reproceso
 SELECT z.mes, z.cod_art, z.nombrecorto, SUM(z.cantidad) AS cantidad, SUM(z.costo) AS costo, SUM(z.costo) / SUM(z.cantidad) AS unit
 FROM (
-	SELECT MONTH(p.`fecha`) AS mes, m.`cod_art`, i.nombrecorto , SUM(m.`cantidad`) AS cantidad, SUM(d.`debe`) AS costo
+	SELECT DAY(p.`fecha`) AS mes, m.`cod_art`, i.nombrecorto , SUM(m.`cantidad`) AS cantidad, SUM(d.`debe`) AS costo
 	FROM ordenproduccion o
 	LEFT JOIN planificacionproduccion p ON o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
 	LEFT JOIN inv_vales v  		ON o.`no_vale`  = v.`no_vale`
@@ -70,9 +70,9 @@ FROM (
 	LEFT JOIN inv_articulos i 	ON m.`cod_art`  = i.`cod_art` 
 	LEFT JOIN sf_tmpenc e 		ON v.`idtmpenc` = e.`id_tmpenc`
 	LEFT JOIN sf_tmpdet d 		ON e.`id_tmpenc` = d.`id_tmpenc`
-	WHERE p.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+	WHERE p.`fecha` BETWEEN '2018-02-01' AND '2018-02-28'
 	AND d.`cuenta` = '1510110201'
-	GROUP BY MONTH(p.`fecha`) , m.`cod_art`, i.`descri`
+	GROUP BY DAY(p.`fecha`) , m.`cod_art`, i.`descri`
 	UNION ALL
 	SELECT  MONTH(p.`fecha`)AS mes, i.`cod_art`, i.`nombrecorto`, SUM(ps.`cantidad`) AS cantidad, SUM(d.`debe`) AS costo
 	FROM productosimple ps
@@ -83,9 +83,9 @@ FROM (
 	LEFT JOIN inv_articulos i 	     ON m.`cod_art`  = i.`cod_art`
 	LEFT JOIN sf_tmpenc e 		ON pb.`id_tmpenc` = e.`id_tmpenc`
 	LEFT JOIN sf_tmpdet d 		ON e.`id_tmpenc` = d.`id_tmpenc`
-	WHERE p.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+	WHERE p.`fecha` BETWEEN '2018-02-01' AND '2018-02-28'
 	AND d.`cuenta` = '1510110201'
-	GROUP BY MONTH(p.`fecha`), i.`cod_art`, i.`descri`
+	GROUP BY DAY(p.`fecha`), i.`cod_art`, i.`descri`
 ) z
 GROUP BY z.mes, z.cod_art, z.nombrecorto
 ;

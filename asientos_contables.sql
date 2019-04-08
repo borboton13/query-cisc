@@ -451,8 +451,9 @@ JOIN inv_vales v ON e.`id_tmpenc` = v.`idtmpenc`
 WHERE e.`fecha` BETWEEN '2019-01-01' AND '2019-02-31'
 AND e.`estado` <> 'ANL'
 AND e.`tipo_doc` = 'TR'
-AND d.`cuenta` = '1520110100'
+-- AND d.`cuenta` = '1520110100'
 -- and e.`no_doc` in (1819)
+
 ;
 
 
@@ -500,7 +501,7 @@ SELECT e.`id_tmpenc`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, d.`cuenta
 FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 WHERE e.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
-AND d.`cod_art` = 703
+AND d.`cod_art` = 660
 ;
 
 -- VALES ENTRADAS DE PRODUCCION
