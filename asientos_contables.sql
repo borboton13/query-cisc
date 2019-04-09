@@ -11,6 +11,7 @@ WHERE d.`id_tmpenc` IN (
 -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
+
 --
 -- Detalle por TipoDoc
 SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` AS tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`id_tmpenc`, e.`estado`, 
@@ -19,9 +20,9 @@ FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
-WHERE e.`tipo_doc` = 'CV'
-AND e.`no_doc` IN (5)
-AND e.`fecha` BETWEEN '2019-01-01' AND '2019-12-31'
+WHERE e.`tipo_doc` = 'TR'
+AND e.`no_doc` IN (3969)
+AND e.`fecha` BETWEEN '2018-01-01' AND '2019-12-31'
 ;
 
 
