@@ -17,7 +17,7 @@ SELECT 	d.FECHA AS "FECHA FACTURA O DUI",
 	"" AS "TIPO DE COMPRA", z.estado
 FROM documentocontable d 
 JOIN documentocompra z ON d.iddocumentocontable = z.iddocumentocompra
-WHERE fecha BETWEEN '2019-02-01' AND '2019-02-28'
+WHERE fecha BETWEEN '2019-03-01' AND '2019-03-31'
 AND z.estado <> 'NULLIFIED'
 ;
 
@@ -44,16 +44,9 @@ AND z.estado <> 'NULLIFIED'
 ;
 
 
-UPDATE documentocompra d SET d.`estado` = 'NULLIFIED'
+-- UPDATE documentocompra d SET d.`estado` = 'NULLIFIED'
 WHERE d.`iddocumentocompra` IN (
-7350,
-7352,
-7354,
-7356,
-7357,
-7358,
-7359,
-7361
+
 );
 
 

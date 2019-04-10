@@ -122,8 +122,6 @@ FROM (
 GROUP BY zz.cod_art, zz.descri
 ;
 
-14812
-14813
 
 --
 -- Ventas al contado Xx incompleto
@@ -450,10 +448,10 @@ AND v.`IDMOVIMIENTO` IS NOT NULL
 
 --
 -- CONTROL DE PEDIDOS SIN CONTABILIZAR
-SELECT p.`IDPEDIDOS`, p.`CODIGO`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`TIENEFACTURA`, pe.`NOM`, p.`IDMOVIMIENTO`
+SELECT p.`IDPEDIDOS`, p.`CODIGO`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`TIENEFACTURA`, pe.`NOM`, p.`IDMOVIMIENTO`, P.`TOTALIMPORTE`, P.`IMPUESTO`
 FROM pedidos p
 LEFT JOIN personacliente pe ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-01-01' AND '2018-07-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-07-31'
 AND p.`ESTADO` <> 'CONTABILIZADO' 
 AND p.`ESTADO` <> 'ANULADO'
 ;
@@ -471,8 +469,22 @@ LEFT JOIN persona per 		ON en.`identidad` = per.`idpersona`
 LEFT JOIN productormateriaprima pr ON per.`idpersona` = pr.`idproductormateriaprima`
 -- WHERE p.`IDUSUARIO` = 404
 WHERE p.`IDUSUARIO` = 5
-AND p.`FECHA_ENTREGA` BETWEEN '2018-11-01' AND '2018-11-15'
+AND p.`FECHA_ENTREGA` BETWEEN '2019-01-16' AND '2019-01-31'
 AND p.`IDTIPOPEDIDO` = 6
+;
+
+SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`TOTALIMPORTE`, p.`IDCLIENTE`, pe.`NOM`, pe.`AP`, pe.`AM`, pe.`NRO_DOC`, en.`identidad`, en.`noidentificacion`, per.`nombres`, per.`apellidopaterno`, per.`apellidomaterno`, p.`id_tmpenc`
+-- INSERT INTO movimientosalarioproductor
+-- SELECT (@folio := @folio + 1), p.`FECHA_ENTREGA`, concat('Descuento por venta a credito Nro. ',  p.`CODIGO`) as descri, 'PENDING' AS estado, p.`TOTALIMPORTE` as valor, '1' as idcompania, pr.`idzonaproductiva`, en.`identidad`, '4' AS idtipomovimientoproductor
+FROM pedidos p
+LEFT JOIN personacliente pe 	ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
+LEFT JOIN entidad en 		ON pe.`NRO_DOC` = en.`noidentificacion`
+LEFT JOIN persona per 		ON en.`identidad` = per.`idpersona`
+LEFT JOIN productormateriaprima pr ON per.`idpersona` = pr.`idproductormateriaprima`
+WHERE p.`IDUSUARIO` = 404
+-- WHERE p.`IDUSUARIO` = 5
+AND p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-15'
+AND p.`IDTIPOPEDIDO` = 5
 ;
 
 UPDATE SECUENCIA SET VALOR=(SELECT MAX(E.IDMOVIMIENTOSALARIOPRODUCTOR)+1 FROM MOVIMIENTOSALARIOPRODUCTOR E) WHERE TABLA='MOVIMIENTOSALARIOPRODUCTOR';

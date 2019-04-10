@@ -5,11 +5,11 @@ SELECT MAX(idmovimientosalarioproductor)+1 FROM movimientosalarioproductor;
 
 -- SET @folio = (SELECT MAX(idmovimientosalarioproductor)+1 FROM movimientosalarioproductor);
 INSERT INTO movimientosalarioproductor(idmovimientosalarioproductor,fecha,descripcion,estado,valor,idcompania,idzonaproductiva,idproductormateriaprima,idtipomovimientoproductor)
-SELECT (@folio := @folio + 1), '2019-02-16' AS fecha, 'REPOSICION DE FORMULARIO' AS descripcion, 'PENDING' AS estado, 0.80 AS valor, 1 AS idcompania, p.`idzonaproductiva`, d.`idproductormateriaprima`, 5 AS idtipomovimientoproductor 
+SELECT (@folio := @folio + 1), '2019-03-16' AS fecha, 'REPOSICION DE FORMULARIO' AS descripcion, 'PENDING' AS estado, 0.80 AS valor, 1 AS idcompania, p.`idzonaproductiva`, d.`idproductormateriaprima`, 5 AS idtipomovimientoproductor 
 FROM registropagomateriaprima r
 LEFT JOIN planillapagomateriaprima p 	ON r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
 LEFT JOIN descuentproductmateriaprima d ON r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
-WHERE p.fechainicio = '2019-02-16'
+WHERE p.fechainicio = '2019-03-16'
 AND r.`liquidopagable` > 0
 ;
 
