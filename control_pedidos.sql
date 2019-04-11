@@ -467,10 +467,10 @@ LEFT JOIN personacliente pe 	ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 LEFT JOIN entidad en 		ON pe.`NRO_DOC` = en.`noidentificacion`
 LEFT JOIN persona per 		ON en.`identidad` = per.`idpersona`
 LEFT JOIN productormateriaprima pr ON per.`idpersona` = pr.`idproductormateriaprima`
--- WHERE p.`IDUSUARIO` = 404
-WHERE p.`IDUSUARIO` = 5
-AND p.`FECHA_ENTREGA` BETWEEN '2019-01-16' AND '2019-01-31'
-AND p.`IDTIPOPEDIDO` = 6
+WHERE p.`IDUSUARIO` = 404
+-- WHERE p.`IDUSUARIO` = 5
+AND p.`FECHA_ENTREGA` BETWEEN '2019-03-01' AND '2019-03-15'
+AND p.`IDTIPOPEDIDO` = 5
 ;
 
 SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`TOTALIMPORTE`, p.`IDCLIENTE`, pe.`NOM`, pe.`AP`, pe.`AM`, pe.`NRO_DOC`, en.`identidad`, en.`noidentificacion`, per.`nombres`, per.`apellidopaterno`, per.`apellidomaterno`, p.`id_tmpenc`
