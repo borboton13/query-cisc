@@ -14,17 +14,40 @@ WHERE d.`id_tmpenc` IN (
 
 --
 -- Detalle por TipoDoc
-SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` AS tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`id_tmpenc`, e.`estado`, 
+SELECT e.`id_tmpenc`, e.`no_trans`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` AS tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`id_tmpenc`, e.`estado`, 
 d.`idpersonacliente`, d.`cod_prov`, d.`cod_art`, d.`cant_art`
 FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
-WHERE e.`tipo_doc` = 'TR'
-AND e.`no_doc` IN (3969)
-AND e.`fecha` BETWEEN '2018-01-01' AND '2019-12-31'
+WHERE e.`tipo_doc` = 'CB'
+-- AND e.`no_doc` IN (3969)
+AND e.`glosa` LIKE '%2%QUINCENA%'
+AND e.`fecha` BETWEEN '2019-03-01' AND '2019-03-31'
 ;
 
+-- SET @folio = (SELECT MAX(id_tmpdet) FROM sf_tmpdet);
+-- INSERT INTO sf_tmpdet (id_tmpdet, cuenta, no_cia, debe, haber, debeme, haberme, tc, no_trans, id_tmpenc, idpersonacliente) 
+SELECT (@folio := @folio + 1), '1421010100', '01', 0, p.`TOTALIMPORTE`, 0, 0, 1, 107212, 107174, p.`IDCLIENTE`
+FROM pedidos p
+LEFT JOIN personacliente pe 	ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
+LEFT JOIN entidad en 		ON pe.`NRO_DOC` = en.`noidentificacion`
+LEFT JOIN persona per 		ON en.`identidad` = per.`idpersona`
+LEFT JOIN productormateriaprima pr ON per.`idpersona` = pr.`idproductormateriaprima`
+-- WHERE p.`IDUSUARIO` = 5
+WHERE p.`IDUSUARIO` = 404
+AND p.`FECHA_ENTREGA` BETWEEN '2019-03-16' AND '2019-03-31'
+-- AND p.`IDTIPOPEDIDO` = 6
+AND p.`IDTIPOPEDIDO` = 5
+AND p.`ESTADO` <> 'ANULADO'
+;
+
+UPDATE SECUENCIA SET VALOR=(SELECT MAX(e.id_tmpdet)+1 FROM sf_tmpdet e) WHERE TABLA='sf_tmpdet';
+
+-- delete from sf_tmpdet 
+WHERE id_tmpdet IN (  
+
+);
 
 -- Detalle por Glosa
 SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` AS tipo, e.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`id_tmpenc`, e.`estado`, d.`idpersonacliente`, d.`cod_prov`
