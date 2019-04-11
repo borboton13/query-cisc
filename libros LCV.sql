@@ -15,6 +15,7 @@ SELECT 	d.FECHA AS "FECHA FACTURA O DUI",
 	d.iva AS "CREDITO FISCAL",
 	IFNULL(d.CODIGOCONTROL, 0) AS CODIGOCONTROL,
 	"" AS "TIPO DE COMPRA", z.estado
+	, z.idtmpenc
 FROM documentocontable d 
 JOIN documentocompra z ON d.iddocumentocontable = z.iddocumentocompra
 WHERE fecha BETWEEN '2019-03-01' AND '2019-03-31'

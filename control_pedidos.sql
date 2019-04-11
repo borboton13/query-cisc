@@ -50,10 +50,10 @@ FROM articulos_pedido a
 LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
 LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-01-01' AND '2019-12-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-12-31'
 -- AND p.`IDPEDIDOS` >= 23759
 -- AND p.`IDCLIENTE` = 65
-AND p.`CODIGO` IN (7168)
+AND p.`CODIGO` IN (2268)
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 29988
 -- AND pc.`AP` LIKE '%Car%'
@@ -62,7 +62,7 @@ AND p.`CODIGO` IN (7168)
 ;
 
 -- delete from articulos_pedido where IDARTICULOSPEDIDO = 285984;
--- UPDATE pedidos p SET p.`FECHA_ENTREGA` = '2019-04-01' WHERE p.`IDPEDIDOS` = 30456; -- 2019-04-01
+-- UPDATE pedidos p SET p.`FECHA_ENTREGA` = '2019-04-10' WHERE p.`IDPEDIDOS` = 30670; -- 2019-04-10
 
 SELECT *
 FROM ventaarticulo a
