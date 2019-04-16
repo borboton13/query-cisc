@@ -501,7 +501,7 @@ FROM inv_movdet d
 LEFT JOIN inv_mov m   ON d.`no_trans` = m.`no_trans` 
 LEFT JOIN inv_vales v ON m.`no_trans` = v.`no_trans`
 LEFT JOIN inv_articulos a ON d.`cod_art` = a.`cod_art`
-WHERE v.`fecha` BETWEEN '2019-02-01' AND '2019-02-28'
+WHERE v.`fecha` BETWEEN '2019-03-01' AND '2019-03-31'
 AND v.`oper` IS NOT NULL
 -- AND v.`cod_alm_dest` IS NOT NULL
 -- AND v.`idtmpenc` IS NULL
@@ -524,8 +524,8 @@ AND d.`cod_art` IN (705)
 SELECT e.`id_tmpenc`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, d.`cuenta`, d.`debe`, d.`haber`, d.`cod_art`, d.`cant_art`, e.`glosa`
 FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-WHERE e.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
-AND d.`cod_art` = 660
+WHERE e.`fecha` BETWEEN '2019-03-01' AND '2019-03-31'
+AND d.`cod_art` = 758
 ;
 
 -- VALES ENTRADAS DE PRODUCCION
