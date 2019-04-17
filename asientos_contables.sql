@@ -521,11 +521,11 @@ AND d.`cod_art` IN (705)
 ;
 
 -- REVISION MOVIMIENTO PRODUCTO X CONTABILIDAD
-SELECT e.`id_tmpenc`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, d.`cuenta`, d.`debe`, d.`haber`, d.`cod_art`, d.`cant_art`, e.`glosa`
+SELECT e.`id_tmpenc`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, d.`id_tmpdet`, d.`cuenta`, d.`debe`, d.`haber`, d.`cod_art`, d.`cant_art`, e.`glosa`
 FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-WHERE e.`fecha` BETWEEN '2019-03-01' AND '2019-03-31'
-AND d.`cod_art` = 758
+WHERE e.`fecha` BETWEEN '2019-03-01' AND '2019-12-31'
+AND d.`cod_art` = 642
 ;
 
 -- VALES ENTRADAS DE PRODUCCION
@@ -598,6 +598,7 @@ AND v.`oper` IS NOT NULL
 SELECT * FROM inv_vales i 
 -- UPDATE inv_vales i SET i.`estado` = 'ANL', i.`oper` = NULL, i.`cod_alm_dest` = NULL, i.`cod_doc` = 'REC'
 WHERE i.`no_trans` IN (17392,17393,17497,17497,17735,17749,17951,17958);
+
 
 
 

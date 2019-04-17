@@ -60,9 +60,9 @@ GROUP BY MONTH(p.`fecha`), i.`cod_art`, i.`descri`
 
 -- REPORTE TOTAL POR MES
 -- Union Normal - Reproceso
-SELECT z.mes, z.cod_art, z.nombrecorto, SUM(z.cantidad) AS cantidad, SUM(z.costo) AS costo, SUM(z.costo) / SUM(z.cantidad) AS unit
+SELECT z.dia, z.cod_art, z.nombrecorto, SUM(z.cantidad) AS cantidad, SUM(z.costo) AS costo, SUM(z.costo) / SUM(z.cantidad) AS unit
 FROM (
-	SELECT DAY(p.`fecha`) AS mes, m.`cod_art`, i.nombrecorto , SUM(m.`cantidad`) AS cantidad, SUM(d.`debe`) AS costo
+	SELECT DAY(p.`fecha`) AS dia, m.`cod_art`, i.nombrecorto , SUM(m.`cantidad`) AS cantidad, SUM(d.`debe`) AS costo
 	FROM ordenproduccion o
 	LEFT JOIN planificacionproduccion p ON o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
 	LEFT JOIN inv_vales v  		ON o.`no_vale`  = v.`no_vale`
@@ -70,11 +70,11 @@ FROM (
 	LEFT JOIN inv_articulos i 	ON m.`cod_art`  = i.`cod_art` 
 	LEFT JOIN sf_tmpenc e 		ON v.`idtmpenc` = e.`id_tmpenc`
 	LEFT JOIN sf_tmpdet d 		ON e.`id_tmpenc` = d.`id_tmpenc`
-	WHERE p.`fecha` BETWEEN '2018-02-01' AND '2018-02-28'
+	WHERE p.`fecha` BETWEEN '2019-03-01' AND '2019-03-31'
 	AND d.`cuenta` = '1510110201'
 	GROUP BY DAY(p.`fecha`) , m.`cod_art`, i.`descri`
 	UNION ALL
-	SELECT  MONTH(p.`fecha`)AS mes, i.`cod_art`, i.`nombrecorto`, SUM(ps.`cantidad`) AS cantidad, SUM(d.`debe`) AS costo
+	SELECT  MONTH(p.`fecha`)AS dia, i.`cod_art`, i.`nombrecorto`, SUM(ps.`cantidad`) AS cantidad, SUM(d.`debe`) AS costo
 	FROM productosimple ps
 	LEFT JOIN productosimpleprocesado pp ON ps.`idproductosimple` = pp.`idproductosimple`
 	LEFT JOIN metaproductoproduccion m   ON pp.`idmetaproductoproduccion` = m.`idmetaproductoproduccion`
@@ -83,11 +83,11 @@ FROM (
 	LEFT JOIN inv_articulos i 	     ON m.`cod_art`  = i.`cod_art`
 	LEFT JOIN sf_tmpenc e 		ON pb.`id_tmpenc` = e.`id_tmpenc`
 	LEFT JOIN sf_tmpdet d 		ON e.`id_tmpenc` = d.`id_tmpenc`
-	WHERE p.`fecha` BETWEEN '2018-02-01' AND '2018-02-28'
+	WHERE p.`fecha` BETWEEN '2019-03-01' AND '2019-03-31'
 	AND d.`cuenta` = '1510110201'
 	GROUP BY DAY(p.`fecha`), i.`cod_art`, i.`descri`
 ) z
-GROUP BY z.mes, z.cod_art, z.nombrecorto
+GROUP BY z.dia, z.cod_art, z.nombrecorto
 ;
 
 

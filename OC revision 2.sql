@@ -3,7 +3,7 @@
 SELECT 	d.`no_trans` AS id, 
 	d.`fecha`, 
 	v.`fecha`,
-	v.`no_vale` AS codigo, 
+	v.`no_vale`, 
 	d.`cod_art`, 
 	a.`descri`, 
 	v.`estado`,
@@ -18,8 +18,8 @@ LEFT JOIN inv_mov m 	  ON d.`no_trans` = m.no_trans
 LEFT JOIN inv_vales v 	  ON d.`no_trans` = v.`no_trans`
 LEFT JOIN inv_articulos a ON d.`cod_art` = a.`cod_art`
 -- WHERE v.fecha BETWEEN '2017-01-01' AND '2017-12-31'
-WHERE v.fecha >= '2017-01-01'
-AND d.`cod_art` = 35
+WHERE v.fecha >= '2019-01-01'
+AND d.`cod_art` = 758
 ;
 
 -- compras detalle
