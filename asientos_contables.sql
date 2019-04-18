@@ -20,10 +20,11 @@ from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
-where e.`tipo_doc` = 'TR'
-and e.`no_doc` in (1117)
+where e.`tipo_doc` = 'PD'
+and e.`estado` <> 'ANL'
+-- and e.`no_doc` in (1117)
 -- AND e.`glosa` LIKE '%2%QUINCENA%'
-and e.`fecha` between '2019-03-01' and '2019-04-31'
+and e.`fecha` between '2019-01-01' and '2019-01-31'
 ;
 
 update sf_tmpdet d set d.`cuenta` = '1580110200', d.`cod_art` = 96, d.`cant_art` = 7500 where d.`id_tmpdet` = 595184;

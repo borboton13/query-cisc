@@ -71,7 +71,7 @@ from (
 	left join inv_articulos i 	on m.`cod_art`  = i.`cod_art` 
 	left join sf_tmpenc e 		on v.`idtmpenc` = e.`id_tmpenc`
 	left join sf_tmpdet d 		on e.`id_tmpenc` = d.`id_tmpenc`
-	where p.`fecha` between '2019-03-01' and '2019-03-31'
+	where p.`fecha` between '2019-02-01' and '2019-02-28'
 	and d.`cuenta` = '1510110201'
 	group by DAY(p.`fecha`) , m.`cod_art`, i.`descri`
 	union all
@@ -84,14 +84,28 @@ from (
 	left join inv_articulos i 	     on m.`cod_art`  = i.`cod_art`
 	left join sf_tmpenc e 		on pb.`id_tmpenc` = e.`id_tmpenc`
 	left join sf_tmpdet d 		on e.`id_tmpenc` = d.`id_tmpenc`
-	where p.`fecha` between '2019-03-01' and '2019-03-31'
+	where p.`fecha` between '2019-02-01' and '2019-02-28'
 	and d.`cuenta` = '1510110201'
+	and i.`cod_art` = d.`cod_art`
 	group by DAY(p.`fecha`), i.`cod_art`, i.`descri`
 ) z
 group by z.dia, z.cod_art, z.nombrecorto
 ;
 
 
+
+
+select DAY(p.`fecha`) as dia, m.`cod_art`, i.nombrecorto , SUM(m.`cantidad`) as cantidad, SUM(d.`debe`) as costo
+from ordenproduccion o
+left join planificacionproduccion p on o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
+left join inv_vales v 		on o.`idordenproduccion` = v.`idordenproduccion`
+left join inv_movdet m 		on v.`no_trans` = m.`no_trans`
+left join inv_articulos i 	on m.`cod_art`  = i.`cod_art` 
+left join sf_tmpenc e 		on v.`idtmpenc` = e.`id_tmpenc`
+left join sf_tmpdet d 		on e.`id_tmpenc` = d.`id_tmpenc`
+where p.`fecha` between '2019-02-01' and '2019-02-28'
+and d.`cuenta` = '1510110201'
+group by DAY(p.`fecha`) , m.`cod_art`, i.`descri`;
 
 
 
@@ -104,10 +118,18 @@ left join planificacionproduccion p  on pb.`idplanificacionproduccion` = p.`idpl
 left join inv_articulos i 	     on m.`cod_art`  = i.`cod_art`
 left join sf_tmpenc e 		on pb.`id_tmpenc` = e.`id_tmpenc`
 left join sf_tmpdet d 		on e.`id_tmpenc` = d.`id_tmpenc`
-where p.`fecha` between '2019-01-01' and '2019-01-31'
+where p.`fecha` between '2019-02-21' and '2019-02-25'
 and d.`cuenta` = '1510110201'
+and i.`cod_art` = d.`cod_art`
 group by DAY(p.`fecha`), i.`cod_art`, i.`descri`
 ;
+
+
+
+
+
+
+
 
 
 
