@@ -20,14 +20,20 @@ from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
-where e.`tipo_doc` = 'PD'
+where e.`tipo_doc` = 'TR'
 and e.`estado` <> 'ANL'
--- and e.`no_doc` in (1117)
+and e.`no_doc` in (1120)
 -- AND e.`glosa` LIKE '%2%QUINCENA%'
-and e.`fecha` between '2019-01-01' and '2019-01-31'
+and e.`fecha` between '2019-01-01' and '2019-12-31'
 ;
 
-update sf_tmpdet d set d.`cuenta` = '1580110200', d.`cod_art` = 96, d.`cant_art` = 7500 where d.`id_tmpdet` = 595184;
+-- update sf_tmpdet d set d.`cuenta` = '1580110200', d.`cod_art` = 96, d.`cant_art` = 7500 where d.`id_tmpdet` = 595184;
+
+-- update sf_tmpdet d SET d.`id_tmpenc` = 106270 where d.`id_tmpdet` in (11778	,11779	,11780	,11781	,11782	,11783	,11784	,11785	,11786	,11787	);
+-- update sf_tmpenc e set e.`estado` = 'ANL' where e.`id_tmpenc` = 106271;
+-- delete FROM sf_tmpdet where id_tmpdet = 596085;
+
+union CENTRO VETERINARIO S.R.L, SU FACTURA 1125, COCHABAMBA, CISC, SOLICITANTE(CANELAS TERRAZAS GILBERDT OSBY), PROVEEDOR(union CENTRO VETERINARIO S.R.L), ABRIL, IOC CISC-INV-147, ALMACENES
 
 -- SET @folio = (SELECT MAX(id_tmpdet) FROM sf_tmpdet);
 -- INSERT INTO sf_tmpdet (id_tmpdet, cuenta, no_cia, debe, haber, debeme, haberme, tc, no_trans, id_tmpenc, idpersonacliente) 
