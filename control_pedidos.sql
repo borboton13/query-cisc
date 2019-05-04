@@ -53,7 +53,7 @@ left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
 where p.`FECHA_ENTREGA` between '2019-01-01' and '2019-12-31'
 -- AND p.`IDPEDIDOS` >= 23759
 -- AND p.`IDCLIENTE` = 65
-and p.`CODIGO` in (2793, 2794, 2806)
+and p.`CODIGO` in (2852)
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 29988
 -- AND pc.`AP` LIKE '%Car%'
@@ -67,7 +67,7 @@ and p.`CODIGO` in (2793, 2794, 2806)
 
 -- HIPERMAXIS 30/04/2019
 -- UPDATE pedidos p SET p.`FECHA_ENTREGA` = '2019-05-04' WHERE p.`IDPEDIDOS` IN (31195,31196,31208); -- ok
--- update pedidos p set p.`FECHA_ENTREGA` = '2019-04-30' where p.`IDPEDIDOS` in (31195,31196,31208); -- pen
+ update pedidos p set p.`FECHA_ENTREGA` = '2019-04-30' where p.`IDPEDIDOS` in (31195,31196,31208); -- pen
 -- UPDATE pedidos p SET p.`IDMOVIMIENTO` = null WHERE p.`IDPEDIDOS` IN (31195,31196,31208); -- ok
 -- UPDATE pedidos p SET p.`id_tmpenc` = null WHERE p.`IDPEDIDOS` IN (31195,31196,31208); -- ok
 -- update movimiento m set m.`ESTADO` = 'A' where m.`IDMOVIMIENTO` in (52023,52022,52011);  -- ok
