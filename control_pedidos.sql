@@ -1,59 +1,60 @@
 -- -----------------------------------------------------------------
 -- Ventas al contado X articulo
 -- -----------------------------------------------------------------
-SELECT v.`IDVENTADIRECTA`, v.`FECHA_PEDIDO`, v.`CODIGO`, v.`ESTADO`, a.`CANTIDAD`, a.`REPOSICION`, a.`TOTAL`, a.`PRECIO`, a.`IMPORTE`
-FROM articulos_pedido a
-JOIN ventadirecta v ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
-WHERE v.`FECHA_PEDIDO` BETWEEN '2016-01-01' AND	'2016-12-31'
-AND a.`cod_art` IN (237)
+select v.`IDVENTADIRECTA`, v.`FECHA_PEDIDO`, v.`CODIGO`, v.`ESTADO`, a.`CANTIDAD`, a.`REPOSICION`, a.`TOTAL`, a.`PRECIO`, a.`IMPORTE`
+from articulos_pedido a
+join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
+where v.`FECHA_PEDIDO` between '2016-01-01' and	'2016-12-31'
+and a.`cod_art` in (237)
 ;
 
 -- ----------------------------------------------------------------
 -- ---------------------- RESUMEN PEDIDOS -------------------------
-SELECT p.`IDPEDIDOS`, pc.`NOM`, pc.`AP`, pc.`AM`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`TOTAL`, p.`TOTALIMPORTE`, p.`id_tmpenc`
-FROM pedidos p
-LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
+select p.`IDPEDIDOS`, pc.`NOM`, pc.`AP`, pc.`AM`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`TOTAL`, p.`TOTALIMPORTE`, p.`id_tmpenc`
+from pedidos p
+left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+where p.`FECHA_ENTREGA` between '2019-01-01' and '2019-01-31'
 -- AND p.`ESTADO` <> 'ANULADO'
 -- AND pc.`NOM` LIKE '%Edelfr%'
 ;
 
 -- PEDIDOS - ASIENTOS
-SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`IDTIPOPEDIDO`, t.`NOMBRE`, p.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`
-FROM pedidos p
-JOIN tipopedido t ON p.`IDTIPOPEDIDO` = t.`IDTIPOPEDIDO`
-JOIN sf_tmpenc e ON p.`id_tmpenc` = e.`id_tmpenc`
-JOIN sf_tmpdet d ON e.`id_tmpenc` = d.`id_tmpenc`
-JOIN arcgms a 	 ON d.`cuenta` = a.`cuenta`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-03-31'
-AND p.`ESTADO` <> 'ANULADO'
-AND p.`IDUSUARIO` <> 5
+select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`IDTIPOPEDIDO`, t.`NOMBRE`, p.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`
+from pedidos p
+join tipopedido t on p.`IDTIPOPEDIDO` = t.`IDTIPOPEDIDO`
+join sf_tmpenc e on p.`id_tmpenc` = e.`id_tmpenc`
+join sf_tmpdet d on e.`id_tmpenc` = d.`id_tmpenc`
+join arcgms a 	 on d.`cuenta` = a.`cuenta`
+where p.`FECHA_ENTREGA` between '2019-01-01' and '2019-03-31'
+and p.`ESTADO` <> 'ANULADO'
+and p.`IDUSUARIO` <> 5
 ;
 
 
 
 -- ----------------------------------------------------------------
 -- --------------------- DETALLE DE PEDIDOS -----------------------
-SELECT 	p.`FECHA_ENTREGA` AS FECHA, 
+select 	p.`FECHA_ENTREGA` as FECHA, 
 	p.`IDPEDIDOS`, 
 	p.`CODIGO`,
 	P.`ESTADO`,
-	CONCAT(pc.`NOM`,' ',pc.`AP`,' ',pc.`AM`) AS CLIENTE, p.`OBSERVACION`,
+	p.`IDCLIENTE`,
+	CONCAT(pc.`NOM`,' ',pc.`AP`,' ',pc.`AM`) as CLIENTE, p.`OBSERVACION`,
 	a.`cod_art`, 
-	a.`IDARTICULOSPEDIDO` AS IdArtP, 
+	a.`IDARTICULOSPEDIDO` as IdArtP, 
 	ar.`descri`, 
 	a.`CANTIDAD`, a.`PROMOCION`, a.`REPOSICION`, a.`TOTAL`, a.`PRECIO`, a.`IMPORTE`, 
 	a.`cu`,
 	p.`IDTIPOPEDIDO`, p.`CV`, p.`IDMOVIMIENTO`,
 	p.`ESTADO`, p.`id_tmpenc`, p.`TIENEFACTURA`, p.`FACTURA`
-FROM articulos_pedido a
-LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
-LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
-LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-12-31'
+from articulos_pedido a
+left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
+left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+where p.`FECHA_ENTREGA` between '2019-01-01' and '2019-12-31'
 -- AND p.`IDPEDIDOS` >= 23759
 -- AND p.`IDCLIENTE` = 65
-AND p.`CODIGO` IN (2852)
+and p.`CODIGO` in (3099)
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 29988
 -- AND pc.`AP` LIKE '%Car%'
@@ -67,13 +68,13 @@ AND p.`CODIGO` IN (2852)
 
 -- HIPERMAXIS 30/04/2019
 -- UPDATE pedidos p SET p.`FECHA_ENTREGA` = '2019-05-04' WHERE p.`IDPEDIDOS` IN (31195,31196,31208); -- ok
- UPDATE pedidos p SET p.`FECHA_ENTREGA` = '2019-04-30' WHERE p.`IDPEDIDOS` IN (31195,31196,31208); -- pen
+ update pedidos p set p.`FECHA_ENTREGA` = '2019-04-30' where p.`IDPEDIDOS` in (31195,31196,31208); -- pen
 -- UPDATE pedidos p SET p.`IDMOVIMIENTO` = null WHERE p.`IDPEDIDOS` IN (31195,31196,31208); -- ok
 -- UPDATE pedidos p SET p.`id_tmpenc` = null WHERE p.`IDPEDIDOS` IN (31195,31196,31208); -- ok
 -- update movimiento m set m.`ESTADO` = 'A' where m.`IDMOVIMIENTO` in (52023,52022,52011);  -- ok
 
 
-SELECT *
+select *
 FROM ventaarticulo a
 WHERE a.`cod_art` IN (120, 122);
 
