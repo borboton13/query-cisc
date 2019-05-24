@@ -20,8 +20,8 @@ SELECT
         P.TOTALIQUIDOXGAB AS LIQUIDO_PAG
 FROM PLANILLAPAGOMATERIAPRIMA P
 LEFT JOIN ZONAPRODUCTIVA Z ON P.IDZONAPRODUCTIVA = Z.IDZONAPRODUCTIVA
-WHERE P.FECHAINICIO = '2018-01-01'
-AND   P.FECHAFIN    = '2018-01-15'
+WHERE P.FECHAINICIO = '2019-02-01'
+AND   P.FECHAFIN    = '2019-02-15'
 ;
 -- ----------------------------------------------------------------------
 
@@ -31,12 +31,21 @@ LEFT JOIN PLANILLAACOPIO P ON R.IDPLANILLAACOPIO = P.IDPLANILLAACOPIO
 WHERE P.FECHA BETWEEN '2018-01-01' AND '2018-01-15'
 ;
 
-SELECT MONTH(P.FECHA) AS MES, SUM(R.CANTIDADRECIBIDA) AS RECIBIDA, SUM(R.CANTIDADPESADA) AS PESADA, ((SUM(R.CANTIDADPESADA)) * 3) AS PESADA_BS
+SELECT MONTH(P.FECHA) AS MES, SUM(R.CANTIDADRECIBIDA) AS RECIBIDA, SUM(R.CANTIDADPESADA) AS PESADA, ((SUM(R.CANTIDADPESADA)) * 3.2) AS PESADA_BS
 FROM REGISTROACOPIO R
 LEFT JOIN PLANILLAACOPIO P ON R.IDPLANILLAACOPIO = P.IDPLANILLAACOPIO
 -- WHERE P.FECHA BETWEEN TO_DATE('01/02/2015','DD/MM/YYYY') AND TO_DATE('28/02/2015','DD/MM/YYYY')
-WHERE P.FECHA BETWEEN '2016-05-01' AND '2016-05-15'
+WHERE P.FECHA BETWEEN '2019-02-01' AND '2019-02-15'
 GROUP BY MONTH(P.FECHA)
+;
+
+SELECT DAY(P.FECHA) AS dia, z.`idzonaproductiva`, z.`numero`, z.`nombre`, SUM(R.CANTIDADRECIBIDA) AS RECIBIDA, SUM(R.CANTIDADPESADA) AS PESADA
+FROM REGISTROACOPIO R
+LEFT JOIN PLANILLAACOPIO P ON R.IDPLANILLAACOPIO = P.IDPLANILLAACOPIO
+LEFT JOIN zonaproductiva z ON r.`idzonaproductiva` = z.`idzonaproductiva`
+WHERE P.FECHA BETWEEN '2019-02-01' AND '2019-02-15'
+AND z.`numero` = 074
+GROUP BY DAY(P.FECHA), z.`idzonaproductiva`, z.`numero`, z.`nombre`
 ;
 
 
@@ -46,7 +55,7 @@ SELECT * FROM `descuentproductmateriaprima`;
 -- ---------------------------------------------------------------
 -- --------------- PLANILLA DE PAGO X QUINCENA -------------------
 -- ---------------------------------------------------------------
-SELECT  /*r.`idregistropagomateriaprima`, r.`idplanillapagomateriaprima`, z.`idzonaproductiva`,*/
+SELECT  r.`idregistropagomateriaprima`, p.`idplanillapagomateriaprima`, z.`idzonaproductiva`, d.`iddescuentproductmateriaprima`,
 	p.`fechainicio`,
 	z.`nombre`, z.`numero`,
 	pe.`idpersona`, e.`noidentificacion` AS ci, pe.`nombres`, pe.`apellidopaterno`, pe.`apellidomaterno`,
@@ -72,11 +81,27 @@ JOIN persona pe        			ON d.`idproductormateriaprima` = pe.`idpersona`
 JOIN entidad e 				ON pe.`idpersona` = e.`identidad`
 JOIN planillapagomateriaprima p 	ON r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
 JOIN zonaproductiva z 			ON p.`idzonaproductiva` = z.`idzonaproductiva`
-WHERE p.fechainicio = '2018-08-01'
-AND z.`numero` = 001
--- and pe.`idpersona` in (23,579, 628)
+WHERE p.fechainicio = '2019-02-01'
+-- AND z.`numero` = 001
+-- AND pe.`idpersona` IN (352)
 AND r.`liquidopagable` <> 0
 ;
+
+
+SELECT  z.`idzonaproductiva`, z.`nombre`, z.`numero`, SUM(r.`cantidadtotal`) AS cantidad
+FROM registropagomateriaprima r
+JOIN descuentproductmateriaprima d 	ON r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
+JOIN persona pe        			ON d.`idproductormateriaprima` = pe.`idpersona`
+JOIN entidad e 				ON pe.`idpersona` = e.`identidad`
+JOIN planillapagomateriaprima p 	ON r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
+JOIN zonaproductiva z 			ON p.`idzonaproductiva` = z.`idzonaproductiva`
+WHERE p.fechainicio = '2019-02-01'
+-- AND r.`liquidopagable` <> 0
+GROUP BY z.`idzonaproductiva`, z.`nombre`, z.`numero`
+;
+
+
+
 -- ---------------------------------------------------------------
 -- ---------------------------------------------------------------
 -- --------------- REPORTE TOTAL X PRODUCTOR A PARTIR PLANILLA ---
@@ -126,10 +151,18 @@ SELECT zo.nombre, zo.numero, SUM(ra.cantidadrecibida) AS cantidadrecibida, SUM(r
 FROM REGISTROACOPIO RA
 LEFT JOIN PLANILLAACOPIO PL ON ra.idplanillaacopio = pl.idplanillaacopio
 LEFT JOIN zonaproductiva ZO ON ra.idzonaproductiva = zo.idzonaproductiva
--- WHERE pl.fecha between to_date('29/05/2015','dd/mm/yyyy') and to_date('29/05/2015','dd/mm/yyyy')
-WHERE pl.fecha BETWEEN '2016-11-16' AND '2016-11-30'
+WHERE pl.fecha BETWEEN '2019-02-01' AND '2019-02-15'
 GROUP BY zo.nombre, zo.numero
 ;
+
+SELECT se.idzonaproductiva, zo.nombre, zo.numero, SUM(ac.cantidad) AS cantidad
+FROM acopiomateriaprima ac
+LEFT JOIN sesionacopio se   ON ac.idsesionacopio   = se.idsesionacopio
+LEFT JOIN zonaproductiva zo ON se.idzonaproductiva = zo.idzonaproductiva
+WHERE se.fecha BETWEEN '2018-12-16' AND '2018-12-31'
+GROUP BY se.idzonaproductiva, zo.nombre, zo.numero
+;
+
 
 
 SELECT SUM(totalga)
@@ -160,8 +193,8 @@ JOIN DESCUENTPRODUCTMATERIAPRIMA dpm 	ON rpm.`iddescuentproductmateriaprima` = d
 JOIN PRODUCTORMATERIAPRIMA pm 		ON dpm.`idproductormateriaprima`       = pm.`idproductormateriaprima` 
 JOIN ZONAPRODUCTIVA zp 			ON ppm.`idzonaproductiva` 	       = zp.`idzonaproductiva`
 JOIN persona p 				ON pm.`idproductormateriaprima`        = p.`idpersona`
-WHERE ppm.`fechainicio` >= '2016-09-01' 
-AND   ppm.`fechafin`    <= '2016-11-01'
+WHERE ppm.`fechainicio` >= '2019-02-01' 
+AND   ppm.`fechafin`    <= '2019-02-15'
 AND rpm.`totalpagoacopio` > 0
 -- and zp.`numero` = 074
 GROUP BY zp.`nombre`, p.`idpersona`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, ppm.`preciounitario`
@@ -203,8 +236,8 @@ AND rpm.`totalpagoacopio` > 0
 -- --------------------------------------------------------------------------------
 -- --------------- PLANILLA DE PAGO X QUINCENA + RETENCION 0.20 -------------------
 -- --------------------------------------------------------------------------------
-SELECT  
-	z.`nombre` AS GAB, z.`numero` AS Nro, e.`noidentificacion` AS CI, pe.`Nombres`, pe.`ApellidoPaterno`, pe.`ApellidoMaterno`,
+SELECT  d.`idproductormateriaprima`,
+ 	z.`nombre` AS GAB, z.`numero` AS Nro, e.`noidentificacion` AS CI, pe.`Nombres`, pe.`ApellidoPaterno`, pe.`ApellidoMaterno`,
 	r.`cantidadtotal` 		AS Cantidad,
 	@ret:=r.`cantidadtotal` * 0.2 	AS Retenc, 
 	-- r.`totalpagoacopio` 		AS Total, 
@@ -229,7 +262,7 @@ JOIN persona pe        			ON d.`idproductormateriaprima` = pe.`idpersona`
 JOIN entidad e 				ON pe.`idpersona` = e.`identidad`
 JOIN planillapagomateriaprima p 	ON r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
 JOIN zonaproductiva z 			ON p.`idzonaproductiva` = z.`idzonaproductiva`
-WHERE p.fechainicio = '2018-08-01'
+WHERE p.fechainicio = '2019-02-01'
 -- AND z.`numero` = 001
 AND r.`liquidopagable` <> 0
 ORDER BY z.`nombre`, pe.`nombres`

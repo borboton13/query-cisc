@@ -3,7 +3,7 @@
 SELECT 	d.`no_trans` AS id, 
 	d.`fecha`, 
 	v.`fecha`,
-	v.`no_vale` AS codigo, 
+	v.`no_vale`, 
 	d.`cod_art`, 
 	a.`descri`, 
 	v.`estado`,
@@ -18,17 +18,16 @@ LEFT JOIN inv_mov m 	  ON d.`no_trans` = m.no_trans
 LEFT JOIN inv_vales v 	  ON d.`no_trans` = v.`no_trans`
 LEFT JOIN inv_articulos a ON d.`cod_art` = a.`cod_art`
 -- WHERE v.fecha BETWEEN '2017-01-01' AND '2017-12-31'
-WHERE v.fecha >= '2017-01-01'
-AND d.`cod_art` = 35
+WHERE v.fecha >= '2019-01-01'
+AND d.`cod_art` = 758
 ;
 
 -- compras detalle
 SELECT e.`id_com_encoc`, e.`fecha`, e.`fecha_recepcion`, e.`no_orden`, d.`cod_art`, d.`cant_sol`, d.`costo_uni`, d.`total` , e.`glosa`
 FROM com_detoc d
 LEFT JOIN com_encoc e ON d.`id_com_encoc` = e.`id_com_encoc`
-WHERE e.fecha BETWEEN '2017-01-01' AND '2017-12-31'
--- WHERE e.`fecha_recepcion` BETWEEN '2017-01-01' AND '2017-12-31'
-AND d.`cod_art` = 280
+WHERE e.fecha BETWEEN '2019-01-01' AND '2019-12-31'
+AND e.`no_orden` = 'CISC-INV-4'
 ;
 
 
@@ -38,7 +37,7 @@ FROM (
 	SELECT e.`id_com_encoc`, e.`fecha`, e.`fecha_recepcion`, e.`estado`, e.`no_orden`, d.`cod_art`, d.`cant_sol`, d.`costo_uni`, d.`total` -- , e.`glosa`
 	FROM com_detoc d
 	LEFT JOIN com_encoc e ON d.`id_com_encoc` = e.`id_com_encoc`
-	WHERE e.`fecha` BETWEEN '2018-05-01' AND '2018-09-30'
+	WHERE e.`fecha` BETWEEN '2019-02-01' AND '2019-03-28'
 	AND e.`cod_alm` = 5
 --	AND d.`cod_art` = 624
      ) com
@@ -60,7 +59,7 @@ JOIN (
 	LEFT JOIN inv_mov m 	  ON d.`no_trans` = m.no_trans
 	LEFT JOIN inv_vales v 	  ON d.`no_trans` = v.`no_trans`
 	LEFT JOIN inv_articulos a ON d.`cod_art` = a.`cod_art`
-	WHERE v.fecha BETWEEN '2018-05-01' AND '2018-09-30'
+	WHERE v.fecha BETWEEN '2019-02-01' AND '2019-03-28'
 	-- AND a.`cuenta_art` = "4430110900"
 	-- AND d.`cod_art` = 624
      ) val ON com.id_com_encoc = val.id_com_encoc

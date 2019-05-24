@@ -84,7 +84,7 @@ LEFT JOIN ordeninsumo oi		ON op.`idordenproduccion` = oi.`idordenproduccion`
 LEFT JOIN ordenmaterial om		ON op.`idordenproduccion` = om.`idordenproduccion`
 LEFT JOIN costosindirectos ci 		ON op.`idordenproduccion` = ci.`idordenproduccion`
 LEFT JOIN planificacionproduccion pl 	ON op.`idplanificacionproduccion` = pl.`idplanificacionproduccion`
-WHERE pl.`fecha` BETWEEN '2017-08-01' AND '2017-09-31'
+WHERE pl.`fecha` BETWEEN '2018-12-01' AND '2019-01-31'
 AND oi.`cod_art` = 1
 ;
 --
@@ -106,7 +106,7 @@ LEFT JOIN ordeninsumo oi		ON pb.`idproductobase` = oi.`idproductobase`
 -- LEFT JOIN ordenmaterial om		ON om.`idordenproduccion`
 LEFT JOIN costosindirectos ci 		ON ps.`idproductosimple` = ci.`idproductosimple`
 LEFT JOIN planificacionproduccion pl 	ON pb.`idplanificacionproduccion` = pl.`idplanificacionproduccion`
-WHERE pl.`fecha` BETWEEN '2017-08-01' AND '2017-09-31'
+WHERE pl.`fecha` BETWEEN '2018-12-01' AND '2019-01-31'
 AND oi.`cod_art` = 1
 ;
 --
