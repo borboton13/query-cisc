@@ -1,31 +1,31 @@
 -- ------------------------------------------------------
 -- 1. Select, Update. Estado Orden de produccion Normal
 -- ------------------------------------------------------
-SELECT *
-FROM ordenproduccion o
+select *
+from ordenproduccion o
 -- UPDATE ordenproduccion o
-JOIN planificacionproduccion p ON o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
-SET o.`estadoorden` = 'INSTOCK'
-WHERE p.`fecha` BETWEEN '2019-02-25' AND '2019-02-25'
+join planificacionproduccion p on o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
+set o.`estadoorden` = 'TABULATED'
+where p.`fecha` between '2019-04-01' and '2019-04-01'
 -- AND o.codigo = '1611-0035'
 ;
 
 -- 2. Select, Update. Estado Orden de produccion Reproceso
-SELECT ps.`idproductosimple`, ps.`estado`, pb.`idproductobase`, pb.`estado`, p.`idplanificacionproduccion`, p.`estado`
-FROM productosimple ps
+select ps.`idproductosimple`, ps.`estado`, pb.`idproductobase`, pb.`estado`, p.`idplanificacionproduccion`, p.`estado`
+from productosimple ps
 -- UPDATE productosimple ps 
-JOIN productobase pb ON ps.`idproductobase` = pb.`idproductobase`
-JOIN planificacionproduccion p ON pb.`idplanificacionproduccion` = p.`idplanificacionproduccion`
+join productobase pb on ps.`idproductobase` = pb.`idproductobase`
+join planificacionproduccion p on pb.`idplanificacionproduccion` = p.`idplanificacionproduccion`
 -- SET ps.`estado` = 'INSTOCK' , pb.`estado` = 'INSTOCK'
-WHERE p.`fecha` BETWEEN '2019-02-25' AND '2019-02-26'
+where p.`fecha` between '2019-02-25' and '2019-02-26'
 ;
 
 -- update planificacionproduccion p set p.`estado` = 'INSTOCK' where p.`fecha` between '2019-02-25' AND '2019-02-25'
 
 -- , pb.`estado` = 'FINALIZED'
 
-SELECT *
-FROM planificacionproduccion p
+select *
+from planificacionproduccion p
 -- update planificacionproduccion p set p.`estado` = 'PENDING' where p.`fecha` between '2019-01-01' and '2019-01-31'
 ;
 
@@ -33,9 +33,9 @@ FROM planificacionproduccion p
 -- ------
 -- ORDEN PRODUCCION - VALES
 -- ORDEN DE PRODUCCION POR MES + COSTO
-SELECT o.`idordenproduccion`, p.`fecha`, p.`estado`, o.`codigo`, o.`estadoorden`, v.`no_trans`, v.`no_vale`, o.`no_vale`, m.`cod_art`, i.`descri`, o.`cantidadproducida`, o.`costotoalproduccion`, o.`costounitario`, o.`id_tmpenc`
-FROM ordenproduccion o
-LEFT JOIN planificacionproduccion p ON o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
+select o.`idordenproduccion`, p.`fecha`, p.`estado`, o.`codigo`, o.`estadoorden`, v.`no_trans`, v.`no_vale`, o.`no_vale`, m.`cod_art`, i.`descri`, o.`cantidadproducida`, o.`costotoalproduccion`, o.`costounitario`, o.`id_tmpenc`
+from ordenproduccion o
+left join planificacionproduccion p on o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
 -- LEFT JOIN inv_vales v  		ON o.`no_vale`  = v.`no_vale`
 LEFT JOIN inv_vales v  		ON o.`no_trans`  = v.`no_trans`
 LEFT JOIN inv_movdet m 		ON v.`no_trans` = m.`no_trans`

@@ -71,7 +71,7 @@ from (
 	left join inv_articulos i 	on m.`cod_art`  = i.`cod_art` 
 	left join sf_tmpenc e 		on v.`idtmpenc` = e.`id_tmpenc`
 	left join sf_tmpdet d 		on e.`id_tmpenc` = d.`id_tmpenc`
-	where p.`fecha` between '2019-02-01' and '2019-02-28'
+	where p.`fecha` between '2019-04-01' and '2019-04-30'
 	and d.`cuenta` = '1510110201'
 	group by DAY(p.`fecha`) , m.`cod_art`, i.`descri`
 	union all
@@ -84,7 +84,7 @@ from (
 	left join inv_articulos i 	     on m.`cod_art`  = i.`cod_art`
 	left join sf_tmpenc e 		on pb.`id_tmpenc` = e.`id_tmpenc`
 	left join sf_tmpdet d 		on e.`id_tmpenc` = d.`id_tmpenc`
-	where p.`fecha` between '2019-02-01' and '2019-02-28'
+	where p.`fecha` between '2019-04-01' and '2019-04-30'
 	and d.`cuenta` = '1510110201'
 	and i.`cod_art` = d.`cod_art`
 	group by DAY(p.`fecha`), i.`cod_art`, i.`descri`
