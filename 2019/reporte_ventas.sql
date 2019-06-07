@@ -9,7 +9,7 @@ from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where p.`FECHA_ENTREGA` between '2019-04-01' and '2019-04-30'
+where p.`FECHA_ENTREGA` between '2019-05-01' and '2019-05-31'
 and P.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` <> 5
 -- AND pc.`NOM` LIKE '%TORRES%'
@@ -25,7 +25,7 @@ from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where p.`FECHA_ENTREGA` between '2019-04-01' and '2019-04-30'
+where p.`FECHA_ENTREGA` between '2019-05-01' and '2019-05-31'
 and P.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` <> 5
 -- AND p.`IDCLIENTE` = 165
@@ -43,10 +43,11 @@ from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where p.`FECHA_ENTREGA` between '2019-04-01' and '	2019-04-30'
+where p.`FECHA_ENTREGA` between '2019-05-21' and '2019-05-28'
 and P.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` <> 5
 and p.`IDTIPOPEDIDO` in (1, 5)
+and a.`cod_art` in (128, 129, 130, 131, 132)
 group by a.`cod_art`, ar.`descri`;
 
 -- --------------------------------------------------------------
@@ -58,7 +59,7 @@ from articulos_pedido a
 left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join personacliente pc on v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where v.`FECHA_PEDIDO` between '2019-04-01' and '2019-04-30'
+where v.`FECHA_PEDIDO` between '2019-05-01' and '2019-05-31'
 and v.`ESTADO` <> 'ANULADO'
 -- AND ar.`cuenta_art` = '4420110201'
 and v.`IDUSUARIO` <> 5
@@ -75,7 +76,7 @@ from articulos_pedido a
 left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join personacliente pc on v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where v.`FECHA_PEDIDO` between '2019-04-01' and '2019-04-30'
+where v.`FECHA_PEDIDO` between '2019-05-01' and '2019-05-31'
 and v.`ESTADO` <> 'ANULADO'
 -- AND V.`IDUSUARIO` IN (6, 404)
 and v.`IDUSUARIO` <> 5
@@ -165,3 +166,28 @@ and v.`ESTADO` <> 'ANULADO'
 and v.`IDUSUARIO` <> 5
 group by pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art`, ar.`descri`;
 -- ---------------------------------------------------
+
+
+
+-- AUX
+-- -----------------------------------------------------------------
+-- ------------- *** REPORTE 3. VENTAS x PRODUCTO (PEDIDOS) -------------
+-- -----------------------------------------------------------------
+select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANT_ARTICULOS, sum(a.`PROMOCION`) as PROMO,  SUM(a.`IMPORTE`) as TOTAL_BS
+from articulos_pedido a
+left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
+left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+where p.`FECHA_ENTREGA` between '2019-05-09' and '2019-05-16'
+and P.`ESTADO` <> 'ANULADO'
+and p.`IDUSUARIO` <> 5
+and p.`IDTIPOPEDIDO` in (1, 5)
+and a.`cod_art` in (128, 129, 130, 131, 132)
+group by a.`cod_art`, ar.`descri`;
+
+
+
+
+
+
+

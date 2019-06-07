@@ -73,9 +73,11 @@ from rhmarcado r
 where r.`marfecha` between '2018-07-01' and '2018-07-31'
 ;
 
+8193
+
 select *
 from vmarcado v
-where v.`marfecha` between '2019-04-01' and '2019-04-30'
+where v.`marfecha` between '2019-05-01' and '2019-05-31'
 ;
 
 -- DIAS PARA PASAJES
