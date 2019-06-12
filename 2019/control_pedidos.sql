@@ -54,7 +54,7 @@ left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
 where p.`FECHA_ENTREGA` between '2019-01-01' and '2019-12-31'
 -- AND p.`IDPEDIDOS` >= 23759
 -- AND p.`IDCLIENTE` = 65
-and p.`CODIGO` in (3559)
+and p.`CODIGO` in (3939)
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 29988
 -- AND pc.`AP` LIKE '%Car%'
@@ -63,7 +63,7 @@ and p.`CODIGO` in (3559)
 ;
 
 -- SEDEM SCZ
-update pedidos p set p.`FECHA_ENTREGA` = '2019-05-27' where p.`IDPEDIDOS` in (31961); -- 
+update pedidos p set p.`FECHA_ENTREGA` = '2019-06-12' where p.`IDPEDIDOS` in (32340); -- 
 
 -- UPDATE pedidos p SET p.`FECHA_ENTREGA` = '2019-05-03' WHERE p.`IDPEDIDOS` = 31254; -- ok
 -- UPDATE pedidos p SET p.`FECHA_ENTREGA` = '2019-05-02' WHERE p.`IDPEDIDOS` = 31254; -- pen
@@ -82,7 +82,7 @@ where a.`cod_art` in (120, 122);
 select 	v.`FECHA_PEDIDO`,
 	v.`IDVENTADIRECTA`,
 	v.`CODIGO`,
-	CONCAT(pc.`NOM`,' ',pc.`AP`,' ',pc.`AM`) AS CLIENTE, 
+	CONCAT(pc.`NOM`,' ',pc.`AP`,' ',pc.`AM`) as CLIENTE, 
 	a.`cod_art`, 
 	a.`IDARTICULOSPEDIDO` AS IdArtP, 
 	ar.`descri`, 

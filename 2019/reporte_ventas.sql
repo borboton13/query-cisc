@@ -185,9 +185,27 @@ and p.`IDTIPOPEDIDO` in (1, 5)
 and a.`cod_art` in (128, 129, 130, 131, 132)
 group by a.`cod_art`, ar.`descri`;
 
+-- AUX
+-- --------------------------------------------------------------------------
+-- ------------- REPORTE 2. VENTAS CLIENTES x PRODUCTO (PEDIDOS) -------------
+-- --------------------------------------------------------------------------
+-- SELECT pc.`NOM`, pc.`AP`, pc.`AM`, p.`IDPEDIDOS`, p.`CODIGO` AS COD_PED, a.`IDARTICULOSPEDIDO`, a.`cod_art`, ar.`descri`, a.`CANTIDAD`, a.`REPOSICION`, a.`TOTAL`, p.`ESTADO`, a.`IMPORTE`
+select pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANT_PRODUCTOS, SUM(a.`IMPORTE`) as TOTAL_BS
+from articulos_pedido a
+left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
+left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+where p.`FECHA_ENTREGA` between '2019-05-01' and '2019-06-08'
+and P.`ESTADO` <> 'ANULADO'
+and p.`IDUSUARIO` <> 5
+and p.`IDCLIENTE` in (911	,1463	,1464	,1465	,1466	,1468	,1472	,1557	) -- SEDEM
+and A.`cod_art` in (148, 150)
+group by pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art`, ar.`descri`;
+-- ---------------------------------------------------
 
 
-
-
-
+select *
+from personacliente p
+where p.`NOM` like '%SEDEM%'
+;
 

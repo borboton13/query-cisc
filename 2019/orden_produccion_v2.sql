@@ -18,7 +18,7 @@ where pl.`fecha` = '2019-05-14'
 ;
 
 
-select pr.`idproduccion`, i.`cod_art`, sum(i.`cantidad`) as cant, I.`costouni`, sum(i.`costouni` * i.`cantidad`) as TOTAL
+select pr.`idproduccion`, i.`cod_art`, sum(i.`cantidad`) as cant, i.`costouni`, sum(i.`costouni` * i.`cantidad`) as TOTAL
 from pr_produccion pr
 join pr_insumo i on pr.`idproduccion` = i.`idproduccion`
 group by pr.`idproduccion`, i.`cod_art`
