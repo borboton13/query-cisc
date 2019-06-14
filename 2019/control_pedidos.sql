@@ -84,30 +84,30 @@ select 	v.`FECHA_PEDIDO`,
 	v.`CODIGO`,
 	CONCAT(pc.`NOM`,' ',pc.`AP`,' ',pc.`AM`) as CLIENTE, 
 	a.`cod_art`, 
-	a.`IDARTICULOSPEDIDO` AS IdArtP, 
+	a.`IDARTICULOSPEDIDO` as IdArtP, 
 	ar.`descri`, 
 	a.`CANTIDAD`, a.`PROMOCION`, a.`REPOSICION`, a.`TOTAL`, a.`PRECIO`, a.`IMPORTE`, 
 	a.`cu`,
 	v.`IDMOVIMIENTO`,
 	v.`ESTADO`, v.`id_tmpenc`
-FROM articulos_pedido a
-LEFT JOIN ventadirecta v ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
-LEFT JOIN personacliente pc ON v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
-LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE v.`FECHA_PEDIDO` BETWEEN '2019-01-02' AND '2019-12-31'
+from articulos_pedido a
+left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
+left join personacliente pc on v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+where v.`FECHA_PEDIDO` between '2019-01-02' and '2019-12-31'
 -- AND v.idventadirecta >= 25681
 -- AND p.`IDPEDIDOS` IN (21928)
 -- AND p.`IDCLIENTE` = 65
-AND v.`CODIGO` IN (2396)
+and v.`CODIGO` in (2396)
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 2584
 -- AND pc.`AP` LIKE '%Car%'
 -- AND a.`cod_art` = 703
-AND v.`IDUSUARIO` = 5
+and v.`IDUSUARIO` = 5
 ;
 
-SELECT zz.cod_art, zz.descri, SUM(zz.total) AS cant
-FROM (
+select zz.cod_art, zz.descri, SUM(zz.total) as cant
+from (
 	/*SELECT 	a.`cod_art`,  ar.`descri`,  SUM(a.`TOTAL`) AS total
 	FROM articulos_pedido a
 	LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`

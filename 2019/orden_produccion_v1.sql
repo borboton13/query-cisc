@@ -6,7 +6,7 @@ from ordenproduccion o
 -- UPDATE ordenproduccion o
 join planificacionproduccion p on o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
 set o.`estadoorden` = 'TABULATED'
-where p.`fecha` between '2019-04-01' and '2019-04-01'
+where p.`fecha` between '2019-05-01' and '2019-05-31'
 -- AND o.codigo = '1611-0035'
 ;
 
