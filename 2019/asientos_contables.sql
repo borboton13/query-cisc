@@ -6,13 +6,16 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-111354
+109066
 )
 -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
 
-update sf_tmpdet d set d.`debe` = 5006.66
+update sf_tmpenc e set e.`estado` = 'APR' where e.`id_tmpenc` in (108294);
+update sf_tmpenc e set e.`fecha` = '2019-05-01' where e.`id_tmpenc` in (109066);
+
+-- update sf_tmpdet d set d.`debe` = 5006.66
 where d.`id_tmpdet` = 602273;
 
 --
