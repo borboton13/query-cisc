@@ -6,7 +6,7 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-109066
+112632
 )
 -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
@@ -28,9 +28,9 @@ left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where e.`tipo_doc` = 'NE'
 and e.`estado` <> 'ANL'
-and e.`no_doc` in (2763, 2849)
+-- and e.`no_doc` in (2763, 2849)
 -- AND e.`glosa` LIKE '%2%QUINCENA%'
-and e.`fecha` between '2019-01-01' and '2019-12-31'
+and e.`fecha` between '2019-05-01' and '2019-12-31'
 ;
 
 
