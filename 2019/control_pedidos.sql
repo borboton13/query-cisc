@@ -44,7 +44,8 @@ select 	p.`FECHA_ENTREGA` as FECHA,
 	a.`IDARTICULOSPEDIDO` as IdArtP, 
 	ar.`descri`, 
 	a.`CANTIDAD`, a.`PROMOCION`, a.`REPOSICION`, a.`TOTAL`, a.`PRECIO`, a.`IMPORTE`, 
-	a.`cu`,
+	p.`VALORCOMISION`, p.`TOTALIMPORTE`,
+	-- a.`cu`,
 	p.`IDTIPOPEDIDO`, p.`CV`, p.`IDMOVIMIENTO`,
 	p.`ESTADO`, p.`id_tmpenc`, p.`TIENEFACTURA`, p.`FACTURA`
 from articulos_pedido a
@@ -54,7 +55,8 @@ left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
 where p.`FECHA_ENTREGA` between '2019-01-01' and '2019-12-31'
 -- AND p.`IDPEDIDOS` >= 23759
 -- AND p.`IDCLIENTE` = 65
-and p.`CODIGO` in (3939)
+and p.`CODIGO` in (3133) -- 3939(8895), 4140(119), 4216(347)
+-- 3133
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 29988
 -- AND pc.`AP` LIKE '%Car%'
@@ -62,9 +64,27 @@ and p.`CODIGO` in (3939)
 -- AND p.`IDUSUARIO` = 5
 ;
 
--- SEDEM SCZ
-update pedidos p set p.`FECHA_ENTREGA` = '2019-06-12' where p.`IDPEDIDOS` in (32340); -- 
+select * from pedidos p where p.`IDPEDIDOS` in (31535, 32340, 32541, 32617);
 
+select *
+from movimiento m
+-- where m.`NROFACTURA` in (7411,    8895, 119, 347)
+where m.`IDPEDIDOS` in (31535, 32340, 32541, 32617)
+and m.`FECHA_FACTURA` >= '2019-05-01'
+;
+
+-- update pedidos p set p.`PORCENTAJECOMISION` = 10, p.`VALORCOMISION` = (p.`TOTALIMPORTE`*0.10) , p.`IDMOVIMIENTO` = null, p.`ESTADO` = 'PREPARAR', p.`id_tmpenc` = null
+where p.`IDPEDIDOS` in (32340, 32541, 32617);
+
+update pedidos p set p.`FECHA_ENTREGA` = '2019-06-12' where p.`IDPEDIDOS`= 32340; -- 2019-06-12
+update pedidos p set p.`FECHA_ENTREGA` = '2019-06-15' where p.`IDPEDIDOS`= 32541; -- 2019-06-15
+update pedidos p set p.`FECHA_ENTREGA` = '2019-06-19' where p.`IDPEDIDOS`= 32617; -- 2019-06-19
+
+-- update sf_tmpenc e set e.`estado` = 'ANL'
+where e.`id_tmpenc` in (112529, 112772, 113046);
+
+-- SEDEM SCZ
+-- update pedidos p set p.`FECHA_ENTREGA` = '2019-06-12' where p.`IDPEDIDOS` in (32340); -- 
 -- UPDATE pedidos p SET p.`FECHA_ENTREGA` = '2019-05-03' WHERE p.`IDPEDIDOS` = 31254; -- ok
 -- UPDATE pedidos p SET p.`FECHA_ENTREGA` = '2019-05-02' WHERE p.`IDPEDIDOS` = 31254; -- pen
 
