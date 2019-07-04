@@ -22,8 +22,9 @@ left join contrato c on cp.`idcontrato` = c.`idcontrato`
 left join empleado e on c.`idempleado` = e.`idempleado`
 left join persona p  on e.`idempleado` = p.`idpersona`
 left join entidad en on p.`idpersona` = en.`identidad`
-where en.`noidentificacion` = 9458393
-and bc.`fechafin` >= '2019-02-01'
+where en.`noidentificacion` = 5151362
+and bc.`fechafin` >= '2019-02-11'
+-- and bh.`horainicio` = '08:00:00'
 ;
 
 /** Cambiando Horario **/
@@ -34,8 +35,10 @@ left join contrato c on cp.`idcontrato` = c.`idcontrato`
 left join empleado e on c.`idempleado` = e.`idempleado`
 left join persona p  on e.`idempleado` = p.`idpersona`
 left join entidad en on p.`idpersona` = en.`identidad`
-set bh.`horainicio` = '05:30', bh.`horafin` = '13:30'
-where en.`noidentificacion` = 6517642
+set bh.`horainicio` = '08:30'
+where en.`noidentificacion` = 5151362
+and bc.`fechafin` >= '2019-02-11'
+and bh.`horainicio` = '08:00:00'
 ;
 
 
