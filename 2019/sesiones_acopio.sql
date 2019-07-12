@@ -77,7 +77,7 @@ left join sesionacopio sa on am.`idsesionacopio` = sa.`idsesionacopio`
 left join zonaproductiva zp on sa.`idzonaproductiva` = zp.`idzonaproductiva`
 left join persona p on am.`idproductormateriaprima` = p.`idpersona`
 left join entidad e on p.`idpersona` = e.`identidad`
-where sa.`fecha` between '2019-04-01' and '2019-05-30'
+where sa.`fecha` between '2019-05-01' and '2019-06-30'
 and am.`cantidad` > 0
 group by MONTH(sa.`fecha`), zp.`numero`, zp.`nombre`, am.`idproductormateriaprima`, e.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`
 ;

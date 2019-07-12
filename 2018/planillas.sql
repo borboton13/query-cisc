@@ -14,7 +14,7 @@ where c.`idcontrato` in (
 
 -- update contrato c set c.`activogenplan` = 0
 
-select bc.`idbandahorariacontrato`, bc.`idbandahoraria`, en.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, bc.`fechainicio`, bc.`fechafin`, bh.`horainicio`, bh.`horafin`
+select bc.`idbandahorariacontrato`, bc.`idbandahoraria`, en.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, bc.`fechainicio`, bc.`fechafin`, bh.`diainicio`, bh.`horainicio`, bh.`horafin`
 from bandahoraria bh
 left join bandahorariacontrato bc on bh.`idbandahoraria` = bc.`idbandahoraria`
 left join contratopuesto cp on bc.`idcontratopuesto` = cp.`idcontratopuesto`
@@ -22,7 +22,7 @@ left join contrato c on cp.`idcontrato` = c.`idcontrato`
 left join empleado e on c.`idempleado` = e.`idempleado`
 left join persona p  on e.`idempleado` = p.`idpersona`
 left join entidad en on p.`idpersona` = en.`identidad`
-where en.`noidentificacion` = 5151362
+where en.`noidentificacion` = 4529878
 and bc.`fechafin` >= '2019-02-11'
 -- and bh.`horainicio` = '08:00:00'
 ;
@@ -35,10 +35,12 @@ left join contrato c on cp.`idcontrato` = c.`idcontrato`
 left join empleado e on c.`idempleado` = e.`idempleado`
 left join persona p  on e.`idempleado` = p.`idpersona`
 left join entidad en on p.`idpersona` = en.`identidad`
-set bh.`horainicio` = '08:30'
-where en.`noidentificacion` = 5151362
+-- set bh.`horainicio` = '06:00'
+set bh.horafin = '17:00:00'
+where en.`noidentificacion` = 4529878
 and bc.`fechafin` >= '2019-02-11'
-and bh.`horainicio` = '08:00:00'
+-- and bh.`horainicio` = '07:00:00'
+and bh.idbandahoraria in (1028)
 ;
 
 
