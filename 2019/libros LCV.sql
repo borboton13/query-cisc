@@ -1,42 +1,42 @@
 -- -------------
 -- -- COMPRAS --
 -- -------------
-select 	d.FECHA as "FECHA FACTURA O DUI", 
-	d.NIT as "NIT PROVEEDOR", 
-	d.NOMBRE as "RAZON SOCIAL",
-	d.NUMERO as "NUMERO FACTURA",
-	"" as "NRO DUI",
-	d.numeroautorizacion as "NRO DE AUTORIZACION",
-	d.IMPORTE as "IMPORTE TOTAL DE LA COMPRA",
-	d.exento as "IMPORTE NO SUJETO A CREDITO FISCAL",
-	d.importe - d.exento as "SUBTOTAL",
-	"" as "DESCUENTOS",
-	d.importeneto as "IMPORTE BASE CREDITO FISCAL",
-	d.iva as "CREDITO FISCAL",
-	IFNULL(d.CODIGOCONTROL, 0) as CODIGOCONTROL,
-	"" as "TIPO DE COMPRA", z.estado
+SELECT 	d.FECHA AS "FECHA FACTURA O DUI", 
+	d.NIT AS "NIT PROVEEDOR", 
+	d.NOMBRE AS "RAZON SOCIAL",
+	d.NUMERO AS "NUMERO FACTURA",
+	"" AS "NRO DUI",
+	d.numeroautorizacion AS "NRO DE AUTORIZACION",
+	d.IMPORTE AS "IMPORTE TOTAL DE LA COMPRA",
+	d.exento AS "IMPORTE NO SUJETO A CREDITO FISCAL",
+	d.importe - d.exento AS "SUBTOTAL",
+	"" AS "DESCUENTOS",
+	d.importeneto AS "IMPORTE BASE CREDITO FISCAL",
+	d.iva AS "CREDITO FISCAL",
+	IFNULL(d.CODIGOCONTROL, 0) AS CODIGOCONTROL,
+	"" AS "TIPO DE COMPRA", z.estado
 	, z.idtmpenc
-from documentocontable d 
-join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
-where fecha between '2019-05-01' and '2019-05-31'
-and z.estado <> 'NULLIFIED'
-and z.tipo = 'INVOICE'
+FROM documentocontable d 
+JOIN documentocompra z ON d.iddocumentocontable = z.iddocumentocompra
+WHERE fecha BETWEEN '2019-06-01' AND '2019-06-30'
+AND z.estado <> 'NULLIFIED'
+AND z.tipo = 'INVOICE'
 ;
 
-select 	d.FECHA as "FECHA FACTURA O DUI", 
-	d.NIT as "NIT PROVEEDOR", 
-	d.NOMBRE as "RAZON SOCIAL",
-	d.NUMERO as "NUMERO FACTURA",
-	"" as "NRO DUI",
-	d.numeroautorizacion as "NRO DE AUTORIZACION",
-	d.IMPORTE as "IMPORTE TOTAL DE LA COMPRA",
-	d.exento as "IMPORTE NO SUJETO A CREDITO FISCAL",
-	d.importe - d.exento as "SUBTOTAL",
-	"" as "DESCUENTOS",
-	d.importeneto as "IMPORTE BASE CREDITO FISCAL",
-	d.iva as "CREDITO FISCAL",
-	IFNULL(d.CODIGOCONTROL, 0) as CODIGOCONTROL,
-	"" as "TIPO DE COMPRA", z.estado,
+SELECT 	d.FECHA AS "FECHA FACTURA O DUI", 
+	d.NIT AS "NIT PROVEEDOR", 
+	d.NOMBRE AS "RAZON SOCIAL",
+	d.NUMERO AS "NUMERO FACTURA",
+	"" AS "NRO DUI",
+	d.numeroautorizacion AS "NRO DE AUTORIZACION",
+	d.IMPORTE AS "IMPORTE TOTAL DE LA COMPRA",
+	d.exento AS "IMPORTE NO SUJETO A CREDITO FISCAL",
+	d.importe - d.exento AS "SUBTOTAL",
+	"" AS "DESCUENTOS",
+	d.importeneto AS "IMPORTE BASE CREDITO FISCAL",
+	d.iva AS "CREDITO FISCAL",
+	IFNULL(d.CODIGOCONTROL, 0) AS CODIGOCONTROL,
+	"" AS "TIPO DE COMPRA", z.estado,
 	z.idtmpenc, e.tipo_doc, e.no_doc, e.fecha, e.estado
 from documentocontable d 
 left join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
