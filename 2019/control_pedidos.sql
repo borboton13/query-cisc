@@ -55,7 +55,7 @@ left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
 where p.`FECHA_ENTREGA` between '2019-01-01' and '2019-12-31'
 -- AND p.`IDPEDIDOS` = 32343
 -- AND p.`IDCLIENTE` = 65
-and p.`CODIGO` in (3816) -- 3939(8895), 4140(119), 4216(347)
+and p.`CODIGO` in (3755) -- 3939(8895), 4140(119), 4216(347)
 -- 3133
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 29988
@@ -65,6 +65,8 @@ and p.`CODIGO` in (3816) -- 3939(8895), 4140(119), 4216(347)
 ;
 
 select * from pedidos p where p.`IDPEDIDOS` in (31535, 32340, 32541, 32617);
+
+update pedidos p set p.`ESTADO` = 'ANULADO', p.`OBSERVACION` = 'ERROR EN LA PERSONA (OSBY)' where p.`IDPEDIDOS` = 32156;
 
 select *
 from movimiento m

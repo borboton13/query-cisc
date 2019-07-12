@@ -6,13 +6,13 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-114503
+112120, 112719
 )
 -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
 
-update sf_tmpenc e set e.`estado` = 'APR' where e.`id_tmpenc` in (108294);
+update sf_tmpenc e set e.`estado` = 'APR' where e.`id_tmpenc` in (111869);
 update sf_tmpenc e set e.`fecha` = '2019-05-01' where e.`id_tmpenc` in (109066);
 
 -- update sf_tmpdet d set d.`debe` = 5006.66
@@ -27,8 +27,8 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where e.`tipo_doc` = 'NE'
-and e.`estado` <> 'ANL'
--- and e.`no_doc` in (2763, 2849)
+-- and e.`estado` <> 'ANL'
+and e.`no_doc` in (3519)
 -- AND e.`glosa` LIKE '%2%QUINCENA%'
 and e.`fecha` between '2019-05-01' and '2019-12-31'
 ;

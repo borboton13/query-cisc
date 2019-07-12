@@ -129,33 +129,39 @@ and p.`IDTIPOPEDIDO` = 5
 -- 11312
 -- CONTABILIZAR DESCUENTOS VETERINARIOS
 -- SET @folio = (SELECT MAX(id_tmpdet) FROM sf_tmpdet);
-set @folio = 13677;
+set @folio = 14018;
 -- INSERT INTO sf_tmpdet (id_tmpdet, cuenta, no_cia, debe, haber, moneda, no_trans, id_tmpenc, idpersonacliente) 
-select (@folio := @folio+1), '1421010200', '01', 0, p.`TOTALIMPORTE`, 'P', 109803, 109765, pe.`IDPERSONACLIENTE`
+select (@folio := @folio+1), '1421010200', '01', 0, p.`TOTALIMPORTE`, 'P', 114589, 114551, pe.`IDPERSONACLIENTE`
 -- ,pe.`NOM`, pe.`AP`, pe.`AM`
 from pedidos p
 join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 join entidad e         on pe.`NRO_DOC` = e.`noidentificacion`
 join persona per       on e.`identidad` = per.`idpersona`
 join productormateriaprima pr on e.`identidad` = pr.`idproductormateriaprima`
-where p.`FECHA_ENTREGA` between '2019-04-16' and '2019-04-30'
+where p.`FECHA_ENTREGA` between '2019-06-01' and '2019-06-15'
 and p.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` = 5
 and p.`IDTIPOPEDIDO` = 6
+and P.`IDCLIENTE` not in (1487)
 ;
+
+select *
+from sf_tmpdet d where d.`id_tmpdet` >= 13730;
+
+select * from sf_tmpenc e where e.`tipo_doc` = 'CB' and E.`fecha` >= '2019-05-01';
 
 -- CONTABILIZAR DESCUENTOS LACTEOS
 -- SET @folio = (SELECT MAX(id_tmpdet) FROM sf_tmpdet);
-set @folio = 13730;
+set @folio = 13898;
 -- INSERT INTO sf_tmpdet (id_tmpdet, cuenta, no_cia, debe, haber, moneda, no_trans, id_tmpenc, idpersonacliente) 
-select (@folio := @folio+1), '1421010100', '01', 0, p.`TOTALIMPORTE`, 'P', 112153, 112115, pe.`IDPERSONACLIENTE`
+select (@folio := @folio+1), '1421010100', '01', 0, p.`TOTALIMPORTE`, 'P', 114589, 114551, pe.`IDPERSONACLIENTE`
 -- ,pe.`NOM`, pe.`AP`, pe.`AM`
 from pedidos p
 join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 join entidad e         on pe.`NRO_DOC` = e.`noidentificacion`
 join persona per       on e.`identidad` = per.`idpersona`
 join productormateriaprima pr on e.`identidad` = pr.`idproductormateriaprima`
-where p.`FECHA_ENTREGA` between '2019-05-16' and '2019-05-31'
+where p.`FECHA_ENTREGA` between '2019-06-01' and '2019-06-15'
 and p.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` <> 5
 and p.`IDTIPOPEDIDO` = 5
