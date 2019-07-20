@@ -60,12 +60,12 @@ select *
 from acopiomateriaprima am
 ;
 -- REPORTE DE ACOPIO POR PRODUCTOR X MES
-select MONTH(sa.`fecha`) as MES, zp.`numero`, zp.`nombre`, am.`idproductormateriaprima`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, SUM(am.`cantidad`) as CANT
+select MONTH(sa.`fecha`) as MES, zp.`numero`, zp.`nombre`, am.`idproductormateriaprima` as id, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, SUM(am.`cantidad`) as CANT
 from acopiomateriaprima am
 left join sesionacopio sa on am.`idsesionacopio` = sa.`idsesionacopio`
 left join zonaproductiva zp on sa.`idzonaproductiva` = zp.`idzonaproductiva`
 left join persona p on am.`idproductormateriaprima` = p.`idpersona`
-where sa.`fecha` between '2019-04-01' and '2019-04-30'
+where sa.`fecha` between '2019-06-01' and '2019-06-30'
 group by MONTH(sa.`fecha`), zp.`numero`, zp.`nombre`, am.`idproductormateriaprima`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`
 ;
 
@@ -80,6 +80,18 @@ left join entidad e on p.`idpersona` = e.`identidad`
 where sa.`fecha` between '2019-05-01' and '2019-06-30'
 and am.`cantidad` > 0
 group by MONTH(sa.`fecha`), zp.`numero`, zp.`nombre`, am.`idproductormateriaprima`, e.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`
+;
+
+-- REPORTE DE ACOPIO POR PRODUCTOR GRAL + ci
+select zp.`numero`, zp.`nombre`, am.`idproductormateriaprima` as id, e.`noidentificacion` as ci, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, SUM(am.`cantidad`) as CANT
+from acopiomateriaprima am
+left join sesionacopio sa on am.`idsesionacopio` = sa.`idsesionacopio`
+left join zonaproductiva zp on sa.`idzonaproductiva` = zp.`idzonaproductiva`
+left join persona p on am.`idproductormateriaprima` = p.`idpersona`
+left join entidad e on p.`idpersona` = e.`identidad`
+where sa.`fecha` between '2019-05-01' and '2019-06-30'
+and am.`cantidad` > 0
+group by zp.`numero`, zp.`nombre`, am.`idproductormateriaprima`, e.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`
 ;
 
 -- REPORTE DE ACOPIO POR PRODUCTOR X MES + ci

@@ -6,7 +6,7 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-112120, 112719
+114503
 )
 -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
@@ -21,14 +21,14 @@ where d.`id_tmpdet` = 602273;
 --
 -- Detalle por TipoDoc
 select e.`id_tmpenc`, e.`no_trans`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`id_tmpenc`, e.`estado`, 
-d.`idpersonacliente`, d.`cod_prov`, d.`cod_art`, d.`cant_art`
+d.`idpersonacliente`, d.`cod_prov`, d.`cod_art`, d.`cant_art`, d.`idpersonacliente`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
-where e.`tipo_doc` = 'NE'
+where e.`tipo_doc` = 'CI'
 -- and e.`estado` <> 'ANL'
-and e.`no_doc` in (3519)
+and e.`no_doc` in (7668)
 -- AND e.`glosa` LIKE '%2%QUINCENA%'
 and e.`fecha` between '2019-05-01' and '2019-12-31'
 ;
@@ -36,7 +36,7 @@ and e.`fecha` between '2019-05-01' and '2019-12-31'
 
 -- update sf_tmpdet d set d.`cuenta` = '1580110200', d.`cod_art` = 96, d.`cant_art` = 7500 where d.`id_tmpdet` = 595184;
 -- update sf_tmpdet d SET d.`id_tmpenc` = 106270 where d.`id_tmpdet` in (11778	,11779	,11780	,11781	,11782	,11783	,11784	,11785	,11786	,11787	);
--- update sf_tmpenc e set e.`estado` = 'ANL' where e.`id_tmpenc` in (108968,108980,108981);
+-- update sf_tmpenc e set e.`estado` = 'APR', e.`observacion` = '' where e.`id_tmpenc` in (114931);
 -- delete FROM sf_tmpdet where id_tmpdet = 596085;
 
 
