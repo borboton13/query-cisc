@@ -632,7 +632,6 @@ where id_tmpenc in (
 
 -- delete from sf_tmpdet 
 where id_tmpdet in (
-597249, 597250, 597251, 597252
 );
 
 -- UPDATE inv_vales i SET i.`idtmpenc` = NULL
@@ -640,5 +639,5 @@ where i.`no_trans` in (
 
 );
 
-2-6705
-2-6706
+
+
