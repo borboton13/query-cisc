@@ -18,10 +18,45 @@ group by pr.`cod_art`, i.`descri`
 
 update pr_produccion p set p.`estado` = 'APR';
 update pr_plan p set p.`estado` = 'APR' where p.`fecha` between '2019-0-01' and '2019-05-31';
+update periodocostoindirecto p set p.`contab` = 0, p.`procesado` = 0 where p.`idperiodocostoindirecto` = 37;
 
-
-
-select * 
+-- PRODUCCION INSUMOS
+select pl.`fecha`, pl.`estado`, p.`codigo`, p.`costototal`, p.`totalmp`, i.`cod_art`, a.`descri`, i.`cantidad`, i.`costouni`, i.`tipo`
 from pr_insumo i 
-where i.`idproduccion` = 42
+left join inv_articulos a on i.`cod_art` = a.`cod_art`
+left join pr_produccion p on i.`idproduccion` = p.`idproduccion`
+left join pr_plan pl on p.`idplan` = pl.`idplan`
+where pl.`fecha` between '2019-05-01' and '2019-05-31'
+-- and i.`idproduccion` = 101
+-- and i.`cod_art` = 1
 ;
+
+select pl.`fecha`, p.`codigo`, p.`totalmp`, i.`cod_art`, a.`descri`, i.`cantidad`, i.`costouni`, i.`tipo`
+from pr_insumo i 
+left join inv_articulos a on i.`cod_art` = a.`cod_art`
+left join pr_produccion p on i.`idproduccion` = p.`idproduccion`
+left join pr_plan pl on p.`idplan` = pl.`idplan`
+where pl.`fecha` between '2019-05-01' and '2019-05-31'
+;
+
+
+
+update sf_tmpenc e set e.`estado` = 'ANL'
+where e.`tipo_doc` = 'PD'
+and e.`fecha` between '2019-05-01' and '2019-05-31'
+;
+
+
+
+
+
+select 
+sum(pr.`totalmp`)
+from pr_produccion pr
+left join pr_plan pl on pr.`idplan` = pl.`idplan`
+where pl.`fecha` between '2019-05-01' and '2019-05-31'
+;
+
+
+
+
