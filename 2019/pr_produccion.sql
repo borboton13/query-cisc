@@ -17,8 +17,9 @@ group by pr.`cod_art`, i.`descri`
 
 
 update pr_produccion p set p.`estado` = 'APR';
-update pr_plan p set p.`estado` = 'APR' where p.`fecha` between '2019-0-01' and '2019-05-31';
+update pr_plan p set p.`estado` = 'APR' where p.`fecha` between '2019-05-01' and '2019-06-31';
 update periodocostoindirecto p set p.`contab` = 0, p.`procesado` = 0 where p.`idperiodocostoindirecto` = 37;
+update periodocostoindirecto p set p.`contab` = 0, p.`procesado` = 0 where p.`idperiodocostoindirecto` = 38;
 
 -- PRODUCCION INSUMOS
 select pl.`fecha`, pl.`estado`, p.`codigo`, p.`costototal`, p.`totalmp`, i.`cod_art`, a.`descri`, i.`cantidad`, i.`costouni`, i.`tipo`

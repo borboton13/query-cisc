@@ -5,8 +5,8 @@ select *
 from ordenproduccion o
 -- UPDATE ordenproduccion o
 join planificacionproduccion p on o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
-set o.`estadoorden` = 'TABULATED'
-where p.`fecha` between '2019-05-01' and '2019-05-31'
+-- set o.`estadoorden` = 'TABULATED'
+where p.`fecha` between '2019-01-01' and '2019-04-31'
 -- AND o.codigo = '1611-0035'
 ;
 
@@ -17,7 +17,7 @@ from productosimple ps
 join productobase pb on ps.`idproductobase` = pb.`idproductobase`
 join planificacionproduccion p on pb.`idplanificacionproduccion` = p.`idplanificacionproduccion`
 -- SET ps.`estado` = 'INSTOCK' , pb.`estado` = 'INSTOCK'
-where p.`fecha` between '2019-02-25' and '2019-02-26'
+where p.`fecha` between '2019-01-01' and '2019-04-31'
 ;
 
 -- update planificacionproduccion p set p.`estado` = 'INSTOCK' where p.`fecha` between '2019-02-25' AND '2019-02-25'
