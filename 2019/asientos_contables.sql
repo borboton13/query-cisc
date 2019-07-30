@@ -1,22 +1,33 @@
 -- - 
+/*select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
+d.`tc`, d.`debeme`, d.`haberme`, d.`id_tmpenc`, e.`estado`, d.`idpersonacliente`, d.`cod_prov`, d.`cod_art`, d.`cant_art`*/
 select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
-d.`tc`, d.`debeme`, d.`haberme`, d.`id_tmpenc`, e.`estado`, d.`idpersonacliente`, d.`cod_prov`, d.`cod_art`, d.`cant_art`
+d.`id_tmpenc`, e.`estado`, d.`cod_prov`, d.`cod_art`, d.`cant_art`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-114503
-)
--- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
+104304
+) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
 
-update sf_tmpenc e set e.`estado` = 'APR' where e.`id_tmpenc` in (111869);
-update sf_tmpenc e set e.`fecha` = '2019-05-01' where e.`id_tmpenc` in (109066);
+update sf_tmpdet d set d.`cant_art` =  where d.`id_tmpdet` = ;
+update sf_tmpdet d set d.`cant_art` =  where d.`id_tmpdet` = ;
+update sf_tmpdet d set d.`cant_art` =  where d.`id_tmpdet` = ;
+update sf_tmpdet d set d.`cant_art` =  where d.`id_tmpdet` = ;
+update sf_tmpdet d set d.`cant_art` =  where d.`id_tmpdet` = ;
+update sf_tmpdet d set d.`cant_art` =  where d.`id_tmpdet` = ;
+update sf_tmpdet d set d.`cant_art` =  where d.`id_tmpdet` = ;
+update sf_tmpdet d set d.`cant_art` =  where d.`id_tmpdet` = ;
+update sf_tmpdet d set d.`cant_art` =  where d.`id_tmpdet` = ;
 
--- update sf_tmpdet d set d.`debe` = 5006.66
-where d.`id_tmpdet` = 602273;
+-- update sf_tmpenc e set e.`estado` = 'APR' where e.`id_tmpenc` in (111869);
+-- update sf_tmpenc e set e.`fecha` = '2019-05-01' where e.`id_tmpenc` in (109066);
+-- update sf_tmpdet set cant_art =	1.1	 where id_tmpdet =	13272	;
+
+
 
 --
 -- Detalle por TipoDoc
@@ -25,19 +36,21 @@ d.`idpersonacliente`, d.`cod_prov`, d.`cod_art`, d.`cant_art`, d.`idpersonaclien
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
+-- where d.`debe` = 0 and d.`haber` = 0
 -- WHERE d.`id_tmpenc` = 29504
-where e.`tipo_doc` = 'CI'
+where e.`tipo_doc` = 'PD'
 -- and e.`estado` <> 'ANL'
-and e.`no_doc` in (7668)
+-- and e.`no_doc` in (202)
 -- AND e.`glosa` LIKE '%2%QUINCENA%'
-and e.`fecha` between '2019-05-01' and '2019-12-31'
+-- where d.`cod_art`= 79
+and e.`fecha` between '2019-05-01' and '2019-07-31'
 ;
 
 
--- update sf_tmpdet d set d.`cuenta` = '1580110200', d.`cod_art` = 96, d.`cant_art` = 7500 where d.`id_tmpdet` = 595184;
+-- update sf_tmpdet d set d.`cuenta` = '1580110100' where d.`id_tmpdet` = 609142;
 -- update sf_tmpdet d SET d.`id_tmpenc` = 106270 where d.`id_tmpdet` in (11778	,11779	,11780	,11781	,11782	,11783	,11784	,11785	,11786	,11787	);
--- update sf_tmpenc e set e.`estado` = 'APR', e.`observacion` = '' where e.`id_tmpenc` in (114931);
--- delete FROM sf_tmpdet where id_tmpdet = 596085;
+-- update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` in (100334);
+-- delete FROM sf_tmpdet where id_tmpdet in ();
 
 
 
@@ -57,12 +70,7 @@ and p.`IDTIPOPEDIDO` = 5
 and p.`ESTADO` <> 'ANULADO'
 ;
 
-update SECUENCIA set VALOR=(select MAX(e.id_tmpdet)+1 from sf_tmpdet e) where TABLA='sf_tmpdet';
 
--- delete from sf_tmpdet 
-where id_tmpdet in (  
-
-);
 
 -- Detalle por Glosa
 select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, e.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`id_tmpenc`, e.`estado`, d.`idpersonacliente`, d.`cod_prov`
@@ -608,14 +616,6 @@ where v.`fecha` between '2019-02-01' and '2019-02-28'
 and v.`oper` is not null
 ;
 
--- OJO
--- Eliminar estos vales y actualizar secuencia de vales
-select * from inv_vales i 
--- UPDATE inv_vales i SET i.`estado` = 'ANL', i.`oper` = NULL, i.`cod_alm_dest` = NULL, i.`cod_doc` = 'REC'
-where i.`no_trans` in (17392,17393,17497,17497,17735,17749,17951,17958);
-
-
-
 
 select *
 from sf_tmpenc e 
@@ -624,20 +624,38 @@ and e.`tipo_doc` = 'CD'
 ;
 
 
--- delete from sf_tmpdet 
--- DELETE FROM sf_tmpenc 
-where id_tmpenc in (
-106205
-);
+select *
+from sf_tmpdet d
+where d.`cod_art` = 745;
 
--- delete from sf_tmpdet 
-where id_tmpdet in (
-);
 
--- UPDATE inv_vales i SET i.`idtmpenc` = NULL
-where i.`no_trans` in (
-
-);
+select i.`no_trans`, i.`fecha`, i.`no_vale`, m.`no_trans`, m.`fecha_cre`, m.`fecha_mov`, d.`id_inv_movdet`, d.`cod_art`, d.`cod_art`, d.`fecha`
+from inv_movdet d
+left join inv_mov m   on d.`no_trans` = m.`no_trans`
+left join inv_vales i on d.`no_trans` = i.`no_trans`
+where d.`fecha` between '2019-01-01' and '2019-07-31'
+;
 
 
 
+select i.`no_trans`, i.`fecha`, i.`no_vale`, e.`id_tmpenc`, e.`fecha`, e.`tipo_doc`, e.`no_doc`
+from inv_vales i 
+left join sf_tmpenc e on i.`idtmpenc` = e.`id_tmpenc`
+where i.`fecha` between '2019-01-01' and '2019-07-31'
+;
+
+
+-- INVENTARIO - CONTABILIDAD
+select d.cod_art, a.descri, a.cod_med, 
+SUM(d.debe)     as debe, 
+SUM(d.haber)    as haber, 
+SUM(IF(d.debe>0, d.cant_art, 0))  as cant_e, 
+SUM(IF(d.haber>0, d.cant_art, 0)) as cant_s 
+from sf_tmpdet d 
+left join sf_tmpenc e on d.id_tmpenc = e.id_tmpenc 
+left join inv_articulos a on d.cod_art = a.cod_art 
+where d.cuenta = '1580110100'
+and e.fecha between '2019-01-01' and '2019-04-31'
+and e.estado <> 'ANL' 
+group by d.cod_art, a.descri, a.cod_med order by a.descri
+;

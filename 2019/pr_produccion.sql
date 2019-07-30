@@ -16,9 +16,15 @@ group by pr.`cod_art`, i.`descri`
 ;
 
 
-update pr_produccion p set p.`estado` = 'APR';
-update pr_plan p set p.`estado` = 'APR' where p.`fecha` between '2019-0-01' and '2019-05-31';
-update periodocostoindirecto p set p.`contab` = 0, p.`procesado` = 0 where p.`idperiodocostoindirecto` = 37;
+-- update pr_plan p set p.`estado` = 'APR' where p.`fecha` between '2019-05-01' and '2019-06-30';
+-- update periodocostoindirecto p set p.`contab` = 0, p.`procesado` = 0 where p.`idperiodocostoindirecto` = 37;
+
+-- CAMBIAR ESTADO EN PR_PRODUCCION
+-- update pr_produccion pr
+join pr_plan pl on pr.`idplan` = pl.`idplan`
+set pr.`estado` = 'APR'
+where pl.`fecha` between '2019-05-01' and '2019-06-30'
+;
 
 -- PRODUCCION INSUMOS
 select pl.`fecha`, pl.`estado`, p.`codigo`, p.`costototal`, p.`totalmp`, i.`cod_art`, a.`descri`, i.`cantidad`, i.`costouni`, i.`tipo`
@@ -47,7 +53,13 @@ and e.`fecha` between '2019-05-01' and '2019-05-31'
 ;
 
 
-
+-- delete from sf_tmpdet
+where id_tmpenc in (
+select e.`id_tmpenc`
+from sf_tmpenc e
+where e.`tipo_doc` = 'PD'
+and e.`fecha` between '2019-05-01' and '2019-06-30'
+);
 
 
 select 
