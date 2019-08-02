@@ -6,7 +6,6 @@ left join inv_articulos i on pr.`cod_art` = i.`cod_art`
 where pl.`fecha` between '2019-05-01' and '2019-05-31'
 ;
 
-
 select pr.`cod_art`, i.`descri`, sum(pr.`cantidad`) as cantidad, sum(pr.`costo`) as costo
 from pr_producto pr
 left join pr_plan pl on pr.`idplan` = pl.`idplan`
@@ -16,15 +15,16 @@ group by pr.`cod_art`, i.`descri`
 ;
 
 
--- update pr_plan p set p.`estado` = 'APR' where p.`fecha` between '2019-05-01' and '2019-06-30';
--- update periodocostoindirecto p set p.`contab` = 0, p.`procesado` = 0 where p.`idperiodocostoindirecto` = 37;
-
 -- CAMBIAR ESTADO EN PR_PRODUCCION
 -- update pr_produccion pr
 join pr_plan pl on pr.`idplan` = pl.`idplan`
 set pr.`estado` = 'APR'
 where pl.`fecha` between '2019-05-01' and '2019-06-30'
 ;
+
+update pr_plan p set p.`estado` = 'APR' where p.`fecha` between '2019-05-01' and '2019-06-30';
+update periodocostoindirecto p set p.`contab` = 0, p.`procesado` = 0 where p.`idperiodocostoindirecto` = 37;
+
 
 -- PRODUCCION INSUMOS
 select pl.`fecha`, pl.`estado`, p.`codigo`, p.`costototal`, p.`totalmp`, i.`cod_art`, a.`descri`, i.`cantidad`, i.`costouni`, i.`tipo`
