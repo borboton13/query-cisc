@@ -8,7 +8,7 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-104304
+104057
 ) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
@@ -189,7 +189,7 @@ and e.`fecha` between '2018-01-01' and '2019-12-31'
 -- RESUMEN DE RECAUDACION
 -- SELECT e.`fecha`, d.`id_tmpdet`, e.`tipo_doc`, e.`no_doc`, e.`no_trans`, e.`glosa`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`no_trans`, d.`id_tmpenc`
 -- SELECT e.`fecha`, e.`tipo_doc`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`
-select /*e.`fecha`, e.`tipo_doc`,*/ d.`cuenta`, a.`descri`, SUM(d.`debe`) as DEBE, SUM(d.`haber`) as haber
+select /*e.`fecha`, e.`tipo_doc`,*/ d.`cuenta`, a.`descri`, sum(d.`debe`) as DEBE, sum(d.`haber`) as haber
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
@@ -232,7 +232,7 @@ where d.`cuenta` = '1000000000'
 ;
 
 /** MAYORIZANDO **/
-select d.`cuenta`, a.`descri`, SUM(d.`debe`) as TOTAL_D, SUM(d.`haber`) as TOTAL_H
+select d.`cuenta`, a.`descri`, sum(d.`debe`) as TOTAL_D, sum(d.`haber`) as TOTAL_H
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
@@ -257,7 +257,7 @@ order by d.`cuenta`
 -- ----------------------------------------------------------
 
 
-select MIN(CAST(no_doc as decimal)) as MI, MAX(CAST(no_doc as decimal)) as MA
+select min(cast(no_doc as decimal)) as MI, max(cast(no_doc as decimal)) as MA
 from sf_tmpenc
 where tipo_doc = 'CD'
 and fecha between '2018-01-01' and '2018-12-31'
@@ -285,7 +285,7 @@ where id_tmpenc in (
 -- ---------------------------------------------------
 -- Para actualizar secuencias
 -- ---------------------------------------------------
-select e.`tipo_doc`, e.`no_doc`, COUNT(e.`no_doc`)
+select e.`tipo_doc`, e.`no_doc`, count(e.`no_doc`)
 from sf_tmpenc e
 where e.`tipo_doc` = 'NE'
 group by e.`tipo_doc`, e.`no_doc`
@@ -310,7 +310,7 @@ and e.`estado` <> 'ANL'
 ;
 
 
-select e.`id_tmpenc`, e.`fecha`, e.`estado`, e.`tipo_doc`, e.`no_doc`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, e.`glosa`, CONCAT(p.`NOM`, ' ', p.`AP`, ' ', p.`AM`) as Cliente, en.`razon_social`, d.`cod_prov`, d.`idpersonacliente`, d.`id_tmpdet`
+select e.`id_tmpenc`, e.`fecha`, e.`estado`, e.`tipo_doc`, e.`no_doc`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, e.`glosa`, concat(p.`NOM`, ' ', p.`AP`, ' ', p.`AM`) as Cliente, en.`razon_social`, d.`cod_prov`, d.`idpersonacliente`, d.`id_tmpdet`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta`    = a.`cuenta`
@@ -323,7 +323,7 @@ where e.`tipo_doc` = 'CD'
 -- 
 -- 
 
-select e.`tipo_doc`, e.`no_doc`, d.`cuenta`, a.`descri`, SUM(d.`debe`) as D, SUM(d.`haber`) as H
+select e.`tipo_doc`, e.`no_doc`, d.`cuenta`, a.`descri`, sum(d.`debe`) as D, sum(d.`haber`) as H
 from sf_tmpenc e
 join sf_tmpdet d on e.`id_tmpenc` = d.`id_tmpenc`
 join arcgms a on d.`cuenta` = a.`cuenta`
@@ -342,7 +342,7 @@ select 	e.`id_tmpenc`,
 	d.`debe`, 
 	d.`haber`, 
 	d.`idpersonacliente` as cod_cli, 
-	CONCAT(p.`NOM`, " ", p.`AP`, " ", p.`AM`) as cliente,
+	concat(p.`NOM`, " ", p.`AP`, " ", p.`AM`) as cliente,
 	d.`cod_prov`,
 	en.`razon_social` as aux_prov
 from sf_tmpdet d
@@ -358,7 +358,7 @@ where d.`id_tmpenc` = 2
 -- DIFERENCIAS
 -- ---------------------------------------------------------------------------------
 -- CREATE VIEW diferencias AS (
-select e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, SUM(d.`debe`) as totald, SUM(d.`haber`) as totalh, (SUM(d.`debe`) - SUM(d.`haber`)) as dif
+select e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, sum(d.`debe`) as totald, sum(d.`haber`) as totalh, (sum(d.`debe`) - sum(d.`haber`)) as dif
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
@@ -372,7 +372,7 @@ group by e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`
 ;
 
 
-select e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, SUM(d.`debe`) as totald, SUM(d.`haber`) as totalh, (SUM(d.`debe`) - SUM(d.`haber`)) as dif,
+select e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, sum(d.`debe`) as totald, sum(d.`haber`) as totalh, (sum(d.`debe`) - sum(d.`haber`)) as dif,
 e.`glosa`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
@@ -386,7 +386,7 @@ group by e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`
 ;
 
 
-select e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, SUM(d.`debe`) as totald, SUM(d.`haber`) as totalh, (SUM(d.`debe`) - SUM(d.`haber`)) as dif
+select e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, sum(d.`debe`) as totald, sum(d.`haber`) as totalh, (sum(d.`debe`) - sum(d.`haber`)) as dif
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
@@ -469,7 +469,7 @@ and v.`idtmpenc` in ();
 
 
 -- select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, a.`cod_art`, i.`descri`, a.`CANTIDAD`, a.`cu`, (a.`CANTIDAD` * a.`cu`) AS costo_t,  p.`CV`
-select MONTH(P.`FECHA_ENTREGA`), a.`cod_art`, i.`descri`, SUM(a.`CANTIDAD` * a.`cu`) as costo_t
+select month(P.`FECHA_ENTREGA`), a.`cod_art`, i.`descri`, sum(a.`CANTIDAD` * a.`cu`) as costo_t
 from articulos_pedido a
 left join pedidos p 		on a.`IDPEDIDOS` = p.`IDPEDIDOS`
 left join inv_articulos i 	on a.`cod_art` = i.`cod_art`
@@ -477,10 +477,10 @@ where p.`FECHA_ENTREGA` between '2018-01-01' and '2018-12-31'
 and p.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` <> 5
 and p.`CV` = 1
-group by MONTH(P.`FECHA_ENTREGA`), a.`cod_art`, i.`descri`
+group by month(P.`FECHA_ENTREGA`), a.`cod_art`, i.`descri`
 ;
 
-select MONTH(v.`FECHA_PEDIDO`), a.`cod_art`, i.`descri`, SUM(a.`CANTIDAD` * a.`cu`) as costo_t
+select month(v.`FECHA_PEDIDO`), a.`cod_art`, i.`descri`, sum(a.`CANTIDAD` * a.`cu`) as costo_t
 from articulos_pedido a
 left join ventadirecta v 	on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join inv_articulos i 	on a.`cod_art` = i.`cod_art`
@@ -488,7 +488,7 @@ where v.`FECHA_PEDIDO` between '2018-01-01' and '2018-12-31'
 and v.`ESTADO` <> 'ANULADO'
 and v.`IDUSUARIO` <> 5
 and v.`CV` = 1
-group by MONTH(v.`FECHA_PEDIDO`), a.`cod_art`, i.`descri`
+group by month(v.`FECHA_PEDIDO`), a.`cod_art`, i.`descri`
 ;
 
 --
@@ -509,10 +509,10 @@ and e.`tipo_doc` = 'TR'
 
 
 select e.`tipo_doc`, e.`no_doc`, d.cod_art, a.descri, a.cod_med,
-SUM(d.debe)     as debe,
-SUM(d.haber)    as haber,
-SUM(IF(d.debe>0, d.cant_art, 0))  as cant_e,
-SUM(IF(d.haber>0, d.cant_art, 0)) as cant_s
+sum(d.debe)     as debe,
+sum(d.haber)    as haber,
+sum(if(d.debe>0, d.cant_art, 0))  as cant_e,
+sum(if(d.haber>0, d.cant_art, 0)) as cant_s
 from sf_tmpdet d
 left join sf_tmpenc e on d.id_tmpenc = e.id_tmpenc
 left join inv_articulos a on d.cod_art = a.cod_art
@@ -536,7 +536,7 @@ and v.`oper` is not null
 ;
 
 -- SELECT v.`cod_doc`, v.`oper`, d.`cod_art` , d.`cantidad`, v.`orig`, v.`dest`, v.`cod_alm_dest`, v.`idtmpenc`, m.`descri`, t.`cod_art`, t.`cant_art`, t.`debe`, t.`haber` 
-select d.`cod_art`, d.`tipo_mov`, d.`cantidad`, t.`debe`, t.`haber`, IF(t.debe>0, d.cantidad, 0) as cant_d, IF(t.haber>0, d.cantidad, 0) as cant_h
+select d.`cod_art`, d.`tipo_mov`, d.`cantidad`, t.`debe`, t.`haber`, if(t.debe>0, d.cantidad, 0) as cant_d, if(t.haber>0, d.cantidad, 0) as cant_h
 from inv_movdet d
 left join inv_mov m   on d.`no_trans` = m.`no_trans` 
 left join inv_vales v on m.`no_trans` = v.`no_trans`
@@ -556,7 +556,7 @@ and d.`cod_art` = 642
 ;
 
 -- VALES ENTRADAS DE PRODUCCION
-select d.cod_art, SUM(d.monto) as monto, SUM(d.cantidad) as cantidad, SUM(d.monto) / SUM(d.cantidad) as costoUni
+select d.cod_art, sum(d.monto) as monto, sum(d.cantidad) as cantidad, sum(d.monto) / sum(d.cantidad) as costoUni
 from inv_vales i 
 join inv_movdet d on i.no_trans = d.no_trans
 where i.fecha between '2019-02-01' and '2019-02-28'
@@ -593,7 +593,7 @@ and e.`no_doc` = 3
 
 
 -- Insertar de INV_INICIO a INV_PERIODO
-set @folio = (select MAX(id_inv_periodo)+1 from inv_periodo);
+set @folio = (select max(id_inv_periodo)+1 from inv_periodo);
 insert into inv_periodo
 select (@folio := @folio + 1), i.cod_art, i.cantidad, /*ROUND((i.costo_uni * i.cantidad),2)*/ (i.costo_uni * i.cantidad) as saldo_val, i.costo_uni, 1, 2019, 1, 0
 from inv_inicio i
@@ -639,10 +639,10 @@ where i.`fecha` between '2019-01-01' and '2019-07-31'
 
 -- INVENTARIO - CONTABILIDAD
 select d.cod_art, a.descri, a.cod_med, 
-SUM(d.debe)     as debe, 
-SUM(d.haber)    as haber, 
-SUM(IF(d.debe>0, d.cant_art, 0))  as cant_e, 
-SUM(IF(d.haber>0, d.cant_art, 0)) as cant_s 
+sum(d.debe)     as debe, 
+sum(d.haber)    as haber, 
+sum(if(d.debe>0, d.cant_art, 0))  as cant_e, 
+sum(if(d.haber>0, d.cant_art, 0)) as cant_s 
 from sf_tmpdet d 
 left join sf_tmpenc e on d.id_tmpenc = e.id_tmpenc 
 left join inv_articulos a on d.cod_art = a.cod_art 
@@ -663,4 +663,11 @@ where e.`tipo_doc` = 'CE'
 and e.`fecha` between '2019-01-01' and '2019-07-31'
 ;
 
+
+
+select *
+from sf_tmpdet d
+where d.`cuenta` in (
+4110000000, 4110100000, 4110110000
+);
 
