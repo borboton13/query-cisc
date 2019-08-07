@@ -8,7 +8,7 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-104304
+104062
 ) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
@@ -41,14 +41,14 @@ left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where e.`tipo_doc` = 'CI'
 -- and e.`estado` <> 'ANL'
-and e.`no_doc` in (8179)
+and e.`no_doc` in (8346)
 -- AND e.`glosa` LIKE '%2%QUINCENA%'
 -- where d.`cod_art`= 758
-and e.`fecha` between '2019-01-01' and '2019-07-31'
+and e.`fecha` between '2019-01-01' and '2019-08-31'
 ;
 
 -- 14041 - 14093
-update sf_tmpdet d set d.`idpersonacliente` = 1525 where d.`id_tmpdet` = 652697;
+update sf_tmpdet d set d.`idpersonacliente` = 1510 where d.`id_tmpdet` = 659725;
 -- update sf_tmpdet d set d.`cuenta` = '1580110100' where d.`id_tmpdet` = 609142;
 -- update sf_tmpdet d SET d.`id_tmpenc` = 106270 where d.`id_tmpdet` in (11778	,11779	,11780	,11781	,11782	,11783	,11784	,11785	,11786	,11787	);
 

@@ -93,35 +93,16 @@ group by z.dia, z.cod_art, z.nombrecorto
 ;
 
 
-
-
-select DAY(p.`fecha`) as dia, m.`cod_art`, i.nombrecorto , SUM(m.`cantidad`) as cantidad, SUM(d.`debe`) as costo
-from ordenproduccion o
-left join planificacionproduccion p on o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
-left join inv_vales v 		on o.`idordenproduccion` = v.`idordenproduccion`
-left join inv_movdet m 		on v.`no_trans` = m.`no_trans`
-left join inv_articulos i 	on m.`cod_art`  = i.`cod_art` 
-left join sf_tmpenc e 		on v.`idtmpenc` = e.`id_tmpenc`
-left join sf_tmpdet d 		on e.`id_tmpenc` = d.`id_tmpenc`
-where p.`fecha` between '2019-02-01' and '2019-02-28'
-and d.`cuenta` = '1510110201'
-group by DAY(p.`fecha`) , m.`cod_art`, i.`descri`;
-
-
-
-select  DAY(p.`fecha`)as dia, i.`cod_art`, i.`nombrecorto`, SUM(ps.`cantidad`) as cantidad, SUM(d.`debe`) as costo
-from productosimple ps
-left join productosimpleprocesado pp on ps.`idproductosimple` = pp.`idproductosimple`
-left join metaproductoproduccion m   on pp.`idmetaproductoproduccion` = m.`idmetaproductoproduccion`
-left join productobase pb            on ps.`idproductobase` = pb.`idproductobase`
-left join planificacionproduccion p  on pb.`idplanificacionproduccion` = p.`idplanificacionproduccion`
-left join inv_articulos i 	     on m.`cod_art`  = i.`cod_art`
-left join sf_tmpenc e 		on pb.`id_tmpenc` = e.`id_tmpenc`
-left join sf_tmpdet d 		on e.`id_tmpenc` = d.`id_tmpenc`
-where p.`fecha` between '2019-02-21' and '2019-02-25'
-and d.`cuenta` = '1510110201'
-and i.`cod_art` = d.`cod_art`
-group by DAY(p.`fecha`), i.`cod_art`, i.`descri`
+-- 
+-- Para: Planilla de Costo de Produccion v2
+select DAY(pl.`fecha`) as dia, pr.`cod_art`, i.`nombrecorto`, sum(pr.`cantidad`) as cantidad, sum(pr.`costo`) as costo, sum(pr.`costo`)/sum(pr.`cantidad`) as unit
+from pr_producto pr
+left join pr_plan pl on pr.`idplan` = pl.`idplan`
+left join inv_articulos i on pr.`cod_art` = i.`cod_art`
+where pl.`fecha` between '2019-06-01' and '2019-06-30'
+-- and i.cod_gru in (4, 6)
+-- and i.cod_gru in (5)
+group by DAY(pl.`fecha`), pr.`cod_art`, i.`descri`
 ;
 
 
