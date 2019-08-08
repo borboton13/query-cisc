@@ -18,10 +18,12 @@ select 	d.FECHA as "FECHA FACTURA O DUI",
 	, z.idtmpenc
 from documentocontable d 
 join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
-where fecha between '2019-06-01' and '2019-06-30'
+where fecha between '2019-07-01' and '2019-07-31'
 and z.estado <> 'NULLIFIED'
 and z.tipo = 'INVOICE'
 ;
+
+19773
 
 select 	d.FECHA as "FECHA FACTURA O DUI", 
 	d.NIT as "NIT PROVEEDOR", 

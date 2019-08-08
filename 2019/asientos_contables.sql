@@ -77,15 +77,18 @@ and p.`ESTADO` <> 'ANULADO'
 
 
 -- Detalle por Glosa
-select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, e.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`id_tmpenc`, e.`estado`, d.`idpersonacliente`, d.`cod_prov`
+select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, e.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`id_tmpenc`, e.`estado`, 
+-- d.`idpersonacliente`, d.`cod_prov`
+d.`idcuenta`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
-where e.`tipo_doc` = 'CV'
+where e.`fecha` between '2019-01-01' and '2019-01-31'
 -- AND e.`glosa` LIKE '%RECEPCION%ALM PRODUCTOS TERMINADOS)%'
 -- AND e.`glosa` LIKE '%CONSUMO, EGRESO, ALMACEN (ALM INSUMOS DE PRODUCCION)%'
 -- AND e.`glosa` LIKE '%CONSUMO, EGRESO, ALMACEN (ALM MATERIALES DE PRODUCCION)%'
-and e.`fecha` between '2019-01-01' and '2019-03-31'
+and d.`cuenta` = 2120110100
+and d.`idcuenta` = 2065
 -- AND e.`estado` <> 'ANL'
 ;
 
