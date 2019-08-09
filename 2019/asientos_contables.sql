@@ -12,22 +12,12 @@ where d.`id_tmpenc` in (
 ) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
-
-update sf_tmpdet d set d.`cant_art` =  where d.`id_tmpdet` = ;
-update sf_tmpdet d set d.`cant_art` =  where d.`id_tmpdet` = ;
-update sf_tmpdet d set d.`cant_art` =  where d.`id_tmpdet` = ;
-update sf_tmpdet d set d.`cant_art` =  where d.`id_tmpdet` = ;
-update sf_tmpdet d set d.`cant_art` =  where d.`id_tmpdet` = ;
-update sf_tmpdet d set d.`cant_art` =  where d.`id_tmpdet` = ;
-update sf_tmpdet d set d.`cant_art` =  where d.`id_tmpdet` = ;
-update sf_tmpdet d set d.`cant_art` =  where d.`id_tmpdet` = ;
-update sf_tmpdet d set d.`cant_art` =  where d.`id_tmpdet` = ;
+delete from sf_tmpdet where id_tmpenc in (104083, 104084);
+delete from sf_tmpenc where id_tmpenc in (104083, 104084);
 
 -- update sf_tmpenc e set e.`estado` = 'APR' where e.`id_tmpenc` in (111869);
 -- update sf_tmpenc e set e.`fecha` = '2019-05-01' where e.`id_tmpenc` in (109066);
-
-update sf_tmpdet set cant_art =	2, HABER = 14.28 	 where id_tmpdet = 655831;
-
+-- update sf_tmpdet set cant_art =	2, HABER = 14.28 	 where id_tmpdet = 655831;
 
 
 --
