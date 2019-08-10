@@ -12,8 +12,8 @@ where d.`id_tmpenc` in (
 ) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
-delete from sf_tmpdet where id_tmpenc in (104083, 104084);
-delete from sf_tmpenc where id_tmpenc in (104083, 104084);
+delete from sf_tmpdet where id_tmpenc in (104091, 104092);
+delete from sf_tmpenc where id_tmpenc in (104091, 104092);
 
 -- update sf_tmpenc e set e.`estado` = 'APR' where e.`id_tmpenc` in (111869);
 -- update sf_tmpenc e set e.`fecha` = '2019-05-01' where e.`id_tmpenc` in (109066);
