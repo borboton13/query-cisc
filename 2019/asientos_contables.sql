@@ -8,33 +8,30 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-104062
+
 ) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
-delete from sf_tmpdet where id_tmpenc in (104091, 104092);
-delete from sf_tmpenc where id_tmpenc in (104091, 104092);
-
--- update sf_tmpenc e set e.`estado` = 'APR' where e.`id_tmpenc` in (111869);
--- update sf_tmpenc e set e.`fecha` = '2019-05-01' where e.`id_tmpenc` in (109066);
--- update sf_tmpdet set cant_art =	2, HABER = 14.28 	 where id_tmpdet = 655831;
-
+delete from sf_tmpdet where id_tmpenc in (104102);
+delete from sf_tmpenc where id_tmpenc in (104102);
 
 --
 -- Detalle por TipoDoc
-select e.`id_tmpenc`, e.`no_trans`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`id_tmpenc`, e.`estado`, 
+select e.`id_tmpenc`, e.`no_trans`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
+d.`id_tmpenc`, e.`estado`, d.`idcuenta`, d.`idcredito`,
 d.`idpersonacliente`, d.`cod_prov`, d.`cod_art`, d.`cant_art`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- where d.`debe` = 0 and d.`haber` = 0
 -- WHERE d.`id_tmpenc` = 29504
-where e.`tipo_doc` = 'CI'
+where e.`tipo_doc` = 'CD'
+-- and d.`cuenta` = '2120110100'
 -- and e.`estado` <> 'ANL'
-and e.`no_doc` in (8346)
+and e.`no_doc` in (3,4,5,6,7)
 -- AND e.`glosa` LIKE '%2%QUINCENA%'
 -- where d.`cod_art`= 758
-and e.`fecha` between '2019-01-01' and '2019-08-31'
+and e.`fecha` between '2019-01-01' and '2019-08-30'
 ;
 
 -- 14041 - 14093
@@ -656,4 +653,14 @@ where e.`tipo_doc` = 'CE'
 and e.`fecha` between '2019-01-01' and '2019-07-31'
 ;
 
-
+-- CORREGIR CTAS CREDITOS
+select c.`idcredito`, c.`estado`, c.`codigoant`, c.`idtipocredito`, t.`nombre`, t.`ctavig`, t.`ctaven`, t.`ctaeje`, t.`ictavig`, t.`ictaven`, t.`ictaeje`,
+tc.`idtransaccioncredito`, tc.`fechatransaccion`, tc.`id_tmpenc`, d.`id_tmpdet`, e.`tipo_doc`, e.`no_doc`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`debeme`, d.`haberme`
+from credito c
+join tipocredito t on c.`idtipocredito` = t.`idtipocredito`
+join transaccioncredito tc on c.`idcredito` = tc.`idcredito`
+join sf_tmpenc e on tc.`id_tmpenc` = e.`id_tmpenc`
+join sf_tmpdet d on e.id_tmpenc = d.id_tmpenc
+join arcgms a on d.cuenta = a.cuenta
+-- where c.`idcredito` in ()
+;

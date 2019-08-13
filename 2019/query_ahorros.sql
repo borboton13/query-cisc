@@ -4,7 +4,7 @@ left join sf_tmpenc e 	on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a 	on d.`cuenta` = a.`cuenta`
 left join cuenta c 	on d.`idcuenta` = c.`idcuenta`
 left join socio s 	on c.`idsocio` = s.`idsocio`
-where e.`fecha` between '2019-01-01' and '2019-02-28'
+where e.`fecha` between '2019-02-01' and '2019-02-28'
 and e.`estado` <> 'ANL'
 and d.`cuenta` = '2120110100'
 and d.`idcuenta` in (2065)

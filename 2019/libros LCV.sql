@@ -23,7 +23,6 @@ and z.estado <> 'NULLIFIED'
 and z.tipo = 'INVOICE'
 ;
 
-19773
 
 select 	d.FECHA as "FECHA FACTURA O DUI", 
 	d.NIT as "NIT PROVEEDOR", 
@@ -253,8 +252,13 @@ where m.`FECHA_FACTURA` between '2019-06-01' and '2019-06-30'
 and m.`ESTADO` <> 'A'
 ;
 
-
-
+-- COMPRAS, IDENTIFICAR FACTURAS ASIENTO
+select dc.*, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, e.`glosa`
+from documentocompra d
+join documentocontable dc on d.`iddocumentocompra` = dc.`iddocumentocontable`
+join sf_tmpenc e on d.`idtmpenc` = e.`id_tmpenc`
+and dc.`numero` = 10233
+;
 
 
 
