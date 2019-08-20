@@ -25,18 +25,18 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- where d.`debe` = 0 and d.`haber` = 0
 -- WHERE d.`id_tmpenc` = 29504
-where e.`tipo_doc` = 'CD'
--- and d.`cuenta` = '2120110100'
+where e.`tipo_doc` = 'CI'
+and d.`cuenta` = '3110100000'
 -- and e.`estado` <> 'ANL'
-and e.`no_doc` in (3,4,5,6,7)
--- AND e.`glosa` LIKE '%2%QUINCENA%'
+-- and e.`no_doc` in (770)
+-- AND e.`glosa` LIKE '%certi%'
 -- where d.`cod_art`= 758
 and e.`fecha` between '2019-01-01' and '2019-08-30'
 ;
 
 -- 14041 - 14093
-update sf_tmpdet d set d.`idpersonacliente` = 1510 where d.`id_tmpdet` = 659725;
--- update sf_tmpdet d set d.`cuenta` = '1580110100' where d.`id_tmpdet` = 609142;
+-- update sf_tmpdet d set d.`idpersonacliente` = 1510 where d.`id_tmpdet` = 659725;
+-- update sf_tmpdet d set d.`cuenta` = '1420710000' where d.`id_tmpdet` = 663653; -- Cuenta Credito Fiscal
 -- update sf_tmpdet d SET d.`id_tmpenc` = 106270 where d.`id_tmpdet` in (11778	,11779	,11780	,11781	,11782	,11783	,11784	,11785	,11786	,11787	);
 
 -- update sf_tmpenc e set e.`estado` = 'APR' where e.`id_tmpenc` in (114502);
@@ -44,23 +44,16 @@ update sf_tmpdet d set d.`idpersonacliente` = 1510 where d.`id_tmpdet` = 659725;
 -- delete FROM sf_tmpdet where id_tmpenc in ();
 
 
-
--- SET @folio = (SELECT MAX(id_tmpdet) FROM sf_tmpdet);
--- INSERT INTO sf_tmpdet (id_tmpdet, cuenta, no_cia, debe, haber, debeme, haberme, tc, no_trans, id_tmpenc, idpersonacliente) 
-select (@folio := @folio + 1), '1421010100', '01', 0, p.`TOTALIMPORTE`, 0, 0, 1, 107212, 107174, p.`IDCLIENTE`
-from pedidos p
-left join personacliente pe 	on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
-left join entidad en 		on pe.`NRO_DOC` = en.`noidentificacion`
-left join persona per 		on en.`identidad` = per.`idpersona`
-left join productormateriaprima pr on per.`idpersona` = pr.`idproductormateriaprima`
--- WHERE p.`IDUSUARIO` = 5
-where p.`IDUSUARIO` = 404
-and p.`FECHA_ENTREGA` between '2019-03-16' and '2019-03-31'
--- AND p.`IDTIPOPEDIDO` = 6
-and p.`IDTIPOPEDIDO` = 5
-and p.`ESTADO` <> 'ANULADO'
+select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
+d.`id_tmpenc`, e.`estado`, d.`idsocio`
+from sf_tmpdet d
+left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
+left join arcgms a    on d.`cuenta` = a.`cuenta`
+where e.`tipo_doc` = 'CI'
+and d.`cuenta` = '3110100000'
+and e.`fecha` between '2019-01-01' and '2019-08-30'
+and e.`glosa` like "%nuev%" 
 ;
-
 
 
 -- Detalle por Glosa
