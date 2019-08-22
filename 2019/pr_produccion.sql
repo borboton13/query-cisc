@@ -1,72 +1,72 @@
-select pl.`fecha`, pro.`codigo`, pro.`costototal`, pr.`cod_art`, i.`descri`, pr.`cantidad`, pr.`costo_a`, pr.`costo_b`, pr.`costo_c`, pr.`costo`, pr.`costouni`
-from pr_producto pr
-left join pr_produccion pro on pr.`idproduccion` = pro.`idproduccion`
-left join pr_plan pl on pr.`idplan` = pl.`idplan`
-left join inv_articulos i on pr.`cod_art` = i.`cod_art`
-where pl.`fecha` between '2019-05-01' and '2019-05-31'
+SELECT pl.`fecha`, pro.`codigo`, pro.`costototal`, pr.`cod_art`, i.`descri`, pr.`cantidad`, pr.`costo_a`, pr.`costo_b`, pr.`costo_c`, pr.`costo`, pr.`costouni`
+FROM pr_producto pr
+LEFT JOIN pr_produccion pro ON pr.`idproduccion` = pro.`idproduccion`
+LEFT JOIN pr_plan pl ON pr.`idplan` = pl.`idplan`
+LEFT JOIN inv_articulos i ON pr.`cod_art` = i.`cod_art`
+WHERE pl.`fecha` BETWEEN '2019-05-01' AND '2019-05-31'
 ;
 
-select pr.`cod_art`, i.`descri`, sum(pr.`cantidad`) as cantidad, sum(pr.`costo`) as costo
-from pr_producto pr
-left join pr_plan pl on pr.`idplan` = pl.`idplan`
-left join inv_articulos i on pr.`cod_art` = i.`cod_art`
-where pl.`fecha` between '2019-05-01' and '2019-05-31'
-group by pr.`cod_art`, i.`descri`
+SELECT pr.`cod_art`, i.`descri`, SUM(pr.`cantidad`) AS cantidad, SUM(pr.`costo`) AS costo
+FROM pr_producto pr
+LEFT JOIN pr_plan pl ON pr.`idplan` = pl.`idplan`
+LEFT JOIN inv_articulos i ON pr.`cod_art` = i.`cod_art`
+WHERE pl.`fecha` BETWEEN '2019-07-01' AND '2019-07-31'
+GROUP BY pr.`cod_art`, i.`descri`
 ;
 
 
 -- CAMBIAR ESTADO EN PR_PRODUCCION
 -- update pr_produccion pr
-join pr_plan pl on pr.`idplan` = pl.`idplan`
-set pr.`estado` = 'APR'
-where pl.`fecha` between '2019-05-01' and '2019-06-30'
+JOIN pr_plan pl ON pr.`idplan` = pl.`idplan`
+SET pr.`estado` = 'APR'
+WHERE pl.`fecha` BETWEEN '2019-05-01' AND '2019-06-30'
 ;
 
-update pr_plan p set p.`estado` = 'APR' where p.`fecha` between '2019-05-01' and '2019-06-30';
-update periodocostoindirecto p set p.`contab` = 0, p.`procesado` = 0 where p.`idperiodocostoindirecto` = 37;
+UPDATE pr_plan p SET p.`estado` = 'APR' WHERE p.`fecha` BETWEEN '2019-05-01' AND '2019-06-30';
+UPDATE periodocostoindirecto p SET p.`contab` = 0, p.`procesado` = 0 WHERE p.`idperiodocostoindirecto` = 37;
 
 
 -- PRODUCCION INSUMOS
-select pl.`fecha`, pl.`estado`, p.`codigo`, p.`costototal`, p.`totalmp`, i.`cod_art`, a.`descri`, i.`cantidad`, i.`costouni`, i.`tipo`
-from pr_insumo i 
-left join inv_articulos a on i.`cod_art` = a.`cod_art`
-left join pr_produccion p on i.`idproduccion` = p.`idproduccion`
-left join pr_plan pl on p.`idplan` = pl.`idplan`
-where pl.`fecha` between '2019-05-01' and '2019-05-31'
+SELECT pl.`fecha`, pl.`estado`, p.`codigo`, p.`costototal`, p.`totalmp`, i.`cod_art`, a.`descri`, i.`cantidad`, i.`costouni`, i.`tipo`
+FROM pr_insumo i 
+LEFT JOIN inv_articulos a ON i.`cod_art` = a.`cod_art`
+LEFT JOIN pr_produccion p ON i.`idproduccion` = p.`idproduccion`
+LEFT JOIN pr_plan pl ON p.`idplan` = pl.`idplan`
+WHERE pl.`fecha` BETWEEN '2019-05-01' AND '2019-05-31'
 -- and i.`idproduccion` = 101
 -- and i.`cod_art` = 1
 ;
 
-select pl.`fecha`, p.`codigo`, p.`totalmp`, i.`cod_art`, a.`descri`, i.`cantidad`, i.`costouni`, i.`tipo`
-from pr_insumo i 
-left join inv_articulos a on i.`cod_art` = a.`cod_art`
-left join pr_produccion p on i.`idproduccion` = p.`idproduccion`
-left join pr_plan pl on p.`idplan` = pl.`idplan`
-where pl.`fecha` between '2019-05-01' and '2019-05-31'
+SELECT pl.`fecha`, p.`codigo`, p.`totalmp`, i.`cod_art`, a.`descri`, i.`cantidad`, i.`costouni`, i.`tipo`
+FROM pr_insumo i 
+LEFT JOIN inv_articulos a ON i.`cod_art` = a.`cod_art`
+LEFT JOIN pr_produccion p ON i.`idproduccion` = p.`idproduccion`
+LEFT JOIN pr_plan pl ON p.`idplan` = pl.`idplan`
+WHERE pl.`fecha` BETWEEN '2019-05-01' AND '2019-05-31'
 ;
 
 
 
-update sf_tmpenc e set e.`estado` = 'ANL'
-where e.`tipo_doc` = 'PD'
-and e.`fecha` between '2019-05-01' and '2019-05-31'
+UPDATE sf_tmpenc e SET e.`estado` = 'ANL'
+WHERE e.`tipo_doc` = 'PD'
+AND e.`fecha` BETWEEN '2019-05-01' AND '2019-05-31'
 ;
 
 
 -- delete from sf_tmpdet
-where id_tmpenc in (
-select e.`id_tmpenc`
-from sf_tmpenc e
-where e.`tipo_doc` = 'PD'
-and e.`fecha` between '2019-05-01' and '2019-06-30'
+WHERE id_tmpenc IN (
+SELECT e.`id_tmpenc`
+FROM sf_tmpenc e
+WHERE e.`tipo_doc` = 'PD'
+AND e.`fecha` BETWEEN '2019-05-01' AND '2019-06-30'
 );
 
 
-select 
-sum(pr.`totalmp`)
-from pr_produccion pr
-left join pr_plan pl on pr.`idplan` = pl.`idplan`
-where pl.`fecha` between '2019-05-01' and '2019-05-31'
+SELECT 
+SUM(pr.`totalmp`)
+FROM pr_produccion pr
+LEFT JOIN pr_plan pl ON pr.`idplan` = pl.`idplan`
+WHERE pl.`fecha` BETWEEN '2019-05-01' AND '2019-05-31'
 ;
 
 
