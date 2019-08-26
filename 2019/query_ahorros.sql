@@ -33,3 +33,17 @@ and d.`cuenta` = '2120110100'
 and d.`idcuenta` in (2065)
 -- group by d.`cuenta`
 ;
+
+-- CERTIFICADO APORTACION
+select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
+d.`id_tmpenc`, e.`estado`, d.`idsocio`
+from sf_tmpdet d
+left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
+left join arcgms a    on d.`cuenta` = a.`cuenta`
+where e.`tipo_doc` = 'CI'
+and d.`cuenta` = '3110100000'
+and e.`fecha` between '2019-01-01' and '2019-08-30'
+
+;
+
+
