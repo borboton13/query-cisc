@@ -1,61 +1,61 @@
 -- -----------------------------------------------------------------
 -- Ventas al contado X articulo
 -- -----------------------------------------------------------------
-select v.`IDVENTADIRECTA`, v.`FECHA_PEDIDO`, v.`CODIGO`, v.`ESTADO`, a.`CANTIDAD`, a.`REPOSICION`, a.`TOTAL`, a.`PRECIO`, a.`IMPORTE`
-from articulos_pedido a
-join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
-where v.`FECHA_PEDIDO` between '2016-01-01' and	'2016-12-31'
-and a.`cod_art` in (237)
+SELECT v.`IDVENTADIRECTA`, v.`FECHA_PEDIDO`, v.`CODIGO`, v.`ESTADO`, a.`CANTIDAD`, a.`REPOSICION`, a.`TOTAL`, a.`PRECIO`, a.`IMPORTE`
+FROM articulos_pedido a
+JOIN ventadirecta v ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
+WHERE v.`FECHA_PEDIDO` BETWEEN '2016-01-01' AND	'2016-12-31'
+AND a.`cod_art` IN (237)
 ;
 
 -- ----------------------------------------------------------------
 -- ---------------------- RESUMEN PEDIDOS -------------------------
-select p.`IDPEDIDOS`, pc.`NOM`, pc.`AP`, pc.`AM`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`TOTAL`, p.`TOTALIMPORTE`, p.`id_tmpenc`
-from pedidos p
-left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
-where p.`FECHA_ENTREGA` between '2019-01-01' and '2019-01-31'
+SELECT p.`IDPEDIDOS`, pc.`NOM`, pc.`AP`, pc.`AM`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`TOTAL`, p.`TOTALIMPORTE`, p.`id_tmpenc`
+FROM pedidos p
+LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
 -- AND p.`ESTADO` <> 'ANULADO'
 -- AND pc.`NOM` LIKE '%Edelfr%'
 ;
 
 -- PEDIDOS - ASIENTOS
-select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`IDTIPOPEDIDO`, t.`NOMBRE`, p.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`
-from pedidos p
-join tipopedido t on p.`IDTIPOPEDIDO` = t.`IDTIPOPEDIDO`
-join sf_tmpenc e on p.`id_tmpenc` = e.`id_tmpenc`
-join sf_tmpdet d on e.`id_tmpenc` = d.`id_tmpenc`
-join arcgms a 	 on d.`cuenta` = a.`cuenta`
-where p.`FECHA_ENTREGA` between '2019-01-01' and '2019-03-31'
-and p.`ESTADO` <> 'ANULADO'
-and p.`IDUSUARIO` <> 5
+SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`IDTIPOPEDIDO`, t.`NOMBRE`, p.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`
+FROM pedidos p
+JOIN tipopedido t ON p.`IDTIPOPEDIDO` = t.`IDTIPOPEDIDO`
+JOIN sf_tmpenc e ON p.`id_tmpenc` = e.`id_tmpenc`
+JOIN sf_tmpdet d ON e.`id_tmpenc` = d.`id_tmpenc`
+JOIN arcgms a 	 ON d.`cuenta` = a.`cuenta`
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-03-31'
+AND p.`ESTADO` <> 'ANULADO'
+AND p.`IDUSUARIO` <> 5
 ;
 
 
 
 -- ----------------------------------------------------------------
 -- --------------------- DETALLE DE PEDIDOS -----------------------
-select 	p.`FECHA_ENTREGA` as FECHA, 
+SELECT 	p.`FECHA_ENTREGA` AS FECHA, 
 	p.`IDPEDIDOS`, 
 	p.`CODIGO`,
 	P.`ESTADO`,
 	p.`IDCLIENTE`,
-	CONCAT(pc.`NOM`,' ',pc.`AP`,' ',pc.`AM`) as CLIENTE, p.`OBSERVACION`,
+	CONCAT(pc.`NOM`,' ',pc.`AP`,' ',pc.`AM`) AS CLIENTE, p.`OBSERVACION`, p.`DESCRIPCION`,
 	a.`cod_art`, 
-	a.`IDARTICULOSPEDIDO` as IdArtP, 
+	a.`IDARTICULOSPEDIDO` AS IdArtP, 
 	ar.`descri`, 
 	a.`CANTIDAD`, a.`PROMOCION`, a.`REPOSICION`, a.`TOTAL`, a.`PRECIO`, a.`IMPORTE`, 
 	p.`VALORCOMISION`, p.`TOTALIMPORTE`,
 	-- a.`cu`,
 	p.`IDTIPOPEDIDO`, p.`CV`, p.`IDMOVIMIENTO`,
 	p.`ESTADO`, p.`id_tmpenc`, p.`TIENEFACTURA`, p.`FACTURA`
-from articulos_pedido a
-left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
-left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
-left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where p.`FECHA_ENTREGA` between '2019-01-01' and '2019-12-31'
+FROM articulos_pedido a
+LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
+LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-12-31'
 -- AND p.`IDPEDIDOS` = 32343
 -- AND p.`IDCLIENTE` = 65
-and p.`CODIGO` in (5200) -- 3939(8895), 4140(119), 4216(347)
+AND p.`CODIGO` IN (5764, 5766, 5767) -- 3939(8895), 4140(119), 4216(347)
 -- 3133
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 29988
@@ -65,15 +65,17 @@ and p.`CODIGO` in (5200) -- 3939(8895), 4140(119), 4216(347)
 ;
 
 
--- update pedidos p set p.`FECHA_ENTREGA` = '2019-07-29' where p.`IDPEDIDOS`= 33601; -- 2019-07-29
--- update pedidos p set p.`FECHA_ENTREGA` = '2019-07-29' where p.`IDPEDIDOS`= 33602; -- 2019-07-29
 
-select * from pedidos p where p.`IDPEDIDOS` in (31535, 32340, 32541, 32617);
+-- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-23', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34165; -- 2019-08-22
+-- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-23', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34167; -- 2019-08-22
+-- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-23', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34168; -- 2019-08-22
+
+SELECT * FROM pedidos p WHERE p.`IDPEDIDOS` IN (31535, 32340, 32541, 32617);
 
 -- update pedidos p set p.`ESTADO` = 'ANULADO', p.`OBSERVACION` = 'ERROR EN LA PERSONA (OSBY)' where p.`IDPEDIDOS` = 32156;
 
-select *
-from movimiento m
+SELECT *
+FROM movimiento m
 -- where m.`NROFACTURA` in (7411,    8895, 119, 347)
 where m.`IDPEDIDOS` in (31535, 32340, 32541, 32617)
 and m.`FECHA_FACTURA` >= '2019-05-01'
