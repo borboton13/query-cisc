@@ -52,23 +52,24 @@ FROM articulos_pedido a
 LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
 LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-12-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-07-01' AND '2019-07-31'
 -- AND p.`IDPEDIDOS` = 32343
 -- AND p.`IDCLIENTE` = 65
-AND p.`CODIGO` IN (5764, 5766, 5767) -- 3939(8895), 4140(119), 4216(347)
+-- AND p.`CODIGO` IN (5957) -- 3939(8895), 4140(119), 4216(347)
 -- 3133
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 29988
 -- AND pc.`AP` LIKE '%Car%'
--- AND a.`cod_art` = 589
+AND a.`cod_art` IN (669, 668, 642, 134, 643)
 -- AND p.`IDUSUARIO` = 5
 ;
 
 
 
--- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-23', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34165; -- 2019-08-22
--- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-23', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34167; -- 2019-08-22
--- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-23', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34168; -- 2019-08-22
+-- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-28' where p.`IDPEDIDOS`= 34358; -- 2019-08-28
+
+-- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-22', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34167; -- 2019-08-22
+-- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-22', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34168; -- 2019-08-22
 
 SELECT * FROM pedidos p WHERE p.`IDPEDIDOS` IN (31535, 32340, 32541, 32617);
 
@@ -77,15 +78,15 @@ SELECT * FROM pedidos p WHERE p.`IDPEDIDOS` IN (31535, 32340, 32541, 32617);
 SELECT *
 FROM movimiento m
 -- where m.`NROFACTURA` in (7411,    8895, 119, 347)
-where m.`IDPEDIDOS` in (31535, 32340, 32541, 32617)
-and m.`FECHA_FACTURA` >= '2019-05-01'
+WHERE m.`IDPEDIDOS` IN (31535, 32340, 32541, 32617)
+AND m.`FECHA_FACTURA` >= '2019-05-01'
 ;
 
 -- update pedidos p set p.`PORCENTAJECOMISION` = 10, p.`VALORCOMISION` = (p.`TOTALIMPORTE`*0.10) , p.`IDMOVIMIENTO` = null, p.`ESTADO` = 'PREPARAR', p.`id_tmpenc` = null
-where p.`IDPEDIDOS` in (32340, 32541, 32617);
+WHERE p.`IDPEDIDOS` IN (32340, 32541, 32617);
 
-update pedidos p set p.`FECHA_ENTREGA` = '2019-06-14', p.`TIENEFACTURA` = 0, p.`IDMOVIMIENTO` = null, p.`OBSERVACION` = 'FACT: 51 (14/06/2019), REFACT: 2221 (27/07/2019)' 
-where p.`IDPEDIDOS`= 32536; -- SEDEM ORURO 14/06/2019 ORIG
+UPDATE pedidos p SET p.`FECHA_ENTREGA` = '2019-06-14', p.`TIENEFACTURA` = 0, p.`IDMOVIMIENTO` = NULL, p.`OBSERVACION` = 'FACT: 51 (14/06/2019), REFACT: 2221 (27/07/2019)' 
+WHERE p.`IDPEDIDOS`= 32536; -- SEDEM ORURO 14/06/2019 ORIG
 
 -- update pedidos p set p.`FECHA_ENTREGA` = '2019-06-15' where p.`IDPEDIDOS`= 32541; -- 2019-06-15
 -- update pedidos p set p.`FECHA_ENTREGA` = '2019-06-19' where p.`IDPEDIDOS`= 32617; -- 2019-06-19
