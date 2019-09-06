@@ -77,7 +77,7 @@ LEFT JOIN sesionacopio sa ON am.`idsesionacopio` = sa.`idsesionacopio`
 LEFT JOIN zonaproductiva zp ON sa.`idzonaproductiva` = zp.`idzonaproductiva`
 LEFT JOIN persona p ON am.`idproductormateriaprima` = p.`idpersona`
 LEFT JOIN entidad e ON p.`idpersona` = e.`identidad`
-WHERE sa.`fecha` BETWEEN '2019-07-01' AND '2019-07-15'
+WHERE sa.`fecha` BETWEEN '2019-08-01' AND '2019-08-31'
 AND am.`cantidad` > 0
 GROUP BY MONTH(sa.`fecha`), zp.`numero`, zp.`nombre`, am.`idproductormateriaprima`, e.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`
 ;
@@ -124,14 +124,14 @@ GROUP BY zp.`idzonaproductiva`, zp.`numero`, zp.`nombre`, am.`idproductormateria
 -- REPORTE DE ACOPIO POR PRODUCTOR X MES + ci
 -- SELECT day(sa.`fecha`) AS dia, zp.`numero`, zp.`nombre`, am.`idproductormateriaprima` AS idprod, e.`noidentificacion` AS ci, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, SUM(am.`cantidad`) AS CANT
 SELECT DAY(sa.`fecha`) AS dia, zp.`numero`, zp.`nombre`, SUM(am.`cantidad`) AS CANT
-from acopiomateriaprima am
-left join sesionacopio sa on am.`idsesionacopio` = sa.`idsesionacopio`
-left join zonaproductiva zp on sa.`idzonaproductiva` = zp.`idzonaproductiva`
-left join persona p on am.`idproductormateriaprima` = p.`idpersona`
-left join entidad e on p.`idpersona` = e.`identidad`
-where sa.`fecha` between '2019-02-01' and '2019-02-15'
-and am.`cantidad` > 0
-and zp.`numero` = 074
-group by DAY(sa.`fecha`), zp.`numero`, zp.`nombre`
+FROM acopiomateriaprima am
+LEFT JOIN sesionacopio sa ON am.`idsesionacopio` = sa.`idsesionacopio`
+LEFT JOIN zonaproductiva zp ON sa.`idzonaproductiva` = zp.`idzonaproductiva`
+LEFT JOIN persona p ON am.`idproductormateriaprima` = p.`idpersona`
+LEFT JOIN entidad e ON p.`idpersona` = e.`identidad`
+WHERE sa.`fecha` BETWEEN '2019-02-01' AND '2019-02-15'
+AND am.`cantidad` > 0
+AND zp.`numero` = 074
+GROUP BY DAY(sa.`fecha`), zp.`numero`, zp.`nombre`
 ;
 
