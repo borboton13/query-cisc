@@ -177,7 +177,7 @@ from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where p.`FECHA_ENTREGA` between '2019-08-19' and '2019-08-24'
+where p.`FECHA_ENTREGA` between '2019-09-02' and '2019-09-07'
 and P.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` <> 5
 and p.`IDTIPOPEDIDO` in (1, 5) -- Normal, Desc_Lacteo
@@ -192,7 +192,7 @@ from articulos_pedido a
 left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join personacliente pc on v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where v.`FECHA_PEDIDO` between '2019-08-12' and '2019-08-24'
+where v.`FECHA_PEDIDO` between '2019-09-02' and '2019-09-07'
 and v.`ESTADO` <> 'ANULADO'
 and a.`cod_art` in (128, 129, 130, 131, 132)
 and v.`IDUSUARIO` <> 5
