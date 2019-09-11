@@ -125,14 +125,7 @@ WHERE FECHA_FACTURA BETWEEN '2019-08-01' AND '2019-08-31'
 	;
 
 UPDATE movimiento M SET M.ESTADO = 'A' WHERE M.`IDMOVIMIENTO` IN (
-57230,
-57331,
-56959,
-57100,
-58095,
-57762,
-57761,
-57126
+
 );
 
 UPDATE pedidos p SET p.`ESTADO` = 'PREPARAR' WHERE p.`IDPEDIDOS` IN (29033, 29040);
@@ -150,7 +143,7 @@ FROM documentocontable co
 JOIN documentocompra dc 	ON co.`iddocumentocontable` = dc.`iddocumentocompra`
 JOIN sf_tmpenc e  		ON dc.`idtmpenc` = e.`id_tmpenc`
 -- join sf_tmpdet d 		on e.`id_tmpenc` = d.`id_tmpenc`
-where co.`fecha` between '2019-02-01' and '2019-02-28'
+WHERE co.`fecha` BETWEEN '2019-02-01' AND '2019-02-28'
 -- and d.`cuenta` = '1420710000'
 ;
 -- 

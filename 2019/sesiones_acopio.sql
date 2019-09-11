@@ -66,9 +66,20 @@ LEFT JOIN sesionacopio sa ON am.`idsesionacopio` = sa.`idsesionacopio`
 LEFT JOIN zonaproductiva zp ON sa.`idzonaproductiva` = zp.`idzonaproductiva`
 LEFT JOIN persona p ON am.`idproductormateriaprima` = p.`idpersona`
 WHERE sa.`fecha` BETWEEN '2019-06-01' AND '2019-06-30'
+AND am.`cantidad` > 0
 GROUP BY MONTH(sa.`fecha`), zp.`numero`, zp.`nombre`, am.`idproductormateriaprima`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`
 ;
 
+-- *** REPORTE DE ACOPIO POR PRODUCTOR X MES
+SELECT MONTH(sa.`fecha`) AS MES, COUNT(DISTINCT am.`idproductormateriaprima`)AS PRODUCTORES, SUM(am.`cantidad`) AS LITROS
+FROM acopiomateriaprima am
+LEFT JOIN sesionacopio sa ON am.`idsesionacopio` = sa.`idsesionacopio`
+LEFT JOIN zonaproductiva zp ON sa.`idzonaproductiva` = zp.`idzonaproductiva`
+LEFT JOIN persona p ON am.`idproductormateriaprima` = p.`idpersona`
+WHERE sa.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+AND am.`cantidad` > 0
+GROUP BY MONTH(sa.`fecha`)
+;
 
 -- REPORTE DE ACOPIO POR PRODUCTOR X MES/QUINC + ci
 SELECT MONTH(sa.`fecha`) AS MES, zp.`numero`, zp.`nombre`, /*am.`idproductormateriaprima` as idprod,*/ e.`noidentificacion` AS ci, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, SUM(am.`cantidad`) AS CANT

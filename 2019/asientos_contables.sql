@@ -1,23 +1,23 @@
 -- - 
 /*select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
 d.`tc`, d.`debeme`, d.`haberme`, d.`id_tmpenc`, e.`estado`, d.`idpersonacliente`, d.`cod_prov`, d.`cod_art`, d.`cant_art`*/
-select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
+SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` AS tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
 d.`id_tmpenc`, e.`estado`, d.`cod_prov`, d.`cod_art`, d.`cant_art`
-from sf_tmpdet d
-left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-left join arcgms a    on d.`cuenta` = a.`cuenta`
+FROM sf_tmpdet d
+LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
+LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
-where d.`id_tmpenc` in (
-104136
+WHERE d.`id_tmpenc` IN (
+117247
 ) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
-delete from sf_tmpdet where id_tmpenc in (104136);
-delete from sf_tmpenc where id_tmpenc in (104136);
+DELETE FROM sf_tmpdet WHERE id_tmpenc IN (104136);
+DELETE FROM sf_tmpenc WHERE id_tmpenc IN (104136);
 
 --
 -- Detalle por TipoDoc
-select e.`id_tmpenc`, e.`no_trans`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
+SELECT e.`id_tmpenc`, e.`no_trans`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` AS tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
 d.`id_tmpenc`, e.`estado`, d.`idcuenta`, d.`idcredito`,
 d.`idpersonacliente`, d.`cod_prov`, d.`cod_art`, d.`cant_art`
 from sf_tmpdet d
