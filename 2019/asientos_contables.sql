@@ -1,23 +1,23 @@
 -- - 
 /*select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
 d.`tc`, d.`debeme`, d.`haberme`, d.`id_tmpenc`, e.`estado`, d.`idpersonacliente`, d.`cod_prov`, d.`cod_art`, d.`cant_art`*/
-SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` AS tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
+select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
 d.`id_tmpenc`, e.`estado`, d.`cod_prov`, d.`cod_art`, d.`cant_art`
-FROM sf_tmpdet d
-LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
+from sf_tmpdet d
+left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
+left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
-WHERE d.`id_tmpenc` IN (
+where d.`id_tmpenc` in (
 117247
 ) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
-DELETE FROM sf_tmpdet WHERE id_tmpenc IN (104136);
-DELETE FROM sf_tmpenc WHERE id_tmpenc IN (104136);
+delete from sf_tmpdet where id_tmpenc in (104136);
+delete from sf_tmpenc where id_tmpenc in (104136);
 
 --
 -- Detalle por TipoDoc
-SELECT e.`id_tmpenc`, e.`no_trans`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` AS tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
+select e.`id_tmpenc`, e.`no_trans`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
 d.`id_tmpenc`, e.`estado`, d.`idcuenta`, d.`idcredito`,
 d.`idpersonacliente`, d.`cod_prov`, d.`cod_art`, d.`cant_art`
 from sf_tmpdet d
@@ -178,7 +178,7 @@ and e.`fecha` between '2018-11-01' and '2018-11-30'
 -- RESUMEN DE RECAUDACION
 -- SELECT e.`fecha`, d.`id_tmpdet`, e.`tipo_doc`, e.`no_doc`, e.`no_trans`, e.`glosa`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`no_trans`, d.`id_tmpenc`
 -- SELECT e.`fecha`, e.`tipo_doc`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`
-select /*e.`fecha`, e.`tipo_doc`,*/ d.`cuenta`, a.`descri`, SUM(d.`debe`) as DEBE, SUM(d.`haber`) as haber
+select /*e.`fecha`, e.`tipo_doc`,*/ d.`cuenta`, a.`descri`, sum(d.`debe`) as DEBE, sum(d.`haber`) as haber
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
@@ -221,7 +221,7 @@ where d.`cuenta` = '1000000000'
 ;
 
 /** MAYORIZANDO **/
-select d.`cuenta`, a.`descri`, SUM(d.`debe`) as TOTAL_D, SUM(d.`haber`) as TOTAL_H
+select d.`cuenta`, a.`descri`, sum(d.`debe`) as TOTAL_D, sum(d.`haber`) as TOTAL_H
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
@@ -246,7 +246,7 @@ order by d.`cuenta`
 -- ----------------------------------------------------------
 
 
-select MIN(CAST(no_doc as decimal)) as MI, MAX(CAST(no_doc as decimal)) as MA
+select min(cast(no_doc as decimal)) as MI, max(cast(no_doc as decimal)) as MA
 from sf_tmpenc
 where tipo_doc = 'CD'
 and fecha between '2018-01-01' and '2018-12-31'
@@ -274,7 +274,7 @@ where id_tmpenc in (
 -- ---------------------------------------------------
 -- Para actualizar secuencias
 -- ---------------------------------------------------
-select e.`tipo_doc`, e.`no_doc`, COUNT(e.`no_doc`)
+select e.`tipo_doc`, e.`no_doc`, count(e.`no_doc`)
 from sf_tmpenc e
 where e.`tipo_doc` = 'NE'
 group by e.`tipo_doc`, e.`no_doc`
@@ -299,7 +299,7 @@ and e.`estado` <> 'ANL'
 ;
 
 
-select e.`id_tmpenc`, e.`fecha`, e.`estado`, e.`tipo_doc`, e.`no_doc`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, e.`glosa`, CONCAT(p.`NOM`, ' ', p.`AP`, ' ', p.`AM`) as Cliente, en.`razon_social`, d.`cod_prov`, d.`idpersonacliente`, d.`id_tmpdet`
+select e.`id_tmpenc`, e.`fecha`, e.`estado`, e.`tipo_doc`, e.`no_doc`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, e.`glosa`, concat(p.`NOM`, ' ', p.`AP`, ' ', p.`AM`) as Cliente, en.`razon_social`, d.`cod_prov`, d.`idpersonacliente`, d.`id_tmpdet`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta`    = a.`cuenta`
@@ -312,7 +312,7 @@ where e.`tipo_doc` = 'CD'
 -- 
 -- 
 
-select e.`tipo_doc`, e.`no_doc`, d.`cuenta`, a.`descri`, SUM(d.`debe`) as D, SUM(d.`haber`) as H
+select e.`tipo_doc`, e.`no_doc`, d.`cuenta`, a.`descri`, sum(d.`debe`) as D, sum(d.`haber`) as H
 from sf_tmpenc e
 join sf_tmpdet d on e.`id_tmpenc` = d.`id_tmpenc`
 join arcgms a on d.`cuenta` = a.`cuenta`
@@ -331,7 +331,7 @@ select 	e.`id_tmpenc`,
 	d.`debe`, 
 	d.`haber`, 
 	d.`idpersonacliente` as cod_cli, 
-	CONCAT(p.`NOM`, " ", p.`AP`, " ", p.`AM`) as cliente,
+	concat(p.`NOM`, " ", p.`AP`, " ", p.`AM`) as cliente,
 	d.`cod_prov`,
 	en.`razon_social` as aux_prov
 from sf_tmpdet d
@@ -347,11 +347,11 @@ where d.`id_tmpenc` = 2
 -- DIFERENCIAS
 -- ---------------------------------------------------------------------------------
 -- CREATE VIEW diferencias AS (
-select e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, SUM(d.`debe`) as totald, SUM(d.`haber`) as totalh, (SUM(d.`debe`) - SUM(d.`haber`)) as dif
+select e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, sum(d.`debe`) as totald, sum(d.`haber`) as totalh, (sum(d.`debe`) - sum(d.`haber`)) as dif
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
-where e.`fecha` between '2019-01-01' and '2019-06-31'
+where e.`fecha` between '2019-01-01' and '2019-07-31'
 and e.`estado` <> 'ANL'
 -- AND e.`tipo_doc` IN ('CI', 'CV', 'NE')
 -- AND e.`tipo_doc` IN ('CV')
@@ -361,7 +361,7 @@ group by e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`
 ;
 
 
-select e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, SUM(d.`debe`) as totald, SUM(d.`haber`) as totalh, (SUM(d.`debe`) - SUM(d.`haber`)) as dif,
+select e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, sum(d.`debe`) as totald, sum(d.`haber`) as totalh, (sum(d.`debe`) - sum(d.`haber`)) as dif,
 e.`glosa`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
