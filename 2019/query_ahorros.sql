@@ -43,7 +43,22 @@ left join arcgms a    on d.`cuenta` = a.`cuenta`
 where e.`tipo_doc` = 'CI'
 and d.`cuenta` = '3110100000'
 and e.`fecha` between '2019-01-01' and '2019-08-30'
-
 ;
 
+select e.`fecha`, e.`glosa`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, d.`cuenta`, d.`debe`, d.`haber`, d.`idsocio`
+from sf_tmpdet d
+left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
+left join socio s on d.`idsocio` = s.`idsocio`
+where d.`cuenta` = '3110100000'
+;
+
+select s.idsocio, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, d.`cuenta`, sum(d.`debe`) as debe, sum(d.`haber`) as haber, sum(d.`haber`)-sum(d.`debe`) as saldo
+from sf_tmpdet d
+left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
+left join socio s on d.`idsocio` = s.`idsocio`
+where d.`cuenta` = '3110100000'
+group by s.idsocio, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, d.`cuenta`
+;
+
+-- 
 
