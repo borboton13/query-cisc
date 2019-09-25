@@ -125,11 +125,25 @@ LEFT JOIN sesionacopio sa ON am.`idsesionacopio` = sa.`idsesionacopio`
 LEFT JOIN zonaproductiva zp ON sa.`idzonaproductiva` = zp.`idzonaproductiva`
 LEFT JOIN persona p ON am.`idproductormateriaprima` = p.`idpersona`
 LEFT JOIN entidad e ON p.`idpersona` = e.`identidad`
-WHERE sa.`fecha` BETWEEN '2019-05-01' AND '2019-06-30'
--- and am.`cantidad` > 0
+WHERE sa.`fecha` BETWEEN '2019-04-01' AND '2019-09-30'
+AND am.`cantidad` > 0
 -- and p.`nombres` like '%FELICIDA%'
-AND am.`idproductormateriaprima` IN (/*94, 524, 539, 102, 570, 526*/    107, 109, 105, 113, 112, 111, 91, 108)
+-- AND am.`idproductormateriaprima` IN (/*94, 524, 539, 102, 570, 526*/    107, 109, 105, 113, 112, 111, 91, 108)
 GROUP BY zp.`idzonaproductiva`, zp.`numero`, zp.`nombre`, am.`idproductormateriaprima`, e.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`
+;
+
+-- LISTA DE PRODUCTORES ACTIVOS
+SELECT am.`idproductormateriaprima` AS id, e.`noidentificacion` AS ci, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, SUM(am.`cantidad`) AS CANT, MAX(sa.`fecha`)
+FROM acopiomateriaprima am
+LEFT JOIN sesionacopio sa ON am.`idsesionacopio` = sa.`idsesionacopio`
+-- LEFT JOIN zonaproductiva zp ON sa.`idzonaproductiva` = zp.`idzonaproductiva`
+LEFT JOIN persona p ON am.`idproductormateriaprima` = p.`idpersona`
+LEFT JOIN entidad e ON p.`idpersona` = e.`identidad`
+WHERE sa.`fecha` BETWEEN '2019-04-01' AND '2019-09-30'
+AND am.`cantidad` > 0
+-- and p.`nombres` like '%FELICIDA%'
+-- AND am.`idproductormateriaprima` IN (/*94, 524, 539, 102, 570, 526*/    107, 109, 105, 113, 112, 111, 91, 108)
+GROUP BY am.`idproductormateriaprima`, e.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`
 ;
 
 -- REPORTE DE ACOPIO POR PRODUCTOR X MES + ci

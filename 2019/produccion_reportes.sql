@@ -1,108 +1,108 @@
 -- Reporte de Produccion: Producto x Cantidad x Costo x DIA
-select o.`idordenproduccion`, p.`fecha`, m.`cod_art`, i.`descri`, v.`no_vale`, m.`cantidad`, v.`idtmpenc`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`debe` as costo
-from ordenproduccion o
-left join planificacionproduccion p on o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
-left join inv_vales v  		on o.`no_vale`  = v.`no_vale`
-left join inv_movdet m 		on v.`no_trans` = m.`no_trans`
-left join inv_articulos i 	on m.`cod_art`  = i.`cod_art` 
-left join sf_tmpenc e 		on v.`idtmpenc` = e.`id_tmpenc`
-left join sf_tmpdet d 		on e.`id_tmpenc` = d.`id_tmpenc`
-where p.`fecha` between '2018-01-01' and '2018-12-31'
-and d.`cuenta` = '1510110201'
+SELECT o.`idordenproduccion`, p.`fecha`, m.`cod_art`, i.`descri`, v.`no_vale`, m.`cantidad`, v.`idtmpenc`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`debe` AS costo
+FROM ordenproduccion o
+LEFT JOIN planificacionproduccion p ON o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
+LEFT JOIN inv_vales v  		ON o.`no_vale`  = v.`no_vale`
+LEFT JOIN inv_movdet m 		ON v.`no_trans` = m.`no_trans`
+LEFT JOIN inv_articulos i 	ON m.`cod_art`  = i.`cod_art` 
+LEFT JOIN sf_tmpenc e 		ON v.`idtmpenc` = e.`id_tmpenc`
+LEFT JOIN sf_tmpdet d 		ON e.`id_tmpenc` = d.`id_tmpenc`
+WHERE p.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+AND d.`cuenta` = '1510110201'
 -- mand v.`no_vale` is not null
 ;
 
 -- Reporte de Produccion: Producto x Cantidad x Costo x MES
-select MONTH(p.`fecha`) as mes, m.`cod_art`, i.`descri`, SUM(m.`cantidad`) as cantidad, SUM(d.`debe`) as costo
-from ordenproduccion o
-left join planificacionproduccion p on o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
-left join inv_vales v  		on o.`no_vale`  = v.`no_vale`
-left join inv_movdet m 		on v.`no_trans` = m.`no_trans`
-left join inv_articulos i 	on m.`cod_art`  = i.`cod_art` 
-left join sf_tmpenc e 		on v.`idtmpenc` = e.`id_tmpenc`
-left join sf_tmpdet d 		on e.`id_tmpenc` = d.`id_tmpenc`
-where p.`fecha` between '2018-01-01' and '2018-12-31'
-and d.`cuenta` = '1510110201'
-group by MONTH(p.`fecha`) , m.`cod_art`, i.`descri`
+SELECT MONTH(p.`fecha`) AS mes, m.`cod_art`, i.`descri`, SUM(m.`cantidad`) AS cantidad, SUM(d.`debe`) AS costo
+FROM ordenproduccion o
+LEFT JOIN planificacionproduccion p ON o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
+LEFT JOIN inv_vales v  		ON o.`no_vale`  = v.`no_vale`
+LEFT JOIN inv_movdet m 		ON v.`no_trans` = m.`no_trans`
+LEFT JOIN inv_articulos i 	ON m.`cod_art`  = i.`cod_art` 
+LEFT JOIN sf_tmpenc e 		ON v.`idtmpenc` = e.`id_tmpenc`
+LEFT JOIN sf_tmpdet d 		ON e.`id_tmpenc` = d.`id_tmpenc`
+WHERE p.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+AND d.`cuenta` = '1510110201'
+GROUP BY MONTH(p.`fecha`) , m.`cod_art`, i.`descri`
 ;
 
 -- Reporte de Produccion: Producto x Cantidad x Costo x AÑO
-select YEAR(p.`fecha`) as mes, m.`cod_art`, i.`descri`, SUM(m.`cantidad`) as cantidad, SUM(d.`debe`) as costo
-from ordenproduccion o
-left join planificacionproduccion p on o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
-left join inv_vales v  		on o.`no_vale`  = v.`no_vale`
-left join inv_movdet m 		on v.`no_trans` = m.`no_trans`
-left join inv_articulos i 	on m.`cod_art`  = i.`cod_art` 
-left join sf_tmpenc e 		on v.`idtmpenc` = e.`id_tmpenc`
-left join sf_tmpdet d 		on e.`id_tmpenc` = d.`id_tmpenc`
-where p.`fecha` between '2018-01-01' and '2018-12-31'
-and d.`cuenta` = '1510110201'
-group by YEAR(p.`fecha`) , m.`cod_art`, i.`descri`
+SELECT YEAR(p.`fecha`) AS mes, m.`cod_art`, i.`descri`, SUM(m.`cantidad`) AS cantidad, SUM(d.`debe`) AS costo
+FROM ordenproduccion o
+LEFT JOIN planificacionproduccion p ON o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
+LEFT JOIN inv_vales v  		ON o.`no_vale`  = v.`no_vale`
+LEFT JOIN inv_movdet m 		ON v.`no_trans` = m.`no_trans`
+LEFT JOIN inv_articulos i 	ON m.`cod_art`  = i.`cod_art` 
+LEFT JOIN sf_tmpenc e 		ON v.`idtmpenc` = e.`id_tmpenc`
+LEFT JOIN sf_tmpdet d 		ON e.`id_tmpenc` = d.`id_tmpenc`
+WHERE p.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+AND d.`cuenta` = '1510110201'
+GROUP BY YEAR(p.`fecha`) , m.`cod_art`, i.`descri`
 ;
 
 
 -- REPROCESO
 --
 -- SELECT p.`fecha`, pb.`codigo`, pb.`estado`, pb.`no_vale`, i.`cod_art`, i.`descri`, ps.`cantidad` AS cantidad, ps.`costototalproduccion`, ps.`costounitario`, pb.`id_tmpenc`, e.`no_trans`, e.`tipo_doc`, e.`no_doc`, e.`estado`, d.`id_tmpdet`, d.`debe`, d.`cod_art`
-select  MONTH(p.`fecha`)as mes, i.`cod_art`, i.`descri`, SUM(ps.`cantidad`) as cantidad, SUM(d.`debe`) as costo
-from productosimple ps
-left join productosimpleprocesado pp on ps.`idproductosimple` = pp.`idproductosimple`
-left join metaproductoproduccion m   on pp.`idmetaproductoproduccion` = m.`idmetaproductoproduccion`
-left join productobase pb            on ps.`idproductobase` = pb.`idproductobase`
-left join planificacionproduccion p  on pb.`idplanificacionproduccion` = p.`idplanificacionproduccion`
-left join inv_articulos i 	     on m.`cod_art`  = i.`cod_art`
-left join sf_tmpenc e 		on pb.`id_tmpenc` = e.`id_tmpenc`
-left join sf_tmpdet d 		on e.`id_tmpenc` = d.`id_tmpenc`
-where p.`fecha` between '2018-01-01' and '2018-12-31'
-and d.`cuenta` = '1510110201'
-group by MONTH(p.`fecha`), i.`cod_art`, i.`descri`
+SELECT  MONTH(p.`fecha`)AS mes, i.`cod_art`, i.`descri`, SUM(ps.`cantidad`) AS cantidad, SUM(d.`debe`) AS costo
+FROM productosimple ps
+LEFT JOIN productosimpleprocesado pp ON ps.`idproductosimple` = pp.`idproductosimple`
+LEFT JOIN metaproductoproduccion m   ON pp.`idmetaproductoproduccion` = m.`idmetaproductoproduccion`
+LEFT JOIN productobase pb            ON ps.`idproductobase` = pb.`idproductobase`
+LEFT JOIN planificacionproduccion p  ON pb.`idplanificacionproduccion` = p.`idplanificacionproduccion`
+LEFT JOIN inv_articulos i 	     ON m.`cod_art`  = i.`cod_art`
+LEFT JOIN sf_tmpenc e 		ON pb.`id_tmpenc` = e.`id_tmpenc`
+LEFT JOIN sf_tmpdet d 		ON e.`id_tmpenc` = d.`id_tmpenc`
+WHERE p.`fecha` BETWEEN '2018-01-01' AND '2018-12-31'
+AND d.`cuenta` = '1510110201'
+GROUP BY MONTH(p.`fecha`), i.`cod_art`, i.`descri`
 ;
 
 -- REPORTE TOTAL MESxDia
 -- Union Normal - Reproceso
-select z.dia, z.cod_art, z.nombrecorto, SUM(z.cantidad) as cantidad, SUM(z.costo) as costo, SUM(z.costo) / SUM(z.cantidad) as unit
-from (
-	select DAY(p.`fecha`) as dia, m.`cod_art`, i.nombrecorto , SUM(m.`cantidad`) as cantidad, SUM(d.`debe`) as costo
-	from ordenproduccion o
-	left join planificacionproduccion p on o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
+SELECT z.dia, z.cod_art, z.nombrecorto, SUM(z.cantidad) AS cantidad, SUM(z.costo) AS costo, SUM(z.costo) / SUM(z.cantidad) AS unit
+FROM (
+	SELECT DAY(p.`fecha`) AS dia, m.`cod_art`, i.nombrecorto , SUM(m.`cantidad`) AS cantidad, SUM(d.`debe`) AS costo
+	FROM ordenproduccion o
+	LEFT JOIN planificacionproduccion p ON o.`idplanificacionproduccion` = p.`idplanificacionproduccion`
 	-- left join inv_vales v  		on o.`no_vale`  = v.`no_vale`
-	left join inv_vales v 		on o.`idordenproduccion` = v.`idordenproduccion`
-	left join inv_movdet m 		on v.`no_trans` = m.`no_trans`
-	left join inv_articulos i 	on m.`cod_art`  = i.`cod_art` 
-	left join sf_tmpenc e 		on v.`idtmpenc` = e.`id_tmpenc`
-	left join sf_tmpdet d 		on e.`id_tmpenc` = d.`id_tmpenc`
-	where p.`fecha` between '2019-04-01' and '2019-04-30'
-	and d.`cuenta` = '1510110201'
-	group by DAY(p.`fecha`) , m.`cod_art`, i.`descri`
-	union all
-	select  DAY(p.`fecha`)as dia, i.`cod_art`, i.`nombrecorto`, SUM(ps.`cantidad`) as cantidad, SUM(d.`debe`) as costo
-	from productosimple ps
-	left join productosimpleprocesado pp on ps.`idproductosimple` = pp.`idproductosimple`
-	left join metaproductoproduccion m   on pp.`idmetaproductoproduccion` = m.`idmetaproductoproduccion`
-	left join productobase pb            on ps.`idproductobase` = pb.`idproductobase`
-	left join planificacionproduccion p  on pb.`idplanificacionproduccion` = p.`idplanificacionproduccion`
-	left join inv_articulos i 	     on m.`cod_art`  = i.`cod_art`
-	left join sf_tmpenc e 		on pb.`id_tmpenc` = e.`id_tmpenc`
-	left join sf_tmpdet d 		on e.`id_tmpenc` = d.`id_tmpenc`
-	where p.`fecha` between '2019-04-01' and '2019-04-30'
-	and d.`cuenta` = '1510110201'
-	and i.`cod_art` = d.`cod_art`
-	group by DAY(p.`fecha`), i.`cod_art`, i.`descri`
+	LEFT JOIN inv_vales v 		ON o.`idordenproduccion` = v.`idordenproduccion`
+	LEFT JOIN inv_movdet m 		ON v.`no_trans` = m.`no_trans`
+	LEFT JOIN inv_articulos i 	ON m.`cod_art`  = i.`cod_art` 
+	LEFT JOIN sf_tmpenc e 		ON v.`idtmpenc` = e.`id_tmpenc`
+	LEFT JOIN sf_tmpdet d 		ON e.`id_tmpenc` = d.`id_tmpenc`
+	WHERE p.`fecha` BETWEEN '2019-04-01' AND '2019-04-30'
+	AND d.`cuenta` = '1510110201'
+	GROUP BY DAY(p.`fecha`) , m.`cod_art`, i.`descri`
+	UNION ALL
+	SELECT  DAY(p.`fecha`)AS dia, i.`cod_art`, i.`nombrecorto`, SUM(ps.`cantidad`) AS cantidad, SUM(d.`debe`) AS costo
+	FROM productosimple ps
+	LEFT JOIN productosimpleprocesado pp ON ps.`idproductosimple` = pp.`idproductosimple`
+	LEFT JOIN metaproductoproduccion m   ON pp.`idmetaproductoproduccion` = m.`idmetaproductoproduccion`
+	LEFT JOIN productobase pb            ON ps.`idproductobase` = pb.`idproductobase`
+	LEFT JOIN planificacionproduccion p  ON pb.`idplanificacionproduccion` = p.`idplanificacionproduccion`
+	LEFT JOIN inv_articulos i 	     ON m.`cod_art`  = i.`cod_art`
+	LEFT JOIN sf_tmpenc e 		ON pb.`id_tmpenc` = e.`id_tmpenc`
+	LEFT JOIN sf_tmpdet d 		ON e.`id_tmpenc` = d.`id_tmpenc`
+	WHERE p.`fecha` BETWEEN '2019-04-01' AND '2019-04-30'
+	AND d.`cuenta` = '1510110201'
+	AND i.`cod_art` = d.`cod_art`
+	GROUP BY DAY(p.`fecha`), i.`cod_art`, i.`descri`
 ) z
-group by z.dia, z.cod_art, z.nombrecorto
+GROUP BY z.dia, z.cod_art, z.nombrecorto
 ;
 
 
 -- 
 -- Para: Planilla de Costo de Produccion v2
-select DAY(pl.`fecha`) as dia, pr.`cod_art`, i.`nombrecorto`, sum(pr.`cantidad`) as cantidad, sum(pr.`costo`) as costo, sum(pr.`costo`)/sum(pr.`cantidad`) as unit
-from pr_producto pr
-left join pr_plan pl on pr.`idplan` = pl.`idplan`
-left join inv_articulos i on pr.`cod_art` = i.`cod_art`
-where pl.`fecha` between '2019-06-01' and '2019-06-30'
+SELECT DAY(pl.`fecha`) AS dia, pr.`cod_art`, i.`nombrecorto`, SUM(pr.`cantidad`) AS cantidad, SUM(pr.`costo`) AS costo, SUM(pr.`costo`)/SUM(pr.`cantidad`) AS unit
+FROM pr_producto pr
+LEFT JOIN pr_plan pl ON pr.`idplan` = pl.`idplan`
+LEFT JOIN inv_articulos i ON pr.`cod_art` = i.`cod_art`
+WHERE pl.`fecha` BETWEEN '2019-07-01' AND '2019-07-31'
 -- and i.cod_gru in (4, 6)
 -- and i.cod_gru in (5)
-group by DAY(pl.`fecha`), pr.`cod_art`, i.`descri`
+GROUP BY DAY(pl.`fecha`), pr.`cod_art`, i.`descri`
 ;
 
 

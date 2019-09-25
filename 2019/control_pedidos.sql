@@ -34,7 +34,7 @@ AND p.`IDUSUARIO` <> 5
 
 -- ----------------------------------------------------------------
 -- --------------------- DETALLE DE PEDIDOS -----------------------
-SELECT 	p.`FECHA_ENTREGA` AS FECHA, 
+SELECT 	p.`FECHA_ENTREGA`, P.`FECHA_PEDIDO`,
 	p.`IDPEDIDOS`, 
 	p.`CODIGO`,
 	P.`ESTADO`,
@@ -53,9 +53,9 @@ LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
 LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
 WHERE p.`FECHA_ENTREGA` BETWEEN '2019-07-01' AND '2019-10-31'
--- AND p.`IDPEDIDOS` = 32343
+-- AND p.`IDPEDIDOS` = 34632
 -- AND p.`IDCLIENTE` = 65
-AND p.`CODIGO` IN (6231) -- 3939(8895), 4140(119), 4216(347)
+AND p.`CODIGO` IN (6383) -- 3939(8895), 4140(119), 4216(347)
 -- 3133
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 29988
@@ -66,7 +66,7 @@ AND p.`CODIGO` IN (6231) -- 3939(8895), 4140(119), 4216(347)
 
 
 
-UPDATE pedidos p SET p.`FECHA_ENTREGA` = '2019-09-07' WHERE p.`IDPEDIDOS`= 34632; -- 2019-08-28
+UPDATE pedidos p SET p.`FECHA_ENTREGA` = '2019-09-12' WHERE p.`IDPEDIDOS`= 34784; -- 2019-09-12
 
 -- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-22', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34167; -- 2019-08-22
 -- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-22', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34168; -- 2019-08-22

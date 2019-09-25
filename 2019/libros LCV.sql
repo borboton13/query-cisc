@@ -15,10 +15,10 @@ SELECT 	d.FECHA AS "FECHA FACTURA O DUI",
 	d.iva AS "CREDITO FISCAL",
 	IFNULL(d.CODIGOCONTROL, 0) AS CODIGOCONTROL,
 	"" AS "TIPO DE COMPRA", z.estado
-	, z.idtmpenc
+	, z.idtmpenc,  d.iddocumentocontable 
 FROM documentocontable d 
 JOIN documentocompra z ON d.iddocumentocontable = z.iddocumentocompra
-WHERE fecha BETWEEN '2019-07-01' AND '2019-07-31'
+WHERE fecha BETWEEN '2019-08-01' AND '2019-08-31'
 AND z.estado <> 'NULLIFIED'
 AND z.tipo = 'INVOICE'
 ;
@@ -143,131 +143,119 @@ FROM documentocontable co
 JOIN documentocompra dc 	ON co.`iddocumentocontable` = dc.`iddocumentocompra`
 JOIN sf_tmpenc e  		ON dc.`idtmpenc` = e.`id_tmpenc`
 -- join sf_tmpdet d 		on e.`id_tmpenc` = d.`id_tmpenc`
-WHERE co.`fecha` BETWEEN '2019-02-01' AND '2019-02-28'
+WHERE co.`fecha` BETWEEN '2019-08-01' AND '2019-08-31'
 -- and d.`cuenta` = '1420710000'
 ;
 -- 
-select e.`id_tmpenc`, d.`id_tmpdet`, e.`estado`, e.`tipo_doc`, e.`no_doc`, e.`fecha`, d.`debe`, e.`glosa`
-from sf_tmpdet d
-left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where e.`fecha` between '2019-02-01' and '2019-02-28'
-and d.`cuenta` = '1420710000'
-and d.`debe` > 0
-and e.`estado` <> 'ANL'
+SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`estado`, e.`tipo_doc`, e.`no_doc`, e.`fecha`, d.`debe`, e.`glosa`
+FROM sf_tmpdet d
+LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
+WHERE e.`fecha` BETWEEN '2019-08-01' AND '2019-08-31'
+AND d.`cuenta` = '1420710000'
+AND d.`debe` > 0
+AND e.`estado` <> 'ANL'
  -- AND e.`tipo_doc` NOT IN ('NE')
 ;
 -- ---------------------------
 
-select e.`id_tmpenc`, d.`id_tmpdet`, e.`estado`, e.`tipo_doc`, e.`no_doc`, e.`fecha`, d.`debe`, e.`glosa`
-from sf_tmpdet d
-left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where e.`fecha` between '2019-01-01' and '2019-01-31'
-and d.`cuenta` = '2420410200'and d.haber > 0
+SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`estado`, e.`tipo_doc`, e.`no_doc`, e.`fecha`, d.`debe`, e.`glosa`
+FROM sf_tmpdet d
+LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
+WHERE e.`fecha` BETWEEN '2019-01-01' AND '2019-01-31'
+AND d.`cuenta` = '2420410200'AND d.haber > 0
 ;
 
-select * from pedidos p
-where p.`id_tmpenc` = 102522;
+SELECT * FROM pedidos p
+WHERE p.`id_tmpenc` = 102522;
 
-select * from movimiento m where m.`IDMOVIMIENTO` = 48641;
+SELECT * FROM movimiento m WHERE m.`IDMOVIMIENTO` = 48641;
 
-select e.`id_tmpenc`, d.`id_tmpdet`, e.`estado`, e.`tipo_doc`, e.`no_doc`, e.`fecha`, d.`debe`, d.`haber`, e.`glosa`, ve.idventadirecta, ve.estado, ve.idmovimiento, pe.idpedidos, pe.estado, pe.idmovimiento
-from sf_tmpdet d
-left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-left join (
-	select v.`IDVENTADIRECTA`, v.`FECHA_PEDIDO`, v.`ESTADO`, v.`CODIGO`, v.`IDMOVIMIENTO`, v.`id_tmpenc`
-	from ventadirecta v
-	where v.`FECHA_PEDIDO` between '2019-06-01' and '2019-06-30' and v.`ESTADO` <> 'ANULADO'
-) ve on e.`id_tmpenc` = ve.id_tmpenc
-left join (
-	select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, p.`IDMOVIMIENTO`, p.`id_tmpenc`
-	from pedidos p
-	where p.`FECHA_ENTREGA` between '2019-06-01' and '2019-06-30' and p.estado <> 'ANULADO'
-) pe on e.`id_tmpenc` = pe.id_tmpenc
-where e.`fecha` between '2019-06-01' and '2019-06-30'
-and d.`cuenta` = '2420410200'and d.haber > 0
-;
-
-
-select v.`IDVENTADIRECTA`, v.`FECHA_PEDIDO`, v.`ESTADO`, v.`CODIGO`, v.`IDMOVIMIENTO`, v.`id_tmpenc`
-from ventadirecta v
-where v.`FECHA_PEDIDO` between '2019-01-01' and '2019-01-31'
-;
-
-select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, p.`IDMOVIMIENTO`, p.`id_tmpenc`, p.`IDUSUARIO`, pe.`NOM`, p.`IDTIPOPEDIDO`
-from pedidos p
-join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
-where p.`FECHA_ENTREGA` between '2019-01-01' and '2019-01-31'
+SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`estado`, e.`tipo_doc`, e.`no_doc`, e.`fecha`, d.`debe`, d.`haber`, e.`glosa`, ve.idventadirecta, ve.estado, ve.idmovimiento, pe.idpedidos, pe.estado, pe.idmovimiento
+FROM sf_tmpdet d
+LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
+LEFT JOIN (
+	SELECT v.`IDVENTADIRECTA`, v.`FECHA_PEDIDO`, v.`ESTADO`, v.`CODIGO`, v.`IDMOVIMIENTO`, v.`id_tmpenc`
+	FROM ventadirecta v
+	WHERE v.`FECHA_PEDIDO` BETWEEN '2019-06-01' AND '2019-06-30' AND v.`ESTADO` <> 'ANULADO'
+) ve ON e.`id_tmpenc` = ve.id_tmpenc
+LEFT JOIN (
+	SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, p.`IDMOVIMIENTO`, p.`id_tmpenc`
+	FROM pedidos p
+	WHERE p.`FECHA_ENTREGA` BETWEEN '2019-06-01' AND '2019-06-30' AND p.estado <> 'ANULADO'
+) pe ON e.`id_tmpenc` = pe.id_tmpenc
+WHERE e.`fecha` BETWEEN '2019-06-01' AND '2019-06-30'
+AND d.`cuenta` = '2420410200'AND d.haber > 0
 ;
 
 
+SELECT v.`IDVENTADIRECTA`, v.`FECHA_PEDIDO`, v.`ESTADO`, v.`CODIGO`, v.`IDMOVIMIENTO`, v.`id_tmpenc`
+FROM ventadirecta v
+WHERE v.`FECHA_PEDIDO` BETWEEN '2019-01-01' AND '2019-01-31'
+;
 
-select p.`IDPEDIDOS`, p.`TOTALIMPORTE`, p.`IMPUESTO`, p.`ESTADO`, p.`id_tmpenc`, p.`ESTADO`, p.`CODIGO`, p.`FECHA_ENTREGA`, p.`IDMOVIMIENTO`, p.`OBSERVACION`
-from pedidos p
-where p.`IDPEDIDOS` in (
-32182,
-32232,
-32249,
-32297,
-32299,
-32315,
-32340,
-32400,
-32541,
-32554,
-32573,
-32617,
-32646,
-32667,
-32678,
-32764
+SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, p.`IDMOVIMIENTO`, p.`id_tmpenc`, p.`IDUSUARIO`, pe.`NOM`, p.`IDTIPOPEDIDO`
+FROM pedidos p
+JOIN personacliente pe ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
+;
+
+
+
+SELECT p.`IDPEDIDOS`, p.`TOTALIMPORTE`, p.`IMPUESTO`, p.`ESTADO`, p.`id_tmpenc`, p.`ESTADO`, p.`CODIGO`, p.`FECHA_ENTREGA`, p.`IDMOVIMIENTO`, p.`OBSERVACION`
+FROM pedidos p
+WHERE p.`IDPEDIDOS` IN (
+
 );
 
 
-select *
-from sf_tmpenc e
-where e.`id_tmpenc` in (
+SELECT *
+FROM sf_tmpenc e
+WHERE e.`id_tmpenc` IN (
 
 );
 
 
 -- 11/07/2019 ASIENTOS DEBITO FISCAL
-select e.`id_tmpenc`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, d.`debe`, d.`haber`, e.`glosa`, e.`IDPERSONACLIENTE`
-from sf_tmpdet d
-left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where e.`fecha` between '2019-06-01' and '2019-06-30'
-and d.`cuenta` = 2420410200
+SELECT e.`id_tmpenc`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, d.`debe`, d.`haber`, e.`glosa`, e.`IDPERSONACLIENTE`
+FROM sf_tmpdet d
+LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
+WHERE e.`fecha` BETWEEN '2019-06-01' AND '2019-06-30'
+AND d.`cuenta` = 2420410200
 ;
 
 -- Facturas Pedidos - Asientos
-select m.`IDMOVIMIENTO`, m.`FECHA_FACTURA`, m.`ESTADO`, m.`IMPORTE_TOTAL`, m.`IMPORTE_PARA_DEBITO_FISCAL`, m.`DEBITO_FISCAL`, p.`IDPEDIDOS`, p.`id_tmpenc`, m.`RAZON_SOCIAL`
-from movimiento m
-left join pedidos p on m.`IDPEDIDOS` = p.`IDPEDIDOS`
-where m.`FECHA_FACTURA` between '2019-06-01' and '2019-06-30'
-and m.`ESTADO` <> 'A'
+SELECT m.`IDMOVIMIENTO`, m.`FECHA_FACTURA`, m.`ESTADO`, m.`IMPORTE_TOTAL`, m.`IMPORTE_PARA_DEBITO_FISCAL`, m.`DEBITO_FISCAL`, p.`IDPEDIDOS`, p.`id_tmpenc`, m.`RAZON_SOCIAL`
+FROM movimiento m
+LEFT JOIN pedidos p ON m.`IDPEDIDOS` = p.`IDPEDIDOS`
+WHERE m.`FECHA_FACTURA` BETWEEN '2019-06-01' AND '2019-06-30'
+AND m.`ESTADO` <> 'A'
 ;
 -- Facturas Contado - Asientos
-select m.`IDMOVIMIENTO`, m.`FECHA_FACTURA`, m.`ESTADO`, m.`IMPORTE_TOTAL`, m.`IMPORTE_PARA_DEBITO_FISCAL`, m.`DEBITO_FISCAL`, m.`IDVENTADIRECTA`, v.`id_tmpenc`, m.`RAZON_SOCIAL`
-from movimiento m
-left join ventadirecta v on m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
-where m.`FECHA_FACTURA` between '2019-06-01' and '2019-06-30'
-and m.`ESTADO` <> 'A'
+SELECT m.`IDMOVIMIENTO`, m.`FECHA_FACTURA`, m.`ESTADO`, m.`IMPORTE_TOTAL`, m.`IMPORTE_PARA_DEBITO_FISCAL`, m.`DEBITO_FISCAL`, m.`IDVENTADIRECTA`, v.`id_tmpenc`, m.`RAZON_SOCIAL`
+FROM movimiento m
+LEFT JOIN ventadirecta v ON m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
+WHERE m.`FECHA_FACTURA` BETWEEN '2019-06-01' AND '2019-06-30'
+AND m.`ESTADO` <> 'A'
 ;
 
 -- COMPRAS, IDENTIFICAR FACTURAS ASIENTO
-select dc.*, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, e.`glosa`
-from documentocompra d
-join documentocontable dc on d.`iddocumentocompra` = dc.`iddocumentocontable`
-join sf_tmpenc e on d.`idtmpenc` = e.`id_tmpenc`
-and dc.`numero` = 10233
+SELECT dc.*, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, e.`glosa`
+FROM documentocompra d
+JOIN documentocontable dc ON d.`iddocumentocompra` = dc.`iddocumentocontable`
+JOIN sf_tmpenc e ON d.`idtmpenc` = e.`id_tmpenc`
+-- and dc.`numero` = 10233
 ;
 
 
 
 
 
-
-
-
-
+SELECT e.`id_com_encoc`, e.`fecha_recepcion`, e.`glosa`, e.`no_orden`, e.`total`, dc.`iddocumentocompra`, d.`iddocumentocontable` , d.`fecha`, d.`numero`, d.`nombre`, d.`iva`, dc.`idtmpenc`
+FROM com_encoc e 
+LEFT JOIN documentocompra dc ON e.`id_com_encoc` = dc.`idordencompra`
+LEFT JOIN documentocontable d ON dc.`iddocumentocompra` = d.`iddocumentocontable`
+WHERE e.`fecha_recepcion` BETWEEN '2019-08-01' AND '2019-08-31'
+AND e.`confactura` = 'CONFACTURA'
+;
 
 
