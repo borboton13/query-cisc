@@ -61,4 +61,31 @@ group by s.idsocio, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, d.`cu
 ;
 
 -- 
+-- socios - personas - por ci
+select s.`idsocio`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, s.`noidentificacion`, e.`identidad`, e.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`
+from socio s
+join entidad e on s.`noidentificacion` = e.`noidentificacion`
+join persona p on e.`identidad` = p.`idpersona`
+;
+
+--
+-- socios - personas - por nombres
+select s.`idsocio`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, s.`noidentificacion`, p.`idpersona`, e.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`
+from socio s, persona p, entidad e
+where s.`nombres` = p.`nombres`
+and s.`apellidopaterno` = p.`apellidopaterno`
+and s.`apellidomaterno` = p.`apellidomaterno`
+and p.`idpersona` = e.`identidad`
+;
+
+--
+
+select e.`identidad`, p.`idpersona`
+from entidad e
+left join persona p on e.`identidad` = p.`idpersona`
+;
+
+
+
+
 
