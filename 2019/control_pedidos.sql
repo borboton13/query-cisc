@@ -55,7 +55,7 @@ left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
 where p.`FECHA_ENTREGA` between '2019-07-01' and '2019-10-31'
 -- AND p.`IDPEDIDOS` = 34632
 -- AND p.`IDCLIENTE` = 65
-and p.`CODIGO` in (6674) -- 3939(8895), 4140(119), 4216(347)
+and p.`CODIGO` in (6934) -- 3939(8895), 4140(119), 4216(347)
 -- 3133
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 29988
@@ -66,7 +66,7 @@ and p.`CODIGO` in (6674) -- 3939(8895), 4140(119), 4216(347)
 
 
 
-update pedidos p set p.`FECHA_ENTREGA` = '2019-09-25' where p.`IDPEDIDOS`= 35075; -- 2019-09-25
+update pedidos p set p.`FECHA_ENTREGA` = '2019-10-01' where p.`IDPEDIDOS`= 35335; -- 2019-10-01
 
 -- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-22', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34167; -- 2019-08-22
 -- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-22', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34168; -- 2019-08-22
@@ -75,15 +75,15 @@ select * from pedidos p where p.`IDPEDIDOS` in (31535, 32340, 32541, 32617);
 
 -- update pedidos p set p.`ESTADO` = 'ANULADO', p.`OBSERVACION` = 'ERROR EN LA PERSONA (OSBY)' where p.`IDPEDIDOS` = 32156;
 
-SELECT *
-FROM movimiento m
+select *
+from movimiento m
 -- where m.`NROFACTURA` in (7411,    8895, 119, 347)
-WHERE m.`IDPEDIDOS` IN (31535, 32340, 32541, 32617)
-AND m.`FECHA_FACTURA` >= '2019-05-01'
+where m.`IDPEDIDOS` in (31535, 32340, 32541, 32617)
+and m.`FECHA_FACTURA` >= '2019-05-01'
 ;
 
 -- update pedidos p set p.`PORCENTAJECOMISION` = 10, p.`VALORCOMISION` = (p.`TOTALIMPORTE`*0.10) , p.`IDMOVIMIENTO` = null, p.`ESTADO` = 'PREPARAR', p.`id_tmpenc` = null
-WHERE p.`IDPEDIDOS` IN (32340, 32541, 32617);
+where p.`IDPEDIDOS` in (32340, 32541, 32617);
 
 UPDATE pedidos p SET p.`FECHA_ENTREGA` = '2019-06-14', p.`TIENEFACTURA` = 0, p.`IDMOVIMIENTO` = NULL, p.`OBSERVACION` = 'FACT: 51 (14/06/2019), REFACT: 2221 (27/07/2019)' 
 WHERE p.`IDPEDIDOS`= 32536; -- SEDEM ORURO 14/06/2019 ORIG

@@ -1,36 +1,36 @@
 -- INSERT MOVIMIENTO SALARIO PRODUCTOR
 -- REPOSICION FORMULARIO
 
-SELECT MAX(idmovimientosalarioproductor)+1 FROM movimientosalarioproductor;
+select MAX(idmovimientosalarioproductor)+1 from movimientosalarioproductor;
 
 -- SET @folio = (SELECT MAX(idmovimientosalarioproductor)+1 FROM movimientosalarioproductor);
-INSERT INTO movimientosalarioproductor(idmovimientosalarioproductor,fecha,descripcion,estado,valor,idcompania,idzonaproductiva,idproductormateriaprima,idtipomovimientoproductor)
-SELECT (@folio := @folio + 1), '2019-08-16' AS fecha, 'REPOSICION DE FORMULARIO' AS descripcion, 'PENDING' AS estado, 0.80 AS valor, 1 AS idcompania, p.`idzonaproductiva`, d.`idproductormateriaprima`, 5 AS idtipomovimientoproductor 
-FROM registropagomateriaprima r
-LEFT JOIN planillapagomateriaprima p 	ON r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
-LEFT JOIN descuentproductmateriaprima d ON r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
-WHERE p.fechainicio = '2019-08-16'
-AND r.`liquidopagable` > 0
+insert into movimientosalarioproductor(idmovimientosalarioproductor,fecha,descripcion,estado,valor,idcompania,idzonaproductiva,idproductormateriaprima,idtipomovimientoproductor)
+select (@folio := @folio + 1), '2019-09-16' as fecha, 'REPOSICION DE FORMULARIO' as descripcion, 'PENDING' as estado, 0.80 as valor, 1 as idcompania, p.`idzonaproductiva`, d.`idproductormateriaprima`, 5 as idtipomovimientoproductor 
+from registropagomateriaprima r
+left join planillapagomateriaprima p 	on r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
+left join descuentproductmateriaprima d on r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
+where p.fechainicio = '2019-09-16'
+and r.`liquidopagable` > 0
 ;
 
-UPDATE SECUENCIA SET VALOR=(SELECT MAX(E.IDMOVIMIENTOSALARIOPRODUCTOR)+1 FROM MOVIMIENTOSALARIOPRODUCTOR E) WHERE TABLA='MOVIMIENTOSALARIOPRODUCTOR';
-UPDATE SECUENCIA SET VALOR=(SELECT MAX(E.IDCOSTOSINDIRECTOS)/10+1 FROM COSTOSINDIRECTOS E) WHERE TABLA='COSTOSINDIRECTOS';
-UPDATE SECUENCIA SET VALOR=(SELECT MAX(E.IDCOSTOSINDIRECTOS)/10+1 FROM COSTOSINDIRECTOS E) WHERE TABLA='rhmarcado';
-UPDATE SECUENCIA SET VALOR=(SELECT MAX(E.idinvinicio)+1 FROM inv_inicio E) WHERE TABLA='inv_inicio';
+update SECUENCIA set VALOR=(select MAX(E.IDMOVIMIENTOSALARIOPRODUCTOR)+1 from MOVIMIENTOSALARIOPRODUCTOR E) where TABLA='MOVIMIENTOSALARIOPRODUCTOR';
+update SECUENCIA set VALOR=(select MAX(E.IDCOSTOSINDIRECTOS)/10+1 from COSTOSINDIRECTOS E) where TABLA='COSTOSINDIRECTOS';
+update SECUENCIA set VALOR=(select MAX(E.IDCOSTOSINDIRECTOS)/10+1 from COSTOSINDIRECTOS E) where TABLA='rhmarcado';
+update SECUENCIA set VALOR=(select MAX(E.idinvinicio)+1 from inv_inicio E) where TABLA='inv_inicio';
 
-UPDATE SECUENCIA SET VALOR=(SELECT MAX(p.idplanillaacopio)+1 FROM planillaacopio p) WHERE TABLA='PLANILLAACOPIO';
+update SECUENCIA set VALOR=(select MAX(p.idplanillaacopio)+1 from planillaacopio p) where TABLA='PLANILLAACOPIO';
 
-SELECT *
-FROM movimientosalarioproductor
-WHERE fecha = '2019-07-01'
-AND descripcion = 'REPOSICION DE FORMULARIO'
+select *
+from movimientosalarioproductor
+where fecha = '2019-07-01'
+and descripcion = 'REPOSICION DE FORMULARIO'
 ;
 
 
-SELECT *
-FROM planillapagomateriaprima
+select *
+from planillapagomateriaprima
 -- update planillapagomateriaprima set estado = 'PENDING'
-WHERE fechainicio = '2018-05-16'
+where fechainicio = '2018-05-16'
 ;
 
 -- ----------------------
@@ -39,26 +39,26 @@ WHERE fechainicio = '2018-05-16'
 -- ----------------------------------------------------------------
 
 -- PEDIDOS VETERINARIOS + CLIENTES
-SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, pe.`NOM`, pe.`AP`, pe.`AM`, pe.`NRO_DOC`, pe.`IDPERSONACLIENTE`, e.`identidad`, e.`noidentificacion`, per.`nombres`, pr.`idproductormateriaprima`, p.`TOTALIMPORTE`, p.`id_tmpenc`
-FROM pedidos p
-LEFT JOIN personacliente pe ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
-LEFT JOIN entidad e         ON pe.`NRO_DOC` = e.`noidentificacion`
-LEFT JOIN persona per       ON e.`identidad` = per.`idpersona`
-LEFT JOIN productormateriaprima pr ON e.`identidad` = pr.`idproductormateriaprima`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-09-16' AND '2018-09-30'
-AND p.`ESTADO` <> 'ANULADO'
-AND p.`IDUSUARIO` = 5
-AND p.`IDTIPOPEDIDO` = 6
+select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, pe.`NOM`, pe.`AP`, pe.`AM`, pe.`NRO_DOC`, pe.`IDPERSONACLIENTE`, e.`identidad`, e.`noidentificacion`, per.`nombres`, pr.`idproductormateriaprima`, p.`TOTALIMPORTE`, p.`id_tmpenc`
+from pedidos p
+left join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
+left join entidad e         on pe.`NRO_DOC` = e.`noidentificacion`
+left join persona per       on e.`identidad` = per.`idpersona`
+left join productormateriaprima pr on e.`identidad` = pr.`idproductormateriaprima`
+where p.`FECHA_ENTREGA` between '2018-09-16' and '2018-09-30'
+and p.`ESTADO` <> 'ANULADO'
+and p.`IDUSUARIO` = 5
+and p.`IDTIPOPEDIDO` = 6
 ;
 
 -- PEDIDOS LACTEOS + CLIENTES
-SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, pe.`NOM`, pe.`AP`, pe.am, pe.`NRO_DOC`, e.`identidad`, e.`noidentificacion`, per.`nombres`, pr.`idproductormateriaprima`, p.`TOTALIMPORTE`
-FROM pedidos p
-LEFT JOIN personacliente pe ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
-LEFT JOIN entidad e         ON pe.`NRO_DOC` = e.`noidentificacion`
-LEFT JOIN persona per       ON e.`identidad` = per.`idpersona`
-LEFT JOIN productormateriaprima pr ON e.`identidad` = pr.`idproductormateriaprima`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2018-09-01' AND '2018-09-15'
+select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, pe.`NOM`, pe.`AP`, pe.am, pe.`NRO_DOC`, e.`identidad`, e.`noidentificacion`, per.`nombres`, pr.`idproductormateriaprima`, p.`TOTALIMPORTE`
+from pedidos p
+left join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
+left join entidad e         on pe.`NRO_DOC` = e.`noidentificacion`
+left join persona per       on e.`identidad` = per.`idpersona`
+left join productormateriaprima pr on e.`identidad` = pr.`idproductormateriaprima`
+where p.`FECHA_ENTREGA` between '2018-09-01' and '2018-09-15'
 AND p.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` <> 5
 AND p.`IDTIPOPEDIDO` = 5
