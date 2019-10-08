@@ -55,7 +55,7 @@ left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
 where p.`FECHA_ENTREGA` between '2019-07-01' and '2019-10-31'
 -- AND p.`IDPEDIDOS` = 34632
 -- AND p.`IDCLIENTE` = 65
-and p.`CODIGO` in (6934) -- 3939(8895), 4140(119), 4216(347)
+and p.`CODIGO` in (7091) -- 3939(8895), 4140(119), 4216(347)
 -- 3133
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 29988
@@ -66,7 +66,7 @@ and p.`CODIGO` in (6934) -- 3939(8895), 4140(119), 4216(347)
 
 
 
-update pedidos p set p.`FECHA_ENTREGA` = '2019-10-01' where p.`IDPEDIDOS`= 35335; -- 2019-10-01
+update pedidos p set p.`FECHA_ENTREGA` = '2019-10-07' where p.`IDPEDIDOS`= 35492; -- 2019-10-07
 
 -- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-22', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34167; -- 2019-08-22
 -- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-22', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34168; -- 2019-08-22

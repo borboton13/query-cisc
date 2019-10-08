@@ -1,40 +1,57 @@
-SELECT s.`idsocio`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, c.`codigoant`, c.`estado`, c.`fechaconcesion`, c.`fechapago`, c.`importe`, c.`saldo`, c.`ultimopago`, c.`idtipocredito`,
+select s.`idsocio`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, c.`codigoant`, c.`estado`, c.`fechaconcesion`, c.`fechapago`, c.`importe`, c.`saldo`, c.`ultimopago`, c.`idtipocredito`,
 t.`nombre`
-FROM credito c
-JOIN socio s ON c.`idsocio` = s.`idsocio`
-JOIN tipocredito t ON c.`idtipocredito` = t.`idtipocredito`
-WHERE c.`idtipocredito` = 2
+from credito c
+join socio s on c.`idsocio` = s.`idsocio`
+join tipocredito t on c.`idtipocredito` = t.`idtipocredito`
+where c.`idtipocredito` = 2
 ;
 
-SELECT s.`idsocio`, c.`idcredito`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, c.`codigoant`, c.`estado`, c.`fechaconcesion`, c.`importe`, c.`saldo`, c.`ultimopago`, c.`idtipocredito`,
+select s.`idsocio`, c.`idcredito`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, c.`codigoant`, c.`estado`, c.`fechaconcesion`, c.`importe`, c.`saldo`, c.`ultimopago`, c.`idtipocredito`,
 t.`nombre`, tr.`tipo`, tr.`id_tmpenc`
-FROM credito c
-JOIN socio s 			ON c.`idsocio` = s.`idsocio`
-JOIN tipocredito t 		ON c.`idtipocredito` = t.`idtipocredito`
-JOIN transaccioncredito tr 	ON c.`idcredito` = tr.`idcredito`
-WHERE c.`idtipocredito` = 2
+from credito c
+join socio s 			on c.`idsocio` = s.`idsocio`
+join tipocredito t 		on c.`idtipocredito` = t.`idtipocredito`
+join transaccioncredito tr 	on c.`idcredito` = tr.`idcredito`
+where c.`idtipocredito` = 2
 ;
 
 --
 
-SELECT e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`glosa`, c.`idcredito`, c.`codigo`, c.`codigoant`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, 
+select e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`glosa`, c.`idcredito`, c.`codigo`, c.`codigoant`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, 
 CONCAT(s.`nombres`,' ', s.`apellidopaterno`, ' ', s.`apellidomaterno`, ' ', c.`codigoant`, ', ', e.`glosa`)
-FROM sf_tmpenc e
-JOIN sf_tmpdet d ON e.`id_tmpenc` = d.`id_tmpenc`
-JOIN credito c ON d.`idcredito` = c.`idcredito`
-JOIN socio s ON c.`idsocio` = s.`idsocio`
-WHERE e.`tipo_doc` = 'CE'
+from sf_tmpenc e
+join sf_tmpdet d on e.`id_tmpenc` = d.`id_tmpenc`
+join credito c on d.`idcredito` = c.`idcredito`
+join socio s on c.`idsocio` = s.`idsocio`
+where e.`tipo_doc` = 'CE'
 ;
 
 
-SELECT t.`idtransaccioncredito`, t.`idcredito`, t.`fechacreacion`, t.`fechatransaccion`, e.`fecha`
-FROM transaccioncredito t 
-JOIN sf_tmpenc e ON t.`id_tmpenc` = e.`id_tmpenc`
+select t.`idtransaccioncredito`, t.`idcredito`, t.`fechacreacion`, t.`fechatransaccion`, e.`fecha`
+from transaccioncredito t 
+join sf_tmpenc e on t.`id_tmpenc` = e.`id_tmpenc`
 ;
 
-SELECT t.`idtransaccioncredito`, t.`idcredito`, t.`fechacreacion`, t.`fechatransaccion`, e.`fecha`
-FROM sf_tmpenc e 
-JOIN transaccioncredito t ON e.`id_tmpenc` = t.`id_tmpenc`
+select t.`idtransaccioncredito`, t.`idcredito`, t.`fechacreacion`, t.`fechatransaccion`, e.`fecha`, e.`tipo_doc`, e.`no_doc`
+from sf_tmpenc e 
+join transaccioncredito t on e.`id_tmpenc` = t.`id_tmpenc`
+where e.`fecha` <> t.`fechatransaccion`
 ;
+
+-- update sf_tmpenc e 
+join transaccioncredito t on e.`id_tmpenc` = t.`id_tmpenc`
+set e.`fecha` = t.`fechatransaccion`
+where e.`fecha` <> t.`fechatransaccion`
+;
+
+
+
+
+
+
+
+
+
+
 
 
