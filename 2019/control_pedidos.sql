@@ -55,7 +55,7 @@ left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
 where p.`FECHA_ENTREGA` between '2019-07-01' and '2019-10-31'
 -- AND p.`IDPEDIDOS` = 34632
 -- AND p.`IDCLIENTE` = 65
-and p.`CODIGO` in (7091) -- 3939(8895), 4140(119), 4216(347)
+and p.`CODIGO` in (6934) -- 3939(8895), 4140(119), 4216(347)
 -- 3133
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 29988
@@ -66,7 +66,7 @@ and p.`CODIGO` in (7091) -- 3939(8895), 4140(119), 4216(347)
 
 
 
-update pedidos p set p.`FECHA_ENTREGA` = '2019-10-07' where p.`IDPEDIDOS`= 35492; -- 2019-10-07
+update pedidos p set p.`FECHA_ENTREGA` = '2019-10-01' where p.`IDPEDIDOS`= 35335; -- 2019-10-01
 
 -- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-22', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34167; -- 2019-08-22
 -- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-22', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34168; -- 2019-08-22
@@ -85,8 +85,8 @@ and m.`FECHA_FACTURA` >= '2019-05-01'
 -- update pedidos p set p.`PORCENTAJECOMISION` = 10, p.`VALORCOMISION` = (p.`TOTALIMPORTE`*0.10) , p.`IDMOVIMIENTO` = null, p.`ESTADO` = 'PREPARAR', p.`id_tmpenc` = null
 where p.`IDPEDIDOS` in (32340, 32541, 32617);
 
-UPDATE pedidos p SET p.`FECHA_ENTREGA` = '2019-06-14', p.`TIENEFACTURA` = 0, p.`IDMOVIMIENTO` = NULL, p.`OBSERVACION` = 'FACT: 51 (14/06/2019), REFACT: 2221 (27/07/2019)' 
-WHERE p.`IDPEDIDOS`= 32536; -- SEDEM ORURO 14/06/2019 ORIG
+update pedidos p set p.`FECHA_ENTREGA` = '2019-06-14', p.`TIENEFACTURA` = 0, p.`IDMOVIMIENTO` = null, p.`OBSERVACION` = 'FACT: 51 (14/06/2019), REFACT: 2221 (27/07/2019)' 
+where p.`IDPEDIDOS`= 32536; -- SEDEM ORURO 14/06/2019 ORIG
 
 -- update pedidos p set p.`FECHA_ENTREGA` = '2019-06-15' where p.`IDPEDIDOS`= 32541; -- 2019-06-15
 -- update pedidos p set p.`FECHA_ENTREGA` = '2019-06-19' where p.`IDPEDIDOS`= 32617; -- 2019-06-19
@@ -126,16 +126,20 @@ left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join personacliente pc on v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
 where v.`FECHA_PEDIDO` between '2019-01-02' and '2019-12-31'
--- AND v.idventadirecta >= 25681
+and v.idventadirecta in (36455)
 -- AND p.`IDPEDIDOS` IN (21928)
 -- AND p.`IDCLIENTE` = 65
-and v.`CODIGO` in (2396)
+-- and v.`CODIGO` in (2396)
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 2584
 -- AND pc.`AP` LIKE '%Car%'
 -- AND a.`cod_art` = 703
-and v.`IDUSUARIO` = 5
+-- and v.`IDUSUARIO` = 5
 ;
+
+select *
+from movimiento m
+where m.`IDMOVIMIENTO` in (58387, 58388, 59434);
 
 select zz.cod_art, zz.descri, SUM(zz.total) as cant
 from (
