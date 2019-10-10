@@ -197,13 +197,13 @@ from (
 	from articulos_pedido a
 		left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 		left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
-		LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-	WHERE p.`FECHA_ENTREGA` BETWEEN '2016-02-03' AND '2017-12-31'
+		left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+	where p.`FECHA_ENTREGA` between '2016-02-03' and '2017-12-31'
 	-- AND p.`CODIGO` = 2476
-	AND p.`ESTADO` <> 'ANULADO'
-	GROUP BY pc.`NOM`, p.`IDPEDIDOS`, p.`CODIGO`, a.`cod_art`, ar.`descri`
+	and p.`ESTADO` <> 'ANULADO'
+	group by pc.`NOM`, p.`IDPEDIDOS`, p.`CODIGO`, a.`cod_art`, ar.`descri`
       ) CONTROL
-WHERE CONTROL.repetido >= 2
+where CONTROL.repetido >= 2
 ;
 
 
@@ -211,35 +211,35 @@ WHERE CONTROL.repetido >= 2
 -- ------------- VENTAS CLIENTES x PRODUCTO x MES (PEDIDOS) -------------
 -- --------------------------------------------------------------------------
 -- SELECT pc.`NOM`, pc.`AP`, pc.`AM`, p.`IDPEDIDOS`, p.`CODIGO` AS COD_PED, a.`IDARTICULOSPEDIDO`, a.`cod_art`, ar.`descri`, a.`CANTIDAD`, a.`REPOSICION`, a.`TOTAL`, p.`ESTADO`, a.`IMPORTE`
-SELECT MONTH(p.`FECHA_ENTREGA`) AS MES, pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art` AS COD_ART, ar.`descri` AS PRODUCTO, SUM(a.`CANTIDAD`) AS CANTIDAD
-FROM articulos_pedido a
-LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
-LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
-LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2019-02-01' AND '2019-02-28'
-AND P.`ESTADO` <> 'ANULADO'
-AND p.`IDCLIENTE` = 180 -- SEMAPA
+select MONTH(p.`FECHA_ENTREGA`) as MES, pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANTIDAD
+from articulos_pedido a
+left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
+left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+where p.`FECHA_ENTREGA` between '2019-02-01' and '2019-02-28'
+and P.`ESTADO` <> 'ANULADO'
+and p.`IDCLIENTE` = 180 -- SEMAPA
 -- AND pc.`NOM` LIKE '%TORRES%'
-GROUP BY MONTH(p.`FECHA_ENTREGA`), pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art`, ar.`descri`;
+group by MONTH(p.`FECHA_ENTREGA`), pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art`, ar.`descri`;
 -- ---------------------------------------------------
 
 -- LISTA PERSONAS VENTAS
-SELECT DISTINCT pc.`NRO_DOC`, pc.`NOM`, pc.`AP`, pc.`AM`, pc.`DIRECCION`, pc.`TELEFONO`, pc.`NIT`, pc.`RAZONSOCIAL`
-FROM articulos_pedido a
-LEFT JOIN ventadirecta v ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
-LEFT JOIN personacliente pc ON v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
-LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE v.`FECHA_PEDIDO` BETWEEN '2018-01-01' AND '2018-04-30'
-AND v.`ESTADO` <> 'ANULADO'
-AND V.`IDUSUARIO` IN (6, 404)
-GROUP BY pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art`, ar.`descri`;
+select distinct pc.`NRO_DOC`, pc.`NOM`, pc.`AP`, pc.`AM`, pc.`DIRECCION`, pc.`TELEFONO`, pc.`NIT`, pc.`RAZONSOCIAL`
+from articulos_pedido a
+left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
+left join personacliente pc on v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+where v.`FECHA_PEDIDO` between '2018-01-01' and '2018-04-30'
+and v.`ESTADO` <> 'ANULADO'
+and V.`IDUSUARIO` in (6, 404)
+group by pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art`, ar.`descri`;
 
-SELECT *
-FROM articulos_pedido a
-LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2017-01-01' AND '2017-12-31'
-AND P.`ESTADO` <> 'ANULADO'
-AND p.`IDCLIENTE` = 180
+select *
+from articulos_pedido a
+left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
+where p.`FECHA_ENTREGA` between '2017-01-01' and '2017-12-31'
+and P.`ESTADO` <> 'ANULADO'
+and p.`IDCLIENTE` = 180
 ;
 -- ---------------------------------------------------
 
@@ -247,48 +247,48 @@ AND p.`IDCLIENTE` = 180
 
 --
 -- CANTIDAD DE ARTICULOS DE PEDIDOS
-SELECT a.`cod_art` AS COD_ART, ar.`descri` AS PRODUCTO, SUM(a.`CANTIDAD`) AS CANT_PRODUCTOS
-FROM articulos_pedido a
-LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
-LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2016-02-01' AND '2016-02-02'
-AND P.`ESTADO` <> 'ANULADO'
-GROUP BY a.`cod_art`, ar.`descri`;
+select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANT_PRODUCTOS
+from articulos_pedido a
+left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
+left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+where p.`FECHA_ENTREGA` between '2016-02-01' and '2016-02-02'
+and P.`ESTADO` <> 'ANULADO'
+group by a.`cod_art`, ar.`descri`;
 
 -- CANTIDAD DE ARTICULOS DE VENTAS AL CONTADO
-SELECT a.`cod_art` AS COD_ART, ar.`descri` AS PRODUCTO, SUM(a.`CANTIDAD`) AS CANT_PRODUCTOS
-FROM articulos_pedido a
-LEFT JOIN ventadirecta v ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
-LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE v.`FECHA_PEDIDO` BETWEEN '2016-02-20' AND '2016-02-20'
+select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANT_PRODUCTOS
+from articulos_pedido a
+left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
+left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+where v.`FECHA_PEDIDO` between '2016-02-20' and '2016-02-20'
 -- AND v.`IDUSUARIO` = 4
-AND v.`ESTADO` <> 'ANULADO'
+and v.`ESTADO` <> 'ANULADO'
 -- AND ar.`cuenta_art` = 4420110201
-GROUP BY a.`cod_art`, ar.`descri`
+group by a.`cod_art`, ar.`descri`
 ;
 
 
 -- 06/07/2018 CANTIDAD DE ARTICULOS POR FECHA X PEDIDO
-SELECT p.`FECHA_ENTREGA`, a.`cod_art` AS COD_ART, ar.`descri` AS PRODUCTO, SUM(a.`CANTIDAD`) AS CANT_PRODUCTOS
-FROM articulos_pedido a
-LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
-LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
-AND P.`ESTADO` <> 'ANULADO'
+select p.`FECHA_ENTREGA`, a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANT_PRODUCTOS
+from articulos_pedido a
+left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
+left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+where p.`FECHA_ENTREGA` between '2019-01-01' and '2019-01-31'
+and P.`ESTADO` <> 'ANULADO'
 -- AND p.`IDUSUARIO` <> 5
-AND a.`cod_art` = 151
-GROUP BY p.`FECHA_ENTREGA`, a.`cod_art`, ar.`descri`;
+and a.`cod_art` = 151
+group by p.`FECHA_ENTREGA`, a.`cod_art`, ar.`descri`;
 
 -- 06/07/2018 CANTIDAD DE ARTICULOS X FECHA X VENTA CONTADO
-SELECT v.`FECHA_PEDIDO`, a.`cod_art` AS COD_ART, ar.`descri` AS PRODUCTO, SUM(a.`CANTIDAD`) AS CANT_PRODUCTOS
-FROM articulos_pedido a
-LEFT JOIN ventadirecta v ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
-LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE v.`FECHA_PEDIDO` BETWEEN '2019-01-01' AND '2019-01-31'
+select v.`FECHA_PEDIDO`, a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANT_PRODUCTOS
+from articulos_pedido a
+left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
+left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+where v.`FECHA_PEDIDO` between '2019-01-01' and '2019-01-31'
 -- AND v.`IDUSUARIO` <> 5
-AND v.`ESTADO` <> 'ANULADO'
-AND a.`cod_art` = 151
-GROUP BY v.`FECHA_PEDIDO`, a.`cod_art`, ar.`descri`
+and v.`ESTADO` <> 'ANULADO'
+and a.`cod_art` = 151
+group by v.`FECHA_PEDIDO`, a.`cod_art`, ar.`descri`
 ;
 
 
@@ -296,170 +296,173 @@ GROUP BY v.`FECHA_PEDIDO`, a.`cod_art`, ar.`descri`
 -- 
 -- Reporte cantidad, Ventas al contado
 --
-SELECT a.`cod_art` AS COD_ART, ar.`descri` AS PRODUCTO, SUM(a.`CANTIDAD`) AS CANTIDAD
-FROM articulos_pedido a
-LEFT JOIN ventadirecta v ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
-LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE v.`FECHA_PEDIDO` BETWEEN '2016-09-01' AND '2016-09-30'
-AND v.`ESTADO` <> 'ANULADO'
-AND ar.`cuenta_art` = '4420110201'
-GROUP BY a.`cod_art`, ar.`descri`;
+select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANTIDAD
+from articulos_pedido a
+left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
+left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+where v.`FECHA_PEDIDO` between '2016-09-01' and '2016-09-30'
+and v.`ESTADO` <> 'ANULADO'
+and ar.`cuenta_art` = '4420110201'
+group by a.`cod_art`, ar.`descri`;
 
 -- 
 -- Reporte cantidad, Ventas Pedidos
 --
-SELECT a.`cod_art` AS COD_ART, ar.`descri` AS PRODUCTO, SUM(a.`CANTIDAD`) AS CANTIDAD
-FROM articulos_pedido a
-LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
-LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2016-09-01' AND '2016-09-30'
-AND P.`ESTADO` <> 'ANULADO'
-GROUP BY a.`cod_art`, ar.`descri`;
+select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANTIDAD
+from articulos_pedido a
+left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
+left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+where p.`FECHA_ENTREGA` between '2016-09-01' and '2016-09-30'
+and P.`ESTADO` <> 'ANULADO'
+group by a.`cod_art`, ar.`descri`;
 
 -- Degustacion, Reposicion
-SELECT a.`cod_art` AS COD_ART, ar.`descri` AS PRODUCTO, SUM(a.`CANTIDAD`) AS CANTIDAD
-FROM articulos_pedido a
-LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
-LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-31'
+select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANTIDAD
+from articulos_pedido a
+left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
+left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+where p.`FECHA_ENTREGA` between '2019-01-01' and '2019-01-31'
 -- and p.`IDTIPOPEDIDO` = 2 	-- Degustacion
 -- and p.`IDTIPOPEDIDO` = 3 	-- Refrigerio
-AND p.`IDTIPOPEDIDO` = 4 	-- Reposicion
-AND P.`ESTADO` <> 'ANULADO'
-GROUP BY a.`cod_art`, ar.`descri`;
+and p.`IDTIPOPEDIDO` = 4 	-- Reposicion
+and P.`ESTADO` <> 'ANULADO'
+group by a.`cod_art`, ar.`descri`;
 
 --
 
 
 
 -- Reporte,  cantidad total de ventas x producto
-SELECT 	p.cod_art, p.producto, 
-	(p.cantidad + IFNULL(v.cantidad, 0)) AS cantidad, 
+select 	p.cod_art, p.producto, 
+	(p.cantidad + IFNULL(v.cantidad, 0)) as cantidad, 
 	i.cu, 
-	((p.cantidad + IFNULL(v.cantidad, 0)) * i.cu) AS costo,
-	((p.cantidad + IFNULL(v.cantidad, 0)) * i.`costo_uni`) AS costo_total_uni
-FROM (
-	SELECT a.`cod_art` AS COD_ART, ar.`descri` AS PRODUCTO, SUM(a.`CANTIDAD`) AS CANTIDAD, SUM(a.`TOTAL`) AS cant_total
-	FROM articulos_pedido a
-	LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
-	LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-	WHERE p.`FECHA_ENTREGA` BETWEEN '2017-01-01' AND '2017-01-31'
-	AND P.`ESTADO` <> 'ANULADO'
-	GROUP BY a.`cod_art`, ar.`descri`
+	((p.cantidad + IFNULL(v.cantidad, 0)) * i.cu) as costo,
+	((p.cantidad + IFNULL(v.cantidad, 0)) * i.`costo_uni`) as costo_total_uni
+from (
+	select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANTIDAD, SUM(a.`TOTAL`) as cant_total
+	from articulos_pedido a
+	left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
+	left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+	where p.`FECHA_ENTREGA` between '2017-01-01' and '2017-01-31'
+	and P.`ESTADO` <> 'ANULADO'
+	group by a.`cod_art`, ar.`descri`
 	) p
-LEFT JOIN (
-	SELECT a.`cod_art` AS COD_ART, ar.`descri` AS PRODUCTO, SUM(a.`CANTIDAD`) AS CANTIDAD
-	FROM articulos_pedido a
-	LEFT JOIN ventadirecta v ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
-	LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-	WHERE v.`FECHA_PEDIDO` BETWEEN '2017-01-01' AND '2017-01-31'
-	AND v.`ESTADO` <> 'ANULADO'
-	AND ar.`cuenta_art` = '4420110201'
-	GROUP BY a.`cod_art`, ar.`descri`
-	) v 	ON p.cod_art = v.cod_Art
-LEFT JOIN inv_articulos i ON p.cod_Art = i.cod_art
+left join (
+	select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANTIDAD
+	from articulos_pedido a
+	left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
+	left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+	where v.`FECHA_PEDIDO` between '2017-01-01' and '2017-01-31'
+	and v.`ESTADO` <> 'ANULADO'
+	and ar.`cuenta_art` = '4420110201'
+	group by a.`cod_art`, ar.`descri`
+	) v 	on p.cod_art = v.cod_Art
+left join inv_articulos i on p.cod_Art = i.cod_art
 ;
 
 -- Reporte, REPOSICIONES
-SELECT 	p.cod_art, p.producto, 
-	(p.cantidad + IFNULL(v.cantidad, 0)) AS reposicion, 
+select 	p.cod_art, p.producto, 
+	(p.cantidad + IFNULL(v.cantidad, 0)) as reposicion, 
 	i.cu, 
-	((p.cantidad + IFNULL(v.cantidad, 0)) * i.cu) AS costo,
-	((p.cantidad + IFNULL(v.cantidad, 0)) * i.`costo_uni`) AS costo_total_uni
-FROM (
-	SELECT a.`cod_art` AS COD_ART, ar.`descri` AS PRODUCTO, SUM(a.`REPOSICION`) AS CANTIDAD
-	FROM articulos_pedido a
-	LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
-	LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-	WHERE p.`FECHA_ENTREGA` BETWEEN '2016-01-01' AND '2016-11-30'
-	AND P.`ESTADO` <> 'ANULADO'
-	GROUP BY a.`cod_art`, ar.`descri`
+	((p.cantidad + IFNULL(v.cantidad, 0)) * i.cu) as costo,
+	((p.cantidad + IFNULL(v.cantidad, 0)) * i.`costo_uni`) as costo_total_uni
+from (
+	select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`REPOSICION`) as CANTIDAD
+	from articulos_pedido a
+	left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
+	left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+	where p.`FECHA_ENTREGA` between '2016-01-01' and '2016-11-30'
+	and P.`ESTADO` <> 'ANULADO'
+	group by a.`cod_art`, ar.`descri`
 	) p
-LEFT JOIN (
-	SELECT a.`cod_art` AS COD_ART, ar.`descri` AS PRODUCTO, SUM(a.`CANTIDAD`) AS CANTIDAD
-	FROM articulos_pedido a
-	LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
-	LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-	WHERE p.`FECHA_ENTREGA` BETWEEN '2016-01-01' AND '2016-11-30'
-	AND p.`IDTIPOPEDIDO` = 4
-	AND P.`ESTADO` <> 'ANULADO'
-	GROUP BY a.`cod_art`, ar.`descri`
-	) v 	ON p.cod_art = v.cod_Art
-LEFT JOIN inv_articulos i ON p.cod_Art = i.cod_art
+left join (
+	select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANTIDAD
+	from articulos_pedido a
+	left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
+	left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+	where p.`FECHA_ENTREGA` between '2016-01-01' and '2016-11-30'
+	and p.`IDTIPOPEDIDO` = 4
+	and P.`ESTADO` <> 'ANULADO'
+	group by a.`cod_art`, ar.`descri`
+	) v 	on p.cod_art = v.cod_Art
+left join inv_articulos i on p.cod_Art = i.cod_art
 ;
 
 --
 -- REPORTE DE FACTURAS ANULADAS
 -- PEDIDOS ANULADOS
-SELECT p.`IDMOVIMIENTO`, p.fecha_entrega, p.`CODIGO`, p.`ESTADO`, m.nrofactura, m.`FECHA_FACTURA`, p.observacion, m.`RAZON_SOCIAL`, m.`ESTADO`, pc.`IDPERSONACLIENTE`, p.`id_tmpenc`
-FROM pedidos p
-JOIN personacliente pc ON p.idcliente = pc.idpersonacliente
-JOIN movimiento m      ON p.idmovimiento = m.idmovimiento
-WHERE p.`FECHA_ENTREGA` BETWEEN '2016-06-16' AND '2016-06-16'
+select p.`IDMOVIMIENTO`, p.fecha_entrega, p.`CODIGO`, p.`ESTADO`, m.nrofactura, m.`FECHA_FACTURA`, p.observacion, m.`RAZON_SOCIAL`, m.`ESTADO`, pc.`IDPERSONACLIENTE`, p.`id_tmpenc`
+from pedidos p
+join personacliente pc on p.idcliente = pc.idpersonacliente
+join movimiento m      on p.idmovimiento = m.idmovimiento
+where p.`FECHA_ENTREGA` between '2016-06-16' and '2016-06-16'
 -- AND p.`ESTADO` = 'ANULADO'
-AND p.`IDMOVIMIENTO` IS NOT NULL
+and p.`IDMOVIMIENTO` is not null
 ;
 
-SELECT v.`IDMOVIMIENTO`, v.`FECHA_PEDIDO`, v.`CODIGO`, v.`ESTADO`, m.`NROFACTURA`, m.`FECHA_FACTURA`, v.`OBSERVACION`, m.`RAZON_SOCIAL`, v.`IDCLIENTE`
-FROM ventadirecta v
-JOIN movimiento m ON v.`IDMOVIMIENTO` = m.`IDMOVIMIENTO`
-WHERE v.`FECHA_PEDIDO` BETWEEN '2017-03-01' AND '2017-03-31'
-AND v.`ESTADO` = 'ANULADO'
-AND v.`IDMOVIMIENTO` IS NOT NULL
+select v.`IDMOVIMIENTO`, v.`FECHA_PEDIDO`, v.`CODIGO`, v.`ESTADO`, m.`NROFACTURA`, m.`FECHA_FACTURA`, v.`OBSERVACION`, m.`RAZON_SOCIAL`, v.`IDCLIENTE`
+from ventadirecta v
+join movimiento m on v.`IDMOVIMIENTO` = m.`IDMOVIMIENTO`
+where v.`FECHA_PEDIDO` between '2017-03-01' and '2017-03-31'
+and v.`ESTADO` = 'ANULADO'
+and v.`IDMOVIMIENTO` is not null
 ;
 
 --
 -- CONTROL DE PEDIDOS SIN CONTABILIZAR
-SELECT p.`IDPEDIDOS`, p.`CODIGO`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`TIENEFACTURA`, pe.`NOM`, p.`IDMOVIMIENTO`, P.`TOTALIMPORTE`, P.`IMPUESTO`
-FROM pedidos p
-LEFT JOIN personacliente pe ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-07-31'
-AND p.`ESTADO` <> 'CONTABILIZADO' 
-AND p.`ESTADO` <> 'ANULADO'
+select p.`IDPEDIDOS`, p.`CODIGO`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`TIENEFACTURA`, pe.`NOM`, p.`IDMOVIMIENTO`, P.`TOTALIMPORTE`, P.`IMPUESTO`
+from pedidos p
+left join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
+where p.`FECHA_ENTREGA` between '2019-01-01' and '2019-12-31'
+and p.`ESTADO` <> 'CONTABILIZADO' 
+and p.`ESTADO` <> 'ANULADO'
 ;
 
 
 -- PEDIDOS - DESCUENTOS VETRINARIOS / LACTEOS
-SET @folio = (SELECT MAX(idmovimientosalarioproductor)+1 FROM movimientosalarioproductor);
-SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`TOTALIMPORTE`, p.`IDCLIENTE`, pe.`NOM`, pe.`AP`, pe.`AM`, pe.`NRO_DOC`, en.`identidad`, en.`noidentificacion`, per.`nombres`, per.`apellidopaterno`, per.`apellidomaterno`, p.`id_tmpenc`
+set @folio = (select MAX(idmovimientosalarioproductor)+1 from movimientosalarioproductor);
+select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`TOTALIMPORTE`, p.`IDCLIENTE`, pe.`NOM`, pe.`AP`, pe.`AM`, pe.`NRO_DOC`, en.`identidad`, en.`noidentificacion`, per.`nombres`, per.`apellidopaterno`, per.`apellidomaterno`, p.`id_tmpenc`
 -- INSERT INTO movimientosalarioproductor
 -- SELECT (@folio := @folio + 1), p.`FECHA_ENTREGA`, concat('Descuento por venta a credito Nro. ',  p.`CODIGO`) as descri, 'PENDING' AS estado, p.`TOTALIMPORTE` as valor, '1' as idcompania, pr.`idzonaproductiva`, en.`identidad`, '4' AS idtipomovimientoproductor
-FROM pedidos p
-LEFT JOIN personacliente pe 	ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
-LEFT JOIN entidad en 		ON pe.`NRO_DOC` = en.`noidentificacion`
-LEFT JOIN persona per 		ON en.`identidad` = per.`idpersona`
-LEFT JOIN productormateriaprima pr ON per.`idpersona` = pr.`idproductormateriaprima`
-WHERE p.`IDUSUARIO` = 404
+from pedidos p
+left join personacliente pe 	on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
+left join entidad en 		on pe.`NRO_DOC` = en.`noidentificacion`
+left join persona per 		on en.`identidad` = per.`idpersona`
+left join productormateriaprima pr on per.`idpersona` = pr.`idproductormateriaprima`
+where p.`IDUSUARIO` = 404
 -- WHERE p.`IDUSUARIO` = 5
-AND p.`FECHA_ENTREGA` BETWEEN '2019-03-01' AND '2019-03-15'
-AND p.`IDTIPOPEDIDO` = 5
+and p.`FECHA_ENTREGA` between '2019-03-01' and '2019-03-15'
+and p.`IDTIPOPEDIDO` = 5
 ;
 
-SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`TOTALIMPORTE`, p.`IDCLIENTE`, pe.`NOM`, pe.`AP`, pe.`AM`, pe.`NRO_DOC`, en.`identidad`, en.`noidentificacion`, per.`nombres`, per.`apellidopaterno`, per.`apellidomaterno`, p.`id_tmpenc`
+select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`TOTALIMPORTE`, p.`IDCLIENTE`, pe.`NOM`, pe.`AP`, pe.`AM`, pe.`NRO_DOC`, en.`identidad`, en.`noidentificacion`, per.`nombres`, per.`apellidopaterno`, per.`apellidomaterno`, p.`id_tmpenc`
 -- INSERT INTO movimientosalarioproductor
 -- SELECT (@folio := @folio + 1), p.`FECHA_ENTREGA`, concat('Descuento por venta a credito Nro. ',  p.`CODIGO`) as descri, 'PENDING' AS estado, p.`TOTALIMPORTE` as valor, '1' as idcompania, pr.`idzonaproductiva`, en.`identidad`, '4' AS idtipomovimientoproductor
-FROM pedidos p
-LEFT JOIN personacliente pe 	ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
-LEFT JOIN entidad en 		ON pe.`NRO_DOC` = en.`noidentificacion`
-LEFT JOIN persona per 		ON en.`identidad` = per.`idpersona`
-LEFT JOIN productormateriaprima pr ON per.`idpersona` = pr.`idproductormateriaprima`
-WHERE p.`IDUSUARIO` = 404
+from pedidos p
+left join personacliente pe 	on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
+left join entidad en 		on pe.`NRO_DOC` = en.`noidentificacion`
+left join persona per 		on en.`identidad` = per.`idpersona`
+left join productormateriaprima pr on per.`idpersona` = pr.`idproductormateriaprima`
+where p.`IDUSUARIO` = 404
 -- WHERE p.`IDUSUARIO` = 5
-AND p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-01-15'
-AND p.`IDTIPOPEDIDO` = 5
+and p.`FECHA_ENTREGA` between '2019-01-01' and '2019-01-15'
+and p.`IDTIPOPEDIDO` = 5
 ;
 
-UPDATE SECUENCIA SET VALOR=(SELECT MAX(E.IDMOVIMIENTOSALARIOPRODUCTOR)+1 FROM MOVIMIENTOSALARIOPRODUCTOR E) WHERE TABLA='MOVIMIENTOSALARIOPRODUCTOR';
+update SECUENCIA set VALOR=(select MAX(E.IDMOVIMIENTOSALARIOPRODUCTOR)+1 from MOVIMIENTOSALARIOPRODUCTOR E) where TABLA='MOVIMIENTOSALARIOPRODUCTOR';
 
-SELECT v.`fecha`,  v.`no_trans`, v.`no_vale`, v.`cod_doc`, v.`estado`, v.`cod_alm`, m.`fecha_cre`, m.`fecha_mov`, m.`descri`, d.`fecha`, d.`cod_art`, a.`descri`, d.`costounitario`, d.`cantidad`, v.`idtmpenc`
-FROM inv_movdet d 
-LEFT JOIN inv_articulos a ON d.`cod_art` = a.`cod_art`
-LEFT JOIN inv_mov m ON d.`no_trans` = m.`no_trans`
-LEFT JOIN inv_vales v ON m.`no_trans` = v.`no_trans`
-WHERE m.`no_usr` = 'SUA'
-AND v.`cod_alm` = 2
-AND v.`fecha` BETWEEN '2019-01-01' AND '2019-02-28'
-AND d.`cod_art` IN (118, 148, 150, 151, 643)
+select v.`fecha`,  v.`no_trans`, v.`no_vale`, v.`cod_doc`, v.`estado`, v.`cod_alm`, m.`fecha_cre`, m.`fecha_mov`, m.`descri`, d.`fecha`, d.`cod_art`, a.`descri`, d.`costounitario`, d.`cantidad`, v.`idtmpenc`
+from inv_movdet d 
+left join inv_articulos a on d.`cod_art` = a.`cod_art`
+left join inv_mov m on d.`no_trans` = m.`no_trans`
+left join inv_vales v on m.`no_trans` = v.`no_trans`
+where m.`no_usr` = 'SUA'
+and v.`cod_alm` = 2
+and v.`fecha` between '2019-01-01' and '2019-02-28'
+and d.`cod_art` in (118, 148, 150, 151, 643)
 ;
+
+
+
 
 

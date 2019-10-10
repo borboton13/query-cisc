@@ -99,7 +99,7 @@ select 	IDMOVIMIENTO,
 	IF(ESTADO = 'A', 0, CODIGOCONTROL) as "CODIGO DE CONTROL",
 	IDPEDIDOS, IDVENTADIRECTA, idmovimiento
 from movimiento
-where FECHA_FACTURA between '2019-10-01' and '2019-10-30'
+where FECHA_FACTURA between '2019-09-01' and '2019-09-30'
 ;
 
 -- -------------
