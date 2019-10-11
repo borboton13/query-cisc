@@ -55,7 +55,7 @@ left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
 where p.`FECHA_ENTREGA` between '2019-07-01' and '2019-10-31'
 -- AND p.`IDPEDIDOS` = 34632
 -- AND p.`IDCLIENTE` = 65
-and p.`CODIGO` in (6934) -- 3939(8895), 4140(119), 4216(347)
+and p.`CODIGO` in (7152) -- 3939(8895), 4140(119), 4216(347)
 -- 3133
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 29988
@@ -66,7 +66,7 @@ and p.`CODIGO` in (6934) -- 3939(8895), 4140(119), 4216(347)
 
 
 
-update pedidos p set p.`FECHA_ENTREGA` = '2019-10-01' where p.`IDPEDIDOS`= 35335; -- 2019-10-01
+update pedidos p set p.`FECHA_ENTREGA` = '2019-10-11' where p.`IDPEDIDOS`= 35553; -- 2019-10-10
 
 -- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-22', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34167; -- 2019-08-22
 -- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-22', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34168; -- 2019-08-22
@@ -116,7 +116,7 @@ select 	v.`FECHA_PEDIDO`,
 	CONCAT(pc.`NOM`,' ',pc.`AP`,' ',pc.`AM`) as CLIENTE, 
 	a.`cod_art`, 
 	a.`IDARTICULOSPEDIDO` as IdArtP, 
-	ar.`descri`, 
+	ar.`descri`, -- v.`OBSERVACION`,
 	a.`CANTIDAD`, a.`PROMOCION`, a.`REPOSICION`, a.`TOTAL`, a.`PRECIO`, a.`IMPORTE`, 
 	a.`cu`,
 	v.`IDMOVIMIENTO`,
@@ -126,7 +126,7 @@ left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join personacliente pc on v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
 where v.`FECHA_PEDIDO` between '2019-01-02' and '2019-12-31'
-and v.idventadirecta in (36455)
+and v.idventadirecta in (35661,35662,36285)
 -- AND p.`IDPEDIDOS` IN (21928)
 -- AND p.`IDCLIENTE` = 65
 -- and v.`CODIGO` in (2396)
@@ -137,9 +137,6 @@ and v.idventadirecta in (36455)
 -- and v.`IDUSUARIO` = 5
 ;
 
-select *
-from movimiento m
-where m.`IDMOVIMIENTO` in (58387, 58388, 59434);
 
 select zz.cod_art, zz.descri, SUM(zz.total) as cant
 from (
@@ -463,6 +460,20 @@ and d.`cod_art` in (118, 148, 150, 151, 643)
 ;
 
 
+
+select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, p.`IDTIPOPEDIDO`, p.`TOTALIMPORTE`, p.`VALORCOMISION`, p.`TOTAL`, p.`IMPUESTO`, p.`id_tmpenc`, p.`IDMOVIMIENTO`
+from pedidos p
+where p.`FECHA_ENTREGA` between '2019-09-01' and '2019-09-30'
+and p.`ESTADO` <> 'ANULADO'
+-- and p.`IDTIPOPEDIDO` <> 1
+and p.`id_tmpenc` is not null
+;
+
+select *
+from ventadirecta v
+where v.`FECHA_PEDIDO` between '2019-09-01' and '2019-09-30'
+and v.`ESTADO` <> 'ANULADO'
+;
 
 
 

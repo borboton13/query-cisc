@@ -18,7 +18,7 @@ select 	d.FECHA as "FECHA FACTURA O DUI",
 	, z.idtmpenc,  d.iddocumentocontable 
 from documentocontable d 
 join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
-where fecha between '2019-08-01' and '2019-08-31'
+where fecha between '2019-09-01' and '2019-09-30'
 and z.estado <> 'NULLIFIED'
 and z.tipo = 'INVOICE'
 ;
@@ -108,7 +108,7 @@ where FECHA_FACTURA between '2019-09-01' and '2019-09-30'
 	select v.`IDMOVIMIENTO` ,v.fecha_pedido, v.estado, v.observacion, m.`IDMOVIMIENTO`, m.`ESTADO`
 	from ventadirecta v
 	join movimiento m on v.`IDMOVIMIENTO` = m.`IDMOVIMIENTO`
-	where v.`FECHA_PEDIDO` between '2019-10-01' and '2019-10-30'
+	where v.`FECHA_PEDIDO` between '2019-09-01' and '2019-09-30'
 	and v.`ESTADO` = 'ANULADO'
 	and v.`IDMOVIMIENTO` is not null;
 
@@ -138,19 +138,20 @@ from pedidos p where p.`IDPEDIDOS` in (29033, 29040)
 -- CRUCE COMPRAS CON ASIENTOS
 -- ---------------------------
 -- cruzar ambas consultas en excel (id_tmpenc)
-select distinct co.*, dc.`idtmpenc`, e.`id_tmpenc`, e.`fecha`, /*d.`cuenta`, d.`debe`, d.`haber`,*/ e.`tipo_doc`, e.`no_doc`
+select distinct co.*, dc.`idtmpenc`, e.`id_tmpenc`, e.`fecha`, /*d.`cuenta`, d.`debe`, d.`haber`,*/ e.`tipo_doc`, e.`no_doc`, e.`fecha`
 from documentocontable co
 join documentocompra dc 	on co.`iddocumentocontable` = dc.`iddocumentocompra`
 join sf_tmpenc e  		on dc.`idtmpenc` = e.`id_tmpenc`
 -- join sf_tmpdet d 		on e.`id_tmpenc` = d.`id_tmpenc`
-where co.`fecha` between '2019-08-01' and '2019-08-31'
+where co.`fecha` between '2019-09-01' and '2019-09-30'
+-- WHERE e.`fecha` between '2019-09-01' and '2019-09-30'
 -- and d.`cuenta` = '1420710000'
 ;
 -- 
 select e.`id_tmpenc`, d.`id_tmpdet`, e.`estado`, e.`tipo_doc`, e.`no_doc`, e.`fecha`, d.`debe`, e.`glosa`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where e.`fecha` between '2019-08-01' and '2019-08-31'
+where e.`fecha` between '2019-09-01' and '2019-09-30'
 and d.`cuenta` = '1420710000'
 and d.`debe` > 0
 and e.`estado` <> 'ANL'
@@ -158,11 +159,17 @@ and e.`estado` <> 'ANL'
 ;
 -- ---------------------------
 
+select *
+from documentocontable d
+where d.`fecha` between '2019-09-01' and '2019-09-30'
+;
+
+
 select e.`id_tmpenc`, d.`id_tmpdet`, e.`estado`, e.`tipo_doc`, e.`no_doc`, e.`fecha`, d.`debe`, e.`glosa`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where e.`fecha` between '2019-01-01' and '2019-01-31'
-and d.`cuenta` = '2420410200'and d.haber > 0
+where e.`fecha` between '2019-09-01' and '2019-09-30'
+and d.`cuenta` = '1420710000'and d.debe > 0
 ;
 
 select * from pedidos p
@@ -219,22 +226,25 @@ where e.`id_tmpenc` in (
 select e.`id_tmpenc`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, d.`debe`, d.`haber`, e.`glosa`, e.`IDPERSONACLIENTE`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where e.`fecha` between '2019-06-01' and '2019-06-30'
+where e.`fecha` between '2019-09-01' and '2019-09-30'
 and d.`cuenta` = 2420410200
+and e.`estado` <> 'ANL'
 ;
 
+
 -- Facturas Pedidos - Asientos
-select m.`IDMOVIMIENTO`, m.`FECHA_FACTURA`, m.`ESTADO`, m.`IMPORTE_TOTAL`, m.`IMPORTE_PARA_DEBITO_FISCAL`, m.`DEBITO_FISCAL`, p.`IDPEDIDOS`, p.`id_tmpenc`, m.`RAZON_SOCIAL`
+select m.`IDMOVIMIENTO`, m.`FECHA_FACTURA`, m.`ESTADO`, m.`IMPORTE_TOTAL`, m.`IMPORTE_PARA_DEBITO_FISCAL`, m.`DEBITO_FISCAL`, p.`IDPEDIDOS`, p.`id_tmpenc`, m.`RAZON_SOCIAL`, P.`ESTADO`
 from movimiento m
 left join pedidos p on m.`IDPEDIDOS` = p.`IDPEDIDOS`
-where m.`FECHA_FACTURA` between '2019-06-01' and '2019-06-30'
+where m.`FECHA_FACTURA` between '2019-09-01' and '2019-09-30'
 and m.`ESTADO` <> 'A'
+-- and m.`ESTADO` = 'A'
 ;
 -- Facturas Contado - Asientos
 select m.`IDMOVIMIENTO`, m.`FECHA_FACTURA`, m.`ESTADO`, m.`IMPORTE_TOTAL`, m.`IMPORTE_PARA_DEBITO_FISCAL`, m.`DEBITO_FISCAL`, m.`IDVENTADIRECTA`, v.`id_tmpenc`, m.`RAZON_SOCIAL`
 from movimiento m
 left join ventadirecta v on m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
-where m.`FECHA_FACTURA` between '2019-06-01' and '2019-06-30'
+where m.`FECHA_FACTURA` between '2019-09-01' and '2019-09-30'
 and m.`ESTADO` <> 'A'
 ;
 
@@ -247,9 +257,6 @@ join sf_tmpenc e on d.`idtmpenc` = e.`id_tmpenc`
 ;
 
 
-
-
-
 select e.`id_com_encoc`, e.`fecha_recepcion`, e.`glosa`, e.`no_orden`, e.`total`, dc.`iddocumentocompra`, d.`iddocumentocontable` , d.`fecha`, d.`numero`, d.`nombre`, d.`iva`, dc.`idtmpenc`
 from com_encoc e 
 left join documentocompra dc on e.`id_com_encoc` = dc.`idordencompra`
@@ -257,5 +264,3 @@ left join documentocontable d on dc.`iddocumentocompra` = d.`iddocumentocontable
 where e.`fecha_recepcion` between '2019-08-01' and '2019-08-31'
 and e.`confactura` = 'CONFACTURA'
 ;
-
-
