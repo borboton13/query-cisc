@@ -66,7 +66,7 @@ and p.`CODIGO` in (7152) -- 3939(8895), 4140(119), 4216(347)
 
 
 
-update pedidos p set p.`FECHA_ENTREGA` = '2019-10-11' where p.`IDPEDIDOS`= 35553; -- 2019-10-10
+update pedidos p set p.`FECHA_ENTREGA` = '2019-10-10' where p.`IDPEDIDOS`= 35553; -- 2019-10-10
 
 -- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-22', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34167; -- 2019-08-22
 -- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-22', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34168; -- 2019-08-22

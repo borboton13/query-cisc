@@ -8,13 +8,13 @@ left join (
 	join inv_inventario i on v.`cod_art` = i.`cod_art`
 	join inv_articulos a  on i.`cod_art` = a.`cod_art`
 	where i.`cod_alm` = 2
-	and v.`FECHA` between '2019-01-01' and '2019-08-31'
+	and v.`FECHA` between '2019-01-01' and '2019-10-31'
 	group by v.`cod_art`, a.`descri`
 	) vv on t.`cod_art` = vv.cod_art
 left join (
 	select p.`COD_ART`, p.`NOMBRE`, SUM((p.`CANTIDAD_SC` + p.`REPROCESO_SC`)) as prod_total
 	from producciontotal p
-	where p.`FECHA` between '2019-01-01' and '2019-08-31'
+	where p.`FECHA` between '2019-01-01' and '2019-10-31'
 	group by p.`COD_ART`, p.`NOMBRE`
 	) pp on t.`cod_art` = pp.cod_art
 left join (
@@ -22,7 +22,7 @@ left join (
 	select d.`cod_art`, d.`descri`, SUM(d.`cantidad`) as cantidad
 	from inv_devolucion d
 	where d.`cod_alm` = 2
-	and d.`fecha` between '2019-01-01' and '2019-08-31'
+	and d.`fecha` between '2019-01-01' and '2019-10-31'
 	group by d.`cod_art`, d.`descri`
 	) d on t.cod_art = d.cod_art
 left join (
@@ -30,7 +30,7 @@ left join (
 	select b.`cod_art`, b.`descri`, SUM(b.`cantidad`)  as cantidad
 	from inv_bajas b
 	where b.`cod_alm` = 2
-	and b.`fecha` between '2019-01-01' and '2019-08-31'
+	and b.`fecha` between '2019-01-01' and '2019-10-31'
 	group by b.`cod_art`, b.`descri`
 	) ba on t.cod_art = ba.cod_art
 left join (
@@ -38,14 +38,14 @@ left join (
 	select b.`cod_art`, b.`descri`, SUM(b.`cantidad`)  as cantidad
 	from inv_reprocesos b
 	where b.`cod_alm` = 2
-	and b.`fecha` between '2019-01-01' and '2019-08-31'
+	and b.`fecha` between '2019-01-01' and '2019-10-31'
 	group by b.`cod_art`, b.`descri`
 	) br on t.cod_art = br.cod_art
 left join (
 	select d.`cod_art`, SUM(d.`cantidad`) as cantidad
 	from inv_movdet d
 	left join inv_vales v on d.`no_trans` = v.`no_trans`
-	where v.`fecha` between '2019-01-01' and '2019-08-31'
+	where v.`fecha` between '2019-01-01' and '2019-10-31'
 	and v.`cod_doc` in ('REC', 'EGR')
 	and v.`cod_alm` = 2
 	and v.`idordenproduccion` is null
@@ -58,7 +58,7 @@ left join (
 	select d.`cod_art`, SUM(d.`cantidad`) as cantidad
 	from inv_movdet d
 	left join inv_vales v on d.`no_trans` = v.`no_trans`
-	where v.`fecha` between '2019-01-01' and '2019-08-31'
+	where v.`fecha` between '2019-01-01' and '2019-10-31'
 	and v.`cod_doc` in ('REC', 'EGR')
 	and v.`cod_alm` = 2
 	and v.`idordenproduccion` is null
