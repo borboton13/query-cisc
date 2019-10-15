@@ -79,10 +79,23 @@ and p.`idpersona` = e.`identidad`
 ;
 
 --
+-- CUENTAS DE AHORRO - MOVIMIENTOS
+select e.`id_tmpenc`, e.`fecha`, e.`estado`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`idcuenta`, c.`nocuenta`, s.`nombres`, s.`apellidopaterno`, d.`debe`, d.`haber`
+from sf_tmpdet d
+left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
+left join cuenta c on d.`idcuenta` = c.`idcuenta`
+left join socio s on c.`idsocio` = s.`idsocio`
+where d.`idcuenta` is not null
+;
 
-select e.`identidad`, p.`idpersona`
-from entidad e
-left join persona p on e.`identidad` = p.`idpersona`
+-- CUENTAS DE AHORRO - SALDO
+select d.`idcuenta`, c.`nocuenta`, s.`nombres`, s.`apellidopaterno`, sum(d.`debe`) as debit , sum(d.`haber`) as credit, sum(d.`haber`) - sum(d.`debe`) as saldo
+from sf_tmpdet d
+left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
+left join cuenta c on d.`idcuenta` = c.`idcuenta`
+left join socio s on c.`idsocio` = s.`idsocio`
+where d.`idcuenta` is not null
+group by d.`idcuenta`, c.`nocuenta`, s.`nombres`, s.`apellidopaterno`
 ;
 
 

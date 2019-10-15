@@ -8,7 +8,7 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-122694
+122883
 ) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
@@ -18,6 +18,8 @@ delete from sf_tmpdet where id_tmpenc in (
 delete from sf_tmpenc where id_tmpenc in (
 
 );
+
+update
 
 --
 -- Detalle por TipoDoc
