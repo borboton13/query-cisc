@@ -86,6 +86,8 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join cuenta c on d.`idcuenta` = c.`idcuenta`
 left join socio s on c.`idsocio` = s.`idsocio`
 where d.`idcuenta` is not null
+and c.`nocuenta` = 100486
+order by e.`fecha`, d.`id_tmpdet`
 ;
 
 -- CUENTAS DE AHORRO - SALDO
@@ -97,8 +99,38 @@ left join socio s on c.`idsocio` = s.`idsocio`
 where d.`idcuenta` is not null
 group by d.`idcuenta`, c.`nocuenta`, s.`nombres`, s.`apellidopaterno`
 ;
+-- 
+delete from sf_tmpdet where id_tmpdet in (580283, 580284);
+
+select *
+from sf_tmpdet d where d.`id_tmpdet` = 578040;
+
+-- Para corregir capitalizacion intereses
+-- update sf_tmpdet d set d.`haber` = 3.86 , d.`haberme` =  0.55 where d.`id_tmpdet` = 578039 ; 
+-- update sf_tmpdet d set d.`debe`  = 0.50 , d.`debeme`  =  0.07 where d.`id_tmpdet` = 578040 ; 
+
+update sf_tmpdet d set d.`haber` = 0.48 where d.`id_tmpdet` = 577405 ; 
+update sf_tmpdet d set d.`debe`  = 0.06 where d.`id_tmpdet` = 577406 ; 
+
+update sf_tmpdet d set d.`haber` =  where d.`id_tmpdet` =  ; 
+update sf_tmpdet d set d.`debe`  =  where d.`id_tmpdet` =  ; 
+
+update sf_tmpdet d set d.`haber` =  where d.`id_tmpdet` =  ; 
+update sf_tmpdet d set d.`debe`  =  where d.`id_tmpdet` =  ; 
+
+update sf_tmpdet d set d.`haber` =  where d.`id_tmpdet` =  ; 
+update sf_tmpdet d set d.`debe`  =  where d.`id_tmpdet` =  ; 
+
+update sf_tmpdet d set d.`haber` =  where d.`id_tmpdet` =  ; 
+update sf_tmpdet d set d.`debe`  =  where d.`id_tmpdet` =  ; 
+
+update sf_tmpdet d set d.`haber` =  where d.`id_tmpdet` =  ; 
+update sf_tmpdet d set d.`debe`  =  where d.`id_tmpdet` =  ; 
 
 
+-- update cuenta c set c.`estado` = 'INACTIVE' where c.`nocuenta` = '100149';
+-- update cuenta c set c.`estado` = 'INACTIVE' where c.`nocuenta` = '100079';
 
-
+-- Anular solo para capitalizar intereses, luego revertir
+update sf_tmpenc e set e.`estado` = 'ANL' where e.`id_tmpenc` = 104401;
 
