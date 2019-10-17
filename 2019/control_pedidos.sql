@@ -39,7 +39,7 @@ select 	p.`FECHA_ENTREGA`, P.`FECHA_PEDIDO`,
 	p.`CODIGO`,
 	P.`ESTADO`,
 	p.`IDCLIENTE`,
-	concat(pc.`NOM`,' ',pc.`AP`,' ',pc.`AM`) as CLIENTE, p.`OBSERVACION`, p.`DESCRIPCION`,
+	CONCAT(pc.`NOM`,' ',pc.`AP`,' ',pc.`AM`) as CLIENTE, p.`OBSERVACION`, p.`DESCRIPCION`,
 	a.`cod_art`, 
 	a.`IDARTICULOSPEDIDO` as IdArtP, 
 	ar.`descri`, 
@@ -55,7 +55,7 @@ left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
 where p.`FECHA_ENTREGA` between '2019-07-01' and '2019-10-31'
 -- AND p.`IDPEDIDOS` = 34632
 -- AND p.`IDCLIENTE` = 65
-and p.`CODIGO` in (7167) -- 3939(8895), 4140(119), 4216(347)
+and p.`CODIGO` in (7270) -- 3939(8895), 4140(119), 4216(347)
 -- 3133
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 29988
@@ -65,7 +65,7 @@ and p.`CODIGO` in (7167) -- 3939(8895), 4140(119), 4216(347)
 ;
 
 update pedidos p set p.`ESTADO` = 'ANULADO' where p.`IDPEDIDOS`= 35568;
-update pedidos p set p.`FECHA_ENTREGA` = '2019-10-10' where p.`IDPEDIDOS`= 35553; -- 2019-10-10
+update pedidos p set p.`FECHA_ENTREGA` = '2019-10-17' where p.`IDPEDIDOS`= 35671; -- 2019-10-10
 
 select *
 from articulos_pedido a
