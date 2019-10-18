@@ -31,21 +31,21 @@ left join PLANILLAACOPIO P on R.IDPLANILLAACOPIO = P.IDPLANILLAACOPIO
 where P.FECHA between '2018-01-01' and '2018-01-15'
 ;
 
-select MONTH(P.FECHA) as MES, SUM(R.CANTIDADRECIBIDA) as RECIBIDA, SUM(R.CANTIDADPESADA) as PESADA, ((SUM(R.CANTIDADPESADA)) * 3.2) as PESADA_BS
+select month(P.FECHA) as MES, sum(R.CANTIDADRECIBIDA) as RECIBIDA, sum(R.CANTIDADPESADA) as PESADA, ((sum(R.CANTIDADPESADA)) * 3.2) as PESADA_BS
 from REGISTROACOPIO R
 left join PLANILLAACOPIO P on R.IDPLANILLAACOPIO = P.IDPLANILLAACOPIO
 -- WHERE P.FECHA BETWEEN TO_DATE('01/02/2015','DD/MM/YYYY') AND TO_DATE('28/02/2015','DD/MM/YYYY')
 where P.FECHA between '2019-02-01' and '2019-02-15'
-group by MONTH(P.FECHA)
+group by month(P.FECHA)
 ;
 
-select DAY(P.FECHA) as dia, z.`idzonaproductiva`, z.`numero`, z.`nombre`, SUM(R.CANTIDADRECIBIDA) as RECIBIDA, SUM(R.CANTIDADPESADA) as PESADA
+select day(P.FECHA) as dia, z.`idzonaproductiva`, z.`numero`, z.`nombre`, sum(R.CANTIDADRECIBIDA) as RECIBIDA, sum(R.CANTIDADPESADA) as PESADA
 from REGISTROACOPIO R
 left join PLANILLAACOPIO P on R.IDPLANILLAACOPIO = P.IDPLANILLAACOPIO
 left join zonaproductiva z on r.`idzonaproductiva` = z.`idzonaproductiva`
 where P.FECHA between '2019-02-01' and '2019-02-15'
 and z.`numero` = 074
-group by DAY(P.FECHA), z.`idzonaproductiva`, z.`numero`, z.`nombre`
+group by day(P.FECHA), z.`idzonaproductiva`, z.`numero`, z.`nombre`
 ;
 
 
@@ -124,7 +124,7 @@ and r.`liquidopagable` <> 0
 ;
 
 
-select  z.`idzonaproductiva`, z.`nombre`, z.`numero`, SUM(r.`cantidadtotal`) as cantidad
+select  z.`idzonaproductiva`, z.`nombre`, z.`numero`, sum(r.`cantidadtotal`) as cantidad
 from registropagomateriaprima r
 join descuentproductmateriaprima d 	on r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
 join persona pe        			on d.`idproductormateriaprima` = pe.`idpersona`
@@ -145,7 +145,7 @@ group by z.`idzonaproductiva`, z.`nombre`, z.`numero`
 select  
 	z.`nombre`, z.`numero`,
 	pe.`nombres`, pe.`apellidopaterno`, pe.`apellidomaterno`,
-	SUM(r.`cantidadtotal`) 		as Cant_LT
+	sum(r.`cantidadtotal`) 		as Cant_LT
 	-- r.`totalpagoacopio` 		AS Total
 from registropagomateriaprima r
 join descuentproductmateriaprima d 	on r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
@@ -165,8 +165,8 @@ group by z.`nombre`, z.`numero`, pe.`nombres`, pe.`apellidopaterno`, pe.`apellid
 select  
 	/* z.`nombre`, z.`numero`, */
 	pe.`nombres`, pe.`apellidopaterno`, pe.`apellidomaterno`,
-	SUM(r.`cantidadtotal`) 		as Cant, 
-	SUM(r.`totalpagoacopio`)	as TotalBs
+	sum(r.`cantidadtotal`) 		as Cant, 
+	sum(r.`totalpagoacopio`)	as TotalBs
 from registropagomateriaprima r
 join descuentproductmateriaprima d 	on r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
 join persona pe        			on d.`idproductormateriaprima` = pe.`idpersona`
@@ -183,7 +183,7 @@ group by pe.`nombres`, pe.`apellidopaterno`, pe.`apellidomaterno`
 -- ---------- PESAJE X FECHA -------------------------
 -- ---------------------------------------------------
 -- SELECT pl.idplanillaacopio, pl.fecha, pl.totalpesado, ra.idregistroacopio, zo.nombre, zo.numero, ra.cantidadrecibida, ra.cantidadpesada, ra.cantidadrechazada, ra.idzonaproductiva
-select zo.nombre, zo.numero, SUM(ra.cantidadrecibida) as cantidadrecibida, SUM(ra.cantidadpesada) as cantidadpesada
+select zo.nombre, zo.numero, sum(ra.cantidadrecibida) as cantidadrecibida, sum(ra.cantidadpesada) as cantidadpesada
 from REGISTROACOPIO RA
 left join PLANILLAACOPIO PL on ra.idplanillaacopio = pl.idplanillaacopio
 left join zonaproductiva ZO on ra.idzonaproductiva = zo.idzonaproductiva
@@ -191,7 +191,7 @@ where pl.fecha between '2019-02-01' and '2019-02-15'
 group by zo.nombre, zo.numero
 ;
 
-select se.idzonaproductiva, zo.nombre, zo.numero, SUM(ac.cantidad) as cantidad
+select se.idzonaproductiva, zo.nombre, zo.numero, sum(ac.cantidad) as cantidad
 from acopiomateriaprima ac
 left join sesionacopio se   on ac.idsesionacopio   = se.idsesionacopio
 left join zonaproductiva zo on se.idzonaproductiva = zo.idzonaproductiva
@@ -201,28 +201,28 @@ group by se.idzonaproductiva, zo.nombre, zo.numero
 
 
 
-select SUM(totalga)
+select sum(totalga)
 from planillapagomateriaprima p
 where p.`fechainicio` = '2016-05-01'
 ;
 
 -- SQL PLANILLA
 select zp.`nombre`, p.`idpersona`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, ppm.`preciounitario`, 
-	SUM(rpm.cantidadtotal) as cantidadtotal, 
-	SUM(rpm.`totalpagoacopio`) as totalpagoacopio, 
-	SUM(rpm.`liquidopagable`) as liquidopagable,
-	SUM(dpm.RETENCION) as RETENCION,
-	SUM(dpm.ALCOHOL) as ALCOHOL,
-	SUM(dpm.CONCENTRADOS) as CONCENTRADOS,
-	SUM(dpm.CREDITO) as CREDITO,
-	SUM(dpm.VETERINARIO) as VETERINARIO,
-	SUM(dpm.YOGURT) as YOGURT,
-	SUM(dpm.TACHOS) as TACHOS,
-	SUM(dpm.OTROSDESCUENTOS) as OTROSDESCUENTOS,
-	SUM(rpm.AJUSTEZONAPRODUCTIVA) as AJUSTEZONAPRODUCTIVA,
-	SUM(dpm.OTROSINGRESOS) as OTROSINGRESOS,
-	SUM(rpm.DESCUENTORESERVA) as DESCUENTORESERVA,
-	SUM(rpm.GA) as GA
+	sum(rpm.cantidadtotal) as cantidadtotal, 
+	sum(rpm.`totalpagoacopio`) as totalpagoacopio, 
+	sum(rpm.`liquidopagable`) as liquidopagable,
+	sum(dpm.RETENCION) as RETENCION,
+	sum(dpm.ALCOHOL) as ALCOHOL,
+	sum(dpm.CONCENTRADOS) as CONCENTRADOS,
+	sum(dpm.CREDITO) as CREDITO,
+	sum(dpm.VETERINARIO) as VETERINARIO,
+	sum(dpm.YOGURT) as YOGURT,
+	sum(dpm.TACHOS) as TACHOS,
+	sum(dpm.OTROSDESCUENTOS) as OTROSDESCUENTOS,
+	sum(rpm.AJUSTEZONAPRODUCTIVA) as AJUSTEZONAPRODUCTIVA,
+	sum(dpm.OTROSINGRESOS) as OTROSINGRESOS,
+	sum(rpm.DESCUENTORESERVA) as DESCUENTORESERVA,
+	sum(rpm.GA) as GA
 from PLANILLAPAGOMATERIAPRIMA ppm
 join REGISTROPAGOMATERIAPRIMA rpm 	on ppm.`idplanillapagomateriaprima`    = rpm.`idplanillapagomateriaprima`
 join DESCUENTPRODUCTMATERIAPRIMA dpm 	on rpm.`iddescuentproductmateriaprima` = dpm.`iddescuentproductmateriaprima` 
@@ -240,21 +240,21 @@ group by zp.`nombre`, p.`idpersona`, p.`nombres`, p.`apellidopaterno`, p.`apelli
 --
 
 select -- zp.`nombre`, p.`idpersona`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, ppm.`preciounitario`, 
-	SUM(rpm.cantidadtotal) as cantidadtotal, 
-	SUM(rpm.`totalpagoacopio`) as totalpagoacopio, 
-	SUM(rpm.`liquidopagable`) as liquidopagable,
-	SUM(dpm.RETENCION) as RETENCION,
-	SUM(dpm.ALCOHOL) as ALCOHOL,
-	SUM(dpm.CONCENTRADOS) as CONCENTRADOS,
-	SUM(dpm.CREDITO) as CREDITO,
-	SUM(dpm.VETERINARIO) as VETERINARIO,
-	SUM(dpm.YOGURT) as YOGURT,
-	SUM(dpm.TACHOS) as TACHOS,
-	SUM(dpm.OTROSDESCUENTOS) as OTROSDESCUENTOS,
-	SUM(rpm.AJUSTEZONAPRODUCTIVA) as AJUSTEZONAPRODUCTIVA,
-	SUM(dpm.OTROSINGRESOS) as OTROSINGRESOS,
-	SUM(rpm.DESCUENTORESERVA) as DESCUENTORESERVA,
-	SUM(rpm.GA) as GA
+	sum(rpm.cantidadtotal) as cantidadtotal, 
+	sum(rpm.`totalpagoacopio`) as totalpagoacopio, 
+	sum(rpm.`liquidopagable`) as liquidopagable,
+	sum(dpm.RETENCION) as RETENCION,
+	sum(dpm.ALCOHOL) as ALCOHOL,
+	sum(dpm.CONCENTRADOS) as CONCENTRADOS,
+	sum(dpm.CREDITO) as CREDITO,
+	sum(dpm.VETERINARIO) as VETERINARIO,
+	sum(dpm.YOGURT) as YOGURT,
+	sum(dpm.TACHOS) as TACHOS,
+	sum(dpm.OTROSDESCUENTOS) as OTROSDESCUENTOS,
+	sum(rpm.AJUSTEZONAPRODUCTIVA) as AJUSTEZONAPRODUCTIVA,
+	sum(dpm.OTROSINGRESOS) as OTROSINGRESOS,
+	sum(rpm.DESCUENTORESERVA) as DESCUENTORESERVA,
+	sum(rpm.GA) as GA
 from PLANILLAPAGOMATERIAPRIMA ppm
 join REGISTROPAGOMATERIAPRIMA rpm 	on ppm.`idplanillapagomateriaprima`    = rpm.`idplanillapagomateriaprima`
 join DESCUENTPRODUCTMATERIAPRIMA dpm 	on rpm.`iddescuentproductmateriaprima` = dpm.`iddescuentproductmateriaprima` 
@@ -304,3 +304,10 @@ and r.`liquidopagable` <> 0
 order by z.`nombre`, pe.`nombres`
 ;
 -- ---------------------------------------------------------------
+
+
+
+select *
+from productormateriaprima p
+where p.`numerocuenta` is not null
+;
