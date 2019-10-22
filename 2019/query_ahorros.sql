@@ -80,13 +80,14 @@ and p.`idpersona` = e.`identidad`
 
 --
 -- CUENTAS DE AHORRO - MOVIMIENTOS
-select e.`id_tmpenc`, e.`fecha`, e.`estado`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`idcuenta`, c.`nocuenta`, s.`nombres`, s.`apellidopaterno`, d.`debe`, d.`haber`
+select e.`id_tmpenc`, e.`fecha`, e.`estado`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`idcuenta`, c.`nocuenta`, 
+s.`nombres`, s.`apellidopaterno`, d.`debe`, d.`haber`, d.`debeme`, d.`haberme`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join cuenta c on d.`idcuenta` = c.`idcuenta`
 left join socio s on c.`idsocio` = s.`idsocio`
 where d.`idcuenta` is not null
-and c.`nocuenta` = 100486
+and c.`nocuenta` = 200079
 order by e.`fecha`, d.`id_tmpdet`
 ;
 
@@ -100,29 +101,17 @@ where d.`idcuenta` is not null
 group by d.`idcuenta`, c.`nocuenta`, s.`nombres`, s.`apellidopaterno`
 ;
 -- 
-delete from sf_tmpdet where id_tmpdet in (580283, 580284);
+delete from sf_tmpdet where id_tmpdet in (580956, 583816, 586694, 589560, 592415, 595244, 598066, 601793 );
 
 select *
 from sf_tmpdet d where d.`id_tmpdet` = 578040;
 
 -- Para corregir capitalizacion intereses
--- update sf_tmpdet d set d.`haber` = 3.86 , d.`haberme` =  0.55 where d.`id_tmpdet` = 578039 ; 
--- update sf_tmpdet d set d.`debe`  = 0.50 , d.`debeme`  =  0.07 where d.`id_tmpdet` = 578040 ; 
+update sf_tmpdet d set d.`haber` = 3.27 , d.`haberme` =  0.47 where d.`id_tmpdet` = 578077 ; 
+update sf_tmpdet d set d.`debe`  = 0.42 , d.`debeme`  = 0.06  where d.`id_tmpdet` = 578078 ; 
 
-update sf_tmpdet d set d.`haber` = 0.48 where d.`id_tmpdet` = 577405 ; 
-update sf_tmpdet d set d.`debe`  = 0.06 where d.`id_tmpdet` = 577406 ; 
-
-update sf_tmpdet d set d.`haber` =  where d.`id_tmpdet` =  ; 
-update sf_tmpdet d set d.`debe`  =  where d.`id_tmpdet` =  ; 
-
-update sf_tmpdet d set d.`haber` =  where d.`id_tmpdet` =  ; 
-update sf_tmpdet d set d.`debe`  =  where d.`id_tmpdet` =  ; 
-
-update sf_tmpdet d set d.`haber` =  where d.`id_tmpdet` =  ; 
-update sf_tmpdet d set d.`debe`  =  where d.`id_tmpdet` =  ; 
-
-update sf_tmpdet d set d.`haber` =  where d.`id_tmpdet` =  ; 
-update sf_tmpdet d set d.`debe`  =  where d.`id_tmpdet` =  ; 
+update sf_tmpdet d set d.`haber` = 0.07 , d.`haberme` =  0.01
+where d.`id_tmpdet` in (580957, 583817, 586695, 589561,592416,595245, 598067, 601794  );
 
 update sf_tmpdet d set d.`haber` =  where d.`id_tmpdet` =  ; 
 update sf_tmpdet d set d.`debe`  =  where d.`id_tmpdet` =  ; 

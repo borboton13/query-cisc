@@ -12,10 +12,21 @@ from credito c
 join socio s 			on c.`idsocio` = s.`idsocio`
 join tipocredito t 		on c.`idtipocredito` = t.`idtipocredito`
 join transaccioncredito tr 	on c.`idcredito` = tr.`idcredito`
-where c.`idtipocredito` = 2
+where c.`idtipocredito` = 1
 ;
 
 --
+select c.`idcredito`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, c.`codigoant`, c.`estado`, c.`importe`, max(t.fechatransaccion) as fecha, 
+sum(t.`capital`) as pagado, c.`importe` - sum(t.`capital`) as saldo
+from credito c
+join socio s 			on c.`idsocio` = s.`idsocio`
+join transaccioncredito t 	on c.`idcredito` = t.`idcredito`
+where c.`estado` = 'VIG'
+and t.`fechatransaccion` <= '2019-01-31'
+group by c.`idcredito`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, c.`codigoant`, c.`estado`, c.`importe`
+;
+-- 
+
 
 select e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`glosa`, c.`idcredito`, c.`codigo`, c.`codigoant`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, 
 CONCAT(s.`nombres`,' ', s.`apellidopaterno`, ' ', s.`apellidomaterno`, ' ', c.`codigoant`, ', ', e.`glosa`)
