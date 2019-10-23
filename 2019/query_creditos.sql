@@ -15,9 +15,9 @@ join transaccioncredito tr 	on c.`idcredito` = tr.`idcredito`
 where c.`idtipocredito` = 1
 ;
 
---
-select c.`idcredito`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, c.`codigoant`, c.`estado`, c.`importe`, max(t.fechatransaccion) as fecha, 
-sum(t.`capital`) as pagado, c.`importe` - sum(t.`capital`) as saldo
+-- ESTADO DE CARTERA VIGENTE
+select c.`idcredito`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, c.`codigoant`, c.`estado`, c.`importe`, MAX(t.fechatransaccion) as fecha, 
+SUM(t.`capital`) as pagado, c.`importe` - SUM(t.`capital`) as saldo
 from credito c
 join socio s 			on c.`idsocio` = s.`idsocio`
 join transaccioncredito t 	on c.`idcredito` = t.`idcredito`
