@@ -99,7 +99,7 @@ select 	IDMOVIMIENTO,
 	IF(ESTADO = 'A', 0, CODIGOCONTROL) as "CODIGO DE CONTROL",
 	IDPEDIDOS, IDVENTADIRECTA, idmovimiento
 from movimiento
-where FECHA_FACTURA between '2019-09-01' and '2019-09-30'
+where FECHA_FACTURA between '2019-10-01' and '2019-10-31'
 ;
 
 -- -------------
@@ -108,7 +108,7 @@ where FECHA_FACTURA between '2019-09-01' and '2019-09-30'
 	select v.`IDMOVIMIENTO` ,v.fecha_pedido, v.estado, v.observacion, m.`IDMOVIMIENTO`, m.`ESTADO`
 	from ventadirecta v
 	join movimiento m on v.`IDMOVIMIENTO` = m.`IDMOVIMIENTO`
-	where v.`FECHA_PEDIDO` between '2019-09-01' and '2019-09-30'
+	where v.`FECHA_PEDIDO` between '2019-10-01' and '2019-10-31'
 	and v.`ESTADO` = 'ANULADO'
 	and v.`IDMOVIMIENTO` is not null;
 
@@ -118,7 +118,7 @@ where FECHA_FACTURA between '2019-09-01' and '2019-09-30'
 	from pedidos p
 	   join personacliente pc on p.idcliente = pc.idpersonacliente
 	   join movimiento m      on p.idmovimiento = m.idmovimiento
-	where p.`FECHA_ENTREGA` between  '2019-10-01' and '2019-10-30'
+	where p.`FECHA_ENTREGA` between  '2019-10-01' and '2019-10-31'
 	and p.`ESTADO` = 'ANULADO'
 	and p.`IDMOVIMIENTO` is not null
 	-- AND p.`IDMOVIMIENTO` NOT IN (27416, 27417)
