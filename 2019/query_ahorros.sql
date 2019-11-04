@@ -34,6 +34,13 @@ and d.`idcuenta` in (2065)
 -- group by d.`cuenta`
 ;
 
+-- CUENTAS DPF
+select c.`idcuenta`, c.`fechaapertura`, c.`fechavence`, c.`nocuenta`, c.`moneda`, c.`saldo`, t.`nombre`, t.`tipo`
+from cuenta c
+join tipocuenta t on c.`idtipocuenta` = t.`idtipocuenta`
+where t.`tipo` = 'DPF'
+;
+
 -- CERTIFICADO APORTACION
 select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
 d.`id_tmpenc`, e.`estado`, d.`idsocio`
