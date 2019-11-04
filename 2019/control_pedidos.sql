@@ -52,11 +52,11 @@ from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where p.`FECHA_ENTREGA` between '2019-07-01' and '2019-10-31'
+where p.`FECHA_ENTREGA` between '2019-10-01' and '2019-10-31'
 -- AND p.`IDPEDIDOS` = 34632
--- AND p.`IDCLIENTE` = 65
-and p.`CODIGO` in (7214) -- 3939(8895), 4140(119), 4216(347)
--- 3133
+and p.`IDCLIENTE` = 726
+-- and p.`CODIGO` in (7214) -- 3939(8895), 4140(119), 4216(347)
+and p.`ESTADO` <> 'ANULADO'
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 29988
 -- AND pc.`AP` LIKE '%Car%'
