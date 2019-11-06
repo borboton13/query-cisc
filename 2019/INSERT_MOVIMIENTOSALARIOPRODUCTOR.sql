@@ -22,8 +22,8 @@ update SECUENCIA set VALOR=(select MAX(p.idplanillaacopio)+1 from planillaacopio
 
 select *
 from movimientosalarioproductor
-where fecha = '2019-07-01'
-and descripcion = 'REPOSICION DE FORMULARIO'
+where fecha = '2019-09-30'
+and descripcion like '%DESC_LACTEOS%'
 ;
 
 
@@ -58,7 +58,7 @@ left join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 left join entidad e         on pe.`NRO_DOC` = e.`noidentificacion`
 left join persona per       on e.`identidad` = per.`idpersona`
 left join productormateriaprima pr on e.`identidad` = pr.`idproductormateriaprima`
-where p.`FECHA_ENTREGA` between '2018-09-01' and '2018-09-15'
+where p.`FECHA_ENTREGA` between '2018-09-16' and '2018-09-30'
 and p.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` <> 5
 and p.`IDTIPOPEDIDO` = 5

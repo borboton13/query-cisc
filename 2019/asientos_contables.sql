@@ -19,7 +19,11 @@ delete from sf_tmpenc where id_tmpenc in (
 
 );
 
-update
+
+delete from sf_tmpdet where id_tmpdet in (
+
+);
+
 
 --
 -- Detalle por TipoDoc
@@ -31,13 +35,13 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- where d.`debe` = 0 and d.`haber` = 0
 -- WHERE d.`id_tmpenc` = 29504
-where e.`tipo_doc` = 'CI'
-and d.`cuenta` = '3110100000'
+where e.`tipo_doc` = 'CB'
+-- and d.`cuenta` = '3110100000'
 -- and e.`estado` <> 'ANL'
--- and e.`no_doc` in (770)
+and e.`no_doc` in (169)
 -- AND e.`glosa` LIKE '%certi%'
 -- where d.`cod_art`= 758
-and e.`fecha` between '2019-01-01' and '2019-08-30'
+and e.`fecha` between '2019-01-01' and '2019-09-30'
 ;
 
 -- 14041 - 14093
@@ -48,6 +52,12 @@ and e.`fecha` between '2019-01-01' and '2019-08-30'
 -- update sf_tmpenc e set e.`estado` = 'APR' where e.`id_tmpenc` in (114502);
 
 -- delete FROM sf_tmpdet where id_tmpenc in ();
+
+-- PARA REVISION DE DOCUMENTOS
+select e.`id_tmpenc`, e.`no_trans`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, e.`glosa`, e.`ndoc`
+from sf_tmpenc e
+where e.`tipo_doc` = 'CE'
+;
 
 -- SOCIOS NUEVOS
 select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, e.`no_doc`,  e.`glosa`,  d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
