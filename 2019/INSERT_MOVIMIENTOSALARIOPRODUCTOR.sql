@@ -3,37 +3,17 @@
 
 select MAX(idmovimientosalarioproductor)+1 from movimientosalarioproductor;
 
--- SET @folio = (SELECT MAX(idmovimientosalarioproductor)+1 FROM movimientosalarioproductor);
+-- SET @folio = (SELECT MAX(idmovimientosalarioproductor) FROM movimientosalarioproductor);
 insert into movimientosalarioproductor(idmovimientosalarioproductor,fecha,descripcion,estado,valor,idcompania,idzonaproductiva,idproductormateriaprima,idtipomovimientoproductor)
-select (@folio := @folio + 1), '2019-09-16' as fecha, 'REPOSICION DE FORMULARIO' as descripcion, 'PENDING' as estado, 0.80 as valor, 1 as idcompania, p.`idzonaproductiva`, d.`idproductormateriaprima`, 5 as idtipomovimientoproductor 
+select (@folio := @folio + 1), '2019-10-16' as fecha, 'COSTO POR TRANSFERENCIA' as descripcion, 'PENDING' as estado, 5.00 as valor, 1 as idcompania, p.`idzonaproductiva`, d.`idproductormateriaprima`, 5 as idtipomovimientoproductor 
 from registropagomateriaprima r
 left join planillapagomateriaprima p 	on r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
 left join descuentproductmateriaprima d on r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
-where p.fechainicio = '2019-09-16'
+where p.fechainicio = '2019-10-16'
 and r.`liquidopagable` > 0
 ;
 
 update SECUENCIA set VALOR=(select MAX(E.IDMOVIMIENTOSALARIOPRODUCTOR)+1 from MOVIMIENTOSALARIOPRODUCTOR E) where TABLA='MOVIMIENTOSALARIOPRODUCTOR';
-update SECUENCIA set VALOR=(select MAX(E.IDCOSTOSINDIRECTOS)/10+1 from COSTOSINDIRECTOS E) where TABLA='COSTOSINDIRECTOS';
-update SECUENCIA set VALOR=(select MAX(E.IDCOSTOSINDIRECTOS)/10+1 from COSTOSINDIRECTOS E) where TABLA='rhmarcado';
-update SECUENCIA set VALOR=(select MAX(E.idinvinicio)+1 from inv_inicio E) where TABLA='inv_inicio';
-
-update SECUENCIA set VALOR=(select MAX(p.idplanillaacopio)+1 from planillaacopio p) where TABLA='PLANILLAACOPIO';
-
-select *
-from movimientosalarioproductor
-where fecha = '2019-09-30'
-and descripcion like '%DESC_LACTEOS%'
-;
-
-
-select *
-from planillapagomateriaprima
--- update planillapagomateriaprima set estado = 'PENDING'
-where fechainicio = '2018-05-16'
-;
-
--- ----------------------
 
 -- ----------------------------------------------------------------
 -- ----------------------------------------------------------------
@@ -65,7 +45,7 @@ and p.`IDTIPOPEDIDO` = 5
 ;
 
 
--- ACOPIO, INSERTAR DESCUENTOS VETERINARIOS
+/* -- ACOPIO, INSERTAR DESCUENTOS VETERINARIOS
 set @folio = (select MAX(idmovimientosalarioproductor) from movimientosalarioproductor);
 -- INSERT INTO movimientosalarioproductor 
 select (@folio := @folio + 1), p.`FECHA_ENTREGA` as fecha, CONCAT('DESC_VETERINARIO venta a credito Nro. ', p.codigo) as descripcion, 'PENDING', P.`TOTALIMPORTE` as valor, 1 as idcompania, pr.idzonaproductiva, pr.`idproductormateriaprima`, 4 as tipomovimientoproductor
@@ -78,27 +58,9 @@ where p.`FECHA_ENTREGA` between '2018-09-01' and '2018-09-14'
 and p.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` = 5
 and p.`IDTIPOPEDIDO` = 6
-;
+;*/
 
-select *
-from movimientosalarioproductor m
-where m.`fecha` between '2018-01-01' and '2018-12-31'
-and m.`descripcion` <> 'REPOSICION DE FORMULARIO'
-and m.`idproductormateriaprima` = 352
-;
-
-select * from personacliente p where p.`NRO_DOC` = 5237757;
-select * from entidad e where e.`noidentificacion` = 5237757;
-
--- update movimientosalarioproductor m set m.`fecha` = '2018-09-19' where m.`idmovimientosalarioproductor` = 223680, m.`valor` = 0; -- 300Bs
--- DELETE FROM movimientosalarioproductor WHERE idmovimientosalarioproductor = 223680;
-
-select *
-from pedidos p
-where p.`CODIGO` = 5969;
-
-
--- ACOPIO, INSERTAR DESCUENTOS LACTEOS
+/* -- ACOPIO, INSERTAR DESCUENTOS LACTEOS
 set @folio = (select MAX(idmovimientosalarioproductor) from movimientosalarioproductor);
 -- INSERT INTO movimientosalarioproductor 
 select (@folio := @folio + 1), p.`FECHA_ENTREGA` as fecha, CONCAT('Descuento Productos Lacteos Pedido Nro. ', p.codigo) as descripcion, 'PENDING', P.`TOTALIMPORTE` as valor, 1 as idcompania, pr.idzonaproductiva, pr.`idproductormateriaprima`, 3 as tipomovimientoproductor
@@ -112,42 +74,28 @@ and p.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` <> 5
 and p.`IDTIPOPEDIDO` = 5
 -- and e.`noidentificacion` = 3587562
-;
-
-9023
-
-select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, pe.`IDPERSONACLIENTE`, pe.`NRO_DOC`
-from pedidos p
-join personacliente pe 		on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
-join entidad e 	    		on pe.`NRO_DOC` = e.`noidentificacion`
-join productormateriaprima pr 	on e.`identidad` = pr.`idproductormateriaprima`
-where p.`FECHA_ENTREGA` between '2018-08-01' and '2018-08-31'
-and p.`ESTADO` <> 'ANULADO'
-and p.`IDUSUARIO` <> 5
-and p.`IDTIPOPEDIDO` = 5
-;
+; */
 
 
--- 11312
+-- -------------------------------------- --
 -- CONTABILIZAR DESCUENTOS VETERINARIOS
+-- -------------------------------------- --
 -- SET @folio = (SELECT MAX(id_tmpdet) FROM sf_tmpdet);
 set @folio = 14194;
 -- INSERT INTO sf_tmpdet (id_tmpdet, cuenta, no_cia, debe, haber, moneda, no_trans, id_tmpenc, idpersonacliente) 
 select (@folio := @folio+1), '1421010200', '01', 0, p.`TOTALIMPORTE`, 'P', 122845, 122807, pe.`IDPERSONACLIENTE` -- 
--- ,pe.`NOM`, pe.`AP`, pe.`AM`
+,pe.`NOM`, pe.`AP`, pe.`AM`, p.`ESTADO`
 from pedidos p
 join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 join entidad e         on pe.`NRO_DOC` = e.`noidentificacion`
 join persona per       on e.`identidad` = per.`idpersona`
 join productormateriaprima pr on e.`identidad` = pr.`idproductormateriaprima`
-where p.`FECHA_ENTREGA` between '2019-09-01' and '2019-09-30'
+where p.`FECHA_ENTREGA` between '2019-10-01' and '2019-10-31'
 -- and p.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` = 5
 and p.`IDTIPOPEDIDO` = 6
 ;
 
-select *
-from sf_tmpdet d where d.`id_tmpdet` > 14190;
 
 -- CONTABILIZAR DESCUENTOS LACTEOS
 set @folio = 14199; 
@@ -159,19 +107,19 @@ join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 join entidad e         on pe.`NRO_DOC` = e.`noidentificacion`
 join persona per       on e.`identidad` = per.`idpersona`
 join productormateriaprima pr on e.`identidad` = pr.`idproductormateriaprima`
-where p.`FECHA_ENTREGA` between '2019-09-16' and '2019-09-30'
+where p.`FECHA_ENTREGA` between '2019-10-01' and '2019-10-15'
 and p.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` <> 5
 and p.`IDTIPOPEDIDO` = 5
 ;
-select * from pedidos p where p.`CODIGO` in (5383, 5443, 5380) and p.`FECHA_ENTREGA` between '2019-08-01' and '2019-08-31';
 
+-- DESCUENTOS
 select m.`idproductormateriaprima`, m.`fecha`, m.`descripcion`, m.`valor`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, p.`idpersona`, m.`idproductormateriaprima`
 from movimientosalarioproductor m
 left join persona p on m.`idproductormateriaprima` = p.`idpersona`
-where m.`fecha` between '2019-09-01' and '2019-09-30'
-and m.`descripcion` <> 'REPOSICION DE FORMULARIO'
--- AND m.`descripcion` LIKE '%DESC_VET%'
+where m.`fecha` between '2019-10-01' and '2019-10-15'
+-- and m.`descripcion` <> 'REPOSICION DE FORMULARIO'
+and m.`descripcion` like '%DESC_VET%'
 ;
 
 

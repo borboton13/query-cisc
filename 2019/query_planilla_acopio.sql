@@ -93,11 +93,13 @@ and r.`liquidopagable` <> 0
 -- ---------------------------------------------------------------
 select  /* r.`idregistropagomateriaprima`, p.`idplanillapagomateriaprima`, z.`idzonaproductiva`, d.`iddescuentproductmateriaprima`,*/
 	p.`fechainicio`,
-	z.`nombre`, z.`numero`,
-	pe.`idpersona`, e.`noidentificacion` as ci, pe.`nombres`, pe.`apellidopaterno`, pe.`apellidomaterno`,
+	z.`nombre`, 
+	-- z.`numero`,
+	-- pe.`idpersona`, 
+	e.`noidentificacion` as ci, pe.`nombres`, pe.`apellidopaterno`, pe.`apellidomaterno`,
 	r.`cantidadtotal` 		as Cant, 
 	r.`totalpagoacopio` 		as Total, 
-	r.`ga`,
+	/*r.`ga`,
 	d.`retencion`			as Ret,
 	d.`alcohol`,
 	d.`concentrados`,
@@ -108,7 +110,7 @@ select  /* r.`idregistropagomateriaprima`, p.`idplanillapagomateriaprima`, z.`id
 	d.`otrosdescuentos` 		as Otros,
 	r.`descuentoreserva`		as Reser,
 	r.`ajustezonaproductiva` 	as Ajuste,
-	d.`otrosingresos`		as Ingresos,
+	d.`otrosingresos`		as Ingresos,*/
 	r.`liquidopagable`		as LiquidoP,
 	pr.`numerocuenta`
 	-- r.`totalganado` -- 
@@ -119,7 +121,7 @@ join productormateriaprima pr 		on pe.`idpersona` = pr.`idproductormateriaprima`
 join entidad e 				on pe.`idpersona` = e.`identidad`
 join planillapagomateriaprima p 	on r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
 join zonaproductiva z 			on p.`idzonaproductiva` = z.`idzonaproductiva`
-where p.fechainicio = '2019-09-16'
+where p.fechainicio = '2019-10-01'
 and r.`liquidopagable` <> 0
 ;
 
