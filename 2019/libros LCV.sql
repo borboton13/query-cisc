@@ -13,12 +13,12 @@ select 	d.FECHA as "FECHA FACTURA O DUI",
 	"" as "DESCUENTOS",
 	d.importeneto as "IMPORTE BASE CREDITO FISCAL",
 	d.iva as "CREDITO FISCAL",
-	IFNULL(d.CODIGOCONTROL, 0) as CODIGOCONTROL,
+	ifnull(d.CODIGOCONTROL, 0) as CODIGOCONTROL,
 	"" as "TIPO DE COMPRA", z.estado
 	, z.idtmpenc,  d.iddocumentocontable 
 from documentocontable d 
 join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
-where fecha between '2019-09-01' and '2019-09-30'
+where fecha between '2019-10-01' and '2019-10-31'
 and z.estado <> 'NULLIFIED'
 and z.tipo = 'INVOICE'
 ;
@@ -36,7 +36,7 @@ select 	d.FECHA as "FECHA FACTURA O DUI",
 	"" as "DESCUENTOS",
 	d.importeneto as "IMPORTE BASE CREDITO FISCAL",
 	d.iva as "CREDITO FISCAL",
-	IFNULL(d.CODIGOCONTROL, 0) as CODIGOCONTROL,
+	ifnull(d.CODIGOCONTROL, 0) as CODIGOCONTROL,
 	"" as "TIPO DE COMPRA", z.estado,
 	z.idtmpenc, e.tipo_doc, e.no_doc, e.fecha, e.estado
 from documentocontable d 
@@ -68,7 +68,7 @@ select
   "" as "DESCUENTOS",
   d.importeneto as "IMPORTE BASE CREDITO FISCAL",
   d.iva as "CREDITO FISCAL",
-  IFNULL(d.CODIGOCONTROL, 0) as CODIGOCONTROL,
+  ifnull(d.CODIGOCONTROL, 0) as CODIGOCONTROL,
   "" as "TIPO DE COMPRA"
   , dc.estado, dc.idtmpenc, e.tipo_doc, e.no_doc
 from documentocontable d 

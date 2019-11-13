@@ -38,20 +38,22 @@ left join arcgms a    on d.`cuenta` = a.`cuenta`
 where e.`tipo_doc` = 'CB'
 -- and d.`cuenta` = '3110100000'
 -- and e.`estado` <> 'ANL'
-and e.`no_doc` in (169)
+and e.`no_doc` in (177)
 -- AND e.`glosa` LIKE '%certi%'
 -- where d.`cod_art`= 758
-and e.`fecha` between '2019-01-01' and '2019-09-30'
+and e.`fecha` between '2019-01-01' and '2019-10-31'
 ;
 
--- 14041 - 14093
+-- update sf_tmpdet d set d.`cuenta` = '2429910400' where d.`id_tmpdet` = 699030;
+select *
+from sf_tmpdet d
+where d.`id_tmpdet` >= 699301;
+
 -- update sf_tmpdet d set d.`idpersonacliente` = 1510 where d.`id_tmpdet` = 659725;
 -- update sf_tmpdet d set d.`cuenta` = '1420710000' where d.`id_tmpdet` = 663653; -- Cuenta Credito Fiscal
 -- update sf_tmpdet d SET d.`id_tmpenc` = 106270 where d.`id_tmpdet` in (11778	,11779	,11780	,11781	,11782	,11783	,11784	,11785	,11786	,11787	);
-
 -- update sf_tmpenc e set e.`estado` = 'APR' where e.`id_tmpenc` in (114502);
 
--- delete FROM sf_tmpdet where id_tmpenc in ();
 
 -- PARA REVISION DE DOCUMENTOS
 select e.`id_tmpenc`, e.`no_trans`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, e.`glosa`, e.`ndoc`

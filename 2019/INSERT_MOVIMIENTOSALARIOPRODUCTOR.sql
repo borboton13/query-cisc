@@ -1,7 +1,7 @@
 -- INSERT MOVIMIENTO SALARIO PRODUCTOR
 -- REPOSICION FORMULARIO
 
-select MAX(idmovimientosalarioproductor)+1 from movimientosalarioproductor;
+select max(idmovimientosalarioproductor)+1 from movimientosalarioproductor;
 
 -- SET @folio = (SELECT MAX(idmovimientosalarioproductor) FROM movimientosalarioproductor);
 insert into movimientosalarioproductor(idmovimientosalarioproductor,fecha,descripcion,estado,valor,idcompania,idzonaproductiva,idproductormateriaprima,idtipomovimientoproductor)
@@ -13,7 +13,7 @@ where p.fechainicio = '2019-10-16'
 and r.`liquidopagable` > 0
 ;
 
-update SECUENCIA set VALOR=(select MAX(E.IDMOVIMIENTOSALARIOPRODUCTOR)+1 from MOVIMIENTOSALARIOPRODUCTOR E) where TABLA='MOVIMIENTOSALARIOPRODUCTOR';
+update SECUENCIA set VALOR=(select max(E.IDMOVIMIENTOSALARIOPRODUCTOR)+1 from MOVIMIENTOSALARIOPRODUCTOR E) where TABLA='MOVIMIENTOSALARIOPRODUCTOR';
 
 -- ----------------------------------------------------------------
 -- ----------------------------------------------------------------
@@ -81,17 +81,17 @@ and p.`IDTIPOPEDIDO` = 5
 -- CONTABILIZAR DESCUENTOS VETERINARIOS
 -- -------------------------------------- --
 -- SET @folio = (SELECT MAX(id_tmpdet) FROM sf_tmpdet);
-set @folio = 14194;
+set @folio = 699288;
 -- INSERT INTO sf_tmpdet (id_tmpdet, cuenta, no_cia, debe, haber, moneda, no_trans, id_tmpenc, idpersonacliente) 
-select (@folio := @folio+1), '1421010200', '01', 0, p.`TOTALIMPORTE`, 'P', 122845, 122807, pe.`IDPERSONACLIENTE` -- 
-,pe.`NOM`, pe.`AP`, pe.`AM`, p.`ESTADO`
+select (@folio := @folio+1), '1421010200', '01', 0, p.`TOTALIMPORTE`, 'P', 124923, 124885, pe.`IDPERSONACLIENTE` -- 
+-- ,pe.`NOM`, pe.`AP`, pe.`AM`, p.`ESTADO`
 from pedidos p
 join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 join entidad e         on pe.`NRO_DOC` = e.`noidentificacion`
 join persona per       on e.`identidad` = per.`idpersona`
 join productormateriaprima pr on e.`identidad` = pr.`idproductormateriaprima`
-where p.`FECHA_ENTREGA` between '2019-10-01' and '2019-10-31'
--- and p.`ESTADO` <> 'ANULADO'
+where p.`FECHA_ENTREGA` between '2019-10-16' and '2019-10-31'
+and p.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` = 5
 and p.`IDTIPOPEDIDO` = 6
 ;
