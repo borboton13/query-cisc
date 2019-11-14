@@ -86,17 +86,17 @@ select 	IDMOVIMIENTO,
 	NROFACTURA as "N. FACTURA", 
 	NRO_AUTORIZACION as "N. AUTORIZACION", 
 	ESTADO, 
-	IF(ESTADO = 'A', 0, NIT_CLIENTE) as NIT_CLIENTE, 
-	IF(ESTADO = 'A', 'ANULADO', RAZON_SOCIAL) as "RAZON SOCIAL", 
-	IF(ESTADO = 'A', 0.00, IMPORTE_TOTAL) as "IMPORTE TOTAL DE VENTA", 
-	IF(ESTADO = 'A', 0.00, IMPORTE_ICE_IEHD_TASAS) as "IMPORTE ICE/IEHD/TASAS", 
-	IF(ESTADO = 'A', 0.00, EXPORT_EXENTAS) as "EXPORTACIONES Y OPERACIONES EXENTAS", 
-	IF(ESTADO = 'A', 0.00, VENTAS_GRAB_TASACERO) as "VENTAS GRAB TASA CERO", 
-	IF(ESTADO = 'A', 0.00, SUBTOTAL) as SUBTOTAL, 
-	IF(ESTADO = 'A', 0.00, DESCUENTOS) as "DESCUENTOS, BONIFICACIONES Y REBAJAS OTORGADAS", 
-	IF(ESTADO = 'A', 0.00, IMPORTE_PARA_DEBITO_FISCAL) as "IMPORTE PARA DEBITO FISCAL", 
-	IF(ESTADO = 'A', 0.00, DEBITO_FISCAL) as "DEBITO FISCAL", 
-	IF(ESTADO = 'A', 0, CODIGOCONTROL) as "CODIGO DE CONTROL",
+	if(ESTADO = 'A', 0, NIT_CLIENTE) as NIT_CLIENTE, 
+	if(ESTADO = 'A', 'ANULADO', RAZON_SOCIAL) as "RAZON SOCIAL", 
+	if(ESTADO = 'A', 0.00, IMPORTE_TOTAL) as "IMPORTE TOTAL DE VENTA", 
+	if(ESTADO = 'A', 0.00, IMPORTE_ICE_IEHD_TASAS) as "IMPORTE ICE/IEHD/TASAS", 
+	if(ESTADO = 'A', 0.00, EXPORT_EXENTAS) as "EXPORTACIONES Y OPERACIONES EXENTAS", 
+	if(ESTADO = 'A', 0.00, VENTAS_GRAB_TASACERO) as "VENTAS GRAB TASA CERO", 
+	if(ESTADO = 'A', 0.00, SUBTOTAL) as SUBTOTAL, 
+	if(ESTADO = 'A', 0.00, DESCUENTOS) as "DESCUENTOS, BONIFICACIONES Y REBAJAS OTORGADAS", 
+	if(ESTADO = 'A', 0.00, IMPORTE_PARA_DEBITO_FISCAL) as "IMPORTE PARA DEBITO FISCAL", 
+	if(ESTADO = 'A', 0.00, DEBITO_FISCAL) as "DEBITO FISCAL", 
+	if(ESTADO = 'A', 0, CODIGOCONTROL) as "CODIGO DE CONTROL",
 	IDPEDIDOS, IDVENTADIRECTA, idmovimiento
 from movimiento
 where FECHA_FACTURA between '2019-10-01' and '2019-10-31'
@@ -105,7 +105,7 @@ where FECHA_FACTURA between '2019-10-01' and '2019-10-31'
 -- -------------
 
 	-- Para anular facturas VENTAS CONTADO
-	select v.`IDMOVIMIENTO` ,v.fecha_pedido, v.estado, v.observacion, m.`IDMOVIMIENTO`, m.`ESTADO`
+	select v.`IDMOVIMIENTO` ,v.fecha_pedido, v.estado, v.observacion, m.`IDMOVIMIENTO`, m.`ESTADO`, v.`id_tmpenc`
 	from ventadirecta v
 	join movimiento m on v.`IDMOVIMIENTO` = m.`IDMOVIMIENTO`
 	where v.`FECHA_PEDIDO` between '2019-10-01' and '2019-10-31'
@@ -124,8 +124,15 @@ where FECHA_FACTURA between '2019-10-01' and '2019-10-31'
 	-- AND p.`IDMOVIMIENTO` NOT IN (27416, 27417)
 	;
 
-update movimiento M set M.ESTADO = 'A' where M.`IDMOVIMIENTO` in (
 
+select *
+from sf_tmpenc e
+where e.`id_tmpenc` in (
+123397, 123001
+);
+
+update movimiento M set M.ESTADO = 'A' where M.`IDMOVIMIENTO` in (
+60714
 );
 
 update pedidos p set p.`ESTADO` = 'PREPARAR' where p.`IDPEDIDOS` in (29033, 29040);
@@ -226,7 +233,7 @@ where e.`id_tmpenc` in (
 select e.`id_tmpenc`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, d.`debe`, d.`haber`, e.`glosa`, e.`IDPERSONACLIENTE`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where e.`fecha` between '2019-09-01' and '2019-09-30'
+where e.`fecha` between '2019-10-01' and '2019-10-31'
 and d.`cuenta` = 2420410200
 and e.`estado` <> 'ANL'
 ;
@@ -236,7 +243,7 @@ and e.`estado` <> 'ANL'
 select m.`IDMOVIMIENTO`, m.`FECHA_FACTURA`, m.`ESTADO`, m.`IMPORTE_TOTAL`, m.`IMPORTE_PARA_DEBITO_FISCAL`, m.`DEBITO_FISCAL`, p.`IDPEDIDOS`, p.`id_tmpenc`, m.`RAZON_SOCIAL`, P.`ESTADO`
 from movimiento m
 left join pedidos p on m.`IDPEDIDOS` = p.`IDPEDIDOS`
-where m.`FECHA_FACTURA` between '2019-09-01' and '2019-09-30'
+where m.`FECHA_FACTURA` between '2019-10-01' and '2019-10-31'
 and m.`ESTADO` <> 'A'
 -- and m.`ESTADO` = 'A'
 ;
@@ -244,7 +251,7 @@ and m.`ESTADO` <> 'A'
 select m.`IDMOVIMIENTO`, m.`FECHA_FACTURA`, m.`ESTADO`, m.`IMPORTE_TOTAL`, m.`IMPORTE_PARA_DEBITO_FISCAL`, m.`DEBITO_FISCAL`, m.`IDVENTADIRECTA`, v.`id_tmpenc`, m.`RAZON_SOCIAL`
 from movimiento m
 left join ventadirecta v on m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
-where m.`FECHA_FACTURA` between '2019-09-01' and '2019-09-30'
+where m.`FECHA_FACTURA` between '2019-10-01' and '2019-10-31'
 and m.`ESTADO` <> 'A'
 ;
 
@@ -264,3 +271,13 @@ left join documentocontable d on dc.`iddocumentocompra` = d.`iddocumentocontable
 where e.`fecha_recepcion` between '2019-08-01' and '2019-08-31'
 and e.`confactura` = 'CONFACTURA'
 ;
+
+
+
+select *
+from movimiento m
+where m.`IDMOVIMIENTO` in (
+
+);
+
+

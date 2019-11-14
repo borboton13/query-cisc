@@ -8,7 +8,8 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-122862
+123982,
+124705
 ) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
@@ -24,7 +25,34 @@ delete from sf_tmpdet where id_tmpdet in (
 
 );
 
+-- Asientos GAM (Maternologico), YPFB
+update sf_tmpenc e set e.`estado` = 'ANL'
+where e.`id_tmpenc` in (
+123982,
+124705
+);
 
+select *
+from pedidos p
+where p.`IDPEDIDOS` in (
+35898,
+35977,
+35756
+);
+
+-- idtipopedido = 2
+select *
+from pedidos p 
+update pedidos p set p.`ESTADO` = 'PREPARAR', p.`IDTIPOPEDIDO` = 2  
+where p.`IDPEDIDOS` = 35756;
+
+select *
+from pedidos p
+where p.`IDCLIENTE` = 1555
+and p.`FECHA_ENTREGA` >= '2019-10-01'
+;
+
+-- -----------------------
 --
 -- Detalle por TipoDoc
 select e.`id_tmpenc`, e.`no_trans`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
