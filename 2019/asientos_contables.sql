@@ -8,8 +8,7 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-123982,
-124705
+120429
 ) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
@@ -25,8 +24,15 @@ delete from sf_tmpdet where id_tmpdet in (
 
 );
 
+select *
+from sf_tmpdet d 
+where d.`id_tmpdet` > 14300
+-- where d.id_tmpenc = 116047
+;
+
+
 -- Asientos GAM (Maternologico), YPFB
-update sf_tmpenc e set e.`estado` = 'ANL'
+-- update sf_tmpenc e set e.`estado` = 'ANL'
 where e.`id_tmpenc` in (
 123982,
 124705
@@ -63,16 +69,19 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- where d.`debe` = 0 and d.`haber` = 0
 -- WHERE d.`id_tmpenc` = 29504
-where e.`tipo_doc` = 'CB'
+where e.`tipo_doc` = 'CD'
 -- and d.`cuenta` = '3110100000'
 -- and e.`estado` <> 'ANL'
-and e.`no_doc` in (177)
+and e.`no_doc` in (29)
 -- AND e.`glosa` LIKE '%certi%'
--- where d.`cod_art`= 758
-and e.`fecha` between '2019-01-01' and '2019-10-31'
+-- where d.`cod_art`= 846
+and e.`fecha` between '2019-01-01' and '2019-09-30'
 ;
 
--- update sf_tmpdet d set d.`cuenta` = '2429910400' where d.`id_tmpdet` = 699030;
+
+update sf_tmpdet d set d.`cant_art` = 0 where d.`id_tmpdet` = 703172;
+
+
 select *
 from sf_tmpdet d
 where d.`id_tmpdet` >= 699301;
@@ -80,7 +89,7 @@ where d.`id_tmpdet` >= 699301;
 -- update sf_tmpdet d set d.`idpersonacliente` = 1510 where d.`id_tmpdet` = 659725;
 -- update sf_tmpdet d set d.`cuenta` = '1420710000' where d.`id_tmpdet` = 663653; -- Cuenta Credito Fiscal
 -- update sf_tmpdet d SET d.`id_tmpenc` = 106270 where d.`id_tmpdet` in (11778	,11779	,11780	,11781	,11782	,11783	,11784	,11785	,11786	,11787	);
--- update sf_tmpenc e set e.`estado` = 'APR' where e.`id_tmpenc` in (114502);
+update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` in (125249);
 
 
 -- PARA REVISION DE DOCUMENTOS
