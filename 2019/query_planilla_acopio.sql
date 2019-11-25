@@ -48,6 +48,13 @@ and z.`numero` = 074
 group by day(P.FECHA), z.`idzonaproductiva`, z.`numero`, z.`nombre`
 ;
 
+select p.`fecha`, sum(R.CANTIDADRECIBIDA) as RECIBIDA, sum(R.CANTIDADPESADA) as PESADA
+from REGISTROACOPIO R
+left join PLANILLAACOPIO P on R.IDPLANILLAACOPIO = P.IDPLANILLAACOPIO
+where P.FECHA between '2019-10-01' and '2019-10-31'
+group by p.`fecha`
+;
+
 
 select * from planillapagomateriaprima;
 select * from `descuentproductmateriaprima`;

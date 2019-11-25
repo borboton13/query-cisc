@@ -39,7 +39,7 @@ select 	p.`FECHA_ENTREGA`, P.`FECHA_PEDIDO`,
 	p.`CODIGO`,
 	P.`ESTADO`,
 	p.`IDCLIENTE`,
-	CONCAT(pc.`NOM`,' ',pc.`AP`,' ',pc.`AM`) as CLIENTE, p.`OBSERVACION`, p.`DESCRIPCION`,
+	concat(pc.`NOM`,' ',pc.`AP`,' ',pc.`AM`) as CLIENTE, p.`OBSERVACION`, p.`DESCRIPCION`,
 	a.`cod_art`, 
 	a.`IDARTICULOSPEDIDO` as IdArtP, 
 	ar.`descri`, 
@@ -54,13 +54,13 @@ left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
 where p.`FECHA_ENTREGA` between '2019-10-01' and '2019-10-31'
 -- AND p.`IDPEDIDOS` = 34632
-and p.`IDCLIENTE` = 726
+-- and p.`IDCLIENTE` = 726
 -- and p.`CODIGO` in (7214) -- 3939(8895), 4140(119), 4216(347)
 and p.`ESTADO` <> 'ANULADO'
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 29988
 -- AND pc.`AP` LIKE '%Car%'
--- AND a.`cod_art` IN (669, 668, 642, 134, 643)
+and a.`cod_art` in (143)
 -- AND p.`IDUSUARIO` = 5
 ;
 
@@ -118,7 +118,7 @@ where a.`cod_art` in (120, 122);
 select 	v.`FECHA_PEDIDO`,
 	v.`IDVENTADIRECTA`,
 	v.`CODIGO`,
-	CONCAT(pc.`NOM`,' ',pc.`AP`,' ',pc.`AM`) as CLIENTE, 
+	concat(pc.`NOM`,' ',pc.`AP`,' ',pc.`AM`) as CLIENTE, 
 	a.`cod_art`, 
 	a.`IDARTICULOSPEDIDO` as IdArtP, 
 	ar.`descri`, -- v.`OBSERVACION`,
@@ -130,20 +130,20 @@ from articulos_pedido a
 left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join personacliente pc on v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where v.`FECHA_PEDIDO` between '2019-01-02' and '2019-12-31'
-and v.idventadirecta in (35661,35662,36285)
+where v.`FECHA_PEDIDO` between '2019-10-01' and '2019-10-31'
+-- and v.idventadirecta in (35661,35662,36285)
 -- AND p.`IDPEDIDOS` IN (21928)
 -- AND p.`IDCLIENTE` = 65
 -- and v.`CODIGO` in (2396)
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 2584
 -- AND pc.`AP` LIKE '%Car%'
--- AND a.`cod_art` = 703
+and a.`cod_art` = 143
 -- and v.`IDUSUARIO` = 5
 ;
 
 
-select zz.cod_art, zz.descri, SUM(zz.total) as cant
+select zz.cod_art, zz.descri, sum(zz.total) as cant
 from (
 	/*SELECT 	a.`cod_art`,  ar.`descri`,  SUM(a.`TOTAL`) AS total
 	FROM articulos_pedido a
@@ -155,7 +155,7 @@ from (
 	AND p.`IDUSUARIO` <> 5
 	GROUP BY a.`cod_art`,  ar.`descri`
 		UNION ALL*/
-	select a.`cod_art`, ar.`descri`, SUM(a.`CANTIDAD`) as total
+	select a.`cod_art`, ar.`descri`, sum(a.`CANTIDAD`) as total
 	from articulos_pedido a
 	left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 	left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
@@ -171,7 +171,7 @@ group by zz.cod_art, zz.descri
 
 --
 -- Ventas al contado Xx incompleto
-select pc.`NOM`, a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANTIDAD
+select pc.`NOM`, a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, sum(a.`CANTIDAD`) as CANTIDAD
 from articulos_pedido a
 left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
@@ -195,7 +195,7 @@ where p.`FECHA_ENTREGA` = '2016-07-25'
 
 select *
 from (
-	select p.`FECHA_ENTREGA`, pc.`NOM`, p.`IDPEDIDOS`, p.`CODIGO` as COD_PED, a.`cod_art`, ar.`descri`, COUNT(a.`IDARTICULOSPEDIDO`) as repetido
+	select p.`FECHA_ENTREGA`, pc.`NOM`, p.`IDPEDIDOS`, p.`CODIGO` as COD_PED, a.`cod_art`, ar.`descri`, count(a.`IDARTICULOSPEDIDO`) as repetido
 	from articulos_pedido a
 		left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 		left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
@@ -213,7 +213,7 @@ where CONTROL.repetido >= 2
 -- ------------- VENTAS CLIENTES x PRODUCTO x MES (PEDIDOS) -------------
 -- --------------------------------------------------------------------------
 -- SELECT pc.`NOM`, pc.`AP`, pc.`AM`, p.`IDPEDIDOS`, p.`CODIGO` AS COD_PED, a.`IDARTICULOSPEDIDO`, a.`cod_art`, ar.`descri`, a.`CANTIDAD`, a.`REPOSICION`, a.`TOTAL`, p.`ESTADO`, a.`IMPORTE`
-select MONTH(p.`FECHA_ENTREGA`) as MES, pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANTIDAD
+select month(p.`FECHA_ENTREGA`) as MES, pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, sum(a.`CANTIDAD`) as CANTIDAD
 from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
@@ -222,7 +222,7 @@ where p.`FECHA_ENTREGA` between '2019-02-01' and '2019-02-28'
 and P.`ESTADO` <> 'ANULADO'
 and p.`IDCLIENTE` = 180 -- SEMAPA
 -- AND pc.`NOM` LIKE '%TORRES%'
-group by MONTH(p.`FECHA_ENTREGA`), pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art`, ar.`descri`;
+group by month(p.`FECHA_ENTREGA`), pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art`, ar.`descri`;
 -- ---------------------------------------------------
 
 -- LISTA PERSONAS VENTAS
@@ -249,7 +249,7 @@ and p.`IDCLIENTE` = 180
 
 --
 -- CANTIDAD DE ARTICULOS DE PEDIDOS
-select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANT_PRODUCTOS
+select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, sum(a.`CANTIDAD`) as CANT_PRODUCTOS
 from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
@@ -258,7 +258,7 @@ and P.`ESTADO` <> 'ANULADO'
 group by a.`cod_art`, ar.`descri`;
 
 -- CANTIDAD DE ARTICULOS DE VENTAS AL CONTADO
-select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANT_PRODUCTOS
+select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, sum(a.`CANTIDAD`) as CANT_PRODUCTOS
 from articulos_pedido a
 left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
@@ -271,7 +271,7 @@ group by a.`cod_art`, ar.`descri`
 
 
 -- 06/07/2018 CANTIDAD DE ARTICULOS POR FECHA X PEDIDO
-select p.`FECHA_ENTREGA`, a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANT_PRODUCTOS
+select p.`FECHA_ENTREGA`, a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, sum(a.`CANTIDAD`) as CANT_PRODUCTOS
 from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
@@ -282,7 +282,7 @@ and a.`cod_art` = 151
 group by p.`FECHA_ENTREGA`, a.`cod_art`, ar.`descri`;
 
 -- 06/07/2018 CANTIDAD DE ARTICULOS X FECHA X VENTA CONTADO
-select v.`FECHA_PEDIDO`, a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANT_PRODUCTOS
+select v.`FECHA_PEDIDO`, a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, sum(a.`CANTIDAD`) as CANT_PRODUCTOS
 from articulos_pedido a
 left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
@@ -298,7 +298,7 @@ group by v.`FECHA_PEDIDO`, a.`cod_art`, ar.`descri`
 -- 
 -- Reporte cantidad, Ventas al contado
 --
-select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANTIDAD
+select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, sum(a.`CANTIDAD`) as CANTIDAD
 from articulos_pedido a
 left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
@@ -310,7 +310,7 @@ group by a.`cod_art`, ar.`descri`;
 -- 
 -- Reporte cantidad, Ventas Pedidos
 --
-select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANTIDAD
+select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, sum(a.`CANTIDAD`) as CANTIDAD
 from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
@@ -319,7 +319,7 @@ and P.`ESTADO` <> 'ANULADO'
 group by a.`cod_art`, ar.`descri`;
 
 -- Degustacion, Reposicion
-select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANTIDAD
+select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, sum(a.`CANTIDAD`) as CANTIDAD
 from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
@@ -336,12 +336,12 @@ group by a.`cod_art`, ar.`descri`;
 
 -- Reporte,  cantidad total de ventas x producto
 select 	p.cod_art, p.producto, 
-	(p.cantidad + IFNULL(v.cantidad, 0)) as cantidad, 
+	(p.cantidad + ifnull(v.cantidad, 0)) as cantidad, 
 	i.cu, 
-	((p.cantidad + IFNULL(v.cantidad, 0)) * i.cu) as costo,
-	((p.cantidad + IFNULL(v.cantidad, 0)) * i.`costo_uni`) as costo_total_uni
+	((p.cantidad + ifnull(v.cantidad, 0)) * i.cu) as costo,
+	((p.cantidad + ifnull(v.cantidad, 0)) * i.`costo_uni`) as costo_total_uni
 from (
-	select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANTIDAD, SUM(a.`TOTAL`) as cant_total
+	select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, sum(a.`CANTIDAD`) as CANTIDAD, sum(a.`TOTAL`) as cant_total
 	from articulos_pedido a
 	left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 	left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
@@ -350,7 +350,7 @@ from (
 	group by a.`cod_art`, ar.`descri`
 	) p
 left join (
-	select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANTIDAD
+	select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, sum(a.`CANTIDAD`) as CANTIDAD
 	from articulos_pedido a
 	left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 	left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
@@ -364,12 +364,12 @@ left join inv_articulos i on p.cod_Art = i.cod_art
 
 -- Reporte, REPOSICIONES
 select 	p.cod_art, p.producto, 
-	(p.cantidad + IFNULL(v.cantidad, 0)) as reposicion, 
+	(p.cantidad + ifnull(v.cantidad, 0)) as reposicion, 
 	i.cu, 
-	((p.cantidad + IFNULL(v.cantidad, 0)) * i.cu) as costo,
-	((p.cantidad + IFNULL(v.cantidad, 0)) * i.`costo_uni`) as costo_total_uni
+	((p.cantidad + ifnull(v.cantidad, 0)) * i.cu) as costo,
+	((p.cantidad + ifnull(v.cantidad, 0)) * i.`costo_uni`) as costo_total_uni
 from (
-	select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`REPOSICION`) as CANTIDAD
+	select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, sum(a.`REPOSICION`) as CANTIDAD
 	from articulos_pedido a
 	left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 	left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
@@ -378,7 +378,7 @@ from (
 	group by a.`cod_art`, ar.`descri`
 	) p
 left join (
-	select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, SUM(a.`CANTIDAD`) as CANTIDAD
+	select a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, sum(a.`CANTIDAD`) as CANTIDAD
 	from articulos_pedido a
 	left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 	left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
@@ -422,7 +422,7 @@ and p.`ESTADO` <> 'ANULADO'
 
 
 -- PEDIDOS - DESCUENTOS VETRINARIOS / LACTEOS
-set @folio = (select MAX(idmovimientosalarioproductor)+1 from movimientosalarioproductor);
+set @folio = (select max(idmovimientosalarioproductor)+1 from movimientosalarioproductor);
 select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`TOTALIMPORTE`, p.`IDCLIENTE`, pe.`NOM`, pe.`AP`, pe.`AM`, pe.`NRO_DOC`, en.`identidad`, en.`noidentificacion`, per.`nombres`, per.`apellidopaterno`, per.`apellidomaterno`, p.`id_tmpenc`
 -- INSERT INTO movimientosalarioproductor
 -- SELECT (@folio := @folio + 1), p.`FECHA_ENTREGA`, concat('Descuento por venta a credito Nro. ',  p.`CODIGO`) as descri, 'PENDING' AS estado, p.`TOTALIMPORTE` as valor, '1' as idcompania, pr.`idzonaproductiva`, en.`identidad`, '4' AS idtipomovimientoproductor
@@ -451,7 +451,7 @@ and p.`FECHA_ENTREGA` between '2019-01-01' and '2019-01-15'
 and p.`IDTIPOPEDIDO` = 5
 ;
 
-update SECUENCIA set VALOR=(select MAX(E.IDMOVIMIENTOSALARIOPRODUCTOR)+1 from MOVIMIENTOSALARIOPRODUCTOR E) where TABLA='MOVIMIENTOSALARIOPRODUCTOR';
+update SECUENCIA set VALOR=(select max(E.IDMOVIMIENTOSALARIOPRODUCTOR)+1 from MOVIMIENTOSALARIOPRODUCTOR E) where TABLA='MOVIMIENTOSALARIOPRODUCTOR';
 
 select v.`fecha`,  v.`no_trans`, v.`no_vale`, v.`cod_doc`, v.`estado`, v.`cod_alm`, m.`fecha_cre`, m.`fecha_mov`, m.`descri`, d.`fecha`, d.`cod_art`, a.`descri`, d.`costounitario`, d.`cantidad`, v.`idtmpenc`
 from inv_movdet d 
@@ -480,5 +480,15 @@ where v.`FECHA_PEDIDO` between '2019-09-01' and '2019-09-30'
 and v.`ESTADO` <> 'ANULADO'
 ;
 
+select v.`cod_art`, sum(v.`CANTIDAD`), sum(v.`TOTAL`)
+from ventas v
+where v.`FECHA` between '2019-10-01' and '2019-10-31'
+and v.`cod_art` = 143
+;
 
+
+select *
+from ventadirecta v
+where v.`FECHA_PEDIDO` between '2019-10-01' and '2019-10-31'
+;
 
