@@ -12,13 +12,9 @@ where d.`id_tmpenc` in (
 ) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
-delete from sf_tmpdet where id_tmpenc in (
+delete from sf_tmpdet where id_tmpenc in (125318);
 
-);
-
-delete from sf_tmpenc where id_tmpenc in (
-
-);
+delete from sf_tmpenc where id_tmpenc in (125318);
 
 
 delete from sf_tmpdet where id_tmpdet in (
@@ -31,21 +27,6 @@ where d.`id_tmpdet` > 14300
 -- where d.id_tmpenc = 116047
 ;
 
-
--- Asientos GAM (Maternologico), YPFB
--- update sf_tmpenc e set e.`estado` = 'ANL'
-where e.`id_tmpenc` in (
-123982,
-124705
-);
-
-select *
-from pedidos p
-where p.`IDPEDIDOS` in (
-35898,
-35977,
-35756
-);
 
 -- idtipopedido = 2
 select *
@@ -70,17 +51,19 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- where d.`debe` = 0 and d.`haber` = 0
 -- WHERE d.`id_tmpenc` = 29504
-where e.`tipo_doc` = 'CD'
+where e.`tipo_doc` = 'TR'
 -- and d.`cuenta` = '3110100000'
 -- and e.`estado` <> 'ANL'
-and e.`no_doc` in (1)
+and e.`no_doc` in (1545)
 -- AND e.`glosa` LIKE '%certi%'
 -- where d.`cod_art`= 758
 and e.`fecha` between '2019-01-01' and '2019-11-31'
 ;
 
+update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` = 120429;
 
-update sf_tmpdet d set d.`cant_art` = 0 where d.`id_tmpdet` = 703172;
+-- update sf_tmpdet d set d.`cuenta` = '4430110300'  where d.`id_tmpdet` = 71025;
+-- update sf_tmpdet d set d.`cuenta` = '4430110300'  where d.`id_tmpdet` = ;
 
 
 select *
