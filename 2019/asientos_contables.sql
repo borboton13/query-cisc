@@ -8,7 +8,7 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-125667
+1863
 ) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
@@ -51,20 +51,22 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- where d.`debe` = 0 and d.`haber` = 0
 -- WHERE d.`id_tmpenc` = 29504
-where e.`tipo_doc` = 'TR'
+where e.`tipo_doc` = 'IA'
 -- and d.`cuenta` = '3110100000'
 -- and e.`estado` <> 'ANL'
-and e.`no_doc` in (1545)
+and e.`no_doc` in (472)
 -- AND e.`glosa` LIKE '%certi%'
 -- where d.`cod_art`= 758
 and e.`fecha` between '2019-01-01' and '2019-11-31'
 ;
 
-update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` = 120429;
-
+-- update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` = 120429;
 -- update sf_tmpdet d set d.`cuenta` = '4430110300'  where d.`id_tmpdet` = 71025;
 -- update sf_tmpdet d set d.`cuenta` = '4430110300'  where d.`id_tmpdet` = ;
 
+update sf_tmpdet d set d.`debe` = 700 where d.`id_tmpdet` = 6066;
+-- update sf_tmpdet d set d.`haber` =  where d.`id_tmpdet` = 6067;
+-- update sf_tmpdet d set d.`haber` =  where d.`id_tmpdet` = 6068;
 
 select *
 from sf_tmpdet d
