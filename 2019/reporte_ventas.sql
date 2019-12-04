@@ -9,7 +9,7 @@ from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where p.`FECHA_ENTREGA` between '2019-09-01' and '2019-09-30'
+where p.`FECHA_ENTREGA` between '2019-11-01' and '2019-11-30'
 and P.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` <> 5
 -- AND pc.`NOM` LIKE '%TORRES%'
@@ -25,7 +25,7 @@ from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where p.`FECHA_ENTREGA` between '2019-09-01' and '2019-09-30'
+where p.`FECHA_ENTREGA` between '2019-11-01' and '2019-11-30'
 and P.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` <> 5
 -- AND p.`IDCLIENTE` = 165
@@ -43,7 +43,7 @@ from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where p.`FECHA_ENTREGA` between '2019-09-01' and '2019-09-30'
+where p.`FECHA_ENTREGA` between '2019-11-01' and '2019-11-30'
 and P.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` <> 5
 and p.`IDTIPOPEDIDO` in (1, 5)
@@ -58,7 +58,7 @@ from articulos_pedido a
 left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join personacliente pc on v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where v.`FECHA_PEDIDO` between '2019-09-01' and '2019-09-30'
+where v.`FECHA_PEDIDO` between '2019-11-01' and '2019-11-30'
 and v.`ESTADO` <> 'ANULADO'
 -- AND ar.`cuenta_art` = '4420110201'
 and v.`IDUSUARIO` <> 5
@@ -75,7 +75,7 @@ from articulos_pedido a
 left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join personacliente pc on v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where v.`FECHA_PEDIDO` between '2019-09-01' and '2019-09-30'
+where v.`FECHA_PEDIDO` between '2019-11-01' and '2019-11-30'
 and v.`ESTADO` <> 'ANULADO'
 -- AND V.`IDUSUARIO` IN (6, 404)
 and v.`IDUSUARIO` <> 5
