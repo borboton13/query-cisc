@@ -125,11 +125,24 @@ left join sesionacopio sa on am.`idsesionacopio` = sa.`idsesionacopio`
 left join zonaproductiva zp on sa.`idzonaproductiva` = zp.`idzonaproductiva`
 left join persona p on am.`idproductormateriaprima` = p.`idpersona`
 left join entidad e on p.`idpersona` = e.`identidad`
-where sa.`fecha` between '2019-04-01' and '2019-09-30'
+where sa.`fecha` between '2019-06-01' and '2019-11-30'
 and am.`cantidad` > 0
 -- and p.`nombres` like '%FELICIDA%'
 -- AND am.`idproductormateriaprima` IN (/*94, 524, 539, 102, 570, 526*/    107, 109, 105, 113, 112, 111, 91, 108)
 group by zp.`idzonaproductiva`, zp.`numero`, zp.`nombre`, am.`idproductormateriaprima`, e.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`
+;
+
+-- REPORTE DE ACOPIO POR PRODUCTORES (PARA SOL CASCARILLA) X MESES
+select am.`idproductormateriaprima` as id, e.`noidentificacion` as ci, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, MONTH(sa.`fecha`) as mes, SUM(am.`cantidad`) as cant
+from acopiomateriaprima am
+left join sesionacopio sa on am.`idsesionacopio` = sa.`idsesionacopio`
+left join zonaproductiva zp on sa.`idzonaproductiva` = zp.`idzonaproductiva`
+left join persona p on am.`idproductormateriaprima` = p.`idpersona`
+left join entidad e on p.`idpersona` = e.`identidad`
+where sa.`fecha` between '2019-06-01' and '2019-11-30'
+-- and am.`cantidad` > 0
+and E.`noidentificacion` in (8804935,	2890182,	5295951,	4442330,	3565335,	3588392,	859557,	5225910,	4389392,	3787676,	3562707,	3584420,	3130328,	4499629,	8008046,	2902741,	6498257,	3587562,	4418347,	5210751,	6479621,	3560702,	3013295,	818053,	3560711,	4424142,	4438154,	6408655,	5909313,	2868329,	4513674,	3812055,	5920932,	4400847,	6443376,	3580789,	4529955,	8725507,	3567711,	2903504)
+group by am.`idproductormateriaprima`, e.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, MONTH(sa.`fecha`)
 ;
 
 -- LISTA DE PRODUCTORES ACTIVOS
@@ -158,6 +171,6 @@ left join entidad e on p.`idpersona` = e.`identidad`
 where sa.`fecha` between '2019-02-01' and '2019-02-15'
 and am.`cantidad` > 0
 and zp.`numero` = 074
-group by day(sa.`fecha`), zp.`numero`, zp.`nombre`
+group by DAY(sa.`fecha`), zp.`numero`, zp.`nombre`
 ;
 
