@@ -52,22 +52,22 @@ from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where p.`FECHA_ENTREGA` between '2019-10-01' and '2019-10-31'
+where p.`FECHA_ENTREGA` between '2019-10-01' and '2019-12-31'
 -- AND p.`IDPEDIDOS` = 34632
 -- and p.`IDCLIENTE` = 726
--- and p.`CODIGO` in (7214) -- 3939(8895), 4140(119), 4216(347)
+and p.`CODIGO` in (8167)
 and p.`ESTADO` <> 'ANULADO'
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 29988
 -- AND pc.`AP` LIKE '%Car%'
-and a.`cod_art` in (143)
+-- and a.`cod_art` in (143)
 -- AND p.`IDUSUARIO` = 5
 ;
 
 -- update pedidos p set p.`ESTADO` = 'ANULADO' where p.`IDPEDIDOS`= 35615;
 -- update sf_tmpenc e SET e.`estado` = 'ANL' where e.`id_tmpenc` = 123001;
 -- update movimiento m set m.`ESTADO` = 'A' WHERE m.`IDMOVIMIENTO` = 60392;
-update pedidos p set p.`FECHA_ENTREGA` = '2019-10-17' where p.`IDPEDIDOS`= 35671; -- 2019-10-10
+update pedidos p set p.`FECHA_ENTREGA` = '2019-12-09' where p.`IDPEDIDOS`= 36566; -- 2019-12-09
 
 select *
 from articulos_pedido a

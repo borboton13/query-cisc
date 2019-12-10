@@ -18,7 +18,7 @@ select 	d.FECHA as "FECHA FACTURA O DUI",
 	, z.idtmpenc,  d.iddocumentocontable 
 from documentocontable d 
 join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
-where fecha between '2019-10-01' and '2019-10-31'
+where fecha between '2019-11-01' and '2019-11-30'
 and z.estado <> 'NULLIFIED'
 and z.tipo = 'INVOICE'
 ;
@@ -108,7 +108,7 @@ where FECHA_FACTURA between '2019-11-01' and '2019-11-30'
 	select v.`IDMOVIMIENTO` ,v.fecha_pedido, v.estado, v.observacion, m.`IDMOVIMIENTO`, m.`ESTADO`, v.`id_tmpenc`
 	from ventadirecta v
 	join movimiento m on v.`IDMOVIMIENTO` = m.`IDMOVIMIENTO`
-	where v.`FECHA_PEDIDO` between '2019-10-01' and '2019-10-31'
+	where v.`FECHA_PEDIDO` between '2019-11-01' and '2019-11-30'
 	and v.`ESTADO` = 'ANULADO'
 	and v.`IDMOVIMIENTO` is not null;
 
@@ -118,12 +118,14 @@ where FECHA_FACTURA between '2019-11-01' and '2019-11-30'
 	from pedidos p
 	   join personacliente pc on p.idcliente = pc.idpersonacliente
 	   join movimiento m      on p.idmovimiento = m.idmovimiento
-	where p.`FECHA_ENTREGA` between  '2019-10-01' and '2019-10-31'
+	where p.`FECHA_ENTREGA` between  '2019-11-01' and '2019-11-30'
 	and p.`ESTADO` = 'ANULADO'
 	and p.`IDMOVIMIENTO` is not null
 	-- AND p.`IDMOVIMIENTO` NOT IN (27416, 27417)
 	;
 
+
+1555, 1444, 726
 
 select *
 from sf_tmpenc e
@@ -179,8 +181,14 @@ where e.`fecha` between '2019-09-01' and '2019-09-30'
 and d.`cuenta` = '1420710000'and d.debe > 0
 ;
 
-select * from pedidos p
-where p.`id_tmpenc` = 102522;
+select * 
+from pedidos p
+where p.`IDTIPOPEDIDO` in (2, 3, 4)
+and p.`FECHA_ENTREGA` between '2019-11-01' and '2019-11-30'
+-- and p.`ESTADO` <> 'ANULADO'
+-- AND p.`IDMOVIMIENTO` is not null
+;
+
 
 select * from movimiento m where m.`IDMOVIMIENTO` = 48641;
 
@@ -190,15 +198,16 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join (
 	select v.`IDVENTADIRECTA`, v.`FECHA_PEDIDO`, v.`ESTADO`, v.`CODIGO`, v.`IDMOVIMIENTO`, v.`id_tmpenc`
 	from ventadirecta v
-	where v.`FECHA_PEDIDO` between '2019-06-01' and '2019-06-30' and v.`ESTADO` <> 'ANULADO'
+	where v.`FECHA_PEDIDO` between '2019-11-01' and '2019-11-30' and v.`ESTADO` <> 'ANULADO'
 ) ve on e.`id_tmpenc` = ve.id_tmpenc
 left join (
 	select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, p.`IDMOVIMIENTO`, p.`id_tmpenc`
 	from pedidos p
-	where p.`FECHA_ENTREGA` between '2019-06-01' and '2019-06-30' and p.estado <> 'ANULADO'
+	where p.`FECHA_ENTREGA` between '2019-11-01' and '2019-11-30' and p.estado <> 'ANULADO'
 ) pe on e.`id_tmpenc` = pe.id_tmpenc
-where e.`fecha` between '2019-06-01' and '2019-06-30'
+where e.`fecha` between '2019-11-01' and '2019-11-30'
 and d.`cuenta` = '2420410200'and d.haber > 0
+and e.`estado` <> 'ANL'
 ;
 
 
@@ -215,11 +224,13 @@ where p.`FECHA_ENTREGA` between '2019-01-01' and '2019-01-31'
 
 
 
-select p.`IDPEDIDOS`, p.`TOTALIMPORTE`, p.`IMPUESTO`, p.`ESTADO`, p.`id_tmpenc`, p.`ESTADO`, p.`CODIGO`, p.`FECHA_ENTREGA`, p.`IDMOVIMIENTO`, p.`OBSERVACION`
+select p.`IDPEDIDOS`, p.`TOTALIMPORTE`, p.`IMPUESTO`, p.`ESTADO`, p.`id_tmpenc`, p.`ESTADO`, p.`CODIGO`, p.`FECHA_ENTREGA`, 
+p.`IDMOVIMIENTO`, p.`OBSERVACION`, P.`IDTIPOPEDIDO`
 from pedidos p
 where p.`IDPEDIDOS` in (
-
+36093
 );
+
 
 
 select *

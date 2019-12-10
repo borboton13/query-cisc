@@ -99,8 +99,8 @@ and r.`liquidopagable` <> 0
 -- --------------- PLANILLA DE PAGO X QUINCENA + CUENTAS -------------------
 -- ---------------------------------------------------------------
 select  /* r.`idregistropagomateriaprima`, p.`idplanillapagomateriaprima`, z.`idzonaproductiva`, d.`iddescuentproductmateriaprima`,*/
-	p.`fechainicio`,
-	z.`nombre`, 
+	/*p.`fechainicio`,*/
+	z.`nombre` as gab, 
 	-- z.`numero`,
 	-- pe.`idpersona`, 
 	e.`noidentificacion` as ci, pe.`nombres`, pe.`apellidopaterno`, pe.`apellidomaterno`,
@@ -128,7 +128,7 @@ join productormateriaprima pr 		on pe.`idpersona` = pr.`idproductormateriaprima`
 join entidad e 				on pe.`idpersona` = e.`identidad`
 join planillapagomateriaprima p 	on r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
 join zonaproductiva z 			on p.`idzonaproductiva` = z.`idzonaproductiva`
-where p.fechainicio = '2019-10-16'
+where p.fechainicio = '2019-11-16'
 and r.`liquidopagable` <> 0
 ;
 
