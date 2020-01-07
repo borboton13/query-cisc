@@ -138,3 +138,24 @@ where s.`fecha` between '2019-05-16' and '2019-05-31'
 group by a.`idproductormateriaprima`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`
 ;
 
+
+
+
+select (@folio := @folio+1), '1421010200', '01', 0, p.`TOTALIMPORTE`, 'P', 124923, 124885, pe.`IDPERSONACLIENTE` -- 
+, PE.`NRO_DOC`, pe.`NOM`, pe.`AP`, pe.`AM`, p.`ESTADO`
+from pedidos p
+join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
+join entidad e         on pe.`NRO_DOC` = e.`noidentificacion`
+join persona per       on e.`identidad` = per.`idpersona`
+join productormateriaprima pr on e.`identidad` = pr.`idproductormateriaprima`
+where p.`FECHA_ENTREGA` between '2019-11-16' and '2019-11-30'
+and p.`ESTADO` <> 'ANULADO'
+and p.`IDUSUARIO` = 5
+and p.`IDTIPOPEDIDO` = 6
+;
+
+select p.`IDPERSONACLIENTE`, p.`NOM`, p.`AP`, p.`AM`, p.`NRO_DOC`, e.`identidad`, pr.`idproductormateriaprima`, pr.`idzonaproductiva`
+from personacliente p
+join entidad e on p.`NRO_DOC` = e.`noidentificacion`
+join productormateriaprima pr on e.`identidad` = pr.`idproductormateriaprima`
+;

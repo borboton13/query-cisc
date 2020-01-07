@@ -77,8 +77,8 @@ where r.`marfecha` between '2018-07-01' and '2018-07-31'
 
 select *
 from vmarcado v
-where v.`marfecha` between '2019-11-01' and '2019-11-31'
-and v.`marperid` = 6526652
+where v.`marfecha` between '2019-12-01' and '2019-12-31'
+-- and v.`marperid` = 6526652
 ;
 
 -- DIAS PARA PASAJES

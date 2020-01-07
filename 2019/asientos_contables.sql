@@ -50,16 +50,16 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- where d.`debe` = 0 and d.`haber` = 0
 -- WHERE d.`id_tmpenc` = 29504
-where e.`tipo_doc` = 'NE'
+where e.`tipo_doc` = 'CB'
 -- and d.`cuenta` = '3110100000'
 -- and e.`estado` <> 'ANL'
-and e.`no_doc` in (6735)
+and e.`no_doc` in (196)
 -- AND e.`glosa` LIKE '%certi%'
 -- where d.`cod_art`= 758
-and e.`fecha` between '2019-01-01' and '2019-11-31'
+and e.`fecha` between '2019-01-01' and '2019-12-31'
 ;
 
--- update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` = 124999;
+-- update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` = 129406;
 -- update sf_tmpdet d set d.`cuenta` = '4430110300'  where d.`id_tmpdet` = 71025;
 -- update sf_tmpdet d set d.`cuenta` = '4430110300'  where d.`id_tmpdet` = ;
 
