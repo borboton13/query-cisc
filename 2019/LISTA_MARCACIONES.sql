@@ -77,8 +77,8 @@ where r.`marfecha` between '2018-07-01' and '2018-07-31'
 
 select *
 from vmarcado v
-where v.`marfecha` between '2019-11-01' and '2019-11-31'
-and v.`marperid` = 6526652
+where v.`marfecha` between '2019-12-01' and '2019-12-31'
+-- and v.`marperid` = 6526652
 ;
 
 -- DIAS PARA PASAJES
@@ -87,4 +87,10 @@ from vmarcado v
 where v.`marfecha` between '2018-12-01' and '2018-12-31'
 and v.`marreftarjeta` in (8714155,5283781,8048438,4532545,5264949,5924127)
 group by v.`marperid`, v.`nombre`
+;
+
+
+select *
+from rh_marcado r
+where r.`marfecha` between '2019-11-01' and '2019-11-30'
 ;

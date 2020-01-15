@@ -39,7 +39,7 @@ select 	p.`FECHA_ENTREGA`, P.`FECHA_PEDIDO`,
 	p.`CODIGO`,
 	P.`ESTADO`,
 	p.`IDCLIENTE`,
-	concat(pc.`NOM`,' ',pc.`AP`,' ',pc.`AM`) as CLIENTE, p.`OBSERVACION`, p.`DESCRIPCION`,
+	CONCAT(pc.`NOM`,' ',pc.`AP`,' ',pc.`AM`) as CLIENTE, p.`OBSERVACION`, p.`DESCRIPCION`,
 	a.`cod_art`, 
 	a.`IDARTICULOSPEDIDO` as IdArtP, 
 	ar.`descri`, 
@@ -55,10 +55,10 @@ left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
 where p.`FECHA_ENTREGA` between '2019-10-01' and '2019-12-31'
 -- AND p.`IDPEDIDOS` = 34632
 -- and p.`IDCLIENTE` = 726
--- and p.`CODIGO` in (7930) -- 3939(8895), 4140(119), 4216(347)
--- and p.`ESTADO` <> 'ANULADO'
+and p.`CODIGO` in (8167)
+and p.`ESTADO` <> 'ANULADO'
 -- AND pc.`NOM` LIKE '%Randy%'
-and a.`IDPEDIDOS` = 36406
+-- AND a.`IDPEDIDOS` = 29988
 -- AND pc.`AP` LIKE '%Car%'
 -- and a.`cod_art` in (143)
 -- AND p.`IDUSUARIO` = 5
@@ -67,19 +67,11 @@ and a.`IDPEDIDOS` = 36406
 -- update pedidos p set p.`ESTADO` = 'ANULADO' where p.`IDPEDIDOS`= 35615;
 -- update sf_tmpenc e SET e.`estado` = 'ANL' where e.`id_tmpenc` = 123001;
 -- update movimiento m set m.`ESTADO` = 'A' WHERE m.`IDMOVIMIENTO` = 60392;
-update pedidos p set p.`FECHA_ENTREGA` = '2019-10-17' where p.`IDPEDIDOS`= 35671; -- 2019-10-10
-
-update articulos_pedido a set a.`CANTIDAD` = 2408, a.`TOTAL` = 2408, a.`IMPORTE` = 12521.6 where a.`IDARTICULOSPEDIDO` = 344566;
-update pedidos p set p.`ESTADO` = 'PREPARAR', P.`IDMOVIMIENTO` = null where P.`IDPEDIDOS` = 36406; -- anular
-
-update pedidos p set p.`ESTADO` = 'ANULADO' where P.`IDPEDIDOS` = 36406; -- anular
-
-
-
+update pedidos p set p.`FECHA_ENTREGA` = '2019-12-09' where p.`IDPEDIDOS`= 36566; -- 2019-12-09
 
 select *
 from articulos_pedido a
-where a.`IDPEDIDOS` = 36406;
+where a.`IDPEDIDOS` = 35568;
 
 -- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-22', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34167; -- 2019-08-22
 -- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-22', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34168; -- 2019-08-22
