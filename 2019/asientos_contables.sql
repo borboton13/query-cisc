@@ -1,3 +1,16 @@
+/** ASIENTO CAPITALIZACION/AHORROS **/
+select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  
+d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`debeme`, d.`haberme`,
+d.`id_tmpenc`, d.`idcuenta`, c.`codigo`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`
+from sf_tmpdet d
+left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
+left join arcgms a    on d.`cuenta` = a.`cuenta`
+left join cuenta c on d.`idcuenta` = c.`idcuenta`
+left join socio s on c.`idsocio` = s.`idsocio`
+where e.`tipo_doc` = 'CD'
+and e.`no_doc` in (185)
+and e.`fecha` between '2019-01-01' and '2019-12-31'
+;
 -- - 
 /*select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
 d.`tc`, d.`debeme`, d.`haberme`, d.`id_tmpenc`, e.`estado`, d.`idpersonacliente`, d.`cod_prov`, d.`cod_art`, d.`cant_art`*/
@@ -8,12 +21,12 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-127298
+
 ) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
-delete from sf_tmpdet where id_tmpenc in (128964);
-delete from sf_tmpenc where id_tmpenc in (128964);
+delete from sf_tmpdet where id_tmpenc in (2436);
+delete from sf_tmpenc where id_tmpenc in (2436);
 
 
 delete from sf_tmpdet where id_tmpdet in (
@@ -22,7 +35,7 @@ delete from sf_tmpdet where id_tmpdet in (
 
 select *
 from sf_tmpdet d 
-where d.`id_tmpdet` > 14300
+where d.`id_tmpdet` > 14531
 -- where d.id_tmpenc = 116047
 ;
 
@@ -50,10 +63,10 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- where d.`debe` = 0 and d.`haber` = 0
 -- WHERE d.`id_tmpenc` = 29504
-where e.`tipo_doc` = 'CB'
+where e.`tipo_doc` = 'CD'
 -- and d.`cuenta` = '3110100000'
 -- and e.`estado` <> 'ANL'
-and e.`no_doc` in (196)
+and e.`no_doc` in (186)
 -- AND e.`glosa` LIKE '%certi%'
 -- where d.`cod_art`= 758
 and e.`fecha` between '2019-01-01' and '2019-12-31'
@@ -74,7 +87,7 @@ where d.`id_tmpdet` >= 699301;
 -- update sf_tmpdet d set d.`idpersonacliente` = 1510 where d.`id_tmpdet` = 659725;
 -- update sf_tmpdet d set d.`cuenta` = '1420710000' where d.`id_tmpdet` = 663653; -- Cuenta Credito Fiscal
 -- update sf_tmpdet d SET d.`id_tmpenc` = 106270 where d.`id_tmpdet` in (11778	,11779	,11780	,11781	,11782	,11783	,11784	,11785	,11786	,11787	);
-update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` in (125509);
+update sf_tmpenc e set e.`estado` = 'APR' where e.`id_tmpenc` in (128114);
 
 
 -- PARA REVISION DE DOCUMENTOS
@@ -246,7 +259,7 @@ select e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, sum(d.`debe`) as tota
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
-where e.`fecha` between '2019-11-01' and '2019-11-31'
+where e.`fecha` between '2019-10-01' and '2019-12-31'
 and e.`estado` <> 'ANL'
 -- AND e.`tipo_doc` IN ('CI', 'CV', 'NE')
 -- AND e.`tipo_doc` IN ('CV')
@@ -489,3 +502,20 @@ and e.estado <> 'ANL'
 group by d.cod_art, a.descri, a.cod_med order by a.descri
 ;
 -- 
+
+/** ASIENTO CAPITALIZACION/AHORROS **/
+select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  
+d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`debeme`, d.`haberme`,
+d.`id_tmpenc`, d.`idcuenta`, c.`codigo`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`
+from sf_tmpdet d
+left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
+left join arcgms a    on d.`cuenta` = a.`cuenta`
+left join cuenta c on d.`idcuenta` = c.`idcuenta`
+left join socio s on c.`idsocio` = s.`idsocio`
+where e.`tipo_doc` = 'CD'
+and e.`no_doc` in (185)
+and e.`fecha` between '2019-01-01' and '2019-12-31'
+;
+
+
+

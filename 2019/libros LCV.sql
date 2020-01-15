@@ -18,11 +18,10 @@ select 	d.FECHA as "FECHA FACTURA O DUI",
 	, z.idtmpenc,  d.iddocumentocontable 
 from documentocontable d 
 join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
-where fecha between '2019-11-01' and '2019-11-30'
+where fecha between '2019-12-01' and '2019-12-31'
 and z.estado <> 'NULLIFIED'
 and z.tipo = 'INVOICE'
 ;
-
 
 select 	d.FECHA as "FECHA FACTURA O DUI", 
 	d.NIT as "NIT PROVEEDOR", 
@@ -45,13 +44,6 @@ left join sf_tmpenc e on z.idtmpenc = e.id_tmpenc
 where d.fecha between '2019-04-01' and '2019-04-30'
 and z.estado <> 'NULLIFIED'
 ;
-
-
--- UPDATE documentocompra d SET d.`estado` = 'NULLIFIED'
-where d.`iddocumentocompra` in (
-
-);
-
 
 
 -- REV FACT COMPRAS NO APROBADAS -- FALTA APROBAR FACT AGO/2018
@@ -99,7 +91,7 @@ select 	IDMOVIMIENTO,
 	if(ESTADO = 'A', 0, CODIGOCONTROL) as "CODIGO DE CONTROL",
 	IDPEDIDOS, IDVENTADIRECTA, idmovimiento
 from movimiento
-where FECHA_FACTURA between '2019-11-01' and '2019-11-30'
+where FECHA_FACTURA between '2019-12-01' and '2019-12-31'
 ;
 
 -- -------------
@@ -108,7 +100,7 @@ where FECHA_FACTURA between '2019-11-01' and '2019-11-30'
 	select v.`IDMOVIMIENTO` ,v.fecha_pedido, v.estado, v.observacion, m.`IDMOVIMIENTO`, m.`ESTADO`, v.`id_tmpenc`
 	from ventadirecta v
 	join movimiento m on v.`IDMOVIMIENTO` = m.`IDMOVIMIENTO`
-	where v.`FECHA_PEDIDO` between '2019-11-01' and '2019-11-30'
+	where v.`FECHA_PEDIDO` between '2019-12-01' and '2019-12-31'
 	and v.`ESTADO` = 'ANULADO'
 	and v.`IDMOVIMIENTO` is not null;
 
@@ -118,30 +110,11 @@ where FECHA_FACTURA between '2019-11-01' and '2019-11-30'
 	from pedidos p
 	   join personacliente pc on p.idcliente = pc.idpersonacliente
 	   join movimiento m      on p.idmovimiento = m.idmovimiento
-	where p.`FECHA_ENTREGA` between  '2019-11-01' and '2019-11-30'
+	where p.`FECHA_ENTREGA` between  '2019-12-01' and '2019-12-31'
 	and p.`ESTADO` = 'ANULADO'
 	and p.`IDMOVIMIENTO` is not null
 	-- AND p.`IDMOVIMIENTO` NOT IN (27416, 27417)
 	;
-
-
-1555, 1444, 726
-
-select *
-from sf_tmpenc e
-where e.`id_tmpenc` in (
-123397, 123001
-);
-
-update movimiento M set M.ESTADO = 'A' where M.`IDMOVIMIENTO` in (
-60714
-);
-
-update pedidos p set p.`ESTADO` = 'PREPARAR' where p.`IDPEDIDOS` in (29033, 29040);
-
-select *
-from pedidos p where p.`IDPEDIDOS` in (29033, 29040)
-;
 
 
 -- CRUCE COMPRAS CON ASIENTOS
@@ -152,92 +125,59 @@ from documentocontable co
 join documentocompra dc 	on co.`iddocumentocontable` = dc.`iddocumentocompra`
 join sf_tmpenc e  		on dc.`idtmpenc` = e.`id_tmpenc`
 -- join sf_tmpdet d 		on e.`id_tmpenc` = d.`id_tmpenc`
-where co.`fecha` between '2019-09-01' and '2019-09-30'
--- WHERE e.`fecha` between '2019-09-01' and '2019-09-30'
+-- where co.`fecha` between '2019-12-01' and '2019-12-31'
+where e.`fecha` between '2019-12-01' and '2019-12-31'
 -- and d.`cuenta` = '1420710000'
 ;
 -- 
 select e.`id_tmpenc`, d.`id_tmpdet`, e.`estado`, e.`tipo_doc`, e.`no_doc`, e.`fecha`, d.`debe`, e.`glosa`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where e.`fecha` between '2019-09-01' and '2019-09-30'
+where e.`fecha` between '2019-12-01' and '2019-12-31'
 and d.`cuenta` = '1420710000'
 and d.`debe` > 0
 and e.`estado` <> 'ANL'
- -- AND e.`tipo_doc` NOT IN ('NE')
+and e.`tipo_doc` not in ('NE')
 ;
 -- ---------------------------
-
-select *
-from documentocontable d
-where d.`fecha` between '2019-09-01' and '2019-09-30'
-;
 
 
 select e.`id_tmpenc`, d.`id_tmpdet`, e.`estado`, e.`tipo_doc`, e.`no_doc`, e.`fecha`, d.`debe`, e.`glosa`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where e.`fecha` between '2019-09-01' and '2019-09-30'
+where e.`fecha` between '2019-12-01' and '2019-12-31'
 and d.`cuenta` = '1420710000'and d.debe > 0
 ;
 
-select * 
-from pedidos p
-where p.`IDTIPOPEDIDO` in (2, 3, 4)
-and p.`FECHA_ENTREGA` between '2019-11-01' and '2019-11-30'
--- and p.`ESTADO` <> 'ANULADO'
--- AND p.`IDMOVIMIENTO` is not null
-;
 
 
-select * from movimiento m where m.`IDMOVIMIENTO` = 48641;
-
+/** 1.- PARA REVISION LIBRO DE VENTAS **/
 select e.`id_tmpenc`, d.`id_tmpdet`, e.`estado`, e.`tipo_doc`, e.`no_doc`, e.`fecha`, d.`debe`, d.`haber`, e.`glosa`, ve.idventadirecta, ve.estado, ve.idmovimiento, pe.idpedidos, pe.estado, pe.idmovimiento
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join (
 	select v.`IDVENTADIRECTA`, v.`FECHA_PEDIDO`, v.`ESTADO`, v.`CODIGO`, v.`IDMOVIMIENTO`, v.`id_tmpenc`
 	from ventadirecta v
-	where v.`FECHA_PEDIDO` between '2019-11-01' and '2019-11-30' and v.`ESTADO` <> 'ANULADO'
+	where v.`FECHA_PEDIDO` between '2019-12-01' and '2019-12-31' and v.`ESTADO` <> 'ANULADO'
 ) ve on e.`id_tmpenc` = ve.id_tmpenc
 left join (
 	select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, p.`IDMOVIMIENTO`, p.`id_tmpenc`
 	from pedidos p
-	where p.`FECHA_ENTREGA` between '2019-11-01' and '2019-11-30' and p.estado <> 'ANULADO'
+	where p.`FECHA_ENTREGA` between '2019-12-01' and '2019-12-31' and p.estado <> 'ANULADO'
 ) pe on e.`id_tmpenc` = pe.id_tmpenc
-where e.`fecha` between '2019-11-01' and '2019-11-30'
+where e.`fecha` between '2019-12-01' and '2019-12-31'
 and d.`cuenta` = '2420410200'and d.haber > 0
 and e.`estado` <> 'ANL'
 ;
 
-
-select v.`IDVENTADIRECTA`, v.`FECHA_PEDIDO`, v.`ESTADO`, v.`CODIGO`, v.`IDMOVIMIENTO`, v.`id_tmpenc`
-from ventadirecta v
-where v.`FECHA_PEDIDO` between '2019-01-01' and '2019-01-31'
+/** PARA REVISAR FECHA DE FACTURAS EN ASIENTOS CONTABLES **/
+select d.`iddocumentocompra`, dc.`fecha`, dc.`importe`, dc.`iva`, e.`id_tmpenc`, e.`fecha`, e.`estado`
+from documentocompra d
+join documentocontable dc on d.`iddocumentocompra` = dc.`iddocumentocontable`
+join sf_tmpenc e on d.`idtmpenc` = e.`id_tmpenc`
+where e.`fecha` between '2019-12-01' and '2019-12-31'
 ;
 
-select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, p.`IDMOVIMIENTO`, p.`id_tmpenc`, p.`IDUSUARIO`, pe.`NOM`, p.`IDTIPOPEDIDO`
-from pedidos p
-join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
-where p.`FECHA_ENTREGA` between '2019-01-01' and '2019-01-31'
-;
-
-
-
-select p.`IDPEDIDOS`, p.`TOTALIMPORTE`, p.`IMPUESTO`, p.`ESTADO`, p.`id_tmpenc`, p.`ESTADO`, p.`CODIGO`, p.`FECHA_ENTREGA`, 
-p.`IDMOVIMIENTO`, p.`OBSERVACION`, P.`IDTIPOPEDIDO`
-from pedidos p
-where p.`IDPEDIDOS` in (
-36093
-);
-
-
-
-select *
-from sf_tmpenc e
-where e.`id_tmpenc` in (
-
-);
 
 
 -- 11/07/2019 ASIENTOS DEBITO FISCAL
@@ -254,7 +194,7 @@ and e.`estado` <> 'ANL'
 select m.`IDMOVIMIENTO`, m.`FECHA_FACTURA`, m.`ESTADO`, m.`IMPORTE_TOTAL`, m.`IMPORTE_PARA_DEBITO_FISCAL`, m.`DEBITO_FISCAL`, p.`IDPEDIDOS`, p.`id_tmpenc`, m.`RAZON_SOCIAL`, P.`ESTADO`
 from movimiento m
 left join pedidos p on m.`IDPEDIDOS` = p.`IDPEDIDOS`
-where m.`FECHA_FACTURA` between '2019-10-01' and '2019-10-31'
+where m.`FECHA_FACTURA` between '2019-12-01' and '2019-12-31'
 and m.`ESTADO` <> 'A'
 -- and m.`ESTADO` = 'A'
 ;
@@ -262,7 +202,7 @@ and m.`ESTADO` <> 'A'
 select m.`IDMOVIMIENTO`, m.`FECHA_FACTURA`, m.`ESTADO`, m.`IMPORTE_TOTAL`, m.`IMPORTE_PARA_DEBITO_FISCAL`, m.`DEBITO_FISCAL`, m.`IDVENTADIRECTA`, v.`id_tmpenc`, m.`RAZON_SOCIAL`
 from movimiento m
 left join ventadirecta v on m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
-where m.`FECHA_FACTURA` between '2019-10-01' and '2019-10-31'
+where m.`FECHA_FACTURA` between '2019-12-01' and '2019-12-31'
 and m.`ESTADO` <> 'A'
 ;
 
@@ -282,13 +222,5 @@ left join documentocontable d on dc.`iddocumentocompra` = d.`iddocumentocontable
 where e.`fecha_recepcion` between '2019-08-01' and '2019-08-31'
 and e.`confactura` = 'CONFACTURA'
 ;
-
-
-
-select *
-from movimiento m
-where m.`IDMOVIMIENTO` in (
-
-);
 
 

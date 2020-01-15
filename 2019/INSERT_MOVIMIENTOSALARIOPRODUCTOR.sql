@@ -5,11 +5,11 @@ select max(idmovimientosalarioproductor)+1 from movimientosalarioproductor;
 
 -- SET @folio = (SELECT MAX(idmovimientosalarioproductor) FROM movimientosalarioproductor);
 insert into movimientosalarioproductor(idmovimientosalarioproductor,fecha,descripcion,estado,valor,idcompania,idzonaproductiva,idproductormateriaprima,idtipomovimientoproductor)
-select (@folio := @folio + 1), '2019-11-16' as fecha, 'COMISION BANCO' as descripcion, 'PENDING' as estado, 5.00 as valor, 1 as idcompania, p.`idzonaproductiva`, d.`idproductormateriaprima`, 7 as idtipomovimientoproductor 
+select (@folio := @folio + 1), '2019-12-16' as fecha, 'COMISION BANCO' as descripcion, 'PENDING' as estado, 5.00 as valor, 1 as idcompania, p.`idzonaproductiva`, d.`idproductormateriaprima`, 7 as idtipomovimientoproductor 
 from registropagomateriaprima r
 left join planillapagomateriaprima p 	on r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
 left join descuentproductmateriaprima d on r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
-where p.fechainicio = '2019-11-16'
+where p.fechainicio = '2019-12-16'
 and r.`liquidopagable` > 0
 ;
 
@@ -25,10 +25,17 @@ left join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 left join entidad e         on pe.`NRO_DOC` = e.`noidentificacion`
 left join persona per       on e.`identidad` = per.`idpersona`
 left join productormateriaprima pr on e.`identidad` = pr.`idproductormateriaprima`
-where p.`FECHA_ENTREGA` between '2018-09-16' and '2018-09-30'
+where p.`FECHA_ENTREGA` between '2019-12-16' and '2019-12-31'
 and p.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` = 5
 and p.`IDTIPOPEDIDO` = 6
+;
+
+select m.`fecha`, m.`idproductormateriaprima`, m.`descripcion`, m.`valor`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`
+from movimientosalarioproductor m
+left join persona p on m.`idproductormateriaprima` = p.`idpersona`
+where m.`fecha` between '2019-12-01' and '2019-12-15'
+and m.`descripcion` <> 'COMISION BANCO'
 ;
 
 -- PEDIDOS LACTEOS + CLIENTES
