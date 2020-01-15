@@ -43,7 +43,7 @@ FROM articulos_pedido a
 LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
 LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2019-12-01' AND '2019-12-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-09-01' AND '2019-09-31'
 AND P.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` <> 5
 AND p.`IDTIPOPEDIDO` IN (1, 5)
@@ -58,7 +58,7 @@ FROM articulos_pedido a
 LEFT JOIN ventadirecta v ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 LEFT JOIN personacliente pc ON v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE v.`FECHA_PEDIDO` BETWEEN '2019-12-01' AND '2019-12-31'
+WHERE v.`FECHA_PEDIDO` BETWEEN '2019-09-01' AND '2019-09-31'
 AND v.`ESTADO` <> 'ANULADO'
 -- AND ar.`cuenta_art` = '4420110201'
 AND v.`IDUSUARIO` <> 5
@@ -128,7 +128,7 @@ FROM articulos_pedido a
 LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
 LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2019-04-01' AND '2019-04-30'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-12-01' AND '2019-12-31'
 AND P.`ESTADO` <> 'ANULADO'
 AND p.`IDUSUARIO` = 5
 AND p.`IDTIPOPEDIDO` IN (1, 6)
@@ -143,7 +143,7 @@ FROM articulos_pedido a
 LEFT JOIN ventadirecta v ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 LEFT JOIN personacliente pc ON v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
-WHERE v.`FECHA_PEDIDO` BETWEEN '2019-08-01' AND '2019-08-31'
+WHERE v.`FECHA_PEDIDO` BETWEEN '2019-12-01' AND '2019-12-31'
 AND v.`ESTADO` <> 'ANULADO'
 AND v.`IDUSUARIO` = 5
 GROUP BY a.`cod_art`, ar.`descri`;
