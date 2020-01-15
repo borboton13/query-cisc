@@ -99,7 +99,7 @@ select day(pl.`fecha`) as dia, pr.`cod_art`, i.`nombrecorto`, sum(pr.`cantidad`)
 from pr_producto pr
 left join pr_plan pl on pr.`idplan` = pl.`idplan`
 left join inv_articulos i on pr.`cod_art` = i.`cod_art`
-where pl.`fecha` between '2019-10-01' and '2019-10-31'
+where pl.`fecha` between '2019-12-01' and '2019-12-31'
 -- and i.cod_gru in (4, 6)
 -- and i.cod_gru in (5)
 group by day(pl.`fecha`), pr.`cod_art`, i.`descri`

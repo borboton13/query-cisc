@@ -66,10 +66,10 @@ left join arcgms a    on d.`cuenta` = a.`cuenta`
 where e.`tipo_doc` = 'CD'
 -- and d.`cuenta` = '3110100000'
 -- and e.`estado` <> 'ANL'
-and e.`no_doc` in (186)
+and e.`no_doc` in (43)
 -- AND e.`glosa` LIKE '%certi%'
--- where d.`cod_art`= 758
-and e.`fecha` between '2019-01-01' and '2019-12-31'
+-- where d.`cod_art`= 16
+and e.`fecha` between '2019-12-01' and '2019-12-31'
 ;
 
 -- update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` = 129406;
@@ -82,7 +82,8 @@ update sf_tmpdet d set d.`debe` = 700 where d.`id_tmpdet` = 6066;
 
 select *
 from sf_tmpdet d
-where d.`id_tmpdet` >= 699301;
+where d.`id_tmpdet` >= 14500;
+
 
 -- update sf_tmpdet d set d.`idpersonacliente` = 1510 where d.`id_tmpdet` = 659725;
 -- update sf_tmpdet d set d.`cuenta` = '1420710000' where d.`id_tmpdet` = 663653; -- Cuenta Credito Fiscal

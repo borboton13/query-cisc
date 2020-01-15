@@ -3,7 +3,7 @@ from pr_producto pr
 left join pr_produccion pro on pr.`idproduccion` = pro.`idproduccion`
 left join pr_plan pl on pr.`idplan` = pl.`idplan`
 left join inv_articulos i on pr.`cod_art` = i.`cod_art`
-where pl.`fecha` between '2019-11-01' and '2019-11-30'
+where pl.`fecha` between '2019-12-01' and '2019-12-31'
 ;
 
 select pr.`cod_art`, i.`descri`, sum(pr.`cantidad`) as cantidad, sum(pr.`costo`) as costo
