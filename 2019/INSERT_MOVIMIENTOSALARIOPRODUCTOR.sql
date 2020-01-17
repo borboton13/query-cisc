@@ -15,6 +15,12 @@ and r.`liquidopagable` > 0
 
 update SECUENCIA set VALOR=(select max(E.IDMOVIMIENTOSALARIOPRODUCTOR)+1 from MOVIMIENTOSALARIOPRODUCTOR E) where TABLA='MOVIMIENTOSALARIOPRODUCTOR';
 
+select *
+where `descripcion` = 'COMISION BANCO'
+and `fecha` between '2019-12-01' and '2019-12-31'
+;
+
+
 -- ----------------------------------------------------------------
 -- ----------------------------------------------------------------
 
@@ -34,9 +40,10 @@ and p.`IDTIPOPEDIDO` = 6
 select m.`fecha`, m.`idproductormateriaprima`, m.`descripcion`, m.`valor`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`
 from movimientosalarioproductor m
 left join persona p on m.`idproductormateriaprima` = p.`idpersona`
-where m.`fecha` between '2019-12-01' and '2019-12-15'
+where m.`fecha` between '2019-12-01' and '2019-12-31'
 and m.`descripcion` <> 'COMISION BANCO'
 ;
+
 
 -- PEDIDOS LACTEOS + CLIENTES
 select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, pe.`NOM`, pe.`AP`, pe.am, pe.`NRO_DOC`, e.`identidad`, e.`noidentificacion`, per.`nombres`, pr.`idproductormateriaprima`, p.`TOTALIMPORTE`

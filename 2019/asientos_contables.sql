@@ -1,102 +1,87 @@
-/** ASIENTO CAPITALIZACION/AHORROS **/
-SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` AS tipo, E.`no_doc`, d.`no_trans`,  
-d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`debeme`, d.`haberme`,
-d.`id_tmpenc`, d.`idcuenta`, c.`codigo`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`
-FROM sf_tmpdet d
-LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
-LEFT JOIN cuenta c ON d.`idcuenta` = c.`idcuenta`
-LEFT JOIN socio s ON c.`idsocio` = s.`idsocio`
-WHERE e.`tipo_doc` = 'TR'
-AND e.`no_doc` IN (2709)
-AND e.`fecha` BETWEEN '2019-01-01' AND '2019-12-31'
-;
-
-
 -- - 
 /*select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
 d.`tc`, d.`debeme`, d.`haberme`, d.`id_tmpenc`, e.`estado`, d.`idpersonacliente`, d.`cod_prov`, d.`cod_art`, d.`cant_art`*/
-SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` AS tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
+select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
 d.`id_tmpenc`, e.`estado`, d.`cod_prov`, d.`cod_art`, d.`cant_art`, d.`idpersonacliente`
-FROM sf_tmpdet d
-LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
+from sf_tmpdet d
+left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
+left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
-WHERE d.`id_tmpenc` IN (
+where d.`id_tmpenc` in (
 
 ) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
-DELETE FROM sf_tmpdet WHERE id_tmpenc IN (2436);
-DELETE FROM sf_tmpenc WHERE id_tmpenc IN (2436);
+delete from sf_tmpdet where id_tmpenc in (2436);
+delete from sf_tmpenc where id_tmpenc in (2436);
 
 
-DELETE FROM sf_tmpdet WHERE id_tmpdet IN (
+delete from sf_tmpdet where id_tmpdet in (
 
 );
 
-SELECT *
-FROM sf_tmpdet d 
-WHERE d.`id_tmpdet` > 14531
+select *
+from sf_tmpdet d 
+where d.`id_tmpdet` > 14531
 -- where d.id_tmpenc = 116047
 ;
 
 
 -- idtipopedido = 2
-SELECT *
-FROM pedidos p 
-UPDATE pedidos p SET p.`ESTADO` = 'PREPARAR', p.`IDTIPOPEDIDO` = 2  
-WHERE p.`IDPEDIDOS` = 35756;
+select *
+from pedidos p 
+update pedidos p set p.`ESTADO` = 'PREPARAR', p.`IDTIPOPEDIDO` = 2  
+where p.`IDPEDIDOS` = 35756;
 
-SELECT *
-FROM pedidos p
-WHERE p.`IDCLIENTE` = 1555
-AND p.`FECHA_ENTREGA` >= '2019-10-01'
+select *
+from pedidos p
+where p.`IDCLIENTE` = 1555
+and p.`FECHA_ENTREGA` >= '2019-10-01'
 ;
 
 -- -----------------------
 --
 -- Detalle por TipoDoc
-SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` AS tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`tc`, d.`debeme`, d.`haberme`,
+select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`tc`, d.`debeme`, d.`haberme`,
 d.`id_tmpenc`, e.`estado`, d.`idcuenta`, d.`idcredito`,
 d.`idpersonacliente`, d.`cod_prov`, d.`cod_art`, d.`cant_art`
-FROM sf_tmpdet d
-LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
+from sf_tmpdet d
+left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
+left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- where d.`debe` = 0 and d.`haber` = 0
 -- WHERE d.`id_tmpenc` = 29504
 -- where e.`tipo_doc` = 'CD'
-WHERE d.`cuenta` = '2429910400'
+where d.`cuenta` = '2429910400'
 -- and e.`estado` <> 'ANL'
 -- and e.`no_doc` in (43)
 -- AND e.`glosa` LIKE '%certi%'
 -- where d.`cod_art`= 16
-AND e.`fecha` BETWEEN '2019-01-01' AND '2019-12-31'
+and e.`fecha` between '2019-01-01' and '2019-12-31'
 ;
 
 -- update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` in (122499, 128746, 128754);
 -- update sf_tmpdet d set d.`cuenta` = '4430110300'  where d.`id_tmpdet` = 71025;
 -- update sf_tmpdet d set d.`cuenta` = '4430110300'  where d.`id_tmpdet` = ;
 
-UPDATE sf_tmpdet d SET d.`debe` = 700 WHERE d.`id_tmpdet` = 6066;
+update sf_tmpdet d set d.`debe` = 700 where d.`id_tmpdet` = 6066;
 -- update sf_tmpdet d set d.`haber` =  where d.`id_tmpdet` = 6067;
 -- update sf_tmpdet d set d.`haber` =  where d.`id_tmpdet` = 6068;
 
-SELECT *
-FROM sf_tmpdet d
-WHERE d.`id_tmpdet` >= 14500;
+select *
+from sf_tmpdet d
+where d.`id_tmpdet` >= 14500;
 
 
 -- update sf_tmpdet d set d.`idpersonacliente` = 1510 where d.`id_tmpdet` = 659725;
 -- update sf_tmpdet d set d.`cuenta` = '1420710000' where d.`id_tmpdet` = 663653; -- Cuenta Credito Fiscal
 -- update sf_tmpdet d SET d.`id_tmpenc` = 106270 where d.`id_tmpdet` in (11778	,11779	,11780	,11781	,11782	,11783	,11784	,11785	,11786	,11787	);
-UPDATE sf_tmpenc e SET e.`estado` = 'APR' WHERE e.`id_tmpenc` IN (128114);
+update sf_tmpenc e set e.`estado` = 'APR' where e.`id_tmpenc` in (128114);
 
 
 -- PARA REVISION DE DOCUMENTOS
-SELECT e.`id_tmpenc`, e.`no_trans`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, e.`glosa`, e.`ndoc`
-FROM sf_tmpenc e
-WHERE e.`tipo_doc` = 'CE'
+select e.`id_tmpenc`, e.`no_trans`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`estado`, e.`glosa`, e.`ndoc`
+from sf_tmpenc e
+where e.`tipo_doc` = 'CE'
 ;
 
 -- SOCIOS NUEVOS
@@ -251,6 +236,7 @@ order by d.`cuenta`
 ;
 
 
+
 -- -----------------------------------------------------------
 -- -----------------------------------------------------------
 
@@ -258,16 +244,16 @@ order by d.`cuenta`
 -- DIFERENCIAS
 -- ---------------------------------------------------------------------------------
 -- CREATE VIEW diferencias AS (
-select e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, sum(d.`debe`) as totald, sum(d.`haber`) as totalh, (sum(d.`debe`) - sum(d.`haber`)) as dif
+select e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, e.`glosa`, sum(d.`debe`) as totald, sum(d.`haber`) as totalh, (sum(d.`debe`) - sum(d.`haber`)) as dif
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
-where e.`fecha` between '2019-10-01' and '2019-12-31'
+where e.`fecha` between '2019-01-01' and '2019-12-31'
 and e.`estado` <> 'ANL'
 -- AND e.`tipo_doc` IN ('CI', 'CV', 'NE')
 -- AND e.`tipo_doc` IN ('CV')
 -- AND a.`cta_niv3` = '4420000000'
-group by e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`
+group by e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, e.`glosa`
 -- )
 ;
 
@@ -516,9 +502,7 @@ left join arcgms a    on d.`cuenta` = a.`cuenta`
 left join cuenta c on d.`idcuenta` = c.`idcuenta`
 left join socio s on c.`idsocio` = s.`idsocio`
 where e.`tipo_doc` = 'CD'
-and e.`no_doc` in (185)
+and e.`no_doc` in (1)
 and e.`fecha` between '2019-01-01' and '2019-12-31'
 ;
-
-
 
