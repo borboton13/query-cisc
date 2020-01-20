@@ -1,16 +1,3 @@
-/** ASIENTO CAPITALIZACION/AHORROS **/
-select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  
-d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`debeme`, d.`haberme`,
-d.`id_tmpenc`, d.`idcuenta`, c.`codigo`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`
-from sf_tmpdet d
-left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-left join arcgms a    on d.`cuenta` = a.`cuenta`
-left join cuenta c on d.`idcuenta` = c.`idcuenta`
-left join socio s on c.`idsocio` = s.`idsocio`
-where e.`tipo_doc` = 'CD'
-and e.`no_doc` in (185)
-and e.`fecha` between '2019-01-01' and '2019-12-31'
-;
 -- - 
 /*select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
 d.`tc`, d.`debeme`, d.`haberme`, d.`id_tmpenc`, e.`estado`, d.`idpersonacliente`, d.`cod_prov`, d.`cod_art`, d.`cant_art`*/
@@ -63,16 +50,16 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- where d.`debe` = 0 and d.`haber` = 0
 -- WHERE d.`id_tmpenc` = 29504
-where e.`tipo_doc` = 'CD'
--- and d.`cuenta` = '3110100000'
+-- where e.`tipo_doc` = 'CD'
+where d.`cuenta` = '2429910400'
 -- and e.`estado` <> 'ANL'
-and e.`no_doc` in (43)
+-- and e.`no_doc` in (43)
 -- AND e.`glosa` LIKE '%certi%'
 -- where d.`cod_art`= 16
-and e.`fecha` between '2019-12-01' and '2019-12-31'
+and e.`fecha` between '2019-01-01' and '2019-12-31'
 ;
 
--- update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` = 129406;
+-- update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` in (122499, 128746, 128754);
 -- update sf_tmpdet d set d.`cuenta` = '4430110300'  where d.`id_tmpdet` = 71025;
 -- update sf_tmpdet d set d.`cuenta` = '4430110300'  where d.`id_tmpdet` = ;
 
@@ -249,6 +236,7 @@ order by d.`cuenta`
 ;
 
 
+
 -- -----------------------------------------------------------
 -- -----------------------------------------------------------
 
@@ -256,16 +244,16 @@ order by d.`cuenta`
 -- DIFERENCIAS
 -- ---------------------------------------------------------------------------------
 -- CREATE VIEW diferencias AS (
-select e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, sum(d.`debe`) as totald, sum(d.`haber`) as totalh, (sum(d.`debe`) - sum(d.`haber`)) as dif
+select e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, e.`glosa`, sum(d.`debe`) as totald, sum(d.`haber`) as totalh, (sum(d.`debe`) - sum(d.`haber`)) as dif
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
-where e.`fecha` between '2019-10-01' and '2019-12-31'
+where e.`fecha` between '2019-01-01' and '2019-12-31'
 and e.`estado` <> 'ANL'
 -- AND e.`tipo_doc` IN ('CI', 'CV', 'NE')
 -- AND e.`tipo_doc` IN ('CV')
 -- AND a.`cta_niv3` = '4420000000'
-group by e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`
+group by e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, e.`glosa`
 -- )
 ;
 
@@ -514,9 +502,7 @@ left join arcgms a    on d.`cuenta` = a.`cuenta`
 left join cuenta c on d.`idcuenta` = c.`idcuenta`
 left join socio s on c.`idsocio` = s.`idsocio`
 where e.`tipo_doc` = 'CD'
-and e.`no_doc` in (185)
+and e.`no_doc` in (1)
 and e.`fecha` between '2019-01-01' and '2019-12-31'
 ;
-
-
 
