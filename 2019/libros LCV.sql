@@ -18,10 +18,21 @@ select 	d.FECHA as "FECHA FACTURA O DUI",
 	, z.idtmpenc,  d.iddocumentocontable 
 from documentocontable d 
 join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
-where fecha between '2019-12-01' and '2019-12-31'
+where fecha between '2019-01-01' and '2019-12-31'
 and z.estado <> 'NULLIFIED'
 and z.tipo = 'INVOICE'
 ;
+
+select 	month(d.FECHA) as MES, 
+	SUM(d.iva) as CREDITO_FISCAL
+from documentocontable d 
+join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
+where fecha between '2019-01-01' and '2019-12-31'
+and z.estado <> 'NULLIFIED'
+and z.tipo = 'INVOICE'
+group by MES
+;
+
 
 select 	d.FECHA as "FECHA FACTURA O DUI", 
 	d.NIT as "NIT PROVEEDOR", 
@@ -91,7 +102,14 @@ select 	IDMOVIMIENTO,
 	if(ESTADO = 'A', 0, CODIGOCONTROL) as "CODIGO DE CONTROL",
 	IDPEDIDOS, IDVENTADIRECTA, idmovimiento
 from movimiento
-where FECHA_FACTURA between '2019-12-01' and '2019-12-31'
+where FECHA_FACTURA between '2019-01-01' and '2019-12-31'
+;
+
+select  MONTH(M.`FECHA_FACTURA`) as MES, sum(m.`DEBITO_FISCAL`) as DEBITO_FISCAL
+from movimiento m
+where FECHA_FACTURA between '2019-01-01' and '2019-12-31'
+and m.`ESTADO` <> 'A'
+group by MES
 ;
 
 -- -------------

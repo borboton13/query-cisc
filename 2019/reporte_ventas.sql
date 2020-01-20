@@ -275,6 +275,7 @@ left join inv_articulos a on v.`cod_art` = a.`cod_art`
 where v.`FECHA` between '2019-01-01' and '2019-12-31'
 and v.`idusuario` <> 5
 and v.`idtipopedido` in (1, 5)
+and v.`idcliente` in (911,1463,1464,1465,1466,1468,1472,1557) -- sedem
 group by v.`cod_art`, a.`descri`
 ;
 
@@ -290,7 +291,6 @@ from producciontotal p
 where p.`FECHA` between '2019-01-01' and '2019-12-31'
 group by p.`COD_ART`, p.`NOMBRE`
 ;
-
 
 
 

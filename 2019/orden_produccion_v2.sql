@@ -24,3 +24,13 @@ join pr_insumo i on pr.`idproduccion` = i.`idproduccion`
 group by pr.`idproduccion`, i.`cod_art`
 ;
 
+
+
+select a.`descri`, sum(p.`cantidad`) as cantidad, sum(p.`costo_a`) as costo_a, sum(p.`costo_b`) as costo_b, sum(p.`costo_c`) as costo_c
+from pr_producto p
+left join pr_produccion pr on p.`idproduccion` = pr.`idproduccion`
+left join pr_plan pl on pr.`idplan` = pl.`idplan`
+left join inv_articulos a on p.`cod_art` = a.`cod_art`
+where pl.`fecha` between '2019-01-01' and '2019-12-31'
+group by a.`descri`
+;

@@ -58,14 +58,6 @@ and e.`fecha` between '2019-05-01' and '2019-05-31'
 ;
 
 
--- delete from sf_tmpdet
-where id_tmpenc in (
-	select e.`id_tmpenc`
-	from sf_tmpenc e
-	where e.`tipo_doc` = 'PD'
-	and e.`fecha` between '2019-11-01' and '2019-11-30'
-);
-
 
 
 select 
