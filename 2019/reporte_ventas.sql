@@ -260,6 +260,11 @@ and pc.`NOM` like '%SEMAPA%'
 group by p.`FECHA_ENTREGA`, pc.`NOM`, a.`cod_art`, ar.`descri`, p.`CODIGO`, p.`IDMOVIMIENTO`, M.`NROFACTURA`;
 -- ---------------------------------------------------
 
+select *
+from personacliente p
+where p.`NOM` like '%UMSS%'
+;
+
 -- VENTAS
 select month(v.`FECHA`) as mes, v.`cod_art`, a.`descri`, sum(v.`CANTIDAD`) as cantidad, sum(v.`importe`) as montobs
 from ventas v
@@ -275,8 +280,39 @@ left join inv_articulos a on v.`cod_art` = a.`cod_art`
 where v.`FECHA` between '2019-01-01' and '2019-12-31'
 and v.`idusuario` <> 5
 and v.`idtipopedido` in (1, 5)
-and v.`idcliente` in (911,1463,1464,1465,1466,1468,1472,1557) -- sedem
+-- and v.`idcliente` in (911,1463,1464,1465,1466,1468,1472,1557) -- sedem
+-- and v.`idcliente` in (176,177,178,405,444,731,732,733,734,735,736,737,934) -- Hipermaxi
+-- AND v.`idcliente` IN (174,175) -- ic norte
 group by v.`cod_art`, a.`descri`
+;
+
+select t.`IDTIPOCLIENTE`, t.`NOMBRE`, sum(v.`CANTIDAD`) as cantidad, sum(v.`importe`) as montobs
+from ventas v
+left join inv_articulos a on v.`cod_art` = a.`cod_art`
+left join personacliente p on v.`idcliente` = p.`IDPERSONACLIENTE`
+left join tipocliente t on p.`IDTIPOCLIENTE` = t.`IDTIPOCLIENTE`
+where v.`FECHA` between '2019-01-01' and '2019-12-31'
+and v.`idusuario` <> 5
+and v.`idtipopedido` in (1, 5)
+-- and v.`idcliente` in (911,1463,1464,1465,1466,1468,1472,1557) -- sedem
+-- and v.`idcliente` in (176,177,178,405,444,731,732,733,734,735,736,737,934) -- Hipermaxi
+-- AND V.`idcliente` IN (174,175) -- ICNORTE
+-- AND v.`idcliente` in (363, 460) -- Desayuno
+-- AND v.`IDVENTADIRECTA` is not null -- contado
+-- and v.`idcliente` in (180	,781	,782	,815	,816	,817	,818	,819	,820	,821	,822	,823	,824	,825	,826	,827	,975	,1400	,1480	,1530	) -- emapa
+and t.`IDTIPOCLIENTE` in (6, 7,8,9) -- empresa, ong, gubernamenteal, institucion
+group by t.`IDTIPOCLIENTE`, t.`NOMBRE`
+;
+
+select * 
+from personacliente p
+-- update personacliente p set p.`IDTIPOCLIENTE` = 11
+where p.`IDPERSONACLIENTE` in (640, 118, 791, 812, 335, 1567, 973) 
+;
+
+select *
+from personacliente p
+where p.`IDTIPOCLIENTE` not in (6, 7,8,9)
 ;
 
 -- PRODUCCION
