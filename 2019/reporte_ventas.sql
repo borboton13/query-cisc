@@ -177,7 +177,7 @@ from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where p.`FECHA_ENTREGA` between '2019-10-07' and '2019-10-12'
+where p.`FECHA_ENTREGA` between '2019-01-01' and '2019-06-31'
 and P.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` <> 5
 and p.`IDTIPOPEDIDO` in (1, 5) -- Normal, Desc_Lacteo
@@ -262,7 +262,7 @@ group by p.`FECHA_ENTREGA`, pc.`NOM`, a.`cod_art`, ar.`descri`, p.`CODIGO`, p.`I
 
 select *
 from personacliente p
-where p.`NOM` like '%UMSS%'
+where p.`NOM` like '%SEDEM%'
 ;
 
 -- VENTAS
@@ -274,18 +274,17 @@ and v.`idusuario` <> 5
 group by mes, v.`cod_art`, a.`descri`
 ;
 
+-- Reporte general ventas x Producto x Cantidad x Monto
 select v.`cod_art`, a.`descri`, sum(v.`CANTIDAD`) as cantidad, sum(v.`importe`) as montobs
 from ventas v
 left join inv_articulos a on v.`cod_art` = a.`cod_art`
 where v.`FECHA` between '2019-01-01' and '2019-12-31'
 and v.`idusuario` <> 5
 and v.`idtipopedido` in (1, 5)
--- and v.`idcliente` in (911,1463,1464,1465,1466,1468,1472,1557) -- sedem
--- and v.`idcliente` in (176,177,178,405,444,731,732,733,734,735,736,737,934) -- Hipermaxi
--- AND v.`idcliente` IN (174,175) -- ic norte
 group by v.`cod_art`, a.`descri`
 ;
 
+-- Reporte ventas x Tipo Cliente x Cantidad x Monto
 select t.`IDTIPOCLIENTE`, t.`NOMBRE`, sum(v.`CANTIDAD`) as cantidad, sum(v.`importe`) as montobs
 from ventas v
 left join inv_articulos a on v.`cod_art` = a.`cod_art`
@@ -298,11 +297,40 @@ and v.`idtipopedido` in (1, 5)
 -- and v.`idcliente` in (176,177,178,405,444,731,732,733,734,735,736,737,934) -- Hipermaxi
 -- AND V.`idcliente` IN (174,175) -- ICNORTE
 -- AND v.`idcliente` in (363, 460) -- Desayuno
--- AND v.`IDVENTADIRECTA` is not null -- contado
--- and v.`idcliente` in (180	,781	,782	,815	,816	,817	,818	,819	,820	,821	,822	,823	,824	,825	,826	,827	,975	,1400	,1480	,1530	) -- emapa
-and t.`IDTIPOCLIENTE` in (6, 7,8,9) -- empresa, ong, gubernamenteal, institucion
+and v.`IDVENTADIRECTA` is not null -- contado
+-- AND t.`IDTIPOCLIENTE` in (5, 11)
 group by t.`IDTIPOCLIENTE`, t.`NOMBRE`
 ;
+
+
+select p.`IDPERSONACLIENTE` as id, concat(p.`NOM`, ' ', p.`AP`, ' ', p.`AM`) as cliente,  sum(v.`CANTIDAD`) as cantidad, sum(v.`importe`) as montobs
+from ventas v
+left join inv_articulos a on v.`cod_art` = a.`cod_art`
+left join personacliente p on v.`idcliente` = p.`IDPERSONACLIENTE`
+left join tipocliente t on p.`IDTIPOCLIENTE` = t.`IDTIPOCLIENTE`
+where v.`FECHA` between '2019-01-01' and '2019-12-31'
+and v.`idusuario` <> 5
+and v.`idtipopedido` in (1, 5)
+and v.`IDVENTADIRECTA` is null
+and t.`IDTIPOCLIENTE` not in (2, 6, 8, 13)
+group by id, cliente
+;
+
+
+
+-- Reporte de Botellas 2L x Mes
+select month(v.`FECHA`) as mes, sum(v.`CANTIDAD`) as cantidad, sum(v.`importe`) as montobs
+from ventas v
+left join inv_articulos a on v.`cod_art` = a.`cod_art`
+where v.`FECHA` between '2019-01-01' and '2019-12-31'
+and v.`idusuario` <> 5
+and v.`idtipopedido` in (1, 5)
+and v.`cod_art` in (128, 129, 130, 131, 132)
+group by mes
+;
+
+
+
 
 select * 
 from personacliente p
@@ -310,10 +338,6 @@ from personacliente p
 where p.`IDPERSONACLIENTE` in (640, 118, 791, 812, 335, 1567, 973) 
 ;
 
-select *
-from personacliente p
-where p.`IDTIPOCLIENTE` not in (6, 7,8,9)
-;
 
 -- PRODUCCION
 select month(p.`FECHA`) as mes, p.`COD_ART`, p.`NOMBRE`, sum(p.`CANT_TOTAL`) as CANT, sum(p.`COSTOTOTALPRODUCCION`) as COSTO
@@ -330,6 +354,10 @@ group by p.`COD_ART`, p.`NOMBRE`
 
 
 
-
+select *
+from inv_inicio i
+where i.`gestion` = 2018
+and i.`cod_art` in (128, 129, 130, 131, 132)
+;
 
 
