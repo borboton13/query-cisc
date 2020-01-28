@@ -52,8 +52,8 @@ left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- where d.`debe` = 0 and d.`haber` = 0
 -- WHERE d.`id_tmpenc` = 29504
 -- where e.`tipo_doc` = 'CD'
-where d.`cuenta` = '2429910400'
--- and e.`estado` <> 'ANL'
+where d.`cuenta` = '1310510600'
+and e.`estado` <> 'ANL'
 -- and e.`no_doc` in (43)
 -- AND e.`glosa` LIKE '%certi%'
 -- where d.`cod_art`= 16
@@ -506,4 +506,22 @@ where e.`tipo_doc` = 'CD'
 and e.`no_doc` in (1)
 and e.`fecha` between '2019-01-01' and '2019-12-31'
 ;
+
+-- ESTADO DE CARTERA
+select d.`idcredito`, c.`codigoant`, d.`cuenta`, sum(d.`debe`) as debe, sum(d.`haber`) as haber, sum(d.`debe`)-sum(d.`haber`) as saldo
+from sf_tmpdet d
+join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
+join credito c on d.`idcredito` = c.`idcredito`
+-- where e.`fecha` between '2019-01-01' and '2019-12-31'
+where e.`fecha` <= '2019-12-31'
+and e.`estado` <> 'ANL'
+and d.`cuenta` = '1310510600'
+and d.`idcredito` is not null
+group by d.`idcredito`, c.`codigoant`, d.`cuenta`
+;
+
+
+
+
+
 
