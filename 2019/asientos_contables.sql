@@ -8,7 +8,8 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-100441
+85
+
 
 ) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
@@ -521,4 +522,15 @@ group by d.`idcredito`, c.`codigoant`, d.`cuenta`
 having saldo > 0
 ;
 
+select d.`idcredito`, c.`codigoant`, d.`cuenta`, sum(d.`debe`) as debe, sum(d.`haber`) as haber, sum(d.`debe`)-sum(d.`haber`) as saldo, c.saldo
+from sf_tmpdet d
+join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
+join credito c on d.`idcredito` = c.`idcredito`
+where e.`fecha` <= '2020-12-31'
+and e.`estado` <> 'ANL'
+and d.`cuenta` = '1310510600'
+and d.`idcredito` is not null
+group by d.`idcredito`, c.`codigoant`, d.`cuenta`
+having saldo > 0
+;
 
