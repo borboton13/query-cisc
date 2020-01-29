@@ -518,10 +518,7 @@ and e.`estado` <> 'ANL'
 and d.`cuenta` = '1310510600'
 and d.`idcredito` is not null
 group by d.`idcredito`, c.`codigoant`, d.`cuenta`
+having saldo > 0
 ;
-
-
-
-
 
 
