@@ -228,13 +228,13 @@ and e.`estado` <> 'ANL'
 group by d.`cuenta`, a.`descri`
 ;
 
-select e.`id_tmpenc`, d.`id_tmpdet`, d.`cuenta`, a.`descri`, e.`tipo_doc`, e.`no_doc`, e.`glosa`, d.`debe`, d.`haber`
+select e.`fecha`, d.`cuenta`,  a.`descri`, e.`tipo_doc`, e.`no_doc`, e.`glosa`, d.`debe`, d.`haber`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
-where e.`fecha` between '2018-01-01' and '2018-12-31'
+where e.`fecha` between '2019-01-01' and '2019-12-31'
 and e.`estado` <> 'ANL'
-order by d.`cuenta`
+order by d.`cuenta`, e.`fecha`
 ;
 
 
