@@ -422,7 +422,7 @@ and p.`ESTADO` <> 'ANULADO'
 
 
 -- PEDIDOS - DESCUENTOS VETRINARIOS / LACTEOS
-set @folio = (select MAX(idmovimientosalarioproductor)+1 from movimientosalarioproductor);
+set @folio = (select max(idmovimientosalarioproductor)+1 from movimientosalarioproductor);
 select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`TOTALIMPORTE`, p.`IDCLIENTE`, pe.`NOM`, pe.`AP`, pe.`AM`, pe.`NRO_DOC`, en.`identidad`, en.`noidentificacion`, per.`nombres`, per.`apellidopaterno`, per.`apellidomaterno`, p.`id_tmpenc`
 -- INSERT INTO movimientosalarioproductor
 -- SELECT (@folio := @folio + 1), p.`FECHA_ENTREGA`, concat('Descuento por venta a credito Nro. ',  p.`CODIGO`) as descri, 'PENDING' AS estado, p.`TOTALIMPORTE` as valor, '1' as idcompania, pr.`idzonaproductiva`, en.`identidad`, '4' AS idtipomovimientoproductor
@@ -451,7 +451,7 @@ and p.`FECHA_ENTREGA` between '2019-01-01' and '2019-01-15'
 and p.`IDTIPOPEDIDO` = 5
 ;
 
-update SECUENCIA set VALOR=(select MAX(E.IDMOVIMIENTOSALARIOPRODUCTOR)+1 from MOVIMIENTOSALARIOPRODUCTOR E) where TABLA='MOVIMIENTOSALARIOPRODUCTOR';
+update SECUENCIA set VALOR=(select max(E.IDMOVIMIENTOSALARIOPRODUCTOR)+1 from MOVIMIENTOSALARIOPRODUCTOR E) where TABLA='MOVIMIENTOSALARIOPRODUCTOR';
 
 select v.`fecha`,  v.`no_trans`, v.`no_vale`, v.`cod_doc`, v.`estado`, v.`cod_alm`, m.`fecha_cre`, m.`fecha_mov`, m.`descri`, d.`fecha`, d.`cod_art`, a.`descri`, d.`costounitario`, d.`cantidad`, v.`idtmpenc`
 from inv_movdet d 
@@ -480,7 +480,7 @@ where v.`FECHA_PEDIDO` between '2019-09-01' and '2019-09-30'
 and v.`ESTADO` <> 'ANULADO'
 ;
 
-select v.`cod_art`, SUM(v.`CANTIDAD`), SUM(v.`TOTAL`)
+select v.`cod_art`, sum(v.`CANTIDAD`), sum(v.`TOTAL`)
 from ventas v
 where v.`FECHA` between '2019-10-01' and '2019-10-31'
 and v.`cod_art` = 143
@@ -508,4 +508,33 @@ from personacliente p
 where p.`NOM` like '%HIPER%'
 ;
 
+
+-- REPORTE DE REPOSICIONES
+select p.`FECHA_ENTREGA` as FECHA, pc.`NOM`, pc.`AP`, pc.`AM`,p.`CODIGO` as COD, a.`cod_art`, ar.`descri`, a.`CANTIDAD`
+from articulos_pedido a
+left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
+left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+where p.`FECHA_ENTREGA` between '2019-10-01' and '2020-01-31'
+and p.`IDTIPOPEDIDO` = 4
+and P.`ESTADO` <> 'ANULADO'
+union
+select p.`FECHA_ENTREGA` as FECHA , pc.`NOM`, pc.`AP`, pc.`AM`,p.`CODIGO` as COD, a.`cod_art`, ar.`descri`, a.`REPOSICION` as CANTIDAD
+from articulos_pedido a
+left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
+left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+where p.`FECHA_ENTREGA` between '2019-10-01' and '2020-01-31'
+and a.`REPOSICION` > 0
+and P.`ESTADO` <> 'ANULADO'
+union
+select v.`FECHA_PEDIDO` as FECHA, pc.`NOM`, pc.`AP`, pc.`AM`, v.`CODIGO` as COD, a.`cod_art`, ar.`descri`, a.`REPOSICION`  as CANTIDAD
+from articulos_pedido a
+left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
+left join personacliente pc on v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+where v.`FECHA_PEDIDO` between '2019-10-01' and '2020-01-31'
+and a.`REPOSICION` > 0
+and v.`ESTADO` <> 'ANULADO'
+;
 
