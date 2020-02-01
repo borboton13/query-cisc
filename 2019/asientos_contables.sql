@@ -534,3 +534,15 @@ group by d.`idcredito`, c.`codigoant`, d.`cuenta`
 having saldo > 0
 ;
 
+
+-- NUEVOS CREDITOS
+select z.`idzonaproductiva`, count(c.`idcredito`) as cant, sum(c.`importe`) as monto
+from credito c
+left join socio s 	   on c.`idsocio` = s.`idsocio`
+left join zonaproductiva z on s.`idzonaproductiva` = z.`idzonaproductiva`
+where c.`fechaconcesion` between '2019-07-01' and '2019-12-31'
+group by z.`idzonaproductiva`
+;
+
+
+
