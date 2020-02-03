@@ -544,5 +544,13 @@ where c.`fechaconcesion` between '2019-07-01' and '2019-12-31'
 group by z.`idzonaproductiva`
 ;
 
-
+-- RECUERACION
+select z.`idzonaproductiva`, count(c.`idcredito`) as cant, sum(t.`capital`) as capital, sum(t.`interes`) as interes
+from credito c
+left join transaccioncredito t on c.`idcredito` = t.`idcredito`
+left join socio s 	   on c.`idsocio` = s.`idsocio`
+left join zonaproductiva z on s.`idzonaproductiva` = z.`idzonaproductiva`
+where t.`fechatransaccion` between '2020-01-01' and '2020-01-31'
+group by z.`idzonaproductiva`
+;
 
