@@ -1,21 +1,20 @@
 -- - 
 /*select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, 
 d.`tc`, d.`debeme`, d.`haberme`, d.`id_tmpenc`, e.`estado`, d.`idpersonacliente`, d.`cod_prov`, d.`cod_art`, d.`cant_art`*/
-select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`tc`, d.`debeme`, d.`haberme`, 
+select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`tc`, d.`moneda`, d.`debeme`, d.`haberme`, 
 d.`id_tmpenc`, e.`estado`, d.`cod_prov`, d.`cod_art`, d.`cant_art`, d.`idpersonacliente`, d.`idcredito`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-2316
-
+104832
 
 ) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
-delete from sf_tmpdet where id_tmpenc in (2615);
-delete from sf_tmpenc where id_tmpenc in (2615);
+delete from sf_tmpdet where id_tmpenc in (104810);
+delete from sf_tmpenc where id_tmpenc in (104810);
 
 
 delete from sf_tmpdet where id_tmpdet in (
@@ -514,9 +513,9 @@ from sf_tmpdet d
 join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 join credito c on d.`idcredito` = c.`idcredito`
 -- where e.`fecha` between '2019-01-01' and '2019-12-31'
-where e.`fecha` <= '2019-12-31'
+where e.`fecha` <= '2020-01-31'
 and e.`estado` <> 'ANL'
-and d.`cuenta` = '1310510600'
+and d.`cuenta` = '1330410200'
 and d.`idcredito` is not null
 group by d.`idcredito`, c.`codigoant`, d.`cuenta`
 having saldo > 0
