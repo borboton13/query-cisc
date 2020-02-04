@@ -77,7 +77,7 @@ where r.`marfecha` between '2018-07-01' and '2018-07-31'
 
 select *
 from vmarcado v
-where v.`marfecha` between '2019-12-01' and '2019-12-31'
+where v.`marfecha` between '2020-01-01' and '2020-01-31'
 -- and v.`marperid` = 6526652
 ;
 
@@ -92,5 +92,5 @@ group by v.`marperid`, v.`nombre`
 
 select *
 from rh_marcado r
-where r.`marfecha` between '2019-11-01' and '2019-11-30'
+where r.`marfecha` between '2020-01-01' and '2020-01-31'
 ;
