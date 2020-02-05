@@ -4,12 +4,12 @@
 select max(idmovimientosalarioproductor)+1 from movimientosalarioproductor;
 
 -- SET @folio = (SELECT MAX(idmovimientosalarioproductor) FROM movimientosalarioproductor);
-insert into movimientosalarioproductor(idmovimientosalarioproductor,fecha,descripcion,estado,valor,idcompania,idzonaproductiva,idproductormateriaprima,idtipomovimientoproductor)
-select (@folio := @folio + 1), '2019-12-16' as fecha, 'COMISION BANCO' as descripcion, 'PENDING' as estado, 5.00 as valor, 1 as idcompania, p.`idzonaproductiva`, d.`idproductormateriaprima`, 7 as idtipomovimientoproductor 
+-- insert into movimientosalarioproductor(idmovimientosalarioproductor,fecha,descripcion,estado,valor,idcompania,idzonaproductiva,idproductormateriaprima,idtipomovimientoproductor)
+select (@folio := @folio + 1), '2020-01-16' as fecha, 'COMISION BANCO' as descripcion, 'PENDING' as estado, 5.00 as valor, 1 as idcompania, p.`idzonaproductiva`, d.`idproductormateriaprima`, 7 as idtipomovimientoproductor 
 from registropagomateriaprima r
 left join planillapagomateriaprima p 	on r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
 left join descuentproductmateriaprima d on r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
-where p.fechainicio = '2019-12-16'
+where p.fechainicio = '2020-01-16'
 and r.`liquidopagable` > 0
 ;
 
@@ -137,14 +137,20 @@ and p.`IDTIPOPEDIDO` = 5
 select m.`idmovimientosalarioproductor`, m.`idproductormateriaprima`, m.`fecha`, m.`descripcion`, m.`valor`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, p.`idpersona`, m.`idproductormateriaprima`
 from movimientosalarioproductor m
 left join persona p on m.`idproductormateriaprima` = p.`idpersona`
-where m.`fecha` between '2019-11-01' and '2019-11-30'
+where m.`fecha` between '2020-01-01' and '2020-01-31'
 -- and m.`descripcion` <> 'REPOSICION DE FORMULARIO'
 and m.`descripcion` like '%COMISION BANCO%'
+and m.`fecha` between '2020-01-01' and '2020-01-31'
 ;
 
 
+select *
+delete from movimientosalarioproductor 
+where `descripcion` like '%COMISION BANCO%'
+;
 
-select a.`idproductormateriaprima`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, SUM(a.`cantidad`) as cant
+
+select a.`idproductormateriaprima`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, sum(a.`cantidad`) as cant
 from acopiomateriaprima a
 left join sesionacopio s on a.`idsesionacopio` = s.`idsesionacopio`
 left join persona p on a.`idproductormateriaprima` = p.`idpersona`
@@ -173,3 +179,5 @@ from personacliente p
 join entidad e on p.`NRO_DOC` = e.`noidentificacion`
 join productormateriaprima pr on e.`identidad` = pr.`idproductormateriaprima`
 ;
+
+

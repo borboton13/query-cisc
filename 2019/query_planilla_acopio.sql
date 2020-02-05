@@ -128,7 +128,7 @@ join productormateriaprima pr 		on pe.`idpersona` = pr.`idproductormateriaprima`
 join entidad e 				on pe.`idpersona` = e.`identidad`
 join planillapagomateriaprima p 	on r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
 join zonaproductiva z 			on p.`idzonaproductiva` = z.`idzonaproductiva`
-where p.fechainicio = '2019-12-16'
+where p.fechainicio = '2020-01-16'
 and r.`liquidopagable` <> 0
 ;
 
@@ -315,8 +315,37 @@ order by z.`nombre`, pe.`nombres`
 -- ---------------------------------------------------------------
 
 
-
 select *
-from productormateriaprima p
-where p.`numerocuenta` is not null
+from zonaproductiva z
+where z.`nombre` like '%BENITO%'
 ;
+
+select p.`idproductormateriaprima`, pe.`nombres`, pe.`apellidopaterno`, pe.`apellidomaterno`, p.`idzonaproductiva`
+from productormateriaprima p
+join persona pe on p.`idproductormateriaprima` = pe.`idpersona`
+where pe.`nombres` like '%TANI%' and pe.`apellidopaterno` like '%CA%'
+;
+
+-- CAMBIANDO GAB
+update productormateriaprima p set p.`idzonaproductiva` = 74 where p.`idproductormateriaprima` = 169;
+update productormateriaprima p set p.`idzonaproductiva` = 74 where p.`idproductormateriaprima` = 170;
+
+update productormateriaprima p set p.`idzonaproductiva` = 153 where p.`idproductormateriaprima` = 110;
+update productormateriaprima p set p.`idzonaproductiva` = 153 where p.`idproductormateriaprima` = 106;
+update productormateriaprima p set p.`idzonaproductiva` = 153 where p.`idproductormateriaprima` = 100;
+
+update productormateriaprima p set p.`idzonaproductiva` = 60 where p.`idproductormateriaprima` = 391;
+update productormateriaprima p set p.`idzonaproductiva` = 60 where p.`idproductormateriaprima` = 392;
+update productormateriaprima p set p.`idzonaproductiva` = 60 where p.`idproductormateriaprima` = 393;
+update productormateriaprima p set p.`idzonaproductiva` = 60 where p.`idproductormateriaprima` = 395;
+update productormateriaprima p set p.`idzonaproductiva` = 60 where p.`idproductormateriaprima` = 396;
+update productormateriaprima p set p.`idzonaproductiva` = 60 where p.`idproductormateriaprima` = 397;
+update productormateriaprima p set p.`idzonaproductiva` = 60 where p.`idproductormateriaprima` = 398;
+update productormateriaprima p set p.`idzonaproductiva` = 60 where p.`idproductormateriaprima` = 525;
+
+update productormateriaprima p set p.`idzonaproductiva` = 69 where p.`idproductormateriaprima` = 373; -- UCUREÑA I
+update productormateriaprima p set p.`idzonaproductiva` = 69 where p.`idproductormateriaprima` = 363; -- UCUREÑA I
+update productormateriaprima p set p.`idzonaproductiva` = 69 where p.`idproductormateriaprima` = 365; -- UCUREÑA I
+
+
+

@@ -62,7 +62,7 @@ where RH.MARFECHA between '2019-04-01' and '2019-04-30'
 
 
 -- UPDATE SECUENCIA SET VALOR=(SELECT MAX(E.IDRHMARCADO)/10+1 FROM RHMARCADO E) WHERE TABLA='rhmarcado';
-select MAX(E.IDRHMARCADO)+1 from RHMARCADO E;
+select max(E.IDRHMARCADO)+1 from RHMARCADO E;
 
 
 
@@ -82,7 +82,7 @@ where v.`marfecha` between '2020-01-01' and '2020-01-31'
 ;
 
 -- DIAS PARA PASAJES
-select v.`marperid` as CI, v.`nombre`, COUNT( distinct DAY(v.`marfecha`) ) as dias
+select v.`marperid` as CI, v.`nombre`, count( distinct day(v.`marfecha`) ) as dias
 from vmarcado v
 where v.`marfecha` between '2018-12-01' and '2018-12-31'
 and v.`marreftarjeta` in (8714155,5283781,8048438,4532545,5264949,5924127)
