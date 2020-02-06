@@ -331,7 +331,6 @@ group by mes
 
 
 
-
 select * 
 from personacliente p
 -- update personacliente p set p.`IDTIPOCLIENTE` = 11

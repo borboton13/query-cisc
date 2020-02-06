@@ -24,7 +24,7 @@ and z.tipo = 'INVOICE'
 ;
 
 select 	month(d.FECHA) as MES, 
-	SUM(d.iva) as CREDITO_FISCAL
+	sum(d.iva) as CREDITO_FISCAL
 from documentocontable d 
 join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
 where fecha between '2019-01-01' and '2019-12-31'
@@ -102,10 +102,10 @@ select 	IDMOVIMIENTO,
 	if(ESTADO = 'A', 0, CODIGOCONTROL) as "CODIGO DE CONTROL",
 	IDPEDIDOS, IDVENTADIRECTA, idmovimiento
 from movimiento
-where FECHA_FACTURA between '2019-01-01' and '2019-12-31'
+where FECHA_FACTURA between '2020-01-01' and '2020-01-31'
 ;
 
-select  MONTH(M.`FECHA_FACTURA`) as MES, sum(m.`DEBITO_FISCAL`) as DEBITO_FISCAL
+select  month(M.`FECHA_FACTURA`) as MES, sum(m.`DEBITO_FISCAL`) as DEBITO_FISCAL
 from movimiento m
 where FECHA_FACTURA between '2019-01-01' and '2019-12-31'
 and m.`ESTADO` <> 'A'
@@ -118,21 +118,26 @@ group by MES
 	select v.`IDMOVIMIENTO` ,v.fecha_pedido, v.estado, v.observacion, m.`IDMOVIMIENTO`, m.`ESTADO`, v.`id_tmpenc`
 	from ventadirecta v
 	join movimiento m on v.`IDMOVIMIENTO` = m.`IDMOVIMIENTO`
-	where v.`FECHA_PEDIDO` between '2019-12-01' and '2019-12-31'
+	where v.`FECHA_PEDIDO` between '2020-01-01' and '2020-01-31'
 	and v.`ESTADO` = 'ANULADO'
 	and v.`IDMOVIMIENTO` is not null;
 
 	-- Para anular facturas PEDIDOS
-	    select p.`IDPEDIDOS`, p.`IDMOVIMIENTO`, p.fecha_entrega, p.`CODIGO`, p.`ESTADO`, m.nrofactura, p.`IMPUESTO`, p.observacion, pc.razonsocial , m.`ESTADO`, pc.`IDPERSONACLIENTE`, p.`id_tmpenc`
+	    select p.`IDMOVIMIENTO`, p.`IDPEDIDOS`, p.fecha_entrega, p.`CODIGO`, p.`ESTADO`, m.nrofactura, p.`IMPUESTO`, p.observacion, pc.razonsocial , m.`ESTADO`, pc.`IDPERSONACLIENTE`, p.`id_tmpenc`
 	-- SELECT p.`IDMOVIMIENTO`
 	from pedidos p
 	   join personacliente pc on p.idcliente = pc.idpersonacliente
 	   join movimiento m      on p.idmovimiento = m.idmovimiento
-	where p.`FECHA_ENTREGA` between  '2019-12-01' and '2019-12-31'
+	where p.`FECHA_ENTREGA` between  '2020-01-01' and '2020-01-31'
 	and p.`ESTADO` = 'ANULADO'
 	and p.`IDMOVIMIENTO` is not null
 	-- AND p.`IDMOVIMIENTO` NOT IN (27416, 27417)
 	;
+
+update movimiento m set m.`ESTADO` = 'A'
+where m.`IDMOVIMIENTO` in (
+
+);
 
 
 -- CRUCE COMPRAS CON ASIENTOS

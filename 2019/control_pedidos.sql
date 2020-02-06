@@ -55,8 +55,8 @@ left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
 where p.`FECHA_ENTREGA` between '2020-01-01' and '2020-12-31'
 -- AND p.`IDPEDIDOS` = 34632
 -- and p.`IDCLIENTE` = 726
-and p.`CODIGO` in (502)
-and p.`ESTADO` <> 'ANULADO'
+and p.`CODIGO` in (759)
+-- and p.`ESTADO` <> 'ANULADO'
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 29988
 -- AND pc.`AP` LIKE '%Car%'

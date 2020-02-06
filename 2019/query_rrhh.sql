@@ -22,10 +22,13 @@ left join contrato c on cp.`idcontrato` = c.`idcontrato`
 left join empleado e on c.`idempleado` = e.`idempleado`
 left join persona p  on e.`idempleado` = p.`idpersona`
 left join entidad en on p.`idpersona` = en.`identidad`
-where en.`noidentificacion` = 9458393
+where en.`noidentificacion` = 6526652
 and bc.`fechafin` >= '2019-12-31'
 -- and bh.`horainicio` = '08:00:00'
 ;
+
+delete from bandahorariacontrato where idbandahorariacontrato = ;
+delete from bandahoraria where idbandahoraria = ;
 
 /** Cambiando Horario **/
 -- UPDATE bandahoraria bh 
