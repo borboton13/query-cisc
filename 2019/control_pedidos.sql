@@ -538,3 +538,11 @@ and a.`REPOSICION` > 0
 and v.`ESTADO` <> 'ANULADO'
 ;
 
+
+-- PRECIOS ESPECIALES - CLIENTES
+select v.*, p.`NOM`, p.`AP`, p.`AM`
+from ventacliente v
+left join personacliente p on v.`IDCLIENTE` = p.`IDPERSONACLIENTE`
+where v.`cod_art` = 118
+;
+

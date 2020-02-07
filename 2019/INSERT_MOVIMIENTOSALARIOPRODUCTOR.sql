@@ -95,39 +95,38 @@ and p.`IDTIPOPEDIDO` = 5
 -- CONTABILIZAR DESCUENTOS VETERINARIOS
 -- -------------------------------------- --
 -- SET @folio = (SELECT MAX(id_tmpdet) FROM sf_tmpdet);
-set @folio = 699288;
+set @folio = 14703;
 -- INSERT INTO sf_tmpdet (id_tmpdet, cuenta, no_cia, debe, haber, moneda, no_trans, id_tmpenc, idpersonacliente) 
-select (@folio := @folio+1), '1421010200', '01', 0, p.`TOTALIMPORTE`, 'P', 124923, 124885, pe.`IDPERSONACLIENTE` -- 
-, PE.`NRO_DOC`, pe.`NOM`, pe.`AP`, pe.`AM`, p.`ESTADO`
+select (@folio := @folio+1), '1421010200', '01', 0, p.`TOTALIMPORTE`, 'P', 132147, 132100, pe.`IDPERSONACLIENTE` -- 
+ , PE.`NRO_DOC`, pe.`NOM`, pe.`AP`, pe.`AM`, p.`ESTADO`
 from pedidos p
 join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 join entidad e         on pe.`NRO_DOC` = e.`noidentificacion`
 join persona per       on e.`identidad` = per.`idpersona`
 join productormateriaprima pr on e.`identidad` = pr.`idproductormateriaprima`
-where p.`FECHA_ENTREGA` between '2019-11-16' and '2019-11-30'
+where p.`FECHA_ENTREGA` between '2020-01-16' and '2020-01-31'
 and p.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` = 5
 and p.`IDTIPOPEDIDO` = 6
 ;
 
--- 716540
 
 select *
 from sf_tmpdet d
-where d.`id_tmpdet` >= 716540
+where d.`id_tmpdet` >= 14703
 ;
 
 -- CONTABILIZAR DESCUENTOS LACTEOS
-set @folio = 716540; 
+set @folio = 14591; 
 -- INSERT INTO sf_tmpdet (id_tmpdet, cuenta, no_cia, debe, haber, moneda, no_trans, id_tmpenc, idpersonacliente) 
-select (@folio := @folio+1), '1421010100', '01', 0, p.`TOTALIMPORTE`, 'P', 127326, 127287, pe.`IDPERSONACLIENTE`
+select (@folio := @folio+1), '1421010100', '01', 0, p.`TOTALIMPORTE`, 'P', 132146, 132099, pe.`IDPERSONACLIENTE`
 -- ,pe.`NOM`, pe.`AP`, pe.`AM`
 from pedidos p
 join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 join entidad e         on pe.`NRO_DOC` = e.`noidentificacion`
 join persona per       on e.`identidad` = per.`idpersona`
 join productormateriaprima pr on e.`identidad` = pr.`idproductormateriaprima`
-where p.`FECHA_ENTREGA` between '2019-11-16' and '2019-11-30'
+where p.`FECHA_ENTREGA` between '2020-01-01' and '2020-01-15'
 and p.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` <> 5
 and p.`IDTIPOPEDIDO` = 5
@@ -137,10 +136,11 @@ and p.`IDTIPOPEDIDO` = 5
 select m.`idmovimientosalarioproductor`, m.`idproductormateriaprima`, m.`fecha`, m.`descripcion`, m.`valor`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, p.`idpersona`, m.`idproductormateriaprima`
 from movimientosalarioproductor m
 left join persona p on m.`idproductormateriaprima` = p.`idpersona`
-where m.`fecha` between '2020-01-01' and '2020-01-31'
+where m.`fecha` between '2020-01-01' and '2020-01-15'
 -- and m.`descripcion` <> 'REPOSICION DE FORMULARIO'
-and m.`descripcion` like '%COMISION BANCO%'
-and m.`fecha` between '2020-01-01' and '2020-01-31'
+-- and m.`descripcion` like '%COMISION BANCO%'
+-- and m.`idtipomovimientoproductor` = 1
+and 
 ;
 
 

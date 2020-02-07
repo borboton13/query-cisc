@@ -52,13 +52,24 @@ left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- where d.`debe` = 0 and d.`haber` = 0
 -- WHERE d.`id_tmpenc` = 29504
 -- where e.`tipo_doc` = 'CD'
-where d.`cuenta` = '1310510600'
+where d.`cuenta` = '3110100000'
 and e.`estado` <> 'ANL'
 -- and e.`no_doc` in (43)
 -- AND e.`glosa` LIKE '%certi%'
 -- where d.`cod_art`= 16
-and e.`fecha` between '2019-01-01' and '2019-12-31'
+and d.`idsocio` = 
+and e.`fecha` between '2019-01-01' and '2020-12-31'
 ;
+
+update cuenta c set c.`idsocio` = 63 where c.`idcuenta` = 1136;
+delete from socio where idsocio = 2600;
+
+select *
+from sf_tmpenc e
+where e.`glosa` like '%retiro%so%'
+;
+
+Juan Carlos Zurita Veizaga 3-028, retiro de socio con devolucion de ahorros
 
 -- update sf_tmpenc e set e.`estado` = 'ANL' where e.`id_tmpenc` in (131691);
 -- update sf_tmpdet d set d.`cuenta` = '4430110300'  where d.`id_tmpdet` = 71025;
@@ -521,16 +532,16 @@ group by d.`idcredito`, c.`codigoant`, d.`cuenta`
 having saldo > 0
 ;
 
-select d.`idcredito`, c.`codigoant`, d.`cuenta`, sum(d.`debe`) as debe, sum(d.`haber`) as haber, sum(d.`debe`)-sum(d.`haber`) as saldo, c.saldo
+
+-- ESTADO DE APORTES
+select d.`idsocio`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, sum(d.`debe`) as debe, sum(d.`haber`) as haber
 from sf_tmpdet d
 join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-join credito c on d.`idcredito` = c.`idcredito`
-where e.`fecha` <= '2020-12-31'
+join socio s     on d.`idsocio` = s.`idsocio`
+where d.`cuenta` = '3110100000'
 and e.`estado` <> 'ANL'
-and d.`cuenta` = '1330520600'
-and d.`idcredito` is not null
-group by d.`idcredito`, c.`codigoant`, d.`cuenta`
-having saldo > 0
+and d.`idsocio` is not null
+group by d.`idsocio`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`
 ;
 
 
@@ -552,4 +563,7 @@ left join zonaproductiva z on s.`idzonaproductiva` = z.`idzonaproductiva`
 where t.`fechatransaccion` between '2020-01-01' and '2020-01-31'
 group by z.`idzonaproductiva`
 ;
+
+
+
 

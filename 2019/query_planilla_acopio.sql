@@ -317,13 +317,14 @@ order by z.`nombre`, pe.`nombres`
 
 select *
 from zonaproductiva z
-where z.`nombre` like '%BENITO%'
+where z.`nombre` like '%ENE%'
 ;
 
 select p.`idproductormateriaprima`, pe.`nombres`, pe.`apellidopaterno`, pe.`apellidomaterno`, p.`idzonaproductiva`
 from productormateriaprima p
 join persona pe on p.`idproductormateriaprima` = pe.`idpersona`
-where pe.`nombres` like '%TANI%' and pe.`apellidopaterno` like '%CA%'
+-- where pe.`nombres` like '%TANI%' and pe.`apellidopaterno` like '%CA%'
+where p.`idzonaproductiva` = 83
 ;
 
 -- CAMBIANDO GAB
