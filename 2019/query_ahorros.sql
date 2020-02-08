@@ -99,14 +99,19 @@ order by e.`fecha`, d.`id_tmpdet`
 ;
 
 -- CUENTAS DE AHORRO - SALDO
-select d.`idcuenta`, c.`nocuenta`, s.`nombres`, s.`apellidopaterno`, sum(d.`debe`) as debit , sum(d.`haber`) as credit, sum(d.`haber`) - sum(d.`debe`) as saldo
+select s.`idsocio`, c.idcuenta, s.`nombres`, s.`apellidopaterno`, s.`apellidopaterno`, c.`nocuenta`, c.`codigo`, c.`moneda`, 
+	sum(d.`haber`) - sum(d.`debe`) saldoBs,
+	sum(d.haberme) - sum(d.`debeme`) saldoME
 from sf_tmpdet d
-left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-left join cuenta c on d.`idcuenta` = c.`idcuenta`
-left join socio s on c.`idsocio` = s.`idsocio`
-where d.`idcuenta` is not null
-group by d.`idcuenta`, c.`nocuenta`, s.`nombres`, s.`apellidopaterno`
+join sf_tmpenc e 	on d.id_tmpenc = e.id_tmpenc
+join cuenta c 		on d.`idcuenta` = c.`idcuenta`
+join tipocuenta t	on c.idtipocuenta = t.idtipocuenta
+join socio s on c.`idsocio` = s.`idsocio`
+where e.estado <> 'ANL'
+and t.tipo <> 'DPF'
+group by s.`idsocio`, c.idcuenta, s.`nombres`, s.`apellidopaterno`, s.`apellidopaterno`, c.`nocuenta`, c.`codigo`, c.`moneda`
 ;
+
 -- 
 delete from sf_tmpdet where id_tmpdet in (580956, 583816, 586694, 589560, 592415, 595244, 598066, 601793 );
 
