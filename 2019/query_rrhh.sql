@@ -9,12 +9,12 @@ and c.`fechafin` = '2019-12-31'
 
 
 update contrato c set c.`fechafin` = '2020-12-31'
-where c.`idcontrato` in (	
+where c.`idcontrato` in (
 
 );
 
 
-select bc.`idbandahorariacontrato`, bc.`idbandahoraria`, en.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, bc.`fechainicio`, bc.`fechafin`, bh.`diainicio`, bh.`horainicio`, bh.`horafin`
+select e.`idempleado`, bc.`idbandahorariacontrato`, bc.`idbandahoraria`, en.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, bc.`fechainicio`, bc.`fechafin`, bh.`diainicio`, bh.`horainicio`, bh.`horafin`
 from bandahoraria bh
 left join bandahorariacontrato bc on bh.`idbandahoraria` = bc.`idbandahoraria`
 left join contratopuesto cp on bc.`idcontratopuesto` = cp.`idcontratopuesto`
@@ -22,7 +22,7 @@ left join contrato c on cp.`idcontrato` = c.`idcontrato`
 left join empleado e on c.`idempleado` = e.`idempleado`
 left join persona p  on e.`idempleado` = p.`idpersona`
 left join entidad en on p.`idpersona` = en.`identidad`
-where en.`noidentificacion` = 6526652
+where en.`noidentificacion` = 4532545
 and bc.`fechafin` >= '2019-12-31'
 -- and bh.`horainicio` = '08:00:00'
 ;
