@@ -1,6 +1,6 @@
 -- - 
 select 	e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, 
-	d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`idmovimiento`, d.`iddocumentocompra`,
+	d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, D.`idcuenta`, d.`idmovimiento`, d.`iddocumentocompra`,
 	d.`tc`, d.`moneda`, d.`debeme`, d.`haberme`, 
 	d.`id_tmpenc`, e.`estado`, d.`cod_prov`, d.`cod_art`, d.`cant_art`, d.`idpersonacliente`, d.`idcredito`
 from sf_tmpdet d
@@ -8,7 +8,7 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-
+104535
 ) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
@@ -563,6 +563,7 @@ where t.`fechatransaccion` between '2020-01-01' and '2020-01-31'
 group by z.`idzonaproductiva`
 ;
 
-
-
-
+select * -- e.`id_tmpenc`, d.`cuenta`, d.`idcuenta`
+from sf_tmpenc e
+where e.`glosa` like '%RETIRO%AHO%'
+;
