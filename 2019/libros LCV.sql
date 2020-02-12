@@ -18,66 +18,9 @@ select 	d.FECHA as "FECHA FACTURA O DUI",
 	, z.idtmpenc,  d.iddocumentocontable 
 from documentocontable d 
 join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
-where fecha between '2019-01-01' and '2019-12-31'
+where fecha between '2020-01-01' and '2020-01-31'
 and z.estado <> 'NULLIFIED'
 and z.tipo = 'INVOICE'
-;
-
-select 	month(d.FECHA) as MES, 
-	sum(d.iva) as CREDITO_FISCAL
-from documentocontable d 
-join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
-where fecha between '2019-01-01' and '2019-12-31'
-and z.estado <> 'NULLIFIED'
-and z.tipo = 'INVOICE'
-group by MES
-;
-
-
-select 	d.FECHA as "FECHA FACTURA O DUI", 
-	d.NIT as "NIT PROVEEDOR", 
-	d.NOMBRE as "RAZON SOCIAL",
-	d.NUMERO as "NUMERO FACTURA",
-	"" as "NRO DUI",
-	d.numeroautorizacion as "NRO DE AUTORIZACION",
-	d.IMPORTE as "IMPORTE TOTAL DE LA COMPRA",
-	d.exento as "IMPORTE NO SUJETO A CREDITO FISCAL",
-	d.importe - d.exento as "SUBTOTAL",
-	"" as "DESCUENTOS",
-	d.importeneto as "IMPORTE BASE CREDITO FISCAL",
-	d.iva as "CREDITO FISCAL",
-	ifnull(d.CODIGOCONTROL, 0) as CODIGOCONTROL,
-	"" as "TIPO DE COMPRA", z.estado,
-	z.idtmpenc, e.tipo_doc, e.no_doc, e.fecha, e.estado
-from documentocontable d 
-left join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
-left join sf_tmpenc e on z.idtmpenc = e.id_tmpenc
-where d.fecha between '2019-04-01' and '2019-04-30'
-and z.estado <> 'NULLIFIED'
-;
-
-
--- REV FACT COMPRAS NO APROBADAS -- FALTA APROBAR FACT AGO/2018
-select 
-  d.FECHA as "FECHA FACTURA O DUI",
-  d.NIT as "NIT PROVEEDOR",
-  d.NOMBRE as "RAZON SOCIAL",
-  d.NUMERO as "NUMERO FACTURA",
-  "" as "NRO DUI",
-  d.numeroautorizacion as "NRO DE AUTORIZACION",
-  d.IMPORTE as "IMPORTE TOTAL DE LA COMPRA",
-  d.exento as "IMPORTE NO SUJETO A CREDITO FISCAL",
-  d.importe - d.exento as "SUBTOTAL",
-  "" as "DESCUENTOS",
-  d.importeneto as "IMPORTE BASE CREDITO FISCAL",
-  d.iva as "CREDITO FISCAL",
-  ifnull(d.CODIGOCONTROL, 0) as CODIGOCONTROL,
-  "" as "TIPO DE COMPRA"
-  , dc.estado, dc.idtmpenc, e.tipo_doc, e.no_doc
-from documentocontable d 
-left join documentocompra dc on d.iddocumentocontable = dc.iddocumentocompra 
-left join sf_tmpenc e        on dc.idtmpenc = e.id_tmpenc
-where d.fecha between '2018-11-01' and '2018-11-30'
 ;
 
 -- -------------
@@ -103,13 +46,6 @@ select 	IDMOVIMIENTO,
 	IDPEDIDOS, IDVENTADIRECTA, idmovimiento
 from movimiento
 where FECHA_FACTURA between '2020-01-01' and '2020-01-31'
-;
-
-select  month(M.`FECHA_FACTURA`) as MES, sum(m.`DEBITO_FISCAL`) as DEBITO_FISCAL
-from movimiento m
-where FECHA_FACTURA between '2019-01-01' and '2019-12-31'
-and m.`ESTADO` <> 'A'
-group by MES
 ;
 
 -- -------------
@@ -245,5 +181,33 @@ left join documentocontable d on dc.`iddocumentocompra` = d.`iddocumentocontable
 where e.`fecha_recepcion` between '2019-08-01' and '2019-08-31'
 and e.`confactura` = 'CONFACTURA'
 ;
+
+-- PEDIDOS, Para actualizar IDs movimiento, sf_tmpenc
+select p.`FECHA_ENTREGA`, m.`FECHA_FACTURA`, m.`NROFACTURA`, m.`IDMOVIMIENTO`, m.`IDPEDIDOS`, p.`id_tmpenc`, d.`id_tmpdet`
+from movimiento m
+left join pedidos p on m.`IDPEDIDOS` = p.`IDPEDIDOS`
+left join sf_tmpdet d on p.`id_tmpenc` = d.`id_tmpenc`
+where m.`FECHA_FACTURA` between '2020-01-01' and '2020-12-31'
+and m.idpedidos is not null
+and d.`cuenta` = '2420410200'
+;
+
+-- VENTADIRECTA, Para actualizar IDs movimiento, sf_tmpenc
+select v.`FECHA_PEDIDO`, m.`FECHA_FACTURA`, m.`NROFACTURA`, m.`IDMOVIMIENTO`, m.`IDVENTADIRECTA`, v.`id_tmpenc`, d.`id_tmpdet`, m.`id_tmpdet`
+from movimiento m
+left join ventadirecta v on m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
+left join sf_tmpdet d on v.`id_tmpenc` = d.`id_tmpenc`
+where m.`FECHA_FACTURA` between '2020-01-01' and '2020-12-31'
+and m.`IDVENTADIRECTA` is not null
+and d.`cuenta` = '2420410200'
+;
+
+
+select *
+from movimiento m
+where m.`FECHA_FACTURA` between '2020-01-01' and '2020-12-31'
+;
+
+
 
 

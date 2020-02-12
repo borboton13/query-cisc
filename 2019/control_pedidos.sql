@@ -64,6 +64,14 @@ and p.`IDPEDIDOS` = 28453
 -- AND p.`IDUSUARIO` = 5
 ;
 
+select *
+from pedidos p
+-- update pedidos p set p.`ESTADO` = 'CONTABILIZADO', p.`OBSERVACION` = 'Obs. Factura 2697 del 31.01.2020'
+where p.`FECHA_ENTREGA` between '2020-01-01' and '2020-12-31'
+and p.`CODIGO` in (759,854,932,958,978,981,1030,1054, 1056)
+;
+
+
 -- update pedidos p set p.`ESTADO` = 'ANULADO' where p.`IDPEDIDOS`= 35615;
 -- update sf_tmpenc e SET e.`estado` = 'ANL' where e.`id_tmpenc` = 123001;
 -- update movimiento m set m.`ESTADO` = 'A' WHERE m.`IDMOVIMIENTO` = 60392;
