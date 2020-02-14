@@ -8,7 +8,8 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-132131
+130450
+
 ) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
@@ -259,7 +260,7 @@ select e.`fecha`, e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, e.`glosa`, sum(d.`deb
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
-where e.`fecha` between '2019-01-01' and '2019-12-31'
+where e.`fecha` between '2020-01-01' and '2020-12-31'
 and e.`estado` <> 'ANL'
 -- AND e.`tipo_doc` IN ('CI', 'CV', 'NE')
 -- AND e.`tipo_doc` IN ('CV')

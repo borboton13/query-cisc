@@ -51,9 +51,10 @@ where FECHA_FACTURA between '2020-01-01' and '2020-01-31'
 -- -------------
 
 	-- Para anular facturas VENTAS CONTADO
-	select v.`IDMOVIMIENTO` ,v.fecha_pedido, v.estado, v.observacion, m.`IDMOVIMIENTO`, m.`ESTADO`, v.`id_tmpenc`
+	select v.`IDMOVIMIENTO` ,v.fecha_pedido, v.estado, v.observacion, m.`IDMOVIMIENTO`, m.`ESTADO`, v.`id_tmpenc`, e.`tipo_doc`, e.`estado`
 	from ventadirecta v
 	join movimiento m on v.`IDMOVIMIENTO` = m.`IDMOVIMIENTO`
+		join sf_tmpenc e on v.`id_tmpenc` = e.`id_tmpenc`
 	where v.`FECHA_PEDIDO` between '2020-01-01' and '2020-01-31'
 	and v.`ESTADO` = 'ANULADO'
 	and v.`IDMOVIMIENTO` is not null;
@@ -76,38 +77,6 @@ where m.`IDMOVIMIENTO` in (
 );
 
 
--- CRUCE COMPRAS CON ASIENTOS
--- ---------------------------
--- cruzar ambas consultas en excel (id_tmpenc)
-select distinct co.*, dc.`idtmpenc`, e.`id_tmpenc`, e.`fecha`, /*d.`cuenta`, d.`debe`, d.`haber`,*/ e.`tipo_doc`, e.`no_doc`, e.`fecha`
-from documentocontable co
-join documentocompra dc 	on co.`iddocumentocontable` = dc.`iddocumentocompra`
-join sf_tmpenc e  		on dc.`idtmpenc` = e.`id_tmpenc`
--- join sf_tmpdet d 		on e.`id_tmpenc` = d.`id_tmpenc`
--- where co.`fecha` between '2019-12-01' and '2019-12-31'
-where e.`fecha` between '2019-12-01' and '2019-12-31'
--- and d.`cuenta` = '1420710000'
-;
--- 
-select e.`id_tmpenc`, d.`id_tmpdet`, e.`estado`, e.`tipo_doc`, e.`no_doc`, e.`fecha`, d.`debe`, e.`glosa`
-from sf_tmpdet d
-left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where e.`fecha` between '2019-12-01' and '2019-12-31'
-and d.`cuenta` = '1420710000'
-and d.`debe` > 0
-and e.`estado` <> 'ANL'
-and e.`tipo_doc` not in ('NE')
-;
--- ---------------------------
-
-
-select e.`id_tmpenc`, d.`id_tmpdet`, e.`estado`, e.`tipo_doc`, e.`no_doc`, e.`fecha`, d.`debe`, e.`glosa`
-from sf_tmpdet d
-left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where e.`fecha` between '2019-12-01' and '2019-12-31'
-and d.`cuenta` = '1420710000'and d.debe > 0
-;
-
 
 
 /** 1.- PARA REVISION LIBRO DE VENTAS **/
@@ -117,14 +86,14 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join (
 	select v.`IDVENTADIRECTA`, v.`FECHA_PEDIDO`, v.`ESTADO`, v.`CODIGO`, v.`IDMOVIMIENTO`, v.`id_tmpenc`
 	from ventadirecta v
-	where v.`FECHA_PEDIDO` between '2019-12-01' and '2019-12-31' and v.`ESTADO` <> 'ANULADO'
+	where v.`FECHA_PEDIDO` between '2020-01-01' and '2020-01-31' and v.`ESTADO` <> 'ANULADO'
 ) ve on e.`id_tmpenc` = ve.id_tmpenc
 left join (
 	select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, p.`IDMOVIMIENTO`, p.`id_tmpenc`
 	from pedidos p
-	where p.`FECHA_ENTREGA` between '2019-12-01' and '2019-12-31' and p.estado <> 'ANULADO'
+	where p.`FECHA_ENTREGA` between '2020-01-01' and '2020-01-31' and p.estado <> 'ANULADO'
 ) pe on e.`id_tmpenc` = pe.id_tmpenc
-where e.`fecha` between '2019-12-01' and '2019-12-31'
+where e.`fecha` between '2020-01-01' and '2020-01-31'
 and d.`cuenta` = '2420410200'and d.haber > 0
 and e.`estado` <> 'ANL'
 ;
@@ -201,13 +170,5 @@ where m.`FECHA_FACTURA` between '2020-01-01' and '2020-12-31'
 and m.`IDVENTADIRECTA` is not null
 and d.`cuenta` = '2420410200'
 ;
-
-
-select *
-from movimiento m
-where m.`FECHA_FACTURA` between '2020-01-01' and '2020-12-31'
-;
-
-
 
 

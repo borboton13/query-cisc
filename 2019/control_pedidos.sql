@@ -53,7 +53,7 @@ left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
 where p.`FECHA_ENTREGA` between '2019-01-01' and '2020-12-31'
-and p.`IDPEDIDOS` = 28453
+and p.`IDPEDIDOS` = 37508
 -- and p.`IDCLIENTE` = 726
 -- and p.`CODIGO` in (759)
 -- and p.`ESTADO` <> 'ANULADO'
@@ -68,7 +68,7 @@ select *
 from pedidos p
 -- update pedidos p set p.`ESTADO` = 'CONTABILIZADO', p.`OBSERVACION` = 'Obs. Factura 2697 del 31.01.2020'
 where p.`FECHA_ENTREGA` between '2020-01-01' and '2020-12-31'
-and p.`CODIGO` in (759,854,932,958,978,981,1030,1054, 1056)
+and p.`CODIGO` in (759,854,932,958,978,981,1030,1054,1056,1079,1104)
 ;
 
 
