@@ -34,8 +34,10 @@ select
 	s.`descri`,
 	s.`cta_vo`,
 	a.`descri`, 
-	a.`fch_alta`, -- a.`fch_baja`, a.`fch_ajuste`, 
-	-- a.`estado`, 
+	a.`fch_alta`,
+	a.duracion,
+	a.`estado`, 
+	a.dep_vo,
 	a.`duracion` / 12 as vida_util,
 	a.`vobs`, -- a.`vosus`, a.`voufv`,
 	-- a.`tasa_dep`, a.`tasabssus`, a.`tasabsufv`, 
@@ -50,37 +52,35 @@ select
 	-- (a.`duracion` / 12) - (2016 - YEAR(a.`fch_alta`)) as vida_res,
 	if( ((a.`duracion` / 12) - (2019 - year(a.`fch_alta`))) < 0 , 0 , ((a.`duracion` / 12) - (2019 - year(a.`fch_alta`))) ) as vida_rest
 from af_activos a
--- LEFT JOIN af_hdepre d 	 ON a.`idactivo` = d.`idactivo`
 left join af_subgrupos s on a.`subgrupo` = s.`subgrupo`
 left join `af_grupos` g  on a.`grupo`	 = g.`grupo`
 ;
 
 -- 
-select
- 	a.`idactivo`, 
-	s.`descri`,
-	s.`cta_vo`,
-	a.`descri`, 
-	a.`fch_alta`, -- a.`fch_baja`, a.`fch_ajuste`, 
-	a.`estado`, 
-	a.`duracion` / 12 as vida_util,
-	
-	a.`vobs`, a.`vosus`, a.`voufv`,
-	a.`tasa_dep`, a.`tasabssus`, a.`tasabsufv`, 
-	
-	if(a.estado = 'TDP' or a.estado = 'BAJ' , a.`vobs`, a.`dep_acu_vo`) as DEP_ACUM_VO,
-	a.`dep_vo`,
-	if(a.estado = 'TDP' or a.estado = 'BAJ' , 0, (a.`vobs` - a.`dep_acu_vo`)) as saldo_neto,
-	(a.`vobs` - a.`dep_acu_vo`) as saldo_net,
-	a.`ulttasabssus`, a.`ulttasabsufv`,
-	if( ((a.`duracion` / 12) - (2020 - year(a.`fch_alta`))) < 0 , 0 , ((a.`duracion` / 12) - (2019 - year(a.`fch_alta`))) ) as vida_rest
+--
+
+-- ACTUALIZAR ACTIVOS FIJOS ILVA INICIO 2020
+/** 17.02.2020 actualizar activos fijos ILVA **/
+update af_activos a set a.`estado` = 'DEP' where a.`idactivo` = 364;
+update af_activos a set a.`dep_acu_vo` = 66604.65 where a.`idactivo` = 364;
+update af_activos a set a.`dep_acu_vo` = a.`vobs` where a.`estado` in ('BAJ', 'TDP');
+update af_activos a set a.`dep_vo` = round(a.`vobs`/a.`duracion`, 2) where a.`dep_vo` > 0 ;
+--
+
+select a.`idactivo`, a.`descri`, a.`estado`, a.`vobs`, a.`voufv`, a.`dep_vo`, a.`duracion`, round(a.`vobs`/a.`duracion`, 2)
+from af_activos a 
+where a.`dep_vo` > 0
+;
+
+select *
 from af_activos a
--- LEFT JOIN af_hdepre d 	 ON a.`idactivo` = d.`idactivo`
-left join af_subgrupos s on a.`subgrupo` = s.`subgrupo`
-left join `af_grupos` g  on a.`grupo`	 = g.`grupo`
+where a.`estado` = 'DEP'
 ;
 
 
-update af_activos a set a.`estado` = 'TDP' where a.`idactivo` = 1;
-update af_activos a set a.`desecho` = 0;
+
+
+
+
+
 
