@@ -65,6 +65,9 @@ update af_activos a set a.`estado` = 'DEP' where a.`idactivo` = 364;
 update af_activos a set a.`dep_acu_vo` = 66604.65 where a.`idactivo` = 364;
 update af_activos a set a.`dep_acu_vo` = a.`vobs` where a.`estado` in ('BAJ', 'TDP');
 update af_activos a set a.`dep_vo` = round(a.`vobs`/a.`duracion`, 2) where a.`dep_vo` > 0 ;
+
+update af_activos a set a.`moneda` = 'P';
+
 --
 
 select a.`idactivo`, a.`descri`, a.`estado`, a.`vobs`, a.`voufv`, a.`dep_vo`, a.`duracion`, round(a.`vobs`/a.`duracion`, 2)
