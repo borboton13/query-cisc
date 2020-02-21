@@ -454,6 +454,9 @@ update af_activos set dep_acu_vo = 	17704.89	, dep_vo = 	324.80	  where idactivo
 update af_activos set dep_acu_vo = 	66604.65	, dep_vo = 	3505.51	  where idactivo =  	364	 ; 
 
 
+update af_activos a set a.`estado` = 'TDP'
+where a.`idactivo` in (237,239, 353);
+
 --
 
 select 	a.`idactivo`, a.`descri`, a.`fch_alta`, a.`vobs`, a.`voufv`, a.`vosus`, a.`tasa_dep`, a.`dep_vo`, a.`dep_acu_vo`, a.`estado`,
@@ -463,7 +466,8 @@ select 	a.`idactivo`, a.`descri`, a.`fch_alta`, a.`vobs`, a.`voufv`, a.`vosus`, 
 from `af_activos` a
 left join af_hdepre d on a.`idactivo` = d.`idactivo`
 where a.`idactivo` in (
-229
+-- 239, 237, 
+353
 )
 ;
 

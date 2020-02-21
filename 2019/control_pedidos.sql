@@ -52,10 +52,10 @@ from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where p.`FECHA_ENTREGA` between '2019-01-01' and '2020-12-31'
-and p.`IDPEDIDOS` = 37508
+where p.`FECHA_ENTREGA` between '2020-01-01' and '2020-12-31'
+-- and p.`IDPEDIDOS` = 37508
 -- and p.`IDCLIENTE` = 726
--- and p.`CODIGO` in (759)
+and p.`CODIGO` in (1216)
 -- and p.`ESTADO` <> 'ANULADO'
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 29988
@@ -68,14 +68,14 @@ select *
 from pedidos p
 -- update pedidos p set p.`ESTADO` = 'CONTABILIZADO', p.`OBSERVACION` = 'Obs. Factura 2697 del 31.01.2020'
 where p.`FECHA_ENTREGA` between '2020-01-01' and '2020-12-31'
-and p.`CODIGO` in (759,854,932,958,978,981,1030,1054,1056,1079,1104,1131,1137,1212, 1234, 1185)
+and p.`CODIGO` in (759,854,932,958,978,981,1030,1054,1056,1079,1104,1131,1137,1212, 1234, 1185, 1240)
 ;
 
 
 -- update pedidos p set p.`ESTADO` = 'ANULADO' where p.`IDPEDIDOS`= 35615;
 -- update sf_tmpenc e SET e.`estado` = 'ANL' where e.`id_tmpenc` = 123001;
 -- update movimiento m set m.`ESTADO` = 'A' WHERE m.`IDMOVIMIENTO` = 60392;
-update pedidos p set p.`FECHA_ENTREGA` = '2020-01-21' where p.`IDPEDIDOS`= 37584; -- 2020-01-21
+update pedidos p set p.`FECHA_ENTREGA` = '2020-02-20' where p.`IDPEDIDOS`= 38296; -- 2020-02-20
 
 select *
 from articulos_pedido a
