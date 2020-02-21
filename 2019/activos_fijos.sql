@@ -66,6 +66,13 @@ update af_activos a set a.`dep_acu_vo` = 66604.65 where a.`idactivo` = 364;
 update af_activos a set a.`dep_acu_vo` = a.`vobs` where a.`estado` in ('BAJ', 'TDP');
 update af_activos a set a.`dep_vo` = round(a.`vobs`/a.`duracion`, 2) where a.`dep_vo` > 0 ;
 update af_activos a set a.`moneda` = 'P';
+
+select *
+from af_activos a 
+-- set a.`estado` = 'TDP' 
+where a.`estado` = 'BAJ'
+;
+
 --
 /** TEST Corregige acumulado al 31/12/2019 Edificios **/
 update af_activos set dep_acu_vo = 	17754.38	, dep_vo = 	96.68	  where idactivo =  	145	 ; 
@@ -455,23 +462,8 @@ select 	a.`idactivo`, a.`descri`, a.`fch_alta`, a.`vobs`, a.`voufv`, a.`vosus`, 
 	d.`dep_vo`, d.`dep_vo_bs`
 from `af_activos` a
 left join af_hdepre d on a.`idactivo` = d.`idactivo`
-where a.`idactivo` in (3,
-71,
-102,
-110,
-126,
-128,
-153,
-170,
-183,
-184,
-202,
-211,
-326,
-332,
-340,
-347,
-364
+where a.`idactivo` in (
+229
 )
 ;
 
