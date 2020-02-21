@@ -427,6 +427,24 @@ update af_activos set dep_acu_vo = 	1147.28	, dep_vo = 	47.85	  where idactivo =
 update af_activos set dep_acu_vo = 	5042.31	, dep_vo = 	81.20	  where idactivo =  	341	 ; 
 update af_activos set dep_acu_vo = 	895.35	, dep_vo = 	14.43	  where idactivo =  	342	 ; 
 
+-- VEHICULOS
+update af_activos set dep_acu_vo = 	190177.65	, dep_vo = 	3169.63	  where idactivo =  	3	 ; 
+update af_activos set dep_acu_vo = 	0.00	, dep_vo = 	0.00	  where idactivo =  	71	 ; 
+update af_activos set dep_acu_vo = 	0.00	, dep_vo = 	0.00	  where idactivo =  	102	 ; 
+update af_activos set dep_acu_vo = 	75738.26	, dep_vo = 	631.15	  where idactivo =  	110	 ; 
+update af_activos set dep_acu_vo = 	0.00	, dep_vo = 	0.00	  where idactivo =  	126	 ; 
+update af_activos set dep_acu_vo = 	122770.25	, dep_vo = 	1023.09	  where idactivo =  	128	 ; 
+update af_activos set dep_acu_vo = 	523.41	, dep_vo = 	8.72	  where idactivo =  	153	 ; 
+update af_activos set dep_acu_vo = 	0.00	, dep_vo = 	0.00	  where idactivo =  	170	 ; 
+update af_activos set dep_acu_vo = 	24467.30	, dep_vo = 	407.79	  where idactivo =  	183	 ; 
+update af_activos set dep_acu_vo = 	92040.00	, dep_vo = 	1534.00	  where idactivo =  	184	 ; 
+update af_activos set dep_acu_vo = 	0.00	, dep_vo = 	0.00	  where idactivo =  	202	 ; 
+update af_activos set dep_acu_vo = 	82805.96	, dep_vo = 	1380.10	  where idactivo =  	211	 ; 
+update af_activos set dep_acu_vo = 	15784.64	, dep_vo = 	257.35	  where idactivo =  	326	 ; 
+update af_activos set dep_acu_vo = 	39700.66	, dep_vo = 	643.68	  where idactivo =  	332	 ; 
+update af_activos set dep_acu_vo = 	93683.28	, dep_vo = 	1508.00	  where idactivo =  	340	 ; 
+update af_activos set dep_acu_vo = 	17704.89	, dep_vo = 	324.80	  where idactivo =  	347	 ; 
+update af_activos set dep_acu_vo = 	66604.65	, dep_vo = 	3505.51	  where idactivo =  	364	 ; 
 
 
 --
@@ -437,7 +455,24 @@ select 	a.`idactivo`, a.`descri`, a.`fch_alta`, a.`vobs`, a.`voufv`, a.`vosus`, 
 	d.`dep_vo`, d.`dep_vo_bs`
 from `af_activos` a
 left join af_hdepre d on a.`idactivo` = d.`idactivo`
-where a.`idactivo` in (23,27,36,145,182,208,319)
+where a.`idactivo` in (3,
+71,
+102,
+110,
+126,
+128,
+153,
+170,
+183,
+184,
+202,
+211,
+326,
+332,
+340,
+347,
+364
+)
 ;
 
 select 	a.`idactivo`, a.`descri`, a.`fch_alta`, a.`duracion`, a.`vobs`, a.`dep_acu_vo`, a.`estado`, a.`dep_vo`,
