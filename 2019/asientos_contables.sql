@@ -13,12 +13,15 @@ where d.`id_tmpenc` in (
 ) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
-delete from sf_tmpdet where id_tmpenc in (104810);
-delete from sf_tmpenc where id_tmpenc in (104810);
+delete from sf_tmpdet where id_tmpenc in (
+
+);
+delete from sf_tmpenc where id_tmpenc in (
+
+);
 
 
-delete from sf_tmpdet where id_tmpdet in (
-
+-- delete from sf_tmpdet where id_tmpdet in (
 );
 
 select *
@@ -27,6 +30,13 @@ where d.`id_tmpdet` > 14531
 -- where d.id_tmpenc = 116047
 ;
 
+
+
+select *
+from sf_tmpenc e 
+where e.`tipo_doc` = 'PD'
+and e.`fecha` >= '2020-01-01'
+;
 
 -- idtipopedido = 2
 select *

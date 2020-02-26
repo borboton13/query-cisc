@@ -19,11 +19,11 @@ group by pr.`cod_art`, i.`descri`
 -- update pr_produccion pr
 join pr_plan pl on pr.`idplan` = pl.`idplan`
 set pr.`estado` = 'APR'
-where pl.`fecha` between '2019-11-01' and '2019-11-30'
+where pl.`fecha` between '2020-01-01' and '2020-01-31'
 ;
 
--- update pr_plan p set p.`estado` = 'APR' where p.`fecha` between '2019-11-01' and '2019-11-30';
-update periodocostoindirecto p set p.`contab` = 0, p.`procesado` = 0 where p.`idperiodocostoindirecto` = 37;
+-- update pr_plan p set p.`estado` = 'APR' where p.`fecha` between '2020-01-01' and '2020-01-31'
+update periodocostoindirecto p set p.`contab` = 0, p.`procesado` = 0 where p.`idperiodocostoindirecto` = 46;
 
 
 -- PRODUCCION INSUMOS
