@@ -8,7 +8,7 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-130450
+132579
 
 ) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
@@ -19,6 +19,8 @@ delete from sf_tmpdet where id_tmpenc in (
 delete from sf_tmpenc where id_tmpenc in (
 
 );
+
+update sf_tmpdet set id_tmpenc = 	132579	 where id_tmpenc = 	132580	;
 
 
 -- delete from sf_tmpdet where id_tmpdet in (
@@ -31,11 +33,17 @@ where d.`id_tmpdet` > 14531
 ;
 
 
+select *
+from pedidos p
+where p.`id_tmpenc` = 134053;
+
+
+
 
 select *
 from sf_tmpenc e 
-where e.`tipo_doc` = 'PD'
-and e.`fecha` >= '2020-01-01'
+where e.`tipo_doc` = 'NE'
+and e.`fecha` >= '2020-02-10'
 ;
 
 -- idtipopedido = 2
