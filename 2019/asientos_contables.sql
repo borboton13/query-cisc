@@ -13,9 +13,12 @@ where d.`id_tmpenc` in (
 ) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
 ;
 
+
+
 delete from sf_tmpdet where id_tmpenc in (
 
 );
+
 delete from sf_tmpenc where id_tmpenc in (
 
 );
@@ -28,7 +31,7 @@ update sf_tmpdet set id_tmpenc = 	132579	 where id_tmpenc = 	132580	;
 
 select *
 from sf_tmpdet d 
-where d.`id_tmpdet` > 14531
+where d.`id_tmpdet` > 14700
 -- where d.id_tmpenc = 116047
 ;
 

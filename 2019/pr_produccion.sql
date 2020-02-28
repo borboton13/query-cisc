@@ -15,6 +15,16 @@ group by pr.`cod_art`, i.`descri`
 ;
 
 
+-- TRANSFERENCIA, BAJAS, ... PT
+select *
+from inv_vales i
+-- update inv_vales i set i.`idtmpenc` = null
+where i.`fecha` between '2020-01-01' and '2020-01-31'
+and i.`oper` in ('TP', 'BA', 'DE')
+;
+
+
+
 -- CAMBIAR ESTADO EN PR_PRODUCCION
 -- update pr_produccion pr
 join pr_plan pl on pr.`idplan` = pl.`idplan`
@@ -22,7 +32,7 @@ set pr.`estado` = 'APR'
 where pl.`fecha` between '2020-01-01' and '2020-01-31'
 ;
 
--- update pr_plan p set p.`estado` = 'APR' where p.`fecha` between '2020-01-01' and '2020-01-31'
+update pr_plan p set p.`estado` = 'APR' where p.`fecha` between '2020-01-01' and '2020-01-31';
 update periodocostoindirecto p set p.`contab` = 0, p.`procesado` = 0 where p.`idperiodocostoindirecto` = 46;
 
 
