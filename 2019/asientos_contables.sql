@@ -32,54 +32,37 @@ update sf_tmpdet set id_tmpenc = 	132579	 where id_tmpenc = 	132580	;
 select *
 from sf_tmpdet d 
 where d.`id_tmpdet` > 14700
--- where d.id_tmpenc = 116047
 ;
-
-
-select *
-from pedidos p
-where p.`id_tmpenc` = 134053;
 
 
 
 
 select *
 from sf_tmpenc e 
-where e.`tipo_doc` = 'NE'
-and e.`fecha` >= '2020-02-10'
+where e.`tipo_doc` = 'TR'
+and e.`fecha` >= '2020-01-01'
 ;
 
--- idtipopedido = 2
-select *
-from pedidos p 
-update pedidos p set p.`ESTADO` = 'PREPARAR', p.`IDTIPOPEDIDO` = 2  
-where p.`IDPEDIDOS` = 35756;
-
-select *
-from pedidos p
-where p.`IDCLIENTE` = 1555
-and p.`FECHA_ENTREGA` >= '2019-10-01'
-;
 
 -- -----------------------
 --
 -- Detalle por TipoDoc
-select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`tc`, d.`debeme`, d.`haberme`,
+select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`, e.`formulario`,  e.`cod_prov`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`tc`, d.`debeme`, d.`haberme`,
 d.`id_tmpenc`, e.`estado`, d.`idcuenta`, d.`idcredito`,
 d.`idpersonacliente`, d.`cod_prov`, d.`cod_art`, d.`cant_art`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
+where e.`estado` <> 'ANL'
 -- where d.`debe` = 0 and d.`haber` = 0
 -- WHERE d.`id_tmpenc` = 29504
 -- where e.`tipo_doc` = 'CD'
-where d.`cuenta` = '3110100000'
-and e.`estado` <> 'ANL'
+-- and d.`cuenta` = '1510110201'
 -- and e.`no_doc` in (43)
 -- AND e.`glosa` LIKE '%certi%'
--- where d.`cod_art`= 16
-and d.`idsocio` = 
-and e.`fecha` between '2019-01-01' and '2020-12-31'
+and d.`cod_art`= 759
+-- and d.`idsocio` = 
+and e.`fecha` between '2020-01-01' and '2020-12-31'
 ;
 
 update cuenta c set c.`idsocio` = 63 where c.`idcuenta` = 1136;
