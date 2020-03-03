@@ -22,8 +22,8 @@ left join contrato c on cp.`idcontrato` = c.`idcontrato`
 left join empleado e on c.`idempleado` = e.`idempleado`
 left join persona p  on e.`idempleado` = p.`idpersona`
 left join entidad en on p.`idpersona` = en.`identidad`
-where en.`noidentificacion` = 4532545
-and bc.`fechafin` >= '2019-12-31'
+where en.`noidentificacion` = 9458393
+and bc.`fechafin` >= '2020-01-01'
 -- and bh.`horainicio` = '08:00:00'
 ;
 
@@ -38,12 +38,12 @@ left join contrato c on cp.`idcontrato` = c.`idcontrato`
 left join empleado e on c.`idempleado` = e.`idempleado`
 left join persona p  on e.`idempleado` = p.`idpersona`
 left join entidad en on p.`idpersona` = en.`identidad`
--- set bh.`horainicio` = '06:00'
-set bh.horafin = '17:00:00'
-where en.`noidentificacion` = 4529878
-and bc.`fechafin` >= '2019-02-11'
+set bh.`horainicio` = '05:00', bh.horafin = '13:00'
+-- set bh.horafin = '18:00:00'
+where en.`noidentificacion` = 6517642
+and bc.`fechafin` >= '2020-01-01'
 -- and bh.`horainicio` = '07:00:00'
-and bh.idbandahoraria in (1028)
+-- and bh.idbandahoraria in (1028)
 ;
 
 

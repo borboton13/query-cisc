@@ -1,3 +1,4 @@
+
 select pl.`fecha`, pro.`codigo`, pro.`costototal`, pr.`cod_art`, i.`descri`, pr.`cantidad`, pr.`costo_a`, pr.`costo_b`, pr.`costo_c`, pr.`costo`, pr.`costouni`
 from pr_producto pr
 left join pr_produccion pro on pr.`idproduccion` = pro.`idproduccion`
@@ -62,20 +63,22 @@ where pl.`fecha` between '2019-10-01' and '2019-10-31'
 group by pl.`fecha`
 ;
 
--- update sf_tmpenc e set e.`estado` = 'ANL'
-where e.`tipo_doc` = 'PD'
-and e.`fecha` between '2019-05-01' and '2019-05-31'
-;
-
-
-
-
-select 
-sum(pr.`totalmp`)
-from pr_produccion pr
+-- ARTICULOS EN FORMULA DE PRODUCCION
+select pl.`fecha`, pr.`codigo`, p.`cod_art`, i.`descri`, p.`cantidad`, p.`costouni`
+from pr_insumo p
+left join inv_articulos i on p.`cod_art` = i.`cod_art`
+left join pr_produccion pr on p.`idproduccion` = pr.`idproduccion`
 left join pr_plan pl on pr.`idplan` = pl.`idplan`
-where pl.`fecha` between '2019-05-01' and '2019-05-31'
 ;
+
+
+-- ARTICULOS GRAL: INSUMOS, MATERIALES
+select i.`cod_alm`, i.`cod_art`, i.`descri`, i.`costo_uni`, i.`saldo_mon`, i.`cuenta_art`, a.`descri`, i.`estado`
+from inv_articulos i
+left join arcgms a on i.`cuenta_art` = a.`cuenta`
+where i.`cod_alm` in (1, 3)
+;
+
 
 
 
