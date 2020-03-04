@@ -78,7 +78,7 @@ where r.`marfecha` between '2018-07-01' and '2018-07-31'
 select *
 from vmarcado v
 where v.`marfecha` between '2020-01-01' and '2020-01-31'
--- and v.`marperid` = 6526652
+and v.`marperid` = 5197188
 ;
 
 -- DIAS PARA PASAJES
@@ -92,5 +92,7 @@ group by v.`marperid`, v.`nombre`
 
 select *
 from rh_marcado r
-where r.`marfecha` between '2020-01-01' and '2020-01-31'
+where r.`marfecha` between '2020-02-01' and '2020-02-29'
 ;
+
+

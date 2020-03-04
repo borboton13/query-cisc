@@ -22,13 +22,13 @@ left join contrato c on cp.`idcontrato` = c.`idcontrato`
 left join empleado e on c.`idempleado` = e.`idempleado`
 left join persona p  on e.`idempleado` = p.`idpersona`
 left join entidad en on p.`idpersona` = en.`identidad`
-where en.`noidentificacion` = 9458393
+where en.`noidentificacion` = 8048438
 and bc.`fechafin` >= '2020-01-01'
 -- and bh.`horainicio` = '08:00:00'
 ;
 
-delete from bandahorariacontrato where idbandahorariacontrato = ;
-delete from bandahoraria where idbandahoraria = ;
+delete from bandahorariacontrato where idbandahorariacontrato in () ;
+delete from bandahoraria where idbandahoraria in () ;
 
 /** Cambiando Horario **/
 -- UPDATE bandahoraria bh 
@@ -46,18 +46,12 @@ and bc.`fechafin` >= '2020-01-01'
 -- and bh.idbandahoraria in (1028)
 ;
 
-
-select *
-from bandahorariacontrato b
-where b.`fechafin` >= '2019-12-31'
-;
-
+update SECUENCIA set VALOR=(select max(E.IDRHMARCADO)/10+1 from RHMARCADO E) where TABLA='BonoConseguido';
 
 update bandahorariacontrato b set b.`fechafin` = '2020-12-31'
 where b.`idbandahorariacontrato` in (
 	
 );
-
 
 -- delete from bandahorariacontrato
 delete from bandahoraria
