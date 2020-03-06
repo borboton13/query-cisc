@@ -79,11 +79,13 @@ where idbandahoraria in (
 );
 
 -- eliminando planillas generadas
-delete from reportecontrol 		 	where idplanillagenerada in (344);
-delete from `planillafiscalporcategoria` 	where idplanillagenerada in (344);
-delete from `planillatributariaporcategoria` 	where idplanillagenerada in (344);
-delete from `planillaadministrativos` 		where idplanillagenerada in (344);
-delete from `planillagenerada` 			where idplanillagenerada in (344);
+delete from reportecontrol 		 	where idplanillagenerada in (341);
+delete from `planillafiscalporcategoria` 	where idplanillagenerada in (341);
+delete from `planillatributariaporcategoria` 	where idplanillagenerada in (341);
+delete from `planillaadministrativos` 		where idplanillagenerada in (341);
+delete from `planillagenerada` 			where idplanillagenerada in (341);
+
+
 
 
 
