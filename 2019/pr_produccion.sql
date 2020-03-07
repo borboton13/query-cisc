@@ -79,6 +79,31 @@ left join arcgms a on i.`cuenta_art` = a.`cuenta`
 where i.`cod_alm` in (1, 3)
 ;
 
+-- DISTRIBUCION DE LECHE
+select month(pl.`fecha`) as mes, c.`nombre`, sum(i.`cantidad`) as cantidad
+from pr_insumo i
+left join pr_produccion p 	on i.`idproduccion`    = p.`idproduccion`
+left join pr_plan pl 		on p.`idplan` 	       = pl.`idplan`	
+left join pr_insumoformula ii 	on i.`idinsumoformula` = ii.`idinsumoformula`
+left join pr_formula f 		on ii.`idformula`      = f.`idformula`
+left join pr_categoria c 	on f.`idcategoria`     = c.`idcategoria`
+where pl.`fecha` between '2020-01-01' and '2020-02-29'
+and i.`cod_art` in (1)
+group by mes, c.`nombre`
+;
+
+-- DISTRIBUCION YOG_BASE
+select month(pl.`fecha`) as mes, c.`nombre`, sum(i.`cantidad`) as cantidad
+from pr_insumo i
+left join pr_produccion p 	on i.`idproduccion`    = p.`idproduccion`
+left join pr_plan pl 		on p.`idplan` 	       = pl.`idplan`	
+left join pr_insumoformula ii 	on i.`idinsumoformula` = ii.`idinsumoformula`
+left join pr_formula f 		on ii.`idformula`      = f.`idformula`
+left join pr_categoria c 	on f.`idcategoria`     = c.`idcategoria`
+where pl.`fecha` between '2020-01-01' and '2020-02-29'
+and i.`cod_art` in (182, 183)
+group by mes, c.`nombre`
+;
 
 
 
