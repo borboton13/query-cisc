@@ -43,7 +43,7 @@ select 	IDMOVIMIENTO,
 	if(ESTADO = 'A', 0.00, IMPORTE_PARA_DEBITO_FISCAL) as "IMPORTE PARA DEBITO FISCAL", 
 	if(ESTADO = 'A', 0.00, DEBITO_FISCAL) as "DEBITO FISCAL", 
 	if(ESTADO = 'A', 0, CODIGOCONTROL) as "CODIGO DE CONTROL",
-	IDPEDIDOS, IDVENTADIRECTA, idmovimiento
+	IDPEDIDOS, IDVENTADIRECTA, idmovimiento, id_tmpdet
 from movimiento
 where FECHA_FACTURA between '2020-02-01' and '2020-02-29'
 ;
@@ -150,25 +150,4 @@ left join documentocontable d on dc.`iddocumentocompra` = d.`iddocumentocontable
 where e.`fecha_recepcion` between '2019-08-01' and '2019-08-31'
 and e.`confactura` = 'CONFACTURA'
 ;
-
--- PEDIDOS, Para actualizar IDs movimiento, sf_tmpenc
-select p.`FECHA_ENTREGA`, m.`FECHA_FACTURA`, m.`NROFACTURA`, m.`IDMOVIMIENTO`, m.`IDPEDIDOS`, p.`id_tmpenc`, d.`id_tmpdet`
-from movimiento m
-left join pedidos p on m.`IDPEDIDOS` = p.`IDPEDIDOS`
-left join sf_tmpdet d on p.`id_tmpenc` = d.`id_tmpenc`
-where m.`FECHA_FACTURA` between '2020-01-01' and '2020-12-31'
-and m.idpedidos is not null
-and d.`cuenta` = '2420410200'
-;
-
--- VENTADIRECTA, Para actualizar IDs movimiento, sf_tmpenc
-select v.`FECHA_PEDIDO`, m.`FECHA_FACTURA`, m.`NROFACTURA`, m.`IDMOVIMIENTO`, m.`IDVENTADIRECTA`, v.`id_tmpenc`, d.`id_tmpdet`, m.`id_tmpdet`
-from movimiento m
-left join ventadirecta v on m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
-left join sf_tmpdet d on v.`id_tmpenc` = d.`id_tmpenc`
-where m.`FECHA_FACTURA` between '2020-01-01' and '2020-12-31'
-and m.`IDVENTADIRECTA` is not null
-and d.`cuenta` = '2420410200'
-;
-
 

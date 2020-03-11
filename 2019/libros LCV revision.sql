@@ -41,31 +41,12 @@ from movimiento m
 left join ventadirecta v on m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join sf_tmpdet d on v.`id_tmpenc` = d.`id_tmpenc`
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where m.FECHA_FACTURA between '2020-01-01' and '2020-01-31'
+where m.FECHA_FACTURA between '2020-02-01' and '2020-02-29'
 and m.`IDVENTADIRECTA` is not null
 and d.`cuenta` = '2420410200'
 ;
 
 -- ------------------------------------------------
--- TODO
-select 	m.IDMOVIMIENTO,
-	m.FECHA_FACTURA, 
-	m.`NROFACTURA`,
-	m.ESTADO, 
-	m.NIT_CLIENTE, 
-	m.RAZON_SOCIAL,
-	m.IMPORTE_TOTAL, 
-	m.DEBITO_FISCAL, 
-	m.IDPEDIDOS, m.IDVENTADIRECTA,
-	m.`id_tmpdet`,
-	d.`debe`, d.`haber`,
-	e.`tipo_doc`, e.`no_doc`, e.`estado`, d.`idpersonacliente`
-from movimiento m
-left join sf_tmpdet d on m.`id_tmpdet` = d.`id_tmpdet`
-left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where m.FECHA_FACTURA between '2020-01-01' and '2020-01-31'
--- and d.`cuenta` = '2420410200'
-;
 
 -- embol 1444
 -- GOBIERNO AUTONOMO DEPARTAMENTAL DE COCHABAMBA 1444
@@ -89,6 +70,43 @@ and e.`estado` <> 'ANL'
 -- and e.`tipo_doc` not in ('NE', 'IA')
 ;
 
+-- --------------------
 
+-- PEDIDOS, Para actualizar IDs movimiento, sf_tmpenc
+select p.`FECHA_ENTREGA`, m.`FECHA_FACTURA`, m.`NROFACTURA`, m.`IDMOVIMIENTO`, m.`IDPEDIDOS`, p.`id_tmpenc`, d.`id_tmpdet`
+from movimiento m
+left join pedidos p on m.`IDPEDIDOS` = p.`IDPEDIDOS`
+left join sf_tmpdet d on p.`id_tmpenc` = d.`id_tmpenc`
+where m.`FECHA_FACTURA` between '2020-02-01' and '2020-02-29'
+and m.idpedidos is not null
+and d.`cuenta` = '2420410200'
+;
+
+-- VENTADIRECTA, Para actualizar IDs movimiento, sf_tmpenc
+select v.`FECHA_PEDIDO`, m.`FECHA_FACTURA`, m.`NROFACTURA`, m.`IDMOVIMIENTO`, m.`IDVENTADIRECTA`, v.`id_tmpenc`, d.`id_tmpdet`, m.`id_tmpdet`
+from movimiento m
+left join ventadirecta v on m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
+left join sf_tmpdet d on v.`id_tmpenc` = d.`id_tmpenc`
+where m.`FECHA_FACTURA` between '2020-02-01' and '2020-02-29'
+and m.`IDVENTADIRECTA` is not null
+and d.`cuenta` = '2420410200'
+;
+
+-- REVISION, CUENTA DEBITO FISCAL SIN FACTURA (MOVIMIENTO)
+select e.`id_tmpenc`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`glosa`, d.`cuenta`, d.`debe`, d.`haber`, d.`idmovimiento`
+from sf_tmpdet d
+left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
+where e.`fecha` between '2020-02-01' and '2020-02-29'
+and e.`estado` <> 'ANL'
+and d.`cuenta` = '2420410200'
+;
+
+-- REVISION FACT VENTAS - CRUCE MOVIMIENTO - SF_TMPDET
+select m.`IDMOVIMIENTO`, m.`FECHA_FACTURA`, m.`ESTADO`, m.`IMPORTE_TOTAL`, m.`DESCUENTOS`, m.`IMPORTE_PARA_DEBITO_FISCAL`, m.`DEBITO_FISCAL`, m.`IDPEDIDOS`, m.`IDVENTADIRECTA`, d.`debe`, d.`haber`
+from movimiento m
+left join sf_tmpdet d on m.`IDMOVIMIENTO` = d.`idmovimiento`
+where m.`FECHA_FACTURA` between '2020-02-01' and '2020-02-29'
+-- and m.`ESTADO` <> 'A'
+;
 
 
