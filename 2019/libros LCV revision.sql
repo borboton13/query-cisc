@@ -5,7 +5,7 @@ select 	d.FECHA, d.NIT, d.NOMBRE,d.NUMERO,d.IMPORTE,d.importeneto,d.iva,
 	z.idtmpenc, z.iddocumentocompra
 from documentocontable d 
 left join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
-where d.fecha between '2020-01-01' and '2020-01-31'
+where d.fecha between '2020-02-01' and '2020-02-29'
 and z.estado <> 'NULLIFIED'
 and z.tipo = 'INVOICE'
 and z.`idtmpenc` is not null
@@ -15,7 +15,7 @@ and z.`idtmpenc` is not null
 select e.`id_tmpenc`, d.`id_tmpdet`,e.`tipo_doc`, e.`no_doc`, d.`debe`, d.`haber`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where e.`fecha` between '2020-01-01' and '2020-01-31'
+where e.`fecha` between '2020-02-01' and '2020-02-29'
 and d.`cuenta` = '1420710000'
 and e.`estado` <> 'ANL'
 and e.`tipo_doc` not in ('NE', 'IA')
@@ -109,4 +109,37 @@ where m.`FECHA_FACTURA` between '2020-02-01' and '2020-02-29'
 -- and m.`ESTADO` <> 'A'
 ;
 
+-- 
+-- -------------
+-- -- REV COMPRAS, RELACION CON ID_TMPDET
+-- -------------
+select 	d.FECHA as "FECHA FACTURA O DUI", 
+	d.NIT as "NIT PROVEEDOR", 
+	d.NOMBRE as "RAZON SOCIAL",
+	d.NUMERO as "NUMERO FACTURA",
+	"" as "NRO DUI",
+	d.numeroautorizacion as "NRO DE AUTORIZACION",
+	d.IMPORTE as "IMPORTE TOTAL DE LA COMPRA",
+	d.exento as "IMPORTE NO SUJETO A CREDITO FISCAL",
+	d.importe - d.exento as "SUBTOTAL",
+	"" as "DESCUENTOS",
+	d.importeneto as "IMPORTE BASE CREDITO FISCAL",
+	d.iva as "CREDITO FISCAL",
+	ifnull(d.CODIGOCONTROL, 0) as CODIGOCONTROL,
+	"" as "TIPO DE COMPRA", z.estado
+	, z.idtmpenc, z.id_tmpdet,  d.iddocumentocontable, z.iddocumentocompra, oc.no_orden
+from documentocontable d 
+left join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
+left join com_encoc oc 	    on z.idordencompra = oc.id_com_encoc
+where d.fecha between '2020-02-01' and '2020-02-29'
+and z.estado <> 'NULLIFIED'
+and z.tipo = 'INVOICE'
+;
+
+
+delete from documentocompra where iddocumentocompra = 10113;
+delete from documentocontable where iddocumentocontable = 10113;
+
+update documentocompra d set d.`estado` = 'NULLIFIED' where d.`iddocumentocompra` in (
+);
 

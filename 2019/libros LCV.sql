@@ -15,10 +15,10 @@ select 	d.FECHA as "FECHA FACTURA O DUI",
 	d.iva as "CREDITO FISCAL",
 	ifnull(d.CODIGOCONTROL, 0) as CODIGOCONTROL,
 	"" as "TIPO DE COMPRA", z.estado
-	, z.idtmpenc,  d.iddocumentocontable 
+	, z.idtmpenc, z.id_tmpdet,  d.iddocumentocontable 
 from documentocontable d 
 join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
-where fecha between '2020-01-01' and '2020-01-31'
+where fecha between '2020-02-01' and '2020-02-29'
 and z.estado <> 'NULLIFIED'
 and z.tipo = 'INVOICE'
 ;

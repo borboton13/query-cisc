@@ -128,7 +128,7 @@ join productormateriaprima pr 		on pe.`idpersona` = pr.`idproductormateriaprima`
 join entidad e 				on pe.`idpersona` = e.`identidad`
 join planillapagomateriaprima p 	on r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
 join zonaproductiva z 			on p.`idzonaproductiva` = z.`idzonaproductiva`
-where p.fechainicio = '2020-01-16'
+where p.fechainicio = '2020-02-16'
 and r.`liquidopagable` <> 0
 ;
 
@@ -347,6 +347,5 @@ update productormateriaprima p set p.`idzonaproductiva` = 60 where p.`idproducto
 update productormateriaprima p set p.`idzonaproductiva` = 69 where p.`idproductormateriaprima` = 373; -- UCUREÑA I
 update productormateriaprima p set p.`idzonaproductiva` = 69 where p.`idproductormateriaprima` = 363; -- UCUREÑA I
 update productormateriaprima p set p.`idzonaproductiva` = 69 where p.`idproductormateriaprima` = 365; -- UCUREÑA I
-
 
 
