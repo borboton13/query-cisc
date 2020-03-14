@@ -106,5 +106,17 @@ group by mes, c.`nombre`
 ;
 
 
+-- CANTIDAD DE PRODUCCION X MES X PRODUCTO
+select month(p.`FECHA`) as mes, p.`COD_ART`, p.`NOMBRE`, sum(p.`CANT_TOTAL`) as CANT, sum(p.`COSTOTOTALPRODUCCION`) as COSTO
+from producciontotal p
+where p.`FECHA` between '2019-01-01' and '2019-12-31'
+group by mes, p.`COD_ART`, p.`NOMBRE`
+;
+-- CANTIDAD DE PRODUCCION X PRODUCTO
+select p.`COD_ART`, p.`NOMBRE`, sum(p.`CANT_TOTAL`) as CANT, sum(p.`COSTOTOTALPRODUCCION`) as COSTO
+from producciontotal p
+where p.`FECHA` between '2019-01-01' and '2019-12-31'
+group by p.`COD_ART`, p.`NOMBRE`
+;
 
 

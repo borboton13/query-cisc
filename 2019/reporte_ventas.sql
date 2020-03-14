@@ -330,33 +330,25 @@ group by mes
 ;
 
 
+-- Reporte ventas Queso SUBSIDIO
+select month(v.`FECHA`) as mes, p.`NOM`,  v.`cod_art`, a.`descri`, sum(v.`CANTIDAD`) as cantidad, sum(v.`importe`) as montobs
+from ventas v
+left join inv_articulos a  on v.`cod_art` = a.`cod_art`
+left join personacliente p on v.`idcliente` = p.`IDPERSONACLIENTE`
+where v.`FECHA` between '2019-01-01' and '2019-12-31'
+and v.`idusuario` <> 5
+and v.`idtipopedido` in (1, 5)
+and v.`cod_art` in (148, 150)
+and v.`idcliente` in (911,1463,1464,1465,1466,1468,1472,1557)
+group by mes, p.`NOM`, v.`cod_art`, a.`descri`
+;
+
 
 select * 
 from personacliente p
--- update personacliente p set p.`IDTIPOCLIENTE` = 11
-where p.`IDPERSONACLIENTE` in (640, 118, 791, 812, 335, 1567, 973) 
+where P.`NOM` like '%SEDEM%' 
 ;
 
 
--- PRODUCCION
-select month(p.`FECHA`) as mes, p.`COD_ART`, p.`NOMBRE`, sum(p.`CANT_TOTAL`) as CANT, sum(p.`COSTOTOTALPRODUCCION`) as COSTO
-from producciontotal p
-where p.`FECHA` between '2019-01-01' and '2019-12-31'
-group by mes, p.`COD_ART`, p.`NOMBRE`
-;
-
-select p.`COD_ART`, p.`NOMBRE`, sum(p.`CANT_TOTAL`) as CANT, sum(p.`COSTOTOTALPRODUCCION`) as COSTO
-from producciontotal p
-where p.`FECHA` between '2019-01-01' and '2019-12-31'
-group by p.`COD_ART`, p.`NOMBRE`
-;
-
-
-
-select *
-from inv_inicio i
-where i.`gestion` = 2018
-and i.`cod_art` in (128, 129, 130, 131, 132)
-;
 
 
