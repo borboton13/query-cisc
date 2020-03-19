@@ -84,8 +84,8 @@ and v.`marperid` = 8688934
 -- DIAS PARA PASAJES
 select v.`marperid` as CI, v.`nombre`, count( distinct day(v.`marfecha`) ) as dias
 from vmarcado v
-where v.`marfecha` between '2018-12-01' and '2018-12-31'
-and v.`marreftarjeta` in (8714155,5283781,8048438,4532545,5264949,5924127)
+where v.`marfecha` between '2020-01-01' and '2020-12-31'
+-- and v.`marreftarjeta` in (8714155,5283781,8048438,4532545,5264949,5924127)
 group by v.`marperid`, v.`nombre`
 ;
 
@@ -94,5 +94,17 @@ select *
 from rh_marcado r
 where r.`marfecha` between '2020-02-01' and '2020-02-29'
 ;
+
+
+select distinct v.`marperid` as CI, cast(v.`nombre` as char(100))-- , v.`marhora`
+from vmarcado v
+where v.`marfecha` between '2020-01-01' and '2020-12-31'
+-- and v.`control` = 3
+and v.`marhora` >= '19:00:00'
+group by v.`marperid`, v.`nombre`
+;
+
+
+
 
 
