@@ -344,11 +344,6 @@ group by mes, p.`NOM`, v.`cod_art`, a.`descri`
 ;
 
 
-select * 
-from personacliente p
-where P.`NOM` like '%SEDEM%' 
-;
-
 
 
 

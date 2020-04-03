@@ -30,11 +30,11 @@ and i.`oper` in ('TP', 'BA', 'DE')
 -- update pr_produccion pr
 join pr_plan pl on pr.`idplan` = pl.`idplan`
 set pr.`estado` = 'APR'
-where pl.`fecha` between '2020-01-01' and '2020-01-31'
+where pl.`fecha` between '2020-02-01' and '2020-02-29'
 ;
 
-update pr_plan p set p.`estado` = 'APR' where p.`fecha` between '2020-01-01' and '2020-01-31';
-update periodocostoindirecto p set p.`contab` = 0, p.`procesado` = 0 where p.`idperiodocostoindirecto` = 46;
+update pr_plan p set p.`estado` = 'APR' where p.`fecha` between '2020-02-01' and '2020-02-29';
+update periodocostoindirecto p set p.`contab` = 0, p.`procesado` = 0 where p.`idperiodocostoindirecto` = 47;
 
 
 -- PRODUCCION INSUMOS
