@@ -41,7 +41,7 @@ from movimiento m
 left join ventadirecta v on m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join sf_tmpdet d on v.`id_tmpenc` = d.`id_tmpenc`
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where m.FECHA_FACTURA between '2020-02-01' and '2020-02-29'
+where m.FECHA_FACTURA between '2020-03-01' and '2020-03-31'
 and m.`IDVENTADIRECTA` is not null
 and d.`cuenta` = '2420410200'
 ;
@@ -77,7 +77,7 @@ select p.`FECHA_ENTREGA`, m.`FECHA_FACTURA`, m.`NROFACTURA`, m.`IDMOVIMIENTO`, m
 from movimiento m
 left join pedidos p on m.`IDPEDIDOS` = p.`IDPEDIDOS`
 left join sf_tmpdet d on p.`id_tmpenc` = d.`id_tmpenc`
-where m.`FECHA_FACTURA` between '2020-02-01' and '2020-02-29'
+where m.`FECHA_FACTURA` between '2020-03-01' and '2020-03-31'
 and m.idpedidos is not null
 and d.`cuenta` = '2420410200'
 ;
@@ -96,7 +96,8 @@ and d.`cuenta` = '2420410200'
 select e.`id_tmpenc`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`glosa`, d.`cuenta`, d.`debe`, d.`haber`, d.`idmovimiento`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where e.`fecha` between '2020-02-01' and '2020-02-29'
+-- where e.`fecha` between '2020-02-01' and '2020-02-29'
+where e.`fecha` between '2020-03-01' and '2020-03-31'
 and e.`estado` <> 'ANL'
 and d.`cuenta` = '2420410200'
 ;
@@ -105,7 +106,7 @@ and d.`cuenta` = '2420410200'
 select m.`IDMOVIMIENTO`, m.`FECHA_FACTURA`, m.`ESTADO`, m.`IMPORTE_TOTAL`, m.`DESCUENTOS`, m.`IMPORTE_PARA_DEBITO_FISCAL`, m.`DEBITO_FISCAL`, m.`IDPEDIDOS`, m.`IDVENTADIRECTA`, d.`debe`, d.`haber`
 from movimiento m
 left join sf_tmpdet d on m.`IDMOVIMIENTO` = d.`idmovimiento`
-where m.`FECHA_FACTURA` between '2020-02-01' and '2020-02-29'
+where m.`FECHA_FACTURA` between '2020-03-01' and '2020-03-31'
 -- and m.`ESTADO` <> 'A'
 ;
 
