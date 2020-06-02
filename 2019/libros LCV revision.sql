@@ -41,10 +41,34 @@ from movimiento m
 left join ventadirecta v on m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join sf_tmpdet d on v.`id_tmpenc` = d.`id_tmpenc`
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where m.FECHA_FACTURA between '2020-03-01' and '2020-03-31'
+where m.FECHA_FACTURA between '2020-04-01' and '2020-04-30'
 and m.`IDVENTADIRECTA` is not null
 and d.`cuenta` = '2420410200'
 ;
+
+-- REVISION LV pedidos
+select 	m.IDMOVIMIENTO,
+	m.FECHA_FACTURA, 
+	m.`NROFACTURA`,
+	m.ESTADO, 
+	m.NIT_CLIENTE, 
+	m.RAZON_SOCIAL,
+	m.IMPORTE_TOTAL, 
+	m.DEBITO_FISCAL, 
+	m.IDPEDIDOS, m.IDVENTADIRECTA, 
+	-- v.`id_tmpenc`, 
+	p.`id_tmpenc`,
+	m.`id_tmpdet`, d.`id_tmpdet`, d.`debe`, d.`haber`, e.`tipo_doc`, e.`no_doc`, e.`estado`
+from movimiento m
+-- left join ventadirecta v on m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
+left join pedidos p on m.`IDPEDIDOS` = p.`IDPEDIDOS`
+left join sf_tmpdet d on p.`id_tmpenc` = d.`id_tmpenc`
+left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
+where m.FECHA_FACTURA between '2020-04-01' and '2020-04-30'
+and m.`IDPEDIDOS` is not null
+and d.`cuenta` = '2420410200'
+;
+
 
 -- ------------------------------------------------
 

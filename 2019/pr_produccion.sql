@@ -30,12 +30,18 @@ and i.`oper` in ('TP', 'BA', 'DE')
 -- update pr_produccion pr
 join pr_plan pl on pr.`idplan` = pl.`idplan`
 set pr.`estado` = 'APR'
-where pl.`fecha` between '2020-02-01' and '2020-02-29'
+where pl.`fecha` between '2020-03-01' and '2020-03-31'
 ;
 
-update pr_plan p set p.`estado` = 'APR' where p.`fecha` between '2020-02-01' and '2020-02-29';
-update periodocostoindirecto p set p.`contab` = 0, p.`procesado` = 0 where p.`idperiodocostoindirecto` = 47;
+update pr_plan p set p.`estado` = 'APR' where p.`fecha` between '2020-03-01' and '2020-03-31';
+update periodocostoindirecto p set p.`contab` = 0, p.`procesado` = 0 where p.`idperiodocostoindirecto` = 48;
 
+
+select *
+from sf_tmpenc e
+where e.`fecha` between '2020-03-01' and '2020-03-31'
+and e.`tipo_doc` = 'PD'
+;
 
 -- PRODUCCION INSUMOS
 select pl.`fecha`, pl.`estado`, p.`codigo`, p.`costototal`, p.`totalmp`, i.`cod_art`, a.`descri`, i.`cantidad`, i.`costouni`, i.`tipo`

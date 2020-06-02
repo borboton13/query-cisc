@@ -50,7 +50,7 @@ select
 	-- 2016, year(a.`fch_alta`) as anio,
 	-- 2019 - YEAR(a.`fch_alta`) AS dif_year,
 	-- (a.`duracion` / 12) - (2016 - YEAR(a.`fch_alta`)) as vida_res,
-	if( ((a.`duracion` / 12) - (2019 - year(a.`fch_alta`))) < 0 , 0 , ((a.`duracion` / 12) - (2019 - year(a.`fch_alta`))) ) as vida_rest
+	if( ((a.`duracion` / 12) - (2020 - year(a.`fch_alta`))) < 0 , 0 , ((a.`duracion` / 12) - (2020 - year(a.`fch_alta`))) ) as vida_rest
 from af_activos a
 left join af_subgrupos s on a.`subgrupo` = s.`subgrupo`
 left join `af_grupos` g  on a.`grupo`	 = g.`grupo`
