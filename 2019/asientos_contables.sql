@@ -18,7 +18,7 @@ delete from sf_tmpdet where id_tmpenc in (
 );
 
 delete from sf_tmpenc where id_tmpenc in (
-105092
+
 );
 
 
@@ -87,7 +87,7 @@ and e.`fecha` between '2020-01-01' and '2020-03-31'
 
 select *
 from sf_tmpdet d
-where d.`id_tmpdet` >= 14500;
+where d.`id_tmpdet` >= 14850;
 
 
 -- update sf_tmpdet d set d.`idpersonacliente` = 1510 where d.`id_tmpdet` = 659725;
