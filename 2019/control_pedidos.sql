@@ -55,7 +55,7 @@ left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
 where p.`FECHA_ENTREGA` between '2020-01-01' and '2020-12-31'
 -- and p.`IDPEDIDOS` = 38266
 -- and p.`IDCLIENTE` = 726
-and p.`CODIGO` in (3054)
+and p.`CODIGO` in (3236)
 -- and p.`ESTADO` <> 'ANULADO'
 -- and pc.`NOM` like '%Monica Lau%'
 -- AND a.`IDPEDIDOS` = 29988
@@ -63,6 +63,9 @@ and p.`CODIGO` in (3054)
 -- and a.`cod_art` in (143)
 -- AND p.`IDUSUARIO` = 5
 ;
+
+
+
 
 select *
 from pedidos p
@@ -75,7 +78,7 @@ and p.`CODIGO` in (759,854,932,958,978,981,1030,1054,1056,1079,1104,1131,1137,12
 -- update pedidos p set p.`ESTADO` = 'ANULADO' where p.`IDPEDIDOS`= 35615;
 -- update sf_tmpenc e SET e.`estado` = 'ANL' where e.`id_tmpenc` = 123001;
 -- update movimiento m set m.`ESTADO` = 'A' WHERE m.`IDMOVIMIENTO` = 60392;
-update pedidos p set p.`FECHA_ENTREGA` = '2020-05-26' where p.`IDPEDIDOS`= 40131; -- 2020-05-26
+update pedidos p set p.`FECHA_ENTREGA` = '2020-06-04' where p.`IDPEDIDOS`= 40314; -- 2020-06-04
 
 select *
 from articulos_pedido a

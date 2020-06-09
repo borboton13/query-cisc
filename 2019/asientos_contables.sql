@@ -7,9 +7,8 @@ from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
-where d.`id_tmpenc` in (
-
-) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
+-- where d.`id_tmpenc` in () 
+where e.`tipo_doc` = 'IA' and e.`no_doc` in (236)
 ;
 
 
@@ -26,6 +25,7 @@ select *
 from inv_vales i
 -- update inv_vales i set i.`idtmpenc` = null
 where i.`idtmpenc` in (
+
 );
 
 
@@ -78,7 +78,7 @@ and e.`fecha` between '2020-01-01' and '2020-03-31'
 
 
 
--- update sf_tmpenc e set e.`estado` = 'ANL' where e.`id_tmpenc` in (133632);
+-- update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` in (141845);
 -- update sf_tmpdet d set d.`cuenta` = '4430110300'  where d.`id_tmpdet` = 71025;
 -- update sf_tmpdet d set d.`cuenta` = '4430110300'  where d.`id_tmpdet` = ;
 
