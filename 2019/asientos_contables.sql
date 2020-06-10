@@ -15,11 +15,11 @@ where d.`id_tmpenc` in (
 
 
 delete from sf_tmpdet where id_tmpenc in (
-132540
+2532
 );
 
 delete from sf_tmpenc where id_tmpenc in (
-132540
+2532
 );
 
 update sf_tmpdet set id_tmpenc = 	132579	 where id_tmpenc = 	132580	;
