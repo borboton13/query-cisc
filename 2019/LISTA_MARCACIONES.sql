@@ -96,12 +96,11 @@ where r.`marfecha` between '2020-02-01' and '2020-02-29'
 ;
 
 
-select distinct v.`marperid` as CI, cast(v.`nombre` as char(100))-- , v.`marhora`
+-- select distinct v.`marperid` as CI, cast(v.`nombre` as char(100))-- , v.`marhora`
+select *
 from vmarcado v
-where v.`marfecha` between '2020-01-01' and '2020-12-31'
--- and v.`control` = 3
-and v.`marhora` >= '19:00:00'
-group by v.`marperid`, v.`nombre`
+where v.`marfecha` between '2020-03-01' and '2020-03-31'
+
 ;
 
 

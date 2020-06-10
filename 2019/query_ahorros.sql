@@ -99,7 +99,7 @@ order by e.`fecha`, d.`id_tmpdet`
 ;
 
 -- CUENTAS DE AHORRO - SALDO
-select s.`idsocio`, c.idcuenta, s.`nombres`, s.`apellidopaterno`, s.`apellidopaterno`, c.`nocuenta`, c.`codigo`, c.`moneda`, 
+select s.`idsocio`, c.idcuenta, s.`nombres`, s.`apellidopaterno`, s.`apellidopaterno`, c.fechaapertura, c.fechavence,  c.`nocuenta`, c.`codigo`, c.`moneda`, 
 	sum(d.`haber`) - sum(d.`debe`) saldoBs,
 	sum(d.haberme) - sum(d.`debeme`) saldoME
 from sf_tmpdet d
@@ -108,8 +108,8 @@ join cuenta c 		on d.`idcuenta` = c.`idcuenta`
 join tipocuenta t	on c.idtipocuenta = t.idtipocuenta
 join socio s on c.`idsocio` = s.`idsocio`
 where e.estado <> 'ANL'
-and t.tipo <> 'DPF'
-group by s.`idsocio`, c.idcuenta, s.`nombres`, s.`apellidopaterno`, s.`apellidopaterno`, c.`nocuenta`, c.`codigo`, c.`moneda`
+and t.tipo = 'DPF'
+group by s.`idsocio`, c.idcuenta, s.`nombres`, s.`apellidopaterno`, s.`apellidopaterno`, c.fechaapertura, c.fechavence, c.`nocuenta`, c.`codigo`, c.`moneda`
 ;
 
 -- 
