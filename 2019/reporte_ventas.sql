@@ -82,6 +82,23 @@ and v.`IDUSUARIO` <> 5
 group by pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art`, ar.`descri`;
 -- ---------------------------------------------------
 
+-- ---------------------------------------------------------------------------------
+-- ------------- REPORTE 5.1 VENTAS CLIENTES x VENTAS (Para categorizar) -----------
+-- ---------------------------------------------------------------------------------
+select pc.`NRO_DOC`, concat(pc.`NOM`,' ', pc.`AP`, ' ', pc.`AM`) as nombre , month(v.`FECHA_PEDIDO`) as FECHA, sum(a.`IMPORTE`) as TOTAL_BS, count(v.`IDVENTADIRECTA`) as NRO_VENTAS
+from articulos_pedido a
+left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
+left join personacliente pc on v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+where v.`FECHA_PEDIDO` between '2020-01-01' and '2020-05-31'
+and v.`ESTADO` <> 'ANULADO'
+-- AND V.`IDUSUARIO` IN (6, 404)
+and v.`IDUSUARIO` <> 5
+group by pc.`NOM`, pc.`AP`, pc.`AM`, month(v.`FECHA_PEDIDO`);
+-- ---------------------------------------------------
+
+
+
 -- -------------------------------------------------------------------------------------------------------------
 
 -- ------------------------------------
