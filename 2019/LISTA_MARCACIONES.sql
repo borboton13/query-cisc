@@ -92,7 +92,7 @@ group by v.`marperid`, v.`nombre`
 
 select *
 from rh_marcado r
-where r.`marfecha` between '2020-02-01' and '2020-02-29'
+where r.`marfecha` between '2020-03-01' and '2020-03-31'
 ;
 
 
