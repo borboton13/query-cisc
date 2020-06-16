@@ -128,7 +128,7 @@ join productormateriaprima pr 		on pe.`idpersona` = pr.`idproductormateriaprima`
 join entidad e 				on pe.`idpersona` = e.`identidad`
 join planillapagomateriaprima p 	on r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
 join zonaproductiva z 			on p.`idzonaproductiva` = z.`idzonaproductiva`
-where p.fechainicio = '2020-02-16'
+where p.fechainicio = '2020-04-16'
 and r.`liquidopagable` <> 0
 ;
 
@@ -347,5 +347,63 @@ update productormateriaprima p set p.`idzonaproductiva` = 60 where p.`idproducto
 update productormateriaprima p set p.`idzonaproductiva` = 69 where p.`idproductormateriaprima` = 373; -- UCUREÑA I
 update productormateriaprima p set p.`idzonaproductiva` = 69 where p.`idproductormateriaprima` = 363; -- UCUREÑA I
 update productormateriaprima p set p.`idzonaproductiva` = 69 where p.`idproductormateriaprima` = 365; -- UCUREÑA I
+
+
+
+
+
+
+
+select distinct /* r.`idregistropagomateriaprima`, p.`idplanillapagomateriaprima`, z.`idzonaproductiva`, d.`iddescuentproductmateriaprima`,*/
+	/*p.`fechainicio`,*/
+	z.`nombre` as gab, 
+	-- z.`numero`,
+	-- pe.`idpersona`, 
+	e.`noidentificacion` as ci, pe.`nombres`, pe.`apellidopaterno`, pe.`apellidomaterno`
+	-- r.`cantidadtotal` 		as Cant, 
+	-- r.`totalpagoacopio` 		as Total, 
+	/*r.`ga`,
+	d.`retencion`			as Ret,
+	d.`alcohol`,
+	d.`concentrados`,
+	d.`credito`,
+	d.`veterinario`,
+	d.`yogurt`,
+	d.`tachos`,
+	d.`otrosdescuentos` 		as Otros,
+	r.`descuentoreserva`		as Reser,
+	r.`ajustezonaproductiva` 	as Ajuste,
+	d.`otrosingresos`		as Ingresos,*/
+	-- r.`liquidopagable`		as LiquidoP,
+	-- pr.`numerocuenta`
+	-- r.`totalganado` -- 
+from registropagomateriaprima r
+join descuentproductmateriaprima d 	on r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
+join persona pe        			on d.`idproductormateriaprima` = pe.`idpersona`
+join productormateriaprima pr 		on pe.`idpersona` = pr.`idproductormateriaprima`
+join entidad e 				on pe.`idpersona` = e.`identidad`
+join planillapagomateriaprima p 	on r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
+join zonaproductiva z 			on p.`idzonaproductiva` = z.`idzonaproductiva`
+where p.fechainicio between '2020-02-01' and '2020-02-31'
+and r.`liquidopagable` <> 0
+;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

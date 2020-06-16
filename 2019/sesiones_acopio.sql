@@ -168,9 +168,9 @@ left join sesionacopio sa on am.`idsesionacopio` = sa.`idsesionacopio`
 left join zonaproductiva zp on sa.`idzonaproductiva` = zp.`idzonaproductiva`
 left join persona p on am.`idproductormateriaprima` = p.`idpersona`
 left join entidad e on p.`idpersona` = e.`identidad`
-where sa.`fecha` between '2019-02-01' and '2019-02-15'
+where sa.`fecha` between '2020-05-01' and '2020-05-31'
 and am.`cantidad` > 0
-and zp.`numero` = 074
+-- and zp.`numero` = 074
 group by day(sa.`fecha`), zp.`numero`, zp.`nombre`
 ;
 

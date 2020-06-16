@@ -7,26 +7,37 @@ from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
-where d.`id_tmpenc` in (
-135872
-) -- WHERE e.`tipo_doc` = 'DB' AND e.`no_doc` IN (36,115,325)
+-- where d.`id_tmpenc` in () 
+where e.`tipo_doc` = 'IA' and e.`no_doc` in (236)
 ;
 
 
-
 delete from sf_tmpdet where id_tmpenc in (
-132540
+
 );
 
 delete from sf_tmpenc where id_tmpenc in (
-132540
+
 );
 
-update sf_tmpdet set id_tmpenc = 	132579	 where id_tmpenc = 	132580	;
+
+select *
+from inv_vales i
+-- update inv_vales i set i.`idtmpenc` = null
+where i.`idtmpenc` in (
+
+);
 
 
 -- delete from sf_tmpdet where id_tmpdet in (
 );
+
+
+
+select i.`cod_alm`, count(i.`no_trans`)
+from inv_vales i
+group by i.`cod_alm`
+;
 
 select *
 from sf_tmpdet d 
@@ -38,8 +49,9 @@ where d.`id_tmpdet` > 14700
 
 select *
 from sf_tmpenc e 
-where e.`tipo_doc` = 'TR'
-and e.`fecha` >= '2020-01-01'
+where e.`tipo_doc` = 'NE'
+and e.`id_tmpenc` = 105092
+-- and e.`fecha` >= '2020-02-01'
 ;
 
 
@@ -54,37 +66,28 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 where e.`estado` <> 'ANL'
 -- where d.`debe` = 0 and d.`haber` = 0
--- WHERE d.`id_tmpenc` = 29504
--- where e.`tipo_doc` = 'CD'
--- and d.`cuenta` = '1510110201'
--- and e.`no_doc` in (43)
-and e.`glosa` like '%1680%'
--- and d.`cod_art`= 759
+-- and d.`id_tmpenc` = 137259
+-- and e.`tipo_doc` = 'CV'
+-- and d.`cuenta` = '8550300000'
+-- and e.`no_doc` in (5)
+-- and e.`glosa` like '%1680%'
+and d.`cod_art`in (945)
 -- and d.`idsocio` = 
-and e.`fecha` between '2020-01-01' and '2020-12-31'
+and e.`fecha` between '2020-01-01' and '2020-03-31'
 ;
 
-update cuenta c set c.`idsocio` = 63 where c.`idcuenta` = 1136;
-delete from socio where idsocio = 2600;
 
-select *
-from sf_tmpenc e
-where e.`glosa` like '%retiro%so%'
-;
 
-Juan Carlos Zurita Veizaga 3-028, retiro de socio con devolucion de ahorros
-
--- update sf_tmpenc e set e.`estado` = 'ANL' where e.`id_tmpenc` in (131691);
+-- update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` in (141845);
 -- update sf_tmpdet d set d.`cuenta` = '4430110300'  where d.`id_tmpdet` = 71025;
 -- update sf_tmpdet d set d.`cuenta` = '4430110300'  where d.`id_tmpdet` = ;
 
-update sf_tmpdet d set d.`debe` = 700 where d.`id_tmpdet` = 6066;
 -- update sf_tmpdet d set d.`haber` =  where d.`id_tmpdet` = 6067;
 -- update sf_tmpdet d set d.`haber` =  where d.`id_tmpdet` = 6068;
 
 select *
 from sf_tmpdet d
-where d.`id_tmpdet` >= 14500;
+where d.`id_tmpdet` >= 14850;
 
 
 -- update sf_tmpdet d set d.`idpersonacliente` = 1510 where d.`id_tmpdet` = 659725;
@@ -570,4 +573,21 @@ group by z.`idzonaproductiva`
 select * -- e.`id_tmpenc`, d.`cuenta`, d.`idcuenta`
 from sf_tmpenc e
 where e.`glosa` like '%RETIRO%AHO%'
+;
+
+
+/* fisico vañorado */
+select d.cod_art, a.descri, a.cod_med,
+sum(d.debe)     as debe,
+sum(d.haber)    as haber,
+sum(if(d.debe>0, d.cant_art, 0))  as cant_e,
+sum(if(d.haber>0, d.cant_art, 0)) as cant_s
+from sf_tmpdet d
+left join sf_tmpenc e on d.id_tmpenc = e.id_tmpenc
+left join inv_articulos a on d.cod_art = a.cod_art
+where d.cuenta = '1580110100'
+and e.fecha between '2020-01-01' and '2020-01-31'
+and e.estado <> 'ANL'
+-- and d.cod_art is not null
+group by d.cod_art, a.descri, a.cod_med order by a.descri asc
 ;

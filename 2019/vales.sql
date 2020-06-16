@@ -1,19 +1,19 @@
 -- EGRESOS
 select *
 from inv_vales i
-where i.`fecha` between '2020-01-01' and '2020-12-31'
+where i.`fecha` between '2020-04-01' and '2020-12-31'
 and i.`cod_doc` = 'EGR'
 and i.`oper` is null
-and i.`cod_alm` in (1,3)
+and i.`cod_alm` in (1,3,4,7)
 ;
 
 -- RECEPCION
 select *
 from inv_vales i
-where i.`fecha` between '2020-01-01' and '2020-12-31'
+where i.`fecha` between '2020-03-01' and '2020-12-31'
 and i.`cod_doc` = 'REC'
-and i.`oper` is null
-and i.`cod_alm` in (1,3)
+and i.`oper` is not null
+-- and i.`cod_alm` in (1,3)
 ;
 
 
