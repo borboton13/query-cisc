@@ -53,9 +53,9 @@ left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
 where p.`FECHA_ENTREGA` between '2020-01-01' and '2020-12-31'
--- and p.`IDPEDIDOS` = 38266
+and p.`IDPEDIDOS` = 40145
 -- and p.`IDCLIENTE` = 726
-and p.`CODIGO` in (3236)
+-- and p.`CODIGO` in (3236)
 -- and p.`ESTADO` <> 'ANULADO'
 -- and pc.`NOM` like '%Monica Lau%'
 -- AND a.`IDPEDIDOS` = 29988

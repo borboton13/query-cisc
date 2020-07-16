@@ -18,7 +18,7 @@ select 	d.FECHA as "FECHA FACTURA O DUI",
 	, z.idtmpenc, z.id_tmpdet,  d.iddocumentocontable 
 from documentocontable d 
 join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
-where fecha between '2020-02-01' and '2020-02-29'
+where fecha between '2020-06-01' and '2020-06-30'
 and z.estado <> 'NULLIFIED'
 and z.tipo = 'INVOICE'
 ;
@@ -45,7 +45,7 @@ select 	IDMOVIMIENTO,
 	if(ESTADO = 'A', 0, CODIGOCONTROL) as "CODIGO DE CONTROL",
 	IDPEDIDOS, IDVENTADIRECTA, idmovimiento, id_tmpdet
 from movimiento
-where FECHA_FACTURA between '2020-05-01' and '2020-05-31'
+where FECHA_FACTURA between '2020-06-01' and '2020-06-30'
 ;
 
 -- -------------
@@ -55,7 +55,7 @@ where FECHA_FACTURA between '2020-05-01' and '2020-05-31'
 	from ventadirecta v
 	join movimiento m on v.`IDMOVIMIENTO` = m.`IDMOVIMIENTO`
 		join sf_tmpenc e on v.`id_tmpenc` = e.`id_tmpenc`
-	where v.`FECHA_PEDIDO` between '2020-05-01' and '2020-05-31'
+	where v.`FECHA_PEDIDO` between '2020-06-01' and '2020-06-30'
 	and v.`ESTADO` = 'ANULADO'
 	and v.`IDMOVIMIENTO` is not null;
 
@@ -65,7 +65,7 @@ where FECHA_FACTURA between '2020-05-01' and '2020-05-31'
 	from pedidos p
 	   join personacliente pc on p.idcliente = pc.idpersonacliente
 	   join movimiento m      on p.idmovimiento = m.idmovimiento
-	where p.`FECHA_ENTREGA` between  '2020-05-01' and '2020-05-31'
+	where p.`FECHA_ENTREGA` between  '2020-06-01' and '2020-06-30'
 	and p.`ESTADO` = 'ANULADO'
 	and p.`IDMOVIMIENTO` is not null
 	-- AND p.`IDMOVIMIENTO` NOT IN (27416, 27417)

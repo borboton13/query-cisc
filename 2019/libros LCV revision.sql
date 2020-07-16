@@ -15,10 +15,11 @@ and z.`idtmpenc` is not null
 select e.`id_tmpenc`, d.`id_tmpdet`,e.`tipo_doc`, e.`no_doc`, d.`debe`, d.`haber`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where e.`fecha` between '2020-02-01' and '2020-02-29'
+where e.`fecha` between '2020-05-01' and '2020-05-31'
 and d.`cuenta` = '1420710000'
 and e.`estado` <> 'ANL'
-and e.`tipo_doc` not in ('NE', 'IA')
+-- and e.`tipo_doc` not in ('NE', 'IA')
+-- and e.`tipo_doc` not in ('IA')
 ;
 -- ---------------------------
 -- ---------------------------
@@ -41,11 +42,10 @@ from movimiento m
 left join ventadirecta v on m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join sf_tmpdet d on v.`id_tmpenc` = d.`id_tmpenc`
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where m.FECHA_FACTURA between '2020-04-01' and '2020-04-30'
+where m.FECHA_FACTURA between '2020-06-01' and '2020-06-30'
 and m.`IDVENTADIRECTA` is not null
 and d.`cuenta` = '2420410200'
-;
-
+union all
 -- REVISION LV pedidos
 select 	m.IDMOVIMIENTO,
 	m.FECHA_FACTURA, 
@@ -64,7 +64,7 @@ from movimiento m
 left join pedidos p on m.`IDPEDIDOS` = p.`IDPEDIDOS`
 left join sf_tmpdet d on p.`id_tmpenc` = d.`id_tmpenc`
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where m.FECHA_FACTURA between '2020-04-01' and '2020-04-30'
+where m.FECHA_FACTURA between '2020-06-01' and '2020-06-30'
 and m.`IDPEDIDOS` is not null
 and d.`cuenta` = '2420410200'
 ;

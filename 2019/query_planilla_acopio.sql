@@ -248,7 +248,7 @@ group by zp.`nombre`, p.`idpersona`, p.`nombres`, p.`apellidopaterno`, p.`apelli
 
 --
 
-select -- zp.`nombre`, p.`idpersona`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, ppm.`preciounitario`, 
+select zp.`nombre`, p.`idpersona`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, ppm.`preciounitario`, 
 	sum(rpm.cantidadtotal) as cantidadtotal, 
 	sum(rpm.`totalpagoacopio`) as totalpagoacopio, 
 	sum(rpm.`liquidopagable`) as liquidopagable,
@@ -270,10 +270,10 @@ join DESCUENTPRODUCTMATERIAPRIMA dpm 	on rpm.`iddescuentproductmateriaprima` = d
 join PRODUCTORMATERIAPRIMA pm 		on dpm.`idproductormateriaprima`       = pm.`idproductormateriaprima` 
 join ZONAPRODUCTIVA zp 			on ppm.`idzonaproductiva` 	       = zp.`idzonaproductiva`
 join persona p 				on pm.`idproductormateriaprima`        = p.`idpersona`
-where ppm.`fechainicio` >= '2018-02-01' 
-and   ppm.`fechafin`    <= '2018-02-15'
+where ppm.`fechainicio` >= '2020-06-01' 
+and   ppm.`fechafin`    <= '2020-06-30'
 and rpm.`totalpagoacopio` > 0
--- GROUP BY -- zp.`nombre`, p.`idpersona`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, ppm.`preciounitario`
+group by zp.`nombre`, p.`idpersona`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, ppm.`preciounitario`
 ;
 
 
@@ -384,25 +384,9 @@ join productormateriaprima pr 		on pe.`idpersona` = pr.`idproductormateriaprima`
 join entidad e 				on pe.`idpersona` = e.`identidad`
 join planillapagomateriaprima p 	on r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
 join zonaproductiva z 			on p.`idzonaproductiva` = z.`idzonaproductiva`
-where p.fechainicio between '2020-02-01' and '2020-02-31'
+where p.fechainicio between '2020-06-01' and '2020-06-30'
 and r.`liquidopagable` <> 0
 ;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
