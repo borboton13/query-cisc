@@ -97,6 +97,20 @@ and v.`IDUSUARIO` <> 5
 group by pc.`NOM`, pc.`AP`, pc.`AM`;
 -- ---------------------------------------------------
 
+-- ---------------------------------------------------------------
+-- ------------- REPORTE 6 VENTAS CLIENTES x PEDIDO (PEDIDOS DELIVERY)-------------
+-- ---------------------------------------------------------------
+select pc.`IDPERSONACLIENTE` as ID, pc.`NIT`, pc.`NRO_DOC`, concat(pc.`NOM`, ' ', pc.`AP`, ' ', pc.`AM`) as CLIENTE, sum(a.`IMPORTE`) as TOTAL_BS, count(distinct p.`CODIGO`) as CANT_PEDIDOS
+from articulos_pedido a
+left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
+left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+where p.`FECHA_ENTREGA` between '2020-05-01' and '2020-07-31'
+and P.`ESTADO` <> 'ANULADO'
+and p.`IDUSUARIO` <> 5
+and pc.`IDTERRITORIOTRABAJO` in (19, 20)
+group by pc.`IDPERSONACLIENTE`, pc.`NIT`, pc.`NRO_DOC`;
+-- ---------------------------------------------------
 
 
 -- -------------------------------------------------------------------------------------------------------------
