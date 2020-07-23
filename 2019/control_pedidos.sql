@@ -557,3 +557,28 @@ left join personacliente p on v.`IDCLIENTE` = p.`IDPERSONACLIENTE`
 where v.`cod_art` = 118
 ;
 
+
+-- Ventas por tipo de cliente 1
+select distinct pe.`IDPERSONACLIENTE`, pe.`NOM`, pe.`AP`, pe.`AM`, pe.`IDTIPOCLIENTE`, t.`NOMBRE`
+from pedidos p
+left join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
+left join tipocliente t on pe.`IDTIPOCLIENTE` = t.`IDTIPOCLIENTE`
+where p.`FECHA_ENTREGA` >= '2019-01-01'
+and p.`IDUSUARIO` in (
+446, 443, 441
+);
+-- Ventas por tipo de cliente 1.1
+select distinct pe.`IDPERSONACLIENTE`, pe.`NOM`, pe.`AP`, pe.`AM`, pe.`IDTIPOCLIENTE`, t.`NOMBRE`, a.`cod_art`, ar.`descri`, a.`PRECIO`
+from pedidos p
+left join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
+left join tipocliente t on pe.`IDTIPOCLIENTE` = t.`IDTIPOCLIENTE`
+left join articulos_pedido a on p.`IDPEDIDOS` = a.`IDPEDIDOS`
+left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+where p.`FECHA_ENTREGA` >= '2020-01-01'
+and p.`IDUSUARIO` in (446, 443, 441)
+and t.`IDTIPOCLIENTE` in (6, 8, 2)
+;
+
+
+
+
