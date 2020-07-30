@@ -7,17 +7,17 @@ from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
-where d.`id_tmpenc` in (140710) 
+where d.`id_tmpenc` in (141342) 
 -- where e.`tipo_doc` = 'IA' and e.`no_doc` in (236)
 ;
 
 
 delete from sf_tmpdet where id_tmpenc in (
-
+144122
 );
 
 delete from sf_tmpenc where id_tmpenc in (
-
+144122
 );
 
 
@@ -71,9 +71,9 @@ where e.`estado` <> 'ANL'
 -- and d.`cuenta` = '8550300000'
 -- and e.`no_doc` in (5)
 -- and e.`glosa` like '%1680%'
-and d.`cod_art`in (945)
+and d.`cod_art`in (667)
 -- and d.`idsocio` = 
-and e.`fecha` between '2020-01-01' and '2020-03-31'
+and e.`fecha` between '2020-05-01' and '2020-05-31'
 ;
 
 
