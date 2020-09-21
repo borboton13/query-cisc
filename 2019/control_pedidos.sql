@@ -53,9 +53,9 @@ left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
 where p.`FECHA_ENTREGA` between '2020-01-01' and '2020-12-31'
-and p.`IDPEDIDOS` = 40145
+and p.`IDPEDIDOS` = 52247
 -- and p.`IDCLIENTE` = 726
--- and p.`CODIGO` in (3236)
+-- and p.`CODIGO` in (5366)
 -- and p.`ESTADO` <> 'ANULADO'
 -- and pc.`NOM` like '%Monica Lau%'
 -- AND a.`IDPEDIDOS` = 29988
@@ -67,13 +67,16 @@ and p.`IDPEDIDOS` = 40145
 
 
 
+
 select *
 from pedidos p
--- update pedidos p set p.`ESTADO` = 'CONTABILIZADO', p.`OBSERVACION` = 'Obs. Factura 2697 del 31.01.2020'
+-- update pedidos p set p.`ESTADO` = 'ANULADO', p.`OBSERVACION` = 'Entrega anticipada, F-3680 vig, nota ANL'
+update pedidos p set p.`ESTADO` = 'CONTABILIZADO'
 where p.`FECHA_ENTREGA` between '2020-01-01' and '2020-12-31'
-and p.`CODIGO` in (759,854,932,958,978,981,1030,1054,1056,1079,1104,1131,1137,1212, 1234, 1185, 1240)
+and p.`CODIGO` in (5558)
 ;
 
+update pedidos p set p.`IDCLIENTE` = 665 where p.`IDPEDIDOS` = 51331;
 
 -- update pedidos p set p.`ESTADO` = 'ANULADO' where p.`IDPEDIDOS`= 35615;
 -- update sf_tmpenc e SET e.`estado` = 'ANL' where e.`id_tmpenc` = 123001;
@@ -567,6 +570,7 @@ where p.`FECHA_ENTREGA` >= '2019-01-01'
 and p.`IDUSUARIO` in (
 446, 443, 441
 );
+
 -- Ventas por tipo de cliente 1.1
 select distinct pe.`IDPERSONACLIENTE`, pe.`NOM`, pe.`AP`, pe.`AM`, pe.`IDTIPOCLIENTE`, t.`NOMBRE`, a.`cod_art`, ar.`descri`, a.`PRECIO`
 from pedidos p
@@ -579,6 +583,34 @@ and p.`IDUSUARIO` in (446, 443, 441)
 and t.`IDTIPOCLIENTE` in (6, 8, 2)
 ;
 
+
+-- Ventas Delivery x Cliente
+select p.`FECHA_ENTREGA`, pe.`NOM`, pe.`AP`, pe.`AM`, p.`CODIGO`, p.`TOTALIMPORTE`, p.`MONTODIST`, p.`VALORCOMISION`, p.`IMPUESTO`, p.`OBSERVACION`,
+p.`ESTADO`, p.`IDMOVIMIENTO`, p.`id_tmpenc`, p.`iddistribuidor`, pe.`IDTIPOCLIENTE`, t.`NOMBRE`, p.`IDCLIENTE`
+from pedidos p
+left join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
+left join tipocliente t on pe.`IDTIPOCLIENTE` = t.`IDTIPOCLIENTE`
+where p.`ESTADO` <> 'ANULADO'
+and p.`FECHA_ENTREGA` >= '2020-06-01'
+and p.`tipoventa` = 'CREDIT'
+and p.`iddistribuidor` is not null
+;
+
+-- Ventas Delivery x Producto
+select i.`cod_art`, i.`descri`, sum(a.`CANTIDAD`) as cantidad , sum(a.`IMPORTE`) as total
+-- p.`FECHA_ENTREGA`, pe.`NOM`, pe.`AP`, pe.`AM`, p.`CODIGO`, p.`TOTALIMPORTE`, p.`MONTODIST`, p.`VALORCOMISION`, p.`IMPUESTO`, p.`OBSERVACION`,
+-- p.`ESTADO`, p.`IDMOVIMIENTO`, p.`id_tmpenc`, p.`iddistribuidor`, pe.`IDTIPOCLIENTE`, t.`NOMBRE`, p.`IDCLIENTE`
+from pedidos p
+left join articulos_pedido a on p.`IDPEDIDOS` = a.`IDPEDIDOS`
+left join inv_articulos i on a.`cod_art` = i.`cod_art`
+left join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
+left join tipocliente t on pe.`IDTIPOCLIENTE` = t.`IDTIPOCLIENTE`
+where p.`ESTADO` <> 'ANULADO'
+and p.`FECHA_ENTREGA` >= '2020-06-01'
+and p.`tipoventa` = 'CREDIT'
+and p.`iddistribuidor` is not null
+group by i.`cod_art`, i.`descri`
+;
 
 
 

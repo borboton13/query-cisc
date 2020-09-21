@@ -5,7 +5,7 @@ select 	d.FECHA, d.NIT, d.NOMBRE,d.NUMERO,d.IMPORTE,d.importeneto,d.iva,
 	z.idtmpenc, z.iddocumentocompra
 from documentocontable d 
 left join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
-where d.fecha between '2020-02-01' and '2020-02-29'
+where d.fecha between '2020-08-01' and '2020-08-31'
 and z.estado <> 'NULLIFIED'
 and z.tipo = 'INVOICE'
 and z.`idtmpenc` is not null
@@ -15,9 +15,10 @@ and z.`idtmpenc` is not null
 select e.`id_tmpenc`, d.`id_tmpdet`,e.`tipo_doc`, e.`no_doc`, d.`debe`, d.`haber`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where e.`fecha` between '2020-05-01' and '2020-05-31'
+where e.`fecha` between '2020-08-01' and '2020-08-31'
 and d.`cuenta` = '1420710000'
 and e.`estado` <> 'ANL'
+and e.`tipo_doc` not in ('NE')
 -- and e.`tipo_doc` not in ('NE', 'IA')
 -- and e.`tipo_doc` not in ('IA')
 ;
@@ -42,9 +43,10 @@ from movimiento m
 left join ventadirecta v on m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join sf_tmpdet d on v.`id_tmpenc` = d.`id_tmpenc`
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where m.FECHA_FACTURA between '2020-06-01' and '2020-06-30'
+where m.FECHA_FACTURA between '2020-08-01' and '2020-08-31'
 and m.`IDVENTADIRECTA` is not null
 and d.`cuenta` = '2420410200'
+and e.`estado` <> 'ANL'
 union all
 -- REVISION LV pedidos
 select 	m.IDMOVIMIENTO,
@@ -64,25 +66,56 @@ from movimiento m
 left join pedidos p on m.`IDPEDIDOS` = p.`IDPEDIDOS`
 left join sf_tmpdet d on p.`id_tmpenc` = d.`id_tmpenc`
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where m.FECHA_FACTURA between '2020-06-01' and '2020-06-30'
+where m.FECHA_FACTURA between '2020-08-01' and '2020-08-31'
 and m.`IDPEDIDOS` is not null
 and d.`cuenta` = '2420410200'
+and e.`estado` <> 'ANL'
 ;
+
+-- ASIENTOS NO RELACIONADOS CON MOVIMIENTO
+select e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`debe`, d.`haber`, d.`idmovimiento`, p.`IDPEDIDOS`, p.`IMPUESTO`, p.`IDCLIENTE`, pe.`NOM`
+from sf_tmpdet d
+left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
+left join pedidos p on e.`id_tmpenc` = p.`id_tmpenc`
+left join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
+where e.`fecha` between '2020-08-01' and '2020-08-31'
+and e.`estado` <> 'ANL'
+and d.`cuenta` = '2420410200'
+and d.`idmovimiento` is null
+;
+
+select *
+from movimiento m
+where m.`FECHA_FACTURA` between '2020-08-01' and '2020-08-31'
+and m.`IDPEDIDOS` in (
+51691
+);
+
+
+
 
 
 -- ------------------------------------------------
 
 -- embol 1444
--- GOBIERNO AUTONOMO DEPARTAMENTAL DE COCHABAMBA 1444
+-- GOBIERNO AUTONOMO DEPARTAMENTAL DE COCHABAMBA 460
 -- ypfb 726
 -- TOTAL CONTABILIZADO POR CLIENTE
 select d.`idpersonacliente`, sum(d.`debe`)
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where e.`fecha` between '2020-01-01' and '2020-01-31'
-and d.`idpersonacliente` = 726
+where e.`fecha` between '2020-08-01' and '2020-08-31'
+and d.`idpersonacliente` in (726)
 and e.`estado` <> 'ANL'
 ;
+
+select * 
+from pedidos p
+where p.`FECHA_ENTREGA` between '2020-08-01' and '2020-08-31'
+and p.`ESTADO` <> 'ANULADO' and p.`tipoventa` = 'CREDIT'
+and p.`id_tmpenc` is null
+;
+
 
 -- DETALLE CONTABLE DEBITO FISCAL
 select e.`id_tmpenc`, e.`fecha`, e.`glosa`, d.`id_tmpdet`,e.`tipo_doc`, e.`no_doc`, d.`debe`, d.`haber`

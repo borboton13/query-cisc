@@ -1,11 +1,17 @@
 
-select pl.`fecha`, pro.`codigo`, pro.`costototal`, pr.`cod_art`, i.`descri`, pr.`cantidad`, pr.`costo_a`, pr.`costo_b`, pr.`costo_c`, pr.`costo`, pr.`costouni`
+select pl.`fecha`, pro.`codigo`, pro.`costototal`, pr.`cod_art`, pr.`idproducto`, i.`descri`, pr.`cantidad`, pr.`costo_a`, pr.`costo_b`, pr.`costo_c`, pr.`costo`, pr.`costouni`
 from pr_producto pr
 left join pr_produccion pro on pr.`idproduccion` = pro.`idproduccion`
 left join pr_plan pl on pr.`idplan` = pl.`idplan`
 left join inv_articulos i on pr.`cod_art` = i.`cod_art`
-where pl.`fecha` between '2019-12-01' and '2019-12-31'
+where pl.`fecha` between '2020-06-04' and '2020-06-04'
 ;
+
+select *
+from pr_producto p where p.`idproducto` = 2389
+;
+
+-- update pr_producto p set p.`cantidad` = 2175 where p.`idproducto` = 2665;
 
 select pr.`cod_art`, i.`descri`, sum(pr.`cantidad`) as cantidad, sum(pr.`costo`) as costo
 from pr_producto pr
@@ -20,7 +26,7 @@ group by pr.`cod_art`, i.`descri`
 select *
 from inv_vales i
 -- update inv_vales i set i.`idtmpenc` = null
-where i.`fecha` between '2020-01-01' and '2020-01-31'
+where i.`fecha` between '2020-05-01' and '2020-05-31'
 and i.`oper` in ('TP', 'BA', 'DE')
 ;
 
@@ -30,11 +36,11 @@ and i.`oper` in ('TP', 'BA', 'DE')
 -- update pr_produccion pr
 join pr_plan pl on pr.`idplan` = pl.`idplan`
 set pr.`estado` = 'APR'
-where pl.`fecha` between '2020-03-01' and '2020-03-31'
+where pl.`fecha` between '2020-06-01' and '2020-06-30'
 ;
 
-update pr_plan p set p.`estado` = 'APR' where p.`fecha` between '2020-03-01' and '2020-03-31';
-update periodocostoindirecto p set p.`contab` = 0, p.`procesado` = 0 where p.`idperiodocostoindirecto` = 48;
+update pr_plan p set p.`estado` = 'APR' where p.`fecha` between '2020-06-01' and '2020-06-30';
+update periodocostoindirecto p set p.`contab` = 0, p.`procesado` = 0 where p.`idperiodocostoindirecto` = 51;
 
 
 select *
