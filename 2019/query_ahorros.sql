@@ -47,9 +47,10 @@ d.`id_tmpenc`, e.`estado`, d.`idsocio`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
-where e.`tipo_doc` = 'CI'
-and d.`cuenta` = '3110100000'
-and e.`fecha` between '2019-01-01' and '2019-08-30'
+where e.`fecha` between '2018-01-01' and '2020-12-30'
+-- and e.`tipo_doc` = 'CI'
+-- and d.`cuenta` = '3110100000'
+and d.`idsocio` = 222
 ;
 
 select e.`fecha`, e.`glosa`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, d.`cuenta`, d.`debe`, d.`haber`, d.`idsocio`
@@ -94,7 +95,7 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join cuenta c on d.`idcuenta` = c.`idcuenta`
 left join socio s on c.`idsocio` = s.`idsocio`
 where d.`idcuenta` is not null
-and c.`nocuenta` = 200079
+and c.`nocuenta` in ( 200519, 100338)
 order by e.`fecha`, d.`id_tmpdet`
 ;
 
@@ -108,7 +109,8 @@ join cuenta c 		on d.`idcuenta` = c.`idcuenta`
 join tipocuenta t	on c.idtipocuenta = t.idtipocuenta
 join socio s on c.`idsocio` = s.`idsocio`
 where e.estado <> 'ANL'
-and t.tipo = 'DPF'
+-- and t.tipo = 'DPF'
+and c.`nocuenta` in ( 200519, 100338)
 group by s.`idsocio`, c.idcuenta, s.`nombres`, s.`apellidopaterno`, s.`apellidopaterno`, c.fechaapertura, c.fechavence, c.`nocuenta`, c.`codigo`, c.`moneda`
 ;
 

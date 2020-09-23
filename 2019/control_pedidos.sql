@@ -145,10 +145,10 @@ left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join personacliente pc on v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
 where v.`FECHA_PEDIDO` between '2020-01-01' and '2020-10-31'
--- and v.idventadirecta in (35661,35662,36285)
+and v.idventadirecta in (44761)
 -- AND p.`IDPEDIDOS` IN (21928)
 -- AND p.`IDCLIENTE` = 65
-and v.`CODIGO` in (12267)
+-- and v.`CODIGO` in (12267)
 -- AND pc.`NOM` LIKE '%Randy%'
 -- AND a.`IDPEDIDOS` = 2584
 -- AND pc.`AP` LIKE '%Car%'
