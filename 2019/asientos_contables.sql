@@ -70,9 +70,9 @@ left join arcgms a    on d.`cuenta` = a.`cuenta`
 where e.`estado` <> 'ANL'
 -- where d.`debe` = 0 and d.`haber` = 0
 -- and d.`id_tmpenc` = 137259
-and e.`tipo_doc` = 'CB'
+and e.`tipo_doc` = 'IA'
 -- and d.`cuenta` = '8550300000'
-and e.`no_doc` in (43)
+and e.`no_doc` in (469, 477, 479, 482, 476, 488, 489, 490)
 -- and e.`glosa` like '%1680%'
  -- and d.`cod_art`in (637)
 -- and d.`idsocio` = 

@@ -586,31 +586,29 @@ and t.`IDTIPOCLIENTE` in (6, 8, 2)
 
 -- Ventas Delivery x Cliente
 select p.`FECHA_ENTREGA`, pe.`NOM`, pe.`AP`, pe.`AM`, p.`CODIGO`, p.`TOTALIMPORTE`, p.`MONTODIST`, p.`VALORCOMISION`, p.`IMPUESTO`, p.`OBSERVACION`,
-p.`ESTADO`, p.`IDMOVIMIENTO`, p.`id_tmpenc`, p.`iddistribuidor`, pe.`IDTIPOCLIENTE`, t.`NOMBRE`, p.`IDCLIENTE`
+p.`ESTADO`, p.`IDMOVIMIENTO`, p.`id_tmpenc`, p.`iddistribuidor`, pe.`IDTIPOCLIENTE`, t.`NOMBRE`, p.`IDCLIENTE`, e.`tipo_doc`, e.`no_doc`, e.`estado`
 from pedidos p
 left join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 left join tipocliente t on pe.`IDTIPOCLIENTE` = t.`IDTIPOCLIENTE`
+left join sf_tmpenc e on p.`id_tmpenc` = e.`id_tmpenc`
 where p.`ESTADO` <> 'ANULADO'
-and p.`FECHA_ENTREGA` >= '2020-06-01'
+and p.`FECHA_ENTREGA` between '2020-06-01' and '2020-09-31'
 and p.`tipoventa` = 'CREDIT'
 and p.`iddistribuidor` is not null
 ;
 
 -- Ventas Delivery x Producto
 select i.`cod_art`, i.`descri`, sum(a.`CANTIDAD`) as cantidad , sum(a.`IMPORTE`) as total
--- p.`FECHA_ENTREGA`, pe.`NOM`, pe.`AP`, pe.`AM`, p.`CODIGO`, p.`TOTALIMPORTE`, p.`MONTODIST`, p.`VALORCOMISION`, p.`IMPUESTO`, p.`OBSERVACION`,
--- p.`ESTADO`, p.`IDMOVIMIENTO`, p.`id_tmpenc`, p.`iddistribuidor`, pe.`IDTIPOCLIENTE`, t.`NOMBRE`, p.`IDCLIENTE`
 from pedidos p
 left join articulos_pedido a on p.`IDPEDIDOS` = a.`IDPEDIDOS`
 left join inv_articulos i on a.`cod_art` = i.`cod_art`
 left join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 left join tipocliente t on pe.`IDTIPOCLIENTE` = t.`IDTIPOCLIENTE`
 where p.`ESTADO` <> 'ANULADO'
-and p.`FECHA_ENTREGA` >= '2020-06-01'
+and p.`FECHA_ENTREGA` between '2020-09-01' and '2020-09-31'
 and p.`tipoventa` = 'CREDIT'
 and p.`iddistribuidor` is not null
 group by i.`cod_art`, i.`descri`
 ;
-
 
 
