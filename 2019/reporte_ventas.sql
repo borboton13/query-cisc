@@ -439,17 +439,29 @@ group by mes, p.`NOM`, v.`cod_art`, a.`descri`
 ;
 
 
-
+-- Revision de Ventas por cliente
 select p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, sum(a.`CANTIDAD`) as CANT_PRODUCTOS, sum(a.`IMPORTE`) as TOTAL_BS
 from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
 where p.`FECHA_ENTREGA` between '2020-07-01' and '2020-07-31'
--- and P.`ESTADO` <> 'ANULADO'
+and P.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` <> 5
-and p.`IDCLIENTE` in (1444)
+and p.`IDCLIENTE` in (66)
 group by p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art`, ar.`descri`;
+
+
+select pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, sum(a.`CANTIDAD`) as CANT_PRODUCTOS, sum(a.`IMPORTE`) as TOTAL_BS
+from articulos_pedido a
+left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
+left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+where p.`FECHA_ENTREGA` between '2020-08-01' and '2020-08-31'
+and P.`ESTADO` <> 'ANULADO'
+and p.`IDUSUARIO` <> 5
+and p.`IDCLIENTE` in (66)
+group by pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art`, ar.`descri`;
 
 
 
