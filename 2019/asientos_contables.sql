@@ -620,6 +620,32 @@ where v.`fecha` between '2020-07-01' and '2020-07-31'
 and v.`oper` is not null
 ;
 
+-- Para revision productos saldo (-)
+-- 781
+select *
+from com_detoc d
+where d.`cod_art` in (
+695, 781
+);
+
+select *
+from articulos_pedido a
+where a.`cod_art` in (
+695, 781
+);
 
 
+select *
+from sf_tmpdet d
+where d.`cod_art` in (
+695, 781
+);
 
+
+select *
+from inv_movdet d
+where d.`cod_art` in (
+695, 781
+);
+
+-- End
