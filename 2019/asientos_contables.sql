@@ -8,14 +8,14 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-149512
+149061
 ) 
 -- where e.`tipo_doc` = 'IA' and e.`no_doc` in (236)
 ;
 
 update sf_tmpenc e set e.`estado` = 'PEN'
 where e.`id_tmpenc` in (
-144037
+149061
 );
 
 
@@ -70,13 +70,14 @@ left join arcgms a    on d.`cuenta` = a.`cuenta`
 where e.`estado` <> 'ANL'
 -- where d.`debe` = 0 and d.`haber` = 0
 -- and d.`id_tmpenc` = 137259
-and e.`tipo_doc` = 'IA'
+and e.`tipo_doc` = 'CD'
 -- and d.`cuenta` = '8550300000'
-and e.`no_doc` in (469, 477, 479, 482, 476, 488, 489, 490)
--- and e.`glosa` like '%1680%'
+and e.`no_doc` in (131)
+-- and e.`glosa` like '%SUELDOS%'
  -- and d.`cod_art`in (637)
 -- and d.`idsocio` = 
-and e.`fecha` between '2020-01-01' and '2020-12-31'
+-- AND d.`cuenta` in (1420310700, 1831010100)
+and e.`fecha` between '2020-05-01' and '2020-12-31'
 ;
 
 select *
@@ -84,7 +85,7 @@ from sf_tmpenc e where e.`tipo_doc` = 'CB' and E.`no_doc` = 43;
 
 -- update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` in (141845);
 -- update sf_tmpdet d set d.`cuenta` = '4430110300'  where d.`id_tmpdet` = 71025;
--- update sf_tmpdet d set d.`cuenta` = '4430110300'  where d.`id_tmpdet` = ;
+update sf_tmpdet d set d.`cod_art` = 73, d.`cant_art` = 481.03  where d.`id_tmpdet` = 898302;
 
 -- update sf_tmpdet d set d.`haber` =  where d.`id_tmpdet` = 6067;
 -- update sf_tmpdet d set d.`haber` =  where d.`id_tmpdet` = 6068;

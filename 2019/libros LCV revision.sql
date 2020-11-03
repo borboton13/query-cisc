@@ -43,7 +43,7 @@ from movimiento m
 left join ventadirecta v on m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join sf_tmpdet d on v.`id_tmpenc` = d.`id_tmpenc`
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where m.FECHA_FACTURA between '2020-08-01' and '2020-08-31'
+where m.FECHA_FACTURA between '2020-09-01' and '2020-09-30'
 and m.`IDVENTADIRECTA` is not null
 and d.`cuenta` = '2420410200'
 and e.`estado` <> 'ANL'
@@ -66,23 +66,27 @@ from movimiento m
 left join pedidos p on m.`IDPEDIDOS` = p.`IDPEDIDOS`
 left join sf_tmpdet d on p.`id_tmpenc` = d.`id_tmpenc`
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where m.FECHA_FACTURA between '2020-08-01' and '2020-08-31'
+where m.FECHA_FACTURA between '2020-09-01' and '2020-09-30'
 and m.`IDPEDIDOS` is not null
 and d.`cuenta` = '2420410200'
 and e.`estado` <> 'ANL'
 ;
 
 -- ASIENTOS NO RELACIONADOS CON MOVIMIENTO
-select e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`debe`, d.`haber`, d.`idmovimiento`, p.`IDPEDIDOS`, p.`IMPUESTO`, p.`IDCLIENTE`, pe.`NOM`
+select e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`debe`, d.`haber`, d.`idmovimiento`, p.`IDMOVIMIENTO`, p.`IDPEDIDOS`, p.`IMPUESTO`, p.`IDCLIENTE`, pe.`NOM`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join pedidos p on e.`id_tmpenc` = p.`id_tmpenc`
 left join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
-where e.`fecha` between '2020-08-01' and '2020-08-31'
+where e.`fecha` between '2020-09-01' and '2020-09-30'
 and e.`estado` <> 'ANL'
 and d.`cuenta` = '2420410200'
 and d.`idmovimiento` is null
 ;
+
+select *
+from pedi
+41462, 41466, 41464, 41470
 
 select *
 from movimiento m

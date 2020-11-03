@@ -55,9 +55,9 @@ from pr_insumo i
 left join inv_articulos a on i.`cod_art` = a.`cod_art`
 left join pr_produccion p on i.`idproduccion` = p.`idproduccion`
 left join pr_plan pl on p.`idplan` = pl.`idplan`
-where pl.`fecha` between '2019-10-01' and '2019-10-31'
+where pl.`fecha` between '2020-02-01' and '2020-02-15'
 -- and i.`idproduccion` = 101
--- and i.`cod_art` in (1)
+and i.`cod_art` in (1)
 ;
 
 select pl.`fecha`, p.`codigo`, p.`totalmp`, i.`cod_art`, a.`descri`, i.`cantidad`, i.`costouni`, i.`tipo`

@@ -18,7 +18,7 @@ select 	d.FECHA as "FECHA FACTURA O DUI",
 	, z.idtmpenc, z.id_tmpdet,  d.iddocumentocontable 
 from documentocontable d 
 join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
-where fecha between '2020-08-01' and '2020-08-31'
+where fecha between '2020-09-01' and '2020-09-30'
 and z.estado <> 'NULLIFIED'
 and z.tipo = 'INVOICE'
 ;
@@ -45,7 +45,7 @@ select 	IDMOVIMIENTO,
 	if(ESTADO = 'A', 0, CODIGOCONTROL) as "CODIGO DE CONTROL",
 	IDPEDIDOS, IDVENTADIRECTA, idmovimiento, id_tmpdet
 from movimiento
-where FECHA_FACTURA between '2020-09-01' and '2020-09-31'
+where FECHA_FACTURA between '2020-09-01' and '2020-09-30'
 ;
 
 -- -------------
@@ -152,4 +152,6 @@ left join documentocontable d on dc.`iddocumentocompra` = d.`iddocumentocontable
 where e.`fecha_recepcion` between '2019-08-01' and '2019-08-31'
 and e.`confactura` = 'CONFACTURA'
 ;
+
+
 
