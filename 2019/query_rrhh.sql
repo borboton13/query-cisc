@@ -91,7 +91,7 @@ delete from `planillatributariaporcategoria` 	where idplanillagenerada in (412, 
 delete from `planillaadministrativos` 		where idplanillagenerada in (412, 413, 414, 415, 416, 417);
 delete from `planillagenerada` 			where idplanillagenerada in (412, 413, 414, 415, 416, 417);
 
-
+-- Actualizar para Eliseo
 update planillafiscalporcategoria p
 set 	p.`liquidopagable` = 14137.84,
 	p.`afplab_riesgocomun` = 0,
