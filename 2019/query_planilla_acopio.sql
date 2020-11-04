@@ -20,8 +20,8 @@ select
         P.TOTALIQUIDOXGAB as LIQUIDO_PAG
 from PLANILLAPAGOMATERIAPRIMA P
 left join ZONAPRODUCTIVA Z on P.IDZONAPRODUCTIVA = Z.IDZONAPRODUCTIVA
-where P.FECHAINICIO = '2019-02-01'
-and   P.FECHAFIN    = '2019-02-15'
+where P.FECHAINICIO = '2020-09-01'
+and   P.FECHAFIN    = '2020-09-15'
 ;
 -- ----------------------------------------------------------------------
 
@@ -77,6 +77,7 @@ select  r.`idregistropagomateriaprima`, p.`idplanillapagomateriaprima`, z.`idzon
 	d.`yogurt`,
 	d.`tachos`,
 	d.`otrosdescuentos` 		as Otros,
+	d.`comision`, 
 	r.`descuentoreserva`		as Reser,
 	r.`ajustezonaproductiva` 	as Ajuste,
 	d.`otrosingresos`		as Ingresos,
@@ -88,7 +89,7 @@ join persona pe        			on d.`idproductormateriaprima` = pe.`idpersona`
 join entidad e 				on pe.`idpersona` = e.`identidad`
 join planillapagomateriaprima p 	on r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
 join zonaproductiva z 			on p.`idzonaproductiva` = z.`idzonaproductiva`
-where p.fechainicio = '2019-09-01'
+where p.fechainicio = '2020-09-01'
 -- AND z.`numero` = 001
 -- AND pe.`idpersona` IN (352)
 and r.`liquidopagable` <> 0
@@ -128,7 +129,7 @@ join productormateriaprima pr 		on pe.`idpersona` = pr.`idproductormateriaprima`
 join entidad e 				on pe.`idpersona` = e.`identidad`
 join planillapagomateriaprima p 	on r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
 join zonaproductiva z 			on p.`idzonaproductiva` = z.`idzonaproductiva`
-where p.fechainicio = '2020-08-16'
+where p.fechainicio = '2020-09-16'
 and r.`liquidopagable` <> 0
 ;
 

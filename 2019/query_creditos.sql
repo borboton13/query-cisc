@@ -6,8 +6,10 @@ join zonaproductiva z on s.`idzonaproductiva` = z.`idzonaproductiva`
 join tipocredito t on c.`idtipocredito` = t.`idtipocredito`
 -- where c.`idtipocredito` = 2
 -- where s.`idzonaproductiva` = 6
-where z.`numero` = 46
+where z.`numero` = 17
 ;
+
+594
 
 select s.`idsocio`, c.`idcredito`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, c.`codigoant`, c.`estado`, c.`fechaconcesion`, c.`importe`, c.`saldo`, c.`ultimopago`, c.`idtipocredito`,
 t.`nombre`, tr.`tipo`, tr.`id_tmpenc`
