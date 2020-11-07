@@ -611,4 +611,13 @@ and p.`iddistribuidor` is not null
 group by i.`cod_art`, i.`descri`
 ;
 
-
+-- 
+-- 
+select *
+from pedidos p
+-- update pedidos p set p.`ESTADO` = 'PENDIENTE', p.`id_tmpenc` = null
+where p.`FECHA_ENTREGA` between '2020-10-05' and '2020-10-05'
+and p.`tipoventa` = 'CREDIT'
+and P.`ESTADO` <> 'ANULADO'
+and P.`IDUSUARIO` = 404
+;

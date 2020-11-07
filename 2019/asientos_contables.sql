@@ -650,3 +650,39 @@ where d.`cod_art` in (
 );
 
 -- End
+
+
+
+
+
+-- Vales anulados por error en anulacion de pedidos
+-- no_trans: 25247, 25249, 25020
+
+-- select * from inv_vales 
+-- update inv_vales d set d.`estado` = 'ANL'
+where d.`no_trans` in (
+25247, 25249, 25020
+);
+
+-- select * from inv_mov d
+-- UPDATE inv_mov d set d.`estado` = 'ANL'
+where d.`no_trans` in (
+25247, 25249, 25020
+);
+
+select *
+from inv_movdet d
+update inv_movdet d set d.`estado` = 'ANL'
+where d.`no_trans` in (
+25247, 25249, 25020
+);
+
+-- -------------
+
+
+
+
+
+
+
+

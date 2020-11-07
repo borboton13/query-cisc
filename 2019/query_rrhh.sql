@@ -85,16 +85,16 @@ where idbandahoraria in (
 );
 
 -- eliminando planillas generadas
-delete from reportecontrol 		 	where idplanillagenerada in (412, 413, 414, 415, 416, 417);
-delete from `planillafiscalporcategoria` 	where idplanillagenerada in (412, 413, 414, 415, 416, 417);
-delete from `planillatributariaporcategoria` 	where idplanillagenerada in (412, 413, 414, 415, 416, 417);
-delete from `planillaadministrativos` 		where idplanillagenerada in (412, 413, 414, 415, 416, 417);
-delete from `planillagenerada` 			where idplanillagenerada in (412, 413, 414, 415, 416, 417);
+delete from reportecontrol 		 	where idplanillagenerada in (419, 420, 421);
+delete from `planillafiscalporcategoria` 	where idplanillagenerada in (419, 420, 421);
+delete from `planillatributariaporcategoria` 	where idplanillagenerada in (419, 420, 421);
+delete from `planillaadministrativos` 		where idplanillagenerada in (419, 420, 421);
+delete from `planillagenerada` 			where idplanillagenerada in (419, 420, 421);
 
 -- Actualizar para Eliseo
 update planillafiscalporcategoria p
 set 	p.`liquidopagable` = 14137.84,
 	p.`afplab_riesgocomun` = 0,
 	p.`totaldescuentos` = 1780.16
-where p.`idplanillafiscalporcategoria` =       17150;
+where p.`idplanillafiscalporcategoria` =       17338;
 
