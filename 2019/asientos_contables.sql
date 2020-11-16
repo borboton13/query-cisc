@@ -13,11 +13,6 @@ where d.`id_tmpenc` in (
 -- where e.`tipo_doc` = 'IA' and e.`no_doc` in (236)
 ;
 
-update sf_tmpenc e set e.`estado` = 'PEN'
-where e.`id_tmpenc` in (
-149061
-);
-
 
 
 delete from sf_tmpdet where id_tmpenc in (
@@ -70,22 +65,30 @@ left join arcgms a    on d.`cuenta` = a.`cuenta`
 where e.`estado` <> 'ANL'
 -- where d.`debe` = 0 and d.`haber` = 0
 -- and d.`id_tmpenc` = 137259
-and e.`tipo_doc` = 'CD'
+-- and e.`tipo_doc` = 'CD'
 -- and d.`cuenta` = '8550300000'
-and e.`no_doc` in (131)
+-- and e.`no_doc` in (131)
 -- and e.`glosa` like '%SUELDOS%'
- -- and d.`cod_art`in (637)
+-- and d.`cod_art`in (118)
 -- and d.`idsocio` = 
--- AND d.`cuenta` in (1420310700, 1831010100)
-and e.`fecha` between '2020-05-01' and '2020-12-31'
+and d.`cuenta` in (4460113500)
+and e.`fecha` between '2020-07-01' and '2020-07-31'
 ;
 
-select *
-from sf_tmpenc e where e.`tipo_doc` = 'CB' and E.`no_doc` = 43;
+
+VAPORINOX INGENIERIA S.R.L. CON FACTURA Nº 636, COCHABAMBA, CISC, SOLICITANTE(DIEGO SALAZAR SANDOVAL), PROVEEDOR(VAPORINOX INGENIERIA S.R.L.), 
+SEPTIEMBRE, IOC CISC-INV-424, ALMACENES
+
+update sf_tmpenc e set e.`estado` = 'PEN'
+where e.`id_tmpenc` in (
+154105
+);
+
+-- update sf_tmpdet d set d.`cuenta` = '1810310301' where d.`id_tmpdet` = 880271;
 
 -- update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` in (141845);
 -- update sf_tmpdet d set d.`cuenta` = '4430110300'  where d.`id_tmpdet` = 71025;
-update sf_tmpdet d set d.`cod_art` = 73, d.`cant_art` = 481.03  where d.`id_tmpdet` = 898302;
+-- update sf_tmpdet d set d.`cod_art` = 73, d.`cant_art` = 481.03  where d.`id_tmpdet` = 898302;
 
 -- update sf_tmpdet d set d.`haber` =  where d.`id_tmpdet` = 6067;
 -- update sf_tmpdet d set d.`haber` =  where d.`id_tmpdet` = 6068;
@@ -678,10 +681,6 @@ where d.`no_trans` in (
 );
 
 -- -------------
-
-
-
-
 
 
 
