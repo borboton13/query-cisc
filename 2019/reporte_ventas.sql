@@ -4,16 +4,18 @@
 -- ---------------------------------------------------------------
 -- ------------- REPORTE 1. VENTAS CLIENTES x PEDIDO (PEDIDOS)-------------
 -- ---------------------------------------------------------------
-select pc.`IDPERSONACLIENTE` as ID, pc.`NIT`, pc.`NRO_DOC`, concat(pc.`NOM`, ' ', pc.`AP`, ' ', pc.`AM`) as CLIENTE, sum(a.`IMPORTE`) as TOTAL_BS, count(distinct p.`CODIGO`) as CANT_PEDIDOS
+-- select pc.`IDPERSONACLIENTE` as ID, pc.`NIT`, pc.`NRO_DOC`, t.`NOMBRE`, pc.`ESPERSONA`, concat(pc.`NOM`, ' ', pc.`AP`, ' ', pc.`AM`) as CLIENTE, sum(a.`IMPORTE`) as TOTAL_BS, count(distinct p.`CODIGO`) as CANT_PEDIDOS
+select pc.`IDPERSONACLIENTE` as ID, pc.`NIT`, pc.`NRO_DOC`, t.`NOMBRE`, pc.`ESPERSONA`, concat(pc.`NOM`, ' ', pc.`AP`, ' ', pc.`AM`) as CLIENTE, sum(a.`IMPORTE`) as TOTAL_BS, count(distinct p.`CODIGO`) as CANT_PEDIDOS
 from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+left join territoriotrabajo t on pc.`IDTERRITORIOTRABAJO` = t.`IDTERRITORIOTRABAJO`
 where p.`FECHA_ENTREGA` between '2020-10-01' and '2020-10-31'
 and P.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` <> 5
 and p.`tipoventa` = 'CREDIT'
-group by pc.`IDPERSONACLIENTE`, pc.`NIT`, pc.`NRO_DOC`;
+group by pc.`IDPERSONACLIENTE`, pc.`NIT`, pc.`NRO_DOC`, t.`NOMBRE`, pc.`ESPERSONA`;
 -- ---------------------------------------------------
 
 -- --------------------------------------------------------------------------
