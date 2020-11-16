@@ -30,5 +30,21 @@ and i.`cod_alm` in (1)
 
 
 
+select i.`no_trans`, i.`fecha`, i.`cod_doc`, i.`no_vale`, i.`estado`, i.`oper`, i.`id_com_encoc`, i.`idtmpenc`,
+d.`id_inv_movdet`, d.`cod_art`, d.`cantidad`, e.`tipo_doc`, e.`no_doc`
+from inv_vales i
+left join inv_movdet d on i.`no_trans` = d.`no_trans`
+left join sf_tmpenc e on i.`idtmpenc` = e.`id_tmpenc`
+where i.`fecha` between '2020-09-01' and '2020-09-30'
+and i.`cod_alm` = 4
+;
+
+
+select d.`id_tmpdet`, d.`debe`, d.`haber`, d.`id_tmpenc`, d.`cod_art`, d.`cant_art`, e.`estado`
+from sf_tmpdet d
+left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
+where e.`fecha` between '2020-09-01' and '2020-09-30'
+and d.`cuenta` = '1810310201'
+;
 
 
