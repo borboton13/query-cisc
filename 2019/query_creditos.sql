@@ -9,7 +9,7 @@ join tipocredito t on c.`idtipocredito` = t.`idtipocredito`
 where z.`numero` = 17
 ;
 
-594
+
 
 select s.`idsocio`, c.`idcredito`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, c.`codigoant`, c.`estado`, c.`fechaconcesion`, c.`importe`, c.`saldo`, c.`ultimopago`, c.`idtipocredito`,
 t.`nombre`, tr.`tipo`, tr.`id_tmpenc`
@@ -80,7 +80,7 @@ left join tipocredito tc on c.`idtipocredito` = tc.`idtipocredito`
 where c.estado <> 'FIN'
 and z.`numero` = 15
 -- and tc.`idmoneda` = 2
-and t.`fechatransaccion` <= '2019-11-28'
+and t.`fechatransaccion` <= '2020-01-31'
 group by z.`nombre`, s.`nombres`, s.`apellidopaterno`, c.`codigoant`, c.`fechaconcesion`, c.`ultimopago`, c.`fechavence`, c.`importe`
 ;
 
