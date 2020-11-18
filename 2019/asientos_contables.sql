@@ -41,14 +41,14 @@ delete from sf_tmpdet where id_tmpdet in (
 
 select *
 from sf_tmpdet d 
-where d.`id_tmpdet` > 14990
+where d.`id_tmpdet` > 15249
 ;
 
 
 select *
 from sf_tmpenc e 
-where e.`tipo_doc` = 'NE'
-and e.`id_tmpenc` = 105092
+where e.`tipo_doc` = 'CB'
+and E.`no_doc` = 63
 -- and e.`fecha` >= '2020-02-01'
 ;
 
@@ -65,13 +65,13 @@ left join arcgms a    on d.`cuenta` = a.`cuenta`
 where e.`estado` <> 'ANL'
 -- where d.`debe` = 0 and d.`haber` = 0
 -- and d.`id_tmpenc` = 137259
-and e.`tipo_doc` = 'CD'
+-- and e.`tipo_doc` = 'CD'
 -- and d.`cuenta` = '1310510600'
-and e.`no_doc` in (13)
+-- and e.`no_doc` in (13)
 -- and e.`glosa` like '%SUELDOS%'
--- and d.`cod_art`in (118)
+and d.`cod_art`in (251)
 -- and d.`idsocio` = 
-and e.`fecha` between '2020-01-01' and '2020-12-31'
+and e.`fecha` between '2020-10-01' and '2020-10-31'
 ;
 
 

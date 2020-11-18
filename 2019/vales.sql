@@ -2,7 +2,7 @@
 select *
 from inv_vales i
 where i.`fecha` between '2020-10-01' and '2020-10-31'
-and i.`cod_doc` = 'EGR'
+-- and i.`cod_doc` = 'EGR'
 and i.`oper` is null
 and i.`estado` <> 'ANL'
 -- and i.`cod_alm` in (1,3,4,7)
@@ -15,9 +15,14 @@ where i.`no_vale` = '3-4493'
 ;
 
 -- Baja de bobina
-update inv_vales i set i.`estado` = 'ANL' where I.`no_trans` = 25100;
-update inv_mov i set i.`estado` = 'ANL' where I.`no_trans` = 25100;
-update inv_movdet i set i.`estado` = 'ANL' where I.`no_trans` = 25100;
+update inv_vales i set i.`estado` = 'APR' where I.`no_trans` = 25467;
+update inv_mov i set i.`estado` = 'APR' where I.`no_trans` = 25467;
+update inv_movdet i set i.`estado` = 'APR' where I.`no_trans` = 25467;
+
+update inv_vales i set i.`fecha` = '2020-10-31' where i.`no_trans` = 25467;
+update inv_mov i set i.`fecha_cre` = '2020-10-31' where i.`no_trans` = 25467;
+update inv_mov i set i.`fecha_mov` = '2020-10-31' where i.`no_trans` = 25467;
+update inv_movdet i set i.`fecha` = '2020-10-31' where i.`no_trans` = 25467;
 
 -- RECEPCION
 select *
