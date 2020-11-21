@@ -389,7 +389,7 @@ left join personacliente p on v.`idcliente` = p.`IDPERSONACLIENTE`
 left join tipocliente t on p.`IDTIPOCLIENTE` = t.`IDTIPOCLIENTE`
 where v.`FECHA` between '2019-01-01' and '2019-12-31'
 and v.`idusuario` <> 5
-and v.`idtipopedido` in (1, 5)
+-- and v.`idtipopedido` in (1, 5)
 -- and v.`idcliente` in (911,1463,1464,1465,1466,1468,1472,1557) -- sedem
 -- and v.`idcliente` in (176,177,178,405,444,731,732,733,734,735,736,737,934) -- Hipermaxi
 -- AND V.`idcliente` IN (174,175) -- ICNORTE
@@ -397,6 +397,20 @@ and v.`idtipopedido` in (1, 5)
 and v.`IDVENTADIRECTA` is not null -- contado
 -- AND t.`IDTIPOCLIENTE` in (5, 11)
 group by t.`IDTIPOCLIENTE`, t.`NOMBRE`
+;
+
+
+-- Reporte ventas x Zonz
+select tr.`NOMBRE` as Zona, sum(v.`importe`) as Montobs
+from ventas v
+left join inv_articulos a 	on v.`cod_art` = a.`cod_art`
+left join personacliente p 	on v.`idcliente` = p.`IDPERSONACLIENTE`
+left join tipocliente t 	on p.`IDTIPOCLIENTE` = t.`IDTIPOCLIENTE`
+left join territoriotrabajo tr  on p.`IDTERRITORIOTRABAJO` = tr.`IDTERRITORIOTRABAJO`
+where v.`FECHA` between '2020-01-01' and '2020-01-31'
+and v.`idusuario` <> 5
+-- and v.`tipoventa` = 'CREDIT'
+group by tr.`NOMBRE`
 ;
 
 
