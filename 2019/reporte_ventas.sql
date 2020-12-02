@@ -75,11 +75,11 @@ from (
 	left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 	left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 	left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-	where p.`FECHA_ENTREGA` between '2020-10-01' and '2020-10-31'
+	where p.`FECHA_ENTREGA` between '2020-11-23' and '2020-11-23'
 	and P.`ESTADO` <> 'ANULADO'
 	and p.`IDUSUARIO` <> 5
 	and p.`IDTIPOPEDIDO` in (1, 5)
-	and p.`tipoventa` = 'CASH'
+	and p.`tipoventa` = 'CREDIT'
 	group by a.`cod_art`, ar.`descri`
 	union all
 	-- VENTADIRECTA
@@ -88,7 +88,7 @@ from (
 	left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 	left join personacliente pc on v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 	left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-	where v.`FECHA_PEDIDO` between '2020-10-01' and '2020-10-31'
+	where v.`FECHA_PEDIDO` between '2020-11-23' and '2020-11-23'
 	and v.`ESTADO` <> 'ANULADO'
 	and v.`IDUSUARIO` <> 5
 	group by a.`cod_art`, ar.`descri`

@@ -65,16 +65,12 @@ and a.`cod_art` in (1090)
 -- AND p.`IDUSUARIO` = 5
 ;
 
-
-
-
-
 select *
 from pedidos p
 -- update pedidos p set p.`ESTADO` = 'ANULADO', p.`OBSERVACION` = 'Entrega anticipada, F-3680 vig, nota ANL'
-update pedidos p set p.`ESTADO` = 'CONTABILIZADO'
+-- update pedidos p set p.`ESTADO` = 'CONTABILIZADO'
 where p.`FECHA_ENTREGA` between '2020-01-01' and '2020-12-31'
-and p.`CODIGO` in (5558)
+and p.`CODIGO` in (8061)
 ;
 
 update pedidos p set p.`IDCLIENTE` = 665 where p.`IDPEDIDOS` = 51331;
@@ -82,7 +78,7 @@ update pedidos p set p.`IDCLIENTE` = 665 where p.`IDPEDIDOS` = 51331;
 -- update pedidos p set p.`ESTADO` = 'ANULADO' where p.`IDPEDIDOS`= 35615;
 -- update sf_tmpenc e SET e.`estado` = 'ANL' where e.`id_tmpenc` = 123001;
 -- update movimiento m set m.`ESTADO` = 'A' WHERE m.`IDMOVIMIENTO` = 60392;
-update pedidos p set p.`FECHA_ENTREGA` = '2020-06-04' where p.`IDPEDIDOS`= 40314; -- 2020-06-04
+update pedidos p set p.`FECHA_ENTREGA` = '2020-11-18' where p.`IDPEDIDOS`= 54958; -- 2020-11-18
 
 select *
 from articulos_pedido a
