@@ -44,7 +44,7 @@ left join contrato c on cp.`idcontrato` = c.`idcontrato`
 left join empleado e on c.`idempleado` = e.`idempleado`
 left join persona p  on e.`idempleado` = p.`idpersona`
 left join entidad en on p.`idpersona` = en.`identidad`
-where en.`noidentificacion` = 5197188
+where en.`noidentificacion` = 6405572
 and bc.`fechafin` >= '2020-01-01'
 -- and bh.`horainicio` = '08:00:00'
 ;
@@ -58,10 +58,10 @@ left join empleado e on c.`idempleado` = e.`idempleado`
 left join persona p  on e.`idempleado` = p.`idpersona`
 left join entidad en on p.`idpersona` = en.`identidad`
 -- set bh.`horainicio` = '12:00', bh.horafin = '20:00'
--- set bh.horafin = '18:00:00'
-set bc.fechafin = '2020-10-03'
-where en.`noidentificacion` = 5197188
-and bc.`fechafin` >= '2020-01-01'
+set bh.horafin = '19:00:00'
+-- set bc.fechafin = '2020-12-31'
+where en.`noidentificacion` = 6405572
+and bc.`fechafin` >= '2020-12-31'
 -- and bh.`horainicio` = '07:00:00'
 -- and bh.idbandahoraria in (1028)
 ;
@@ -85,16 +85,38 @@ where idbandahoraria in (
 );
 
 -- eliminando planillas generadas
-delete from reportecontrol 		 	where idplanillagenerada in (419, 420, 421);
-delete from `planillafiscalporcategoria` 	where idplanillagenerada in (419, 420, 421);
-delete from `planillatributariaporcategoria` 	where idplanillagenerada in (419, 420, 421);
-delete from `planillaadministrativos` 		where idplanillagenerada in (419, 420, 421);
-delete from `planillagenerada` 			where idplanillagenerada in (419, 420, 421);
+delete from reportecontrol 		 	where idplanillagenerada in (432);
+delete from `planillafiscalporcategoria` 	where idplanillagenerada in (432);
+delete from `planillatributariaporcategoria` 	where idplanillagenerada in (432);
+delete from `planillaadministrativos` 		where idplanillagenerada in (432);
+delete from `planillagenerada` 			where idplanillagenerada in (432);
 
 -- Actualizar para Eliseo
 update planillafiscalporcategoria p
-set 	p.`liquidopagable` = 14137.84,
-	p.`afplab_riesgocomun` = 0,
-	p.`totaldescuentos` = 1780.16
-where p.`idplanillafiscalporcategoria` =       17338;
+set 	p.`liquidopagable` 	= 15729.64,
+	p.`afplab_individual` 	= 0,
+	p.`afplab_riesgocomun`  = 0,
+	p.`totaldescuentos` 	= 188.36
+where p.`idplanillafiscalporcategoria` = 17904;
+
+-- Actualizar Luis Ferrufino
+update planillafiscalporcategoria p
+set 	p.`liquidopagable` 	= 4571.04,
+	p.`afplab_individual` 	= p.`afplab_individual`,
+	p.`afplab_riesgocomun`  = 0,
+	p.`afplab_solidario`	= p.`afplab_solidario`,
+	p.`totaldescuentos` 	= 564.96
+where p.`idplanillafiscalporcategoria` = 17886;
+
+-- Actualizar Simon Calucho
+update planillafiscalporcategoria p
+set 	p.`liquidopagable` 	= 2597.02,
+	p.`afplab_individual` 	= p.`afplab_individual`,
+	p.`afplab_riesgocomun`  = 0,
+	p.`afplab_solidario`	= p.`afplab_solidario`,
+	p.`totaldescuentos` 	= 320.98
+where p.`idplanillafiscalporcategoria` = 17908;
+
+
+
 

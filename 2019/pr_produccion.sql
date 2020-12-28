@@ -50,14 +50,14 @@ and e.`tipo_doc` = 'PD'
 ;
 
 -- PRODUCCION INSUMOS
-select pl.`fecha`, pl.`estado`, p.`codigo`, p.`costototal`, p.`totalmp`, i.`cod_art`, a.`descri`, i.`cantidad`, i.`costouni`, i.`tipo`
+select pl.`fecha`, pl.`estado`, p.`codigo`, p.`costototal`, p.`totalmp`, i.`cod_art`, a.`cod_med`, a.`descri`, i.`cantidad`, i.`costouni`, i.`tipo`
 from pr_insumo i 
 left join inv_articulos a on i.`cod_art` = a.`cod_art`
 left join pr_produccion p on i.`idproduccion` = p.`idproduccion`
 left join pr_plan pl on p.`idplan` = pl.`idplan`
-where pl.`fecha` between '2020-02-01' and '2020-02-15'
+where pl.`fecha` between '2020-01-01' and '2020-01-31'
 -- and i.`idproduccion` = 101
-and i.`cod_art` in (1)
+-- and i.`cod_art` in (1)
 ;
 
 select pl.`fecha`, p.`codigo`, p.`totalmp`, i.`cod_art`, a.`descri`, i.`cantidad`, i.`costouni`, i.`tipo`
@@ -119,11 +119,19 @@ group by mes, c.`nombre`
 
 
 -- CANTIDAD DE PRODUCCION X MES X PRODUCTO
-select month(p.`FECHA`) as mes, p.`COD_ART`, p.`NOMBRE`, sum(p.`CANT_TOTAL`) as CANT, sum(p.`COSTOTOTALPRODUCCION`) as COSTO, (p.`COSTOTOTALPRODUCCION`/p.`CANT_TOTAL`) as CU
+select month(p.`FECHA`) as mes, p.`COD_ART`, p.`NOMBRE`, sum(p.`CANT_TOTAL`) as CANT, sum(p.`COSTOTOTALPRODUCCION`) as COSTO, (p.`COSTOTOTALPRODUCCION`/p.`CANT_TOTAL`) as CU, count(p.fecha) as N
 from producciontotal p
-where p.`FECHA` between '2020-05-01' and '2020-05-31'
+where p.`FECHA` between '2020-09-01' and '2020-11-31'
 group by mes, p.`COD_ART`, p.`NOMBRE`
 ;
+
+select p.`COD_ART`, p.`NOMBRE`, sum(p.`CANT_TOTAL`) as CANT, sum(p.`COSTOTOTALPRODUCCION`) as COSTO, (p.`COSTOTOTALPRODUCCION`/p.`CANT_TOTAL`) as CU, count(p.fecha) as N
+from producciontotal p
+where p.`FECHA` between '2020-09-01' and '2020-11-31'
+group by p.`COD_ART`, p.`NOMBRE`
+;
+
+
 -- CANTIDAD DE PRODUCCION X PRODUCTO
 select p.`COD_ART`, p.`NOMBRE`, sum(p.`CANT_TOTAL`) as CANT, sum(p.`COSTOTOTALPRODUCCION`) as COSTO
 from producciontotal p

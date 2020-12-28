@@ -7,7 +7,7 @@ select  E.IDENTIDAD, RH.MARPERID as CI,
         P.APELLIDOPATERNO, 
         P.APELLIDOMATERNO, 
         P.NOMBRES, 
-        --TO_CHAR(RH.MARFECHA, 'DD/MM/YYYY') as FECHA0, 
+        -- TO_CHAR(RH.MARFECHA, 'DD/MM/YYYY') as FECHA0, 
         TO_CHAR(RH.MARHORA, 'DD/MM/YYYY') as FECHA, 
         TO_CHAR(RH.MARHORA, 'HH24:MI:SS') as HORA
         -- RH.MARHORA  
@@ -99,7 +99,7 @@ where r.`marfecha` between '2020-03-01' and '2020-03-31'
 -- select distinct v.`marperid` as CI, cast(v.`nombre` as char(100))-- , v.`marhora`
 select *
 from vmarcado v
-where v.`marfecha` between '2020-10-01' and '2020-10-31'
+where v.`marfecha` between '2020-11-01' and '2020-11-31'
 
 ;
 
