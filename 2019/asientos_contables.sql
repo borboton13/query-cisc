@@ -8,7 +8,8 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-153753
+157829,
+159435
 ) 
 -- where e.`tipo_doc` = 'IA' and e.`no_doc` in (236)
 ;
@@ -98,9 +99,9 @@ and e.`fecha` between '2020-01-01' and '2020-12-31'
 
 
 
-update sf_tmpenc e set e.`estado` = 'PEN'
+update sf_tmpenc e set e.`estado` = 'ANL'
 where e.`id_tmpenc` in (
-154994
+157829
 );
 
 -- update sf_tmpdet d set d.`cuenta` = '1810310301' where d.`id_tmpdet` = 880271;

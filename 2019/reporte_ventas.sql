@@ -5,17 +5,19 @@
 -- ------------- REPORTE 1. VENTAS CLIENTES x PEDIDO (PEDIDOS) -------------
 -- ---------------------------------------------------------------
 -- select pc.`IDPERSONACLIENTE` as ID, pc.`NIT`, pc.`NRO_DOC`, t.`NOMBRE`, pc.`ESPERSONA`, concat(pc.`NOM`, ' ', pc.`AP`, ' ', pc.`AM`) as CLIENTE, sum(a.`IMPORTE`) as TOTAL_BS, count(distinct p.`CODIGO`) as CANT_PEDIDOS
-select pc.`IDPERSONACLIENTE` as ID, pc.`NIT`, pc.`NRO_DOC`, t.`NOMBRE`, pc.`ESPERSONA`, concat(pc.`NOM`, ' ', pc.`AP`, ' ', pc.`AM`) as CLIENTE, sum(a.`IMPORTE`) as TOTAL_BS, count(distinct p.`CODIGO`) as CANT_PEDIDOS
+select pc.`IDPERSONACLIENTE` as ID, pc.`NIT`, pc.`NRO_DOC`, concat(pc.`NOM`, ' ', pc.`AP`, ' ', pc.`AM`) as CLIENTE, sum(a.`IMPORTE`) as TOTAL_BS, count(distinct p.`CODIGO`) as CANT_PEDIDOS
 from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
 left join territoriotrabajo t on pc.`IDTERRITORIOTRABAJO` = t.`IDTERRITORIOTRABAJO`
-where p.`FECHA_ENTREGA` between '2020-11-01' and '2020-11-31'
+where p.`FECHA_ENTREGA` between '2020-12-01' and '2020-12-31'
 and P.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` <> 5
 and p.`tipoventa` = 'CREDIT'
-group by pc.`IDPERSONACLIENTE`, pc.`NIT`, pc.`NRO_DOC`, t.`NOMBRE`, pc.`ESPERSONA`;
+group by pc.`IDPERSONACLIENTE`, pc.`NIT`, pc.`NRO_DOC`
+-- , t.`NOMBRE`, pc.`ESPERSONA`
+;
 -- ---------------------------------------------------
 
 -- --------------------------------------------------------------------------
@@ -27,7 +29,7 @@ from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where p.`FECHA_ENTREGA` between '2020-11-01' and '2020-11-31'
+where p.`FECHA_ENTREGA` between '2020-12-01' and '2020-12-31'
 and P.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` <> 5
 and p.`tipoventa` = 'CREDIT'
@@ -44,7 +46,7 @@ from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where p.`FECHA_ENTREGA` between '2020-11-01' and '2020-11-31'
+where p.`FECHA_ENTREGA` between '2020-12-01' and '2020-12-31'
 and P.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` <> 5
 and p.`IDTIPOPEDIDO` in (1, 5)
@@ -60,7 +62,7 @@ from articulos_pedido a
 left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join personacliente pc on v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where v.`FECHA_PEDIDO` between '2020-11-01' and '2020-11-31'
+where v.`FECHA_PEDIDO` between '2020-12-01' and '2020-12-31'
 and v.`ESTADO` <> 'ANULADO'
 -- AND ar.`cuenta_art` = '4420110201'
 and v.`IDUSUARIO` <> 5
@@ -75,11 +77,11 @@ from (
 	left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 	left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 	left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-	where p.`FECHA_ENTREGA` between '2020-11-01' and '2020-11-31'
+	where p.`FECHA_ENTREGA` between '2020-12-01' and '2020-12-31'
 	and P.`ESTADO` <> 'ANULADO'
 	and p.`IDUSUARIO` <> 5
 	and p.`IDTIPOPEDIDO` in (1, 5)
-	and p.`tipoventa` = 'CREDIT'
+	and p.`tipoventa` = 'CASH'
 	group by a.`cod_art`, ar.`descri`
 	union all
 	-- VENTADIRECTA
@@ -88,7 +90,7 @@ from (
 	left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 	left join personacliente pc on v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 	left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-	where v.`FECHA_PEDIDO` between '2020-11-01' and '2020-11-31'
+	where v.`FECHA_PEDIDO` between '2020-12-01' and '2020-12-31'
 	and v.`ESTADO` <> 'ANULADO'
 	and v.`IDUSUARIO` <> 5
 	group by a.`cod_art`, ar.`descri`
@@ -106,7 +108,7 @@ from articulos_pedido a
 left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join personacliente pc on v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where v.`FECHA_PEDIDO` between '2020-11-01' and '2020-11-31'
+where v.`FECHA_PEDIDO` between '2020-12-01' and '2020-12-31'
 and v.`ESTADO` <> 'ANULADO'
 -- AND V.`IDUSUARIO` IN (6, 404)
 and v.`IDUSUARIO` <> 5
@@ -122,7 +124,7 @@ from (
 	left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 	left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 	left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-	where p.`FECHA_ENTREGA` between '2020-11-01' and '2020-11-31'
+	where p.`FECHA_ENTREGA` between '2020-12-01' and '2020-12-31'
 	and P.`ESTADO` <> 'ANULADO'
 	and p.`IDUSUARIO` <> 5
 	and p.`tipoventa` = 'CASH'
@@ -134,7 +136,7 @@ from (
 	left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 	left join personacliente pc on v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 	left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-	where v.`FECHA_PEDIDO` between '2020-11-01' and '2020-11-31'
+	where v.`FECHA_PEDIDO` between '2020-12-01' and '2020-12-31'
 	and v.`ESTADO` <> 'ANULADO'
 	and v.`IDUSUARIO` <> 5
 	group by pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art`, ar.`descri`
@@ -478,6 +480,47 @@ and P.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` <> 5
 and p.`IDCLIENTE` in (66)
 group by pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art`, ar.`descri`;
+
+
+
+select pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, sum(a.`CANTIDAD`) as CANT_PRODUCTOS, sum(a.`IMPORTE`) as TOTAL_BS, sum(a.`PROMOCION`) as PROMOCION
+from articulos_pedido a
+left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
+left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+where p.`FECHA_ENTREGA` between '2020-09-25' and '2020-10-31'
+and P.`ESTADO` <> 'ANULADO'
+and p.`IDUSUARIO` <> 5
+and p.`tipoventa` = 'CREDIT'
+and a.`cod_art` = 118
+group by pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art`, ar.`descri`;
+
+
+select p.`FECHA_ENTREGA`, pc.`IDPERSONACLIENTE`, pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art` as COD_ART, ar.`descri` as PRODUCTO, a.`CANTIDAD`, a.`IMPORTE`, a.`PROMOCION`, pc.`IDTIPOCLIENTE`
+from articulos_pedido a
+left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
+left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
+where p.`FECHA_ENTREGA` between '2020-09-26' and '2020-11-30'
+and P.`ESTADO` <> 'ANULADO'
+and p.`IDUSUARIO` <> 5
+-- and p.`tipoventa` = 'CREDIT'
+and a.`cod_art` = 118
+-- and a.`PROMOCION` > 0
+and pc.`IDTIPOCLIENTE` not in (2)
+and pc.`IDPERSONACLIENTE` in (
+
+)
+;
+
+
+
+
+
+
+
+
+
 
 
 

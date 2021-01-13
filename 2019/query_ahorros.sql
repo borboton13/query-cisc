@@ -49,8 +49,8 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 where e.`fecha` between '2018-01-01' and '2020-12-30'
 -- and e.`tipo_doc` = 'CI'
--- and d.`cuenta` = '3110100000'
-and d.`idsocio` = 222
+and d.`cuenta` = '3110100000'
+-- and d.`idsocio` = 222
 ;
 
 select e.`fecha`, e.`glosa`, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, d.`cuenta`, d.`debe`, d.`haber`, d.`idsocio`
@@ -60,12 +60,16 @@ left join socio s on d.`idsocio` = s.`idsocio`
 where d.`cuenta` = '3110100000'
 ;
 
-select s.idsocio, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, d.`cuenta`, sum(d.`debe`) as debe, sum(d.`haber`) as haber, sum(d.`haber`)-sum(d.`debe`) as saldo
+-- REPORTE CERTIFICADOS DE APORTACION
+select s.idsocio, s.noidentificacion as ci, s.nsocio, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, sum(d.`debe`) as debe, sum(d.`haber`) as haber, sum(d.`haber`)-sum(d.`debe`) as saldo
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join socio s on d.`idsocio` = s.`idsocio`
-where d.`cuenta` = '3110100000'
-group by s.idsocio, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`, d.`cuenta`
+where e.fecha <= '2020-12-31'
+and d.`cuenta` = '3110100000'
+and d.idsocio is not null
+and e.estado <> 'ANL'
+group by s.idsocio, s.noidentificacion, s.nosocio, s.nsocio, s.`nombres`, s.`apellidopaterno`, s.`apellidomaterno`
 ;
 
 -- 
