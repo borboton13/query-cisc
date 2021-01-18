@@ -10,13 +10,11 @@ and a.`cod_art` in (237)
 
 -- ----------------------------------------------------------------
 -- ---------------------- RESUMEN PEDIDOS -------------------------
-select p.`IDPEDIDOS`, pc.`NOM`, pc.`AP`, pc.`AM`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`TOTAL`, p.`TOTALIMPORTE`, p.`id_tmpenc`
+select p.`IDPEDIDOS`, pc.`NOM`, pc.`AP`, pc.`AM`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`TOTAL`, p.`TOTALIMPORTE`, p.`id_tmpenc`, p.`IDMOVIMIENTO`
 from pedidos p
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
-where p.`FECHA_ENTREGA` between '2020-12-28' and '2020-12-31'
-and pc.`IDTERRITORIOTRABAJO` = 24 -- 24 Zona 3
--- AND p.`ESTADO` <> 'ANULADO'
--- AND pc.`NOM` LIKE '%Edelfr%'
+where p.`FECHA_ENTREGA` between '2021-01-12' and '2021-01-12'
+and pc.`IDTERRITORIOTRABAJO` = 24
 ;
 
 -- PEDIDOS - ASIENTOS
@@ -236,27 +234,6 @@ and p.`IDCLIENTE` = 180 -- SEMAPA
 -- AND pc.`NOM` LIKE '%TORRES%'
 group by month(p.`FECHA_ENTREGA`), pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art`, ar.`descri`;
 -- ---------------------------------------------------
-
--- LISTA PERSONAS VENTAS
-select distinct pc.`NRO_DOC`, pc.`NOM`, pc.`AP`, pc.`AM`, pc.`DIRECCION`, pc.`TELEFONO`, pc.`NIT`, pc.`RAZONSOCIAL`
-from articulos_pedido a
-left join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
-left join personacliente pc on v.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
-left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where v.`FECHA_PEDIDO` between '2018-01-01' and '2018-04-30'
-and v.`ESTADO` <> 'ANULADO'
-and V.`IDUSUARIO` in (6, 404)
-group by pc.`NOM`, pc.`AP`, pc.`AM`, a.`cod_art`, ar.`descri`;
-
-select *
-from articulos_pedido a
-left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
-where p.`FECHA_ENTREGA` between '2017-01-01' and '2017-12-31'
-and P.`ESTADO` <> 'ANULADO'
-and p.`IDCLIENTE` = 180
-;
--- ---------------------------------------------------
-
 
 
 --

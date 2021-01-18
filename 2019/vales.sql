@@ -14,15 +14,6 @@ from inv_vales i
 where i.`no_vale` = '3-4493'
 ;
 
--- Baja de bobina
-update inv_vales i set i.`estado` = 'APR' where I.`no_trans` = 25467;
-update inv_mov i set i.`estado` = 'APR' where I.`no_trans` = 25467;
-update inv_movdet i set i.`estado` = 'APR' where I.`no_trans` = 25467;
-
-update inv_vales i set i.`fecha` = '2020-10-31' where i.`no_trans` = 25467;
-update inv_mov i set i.`fecha_cre` = '2020-10-31' where i.`no_trans` = 25467;
-update inv_mov i set i.`fecha_mov` = '2020-10-31' where i.`no_trans` = 25467;
-update inv_movdet i set i.`fecha` = '2020-10-31' where i.`no_trans` = 25467;
 
 -- RECEPCION
 select *
@@ -34,13 +25,13 @@ and i.`oper` is not null
 ;
 
 
-select i.`fecha`, i.`no_vale`, i.`cod_doc`, i.`estado`, i.`oper`, d.`cod_art`, a.`descri`, d.`cantidad`, a.`cod_med`, d.`costounitario`, d.`monto`, i.`idtmpenc`
+select i.`fecha`, i.`id_com_encoc`, i.`no_vale`, i.`cod_doc`, i.`estado`, i.`oper`, d.`cod_art`, a.`descri`, d.`cantidad`, a.`cod_med`, d.`costounitario`, d.`monto`, i.`idtmpenc`
 from inv_vales i
 join inv_movdet d on i.`no_trans` = d.`no_trans`
 join inv_articulos a on d.`cod_art` = a.`cod_art`
-where i.`fecha` between '2020-11-01' and '2020-11-31'
+where i.`fecha` between '2020-12-01' and '2020-12-31'
 -- and i.`cod_doc` = 'EGR'
-and i.`oper` is not null
+and i.`oper` is null
 -- and i.`cod_alm` in (1)
 ;
 

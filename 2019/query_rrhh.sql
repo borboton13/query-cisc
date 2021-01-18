@@ -44,7 +44,7 @@ left join contrato c on cp.`idcontrato` = c.`idcontrato`
 left join empleado e on c.`idempleado` = e.`idempleado`
 left join persona p  on e.`idempleado` = p.`idpersona`
 left join entidad en on p.`idpersona` = en.`identidad`
-where en.`noidentificacion` = 6405572
+where en.`noidentificacion` = 8008156
 and bc.`fechafin` >= '2020-01-01'
 -- and bh.`horainicio` = '08:00:00'
 ;
@@ -57,13 +57,14 @@ left join contrato c on cp.`idcontrato` = c.`idcontrato`
 left join empleado e on c.`idempleado` = e.`idempleado`
 left join persona p  on e.`idempleado` = p.`idpersona`
 left join entidad en on p.`idpersona` = en.`identidad`
--- set bh.`horainicio` = '12:00', bh.horafin = '20:00'
-set bh.horafin = '19:00:00'
+-- set bh.`horainicio` = '07:00:00', bh.horafin = '12:00:00'
+-- set bh.`horainicio` = '14:00:00'
+set bh.horafin = '12:00:00'
 -- set bc.fechafin = '2020-12-31'
-where en.`noidentificacion` = 6405572
-and bc.`fechafin` >= '2020-12-31'
--- and bh.`horainicio` = '07:00:00'
--- and bh.idbandahoraria in (1028)
+where en.`noidentificacion` = 8008156
+and bc.`fechafin` >= '2020-12-01'
+-- and bh.`horainicio` = '13:30:00'
+and bh.idbandahoraria in (3873)
 ;
 
 update SECUENCIA set VALOR=(select max(E.IDRHMARCADO)/10+1 from RHMARCADO E) where TABLA='BonoConseguido';
@@ -85,11 +86,11 @@ where idbandahoraria in (
 );
 
 -- eliminando planillas generadas
-delete from reportecontrol 		 	where idplanillagenerada in (432);
-delete from `planillafiscalporcategoria` 	where idplanillagenerada in (432);
-delete from `planillatributariaporcategoria` 	where idplanillagenerada in (432);
-delete from `planillaadministrativos` 		where idplanillagenerada in (432);
-delete from `planillagenerada` 			where idplanillagenerada in (432);
+delete from reportecontrol 		 	where idplanillagenerada in (441);
+delete from `planillafiscalporcategoria` 	where idplanillagenerada in (441);
+delete from `planillatributariaporcategoria` 	where idplanillagenerada in (441);
+delete from `planillaadministrativos` 		where idplanillagenerada in (441);
+delete from `planillagenerada` 			where idplanillagenerada in (441);
 
 -- Actualizar para Eliseo
 update planillafiscalporcategoria p
@@ -97,16 +98,16 @@ set 	p.`liquidopagable` 	= 15729.64,
 	p.`afplab_individual` 	= 0,
 	p.`afplab_riesgocomun`  = 0,
 	p.`totaldescuentos` 	= 188.36
-where p.`idplanillafiscalporcategoria` = 17904;
+where p.`idplanillafiscalporcategoria` = 18528;
 
 -- Actualizar Luis Ferrufino
 update planillafiscalporcategoria p
-set 	p.`liquidopagable` 	= 4571.04,
+set 	p.`liquidopagable` 	= 4237.28,
 	p.`afplab_individual` 	= p.`afplab_individual`,
 	p.`afplab_riesgocomun`  = 0,
 	p.`afplab_solidario`	= p.`afplab_solidario`,
-	p.`totaldescuentos` 	= 564.96
-where p.`idplanillafiscalporcategoria` = 17886;
+	p.`totaldescuentos` 	= 523.72
+where p.`idplanillafiscalporcategoria` = 18510;
 
 -- Actualizar Simon Calucho
 update planillafiscalporcategoria p
@@ -115,8 +116,23 @@ set 	p.`liquidopagable` 	= 2597.02,
 	p.`afplab_riesgocomun`  = 0,
 	p.`afplab_solidario`	= p.`afplab_solidario`,
 	p.`totaldescuentos` 	= 320.98
-where p.`idplanillafiscalporcategoria` = 17908;
+where p.`idplanillafiscalporcategoria` = 18532;
 
+-- Actualizar Juana Pozo
+update planillafiscalporcategoria p
+set 	p.`liquidopagable` 	= 12470.63,
+	p.`afplab_individual` 	= 0,
+	p.`afplab_riesgocomun`  = p.`afplab_riesgocomun`,
+	p.`afplab_solidario`	= p.`afplab_solidario`,
+	p.`totaldescuentos` 	= 347.37
+where p.`idplanillafiscalporcategoria` = 18527;
+
+select *
+from `planillafiscalporcategoria` p
+where p.`idplanillagenerada` = 453
+and p.`ci` in (
+815059, 2862262, 2868139, 921886
+) ;
 
 
 
