@@ -6,7 +6,7 @@ join zonaproductiva z on s.`idzonaproductiva` = z.`idzonaproductiva`
 join tipocredito t on c.`idtipocredito` = t.`idtipocredito`
 -- where c.`idtipocredito` = 2
 -- where s.`idzonaproductiva` = 6
-where z.`numero` = 17
+where z.`numero` = 12
 ;
 
 

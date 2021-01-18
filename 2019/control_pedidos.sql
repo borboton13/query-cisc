@@ -13,7 +13,8 @@ and a.`cod_art` in (237)
 select p.`IDPEDIDOS`, pc.`NOM`, pc.`AP`, pc.`AM`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`TOTAL`, p.`TOTALIMPORTE`, p.`id_tmpenc`
 from pedidos p
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
-where p.`FECHA_ENTREGA` between '2019-01-01' and '2019-01-31'
+where p.`FECHA_ENTREGA` between '2020-12-28' and '2020-12-31'
+and pc.`IDTERRITORIOTRABAJO` = 24 -- 24 Zona 3
 -- AND p.`ESTADO` <> 'ANULADO'
 -- AND pc.`NOM` LIKE '%Edelfr%'
 ;
