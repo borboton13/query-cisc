@@ -36,16 +36,16 @@ and i.`oper` in ('TP', 'BA', 'DE')
 -- update pr_produccion pr
 join pr_plan pl on pr.`idplan` = pl.`idplan`
 set pr.`estado` = 'APR'
-where pl.`fecha` between '2020-06-01' and '2020-06-30'
+where pl.`fecha` between '2020-12-01' and '2020-12-31'
 ;
 
-update pr_plan p set p.`estado` = 'APR' where p.`fecha` between '2020-06-01' and '2020-06-30';
-update periodocostoindirecto p set p.`contab` = 0, p.`procesado` = 0 where p.`idperiodocostoindirecto` = 51;
+update pr_plan p set p.`estado` = 'APR' where p.`fecha` between '2020-12-01' and '2020-12-31';
+update periodocostoindirecto p set p.`contab` = 0, p.`procesado` = 0 where p.`idperiodocostoindirecto` = 57;
 
 
 select *
 from sf_tmpenc e
-where e.`fecha` between '2020-03-01' and '2020-03-31'
+where e.`fecha` between '2020-12-01' and '2020-12-31'
 and e.`tipo_doc` = 'PD'
 ;
 

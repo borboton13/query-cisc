@@ -17,11 +17,11 @@ where d.`id_tmpenc` in (
 
 
 delete from sf_tmpdet where id_tmpenc in (
-156881
+
 );
 
 delete from sf_tmpenc where id_tmpenc in (
-156881
+
 );
 
 

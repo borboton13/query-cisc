@@ -377,7 +377,7 @@ group by mes, v.`cod_art`, a.`descri`
 select v.`cod_art`, a.`descri`, sum(v.`CANTIDAD`) as cantidad, sum(v.`importe`) as montobs
 from ventas v
 left join inv_articulos a on v.`cod_art` = a.`cod_art`
-where v.`FECHA` between '2019-01-01' and '2019-12-31'
+where v.`FECHA` between '2020-01-01' and '2020-12-31'
 and v.`idusuario` <> 5
 and v.`idtipopedido` in (1, 5)
 group by v.`cod_art`, a.`descri`
