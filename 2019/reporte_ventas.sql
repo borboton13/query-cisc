@@ -359,6 +359,17 @@ and pc.`NOM` like '%SEMAPA%'
 group by p.`FECHA_ENTREGA`, pc.`NOM`, a.`cod_art`, ar.`descri`, p.`CODIGO`, p.`IDMOVIMIENTO`, M.`NROFACTURA`;
 -- ---------------------------------------------------
 
+-- ----------------------------------------------------------------
+-- ---------------------- RESUMEN PEDIDOS X ZONA PREVENTA -------------------------
+select p.`IDPEDIDOS`, pc.`NOM`, pc.`AP`, pc.`AM`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`TOTAL`, p.`TOTALIMPORTE`, p.`id_tmpenc`, p.`IDMOVIMIENTO`
+from pedidos p
+left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+where p.`FECHA_ENTREGA` between '2021-01-19' and '2021-01-19'
+and pc.`IDTERRITORIOTRABAJO` = 24
+;
+
+
+-- ======================================
 select *
 from personacliente p
 where p.`NOM` like '%SEDEM%'

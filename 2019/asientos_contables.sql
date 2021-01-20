@@ -63,7 +63,7 @@ d.`idpersonacliente`, d.`cod_prov`, d.`cod_art`, d.`cant_art`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
-where e.`fecha` between '2020-10-01' and '2020-12-31'
+where e.`fecha` between '2020-12-01' and '2020-12-31'
 -- and e.`estado` <> 'ANL'
 -- where d.`debe` = 0 and d.`haber` = 0
 -- and d.`id_tmpenc` = 137259
@@ -71,13 +71,13 @@ where e.`fecha` between '2020-10-01' and '2020-12-31'
 -- and d.`cuenta` = '1310510600'
 -- and e.`no_doc` in (51)
 -- and e.`glosa` like '%SUELDOS%'
-and d.`cod_art`in (991)
+and d.`cod_art`in (277)
 -- and d.`idsocio` = 
 ;
 
 
 -- Detalle por TipoDoc
-select e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, e.`no_doc`,  s.`nombres`, s.`apellidopaterno`, c.`codigoant`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`,  /*d.`tc`, d.`debeme`, d.`haberme`,*/
+select e.`id_tmpenc`, e.`no_trans`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, e.`no_doc`,  s.`nombres`, s.`apellidopaterno`, c.`codigoant`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`,  /*d.`tc`, d.`debeme`, d.`haberme`,*/
 e.`estado`, d.`idcredito`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
@@ -87,9 +87,9 @@ left join socio s     on c.`idsocio` = s.`idsocio`
 where e.`estado` <> 'ANL'
 -- where d.`debe` = 0 and d.`haber` = 0
 -- and d.`id_tmpenc` = 137259
-and e.`tipo_doc` = 'CD'
+and e.`tipo_doc` = 'CB'
 -- and d.`cuenta` = '1310510600'
-and e.`no_doc` in (13)
+and e.`no_doc` in (74)
 -- and e.`glosa` like '%SUELDOS%'
 -- and d.`cod_art`in (118)
 -- and d.`idsocio` = 
@@ -99,9 +99,9 @@ and e.`fecha` between '2020-01-01' and '2020-12-31'
 
 
 
-update sf_tmpenc e set e.`estado` = 'ANL'
+update sf_tmpenc e set e.`estado` = 'PEN'
 where e.`id_tmpenc` in (
-157829
+157479
 );
 
 -- update sf_tmpdet d set d.`cuenta` = '1810310301' where d.`id_tmpdet` = 880271;

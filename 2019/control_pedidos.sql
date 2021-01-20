@@ -8,15 +8,6 @@ where v.`FECHA_PEDIDO` between '2016-01-01' and	'2016-12-31'
 and a.`cod_art` in (237)
 ;
 
--- ----------------------------------------------------------------
--- ---------------------- RESUMEN PEDIDOS -------------------------
-select p.`IDPEDIDOS`, pc.`NOM`, pc.`AP`, pc.`AM`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`TOTAL`, p.`TOTALIMPORTE`, p.`id_tmpenc`, p.`IDMOVIMIENTO`
-from pedidos p
-left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
-where p.`FECHA_ENTREGA` between '2021-01-12' and '2021-01-12'
-and pc.`IDTERRITORIOTRABAJO` = 24
-;
-
 -- PEDIDOS - ASIENTOS
 select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`IDTIPOPEDIDO`, t.`NOMBRE`, p.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`
 from pedidos p
@@ -567,7 +558,7 @@ left join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 left join tipocliente t on pe.`IDTIPOCLIENTE` = t.`IDTIPOCLIENTE`
 left join sf_tmpenc e on p.`id_tmpenc` = e.`id_tmpenc`
 where p.`ESTADO` <> 'ANULADO'
-and p.`FECHA_ENTREGA` between '2020-06-01' and '2020-09-31'
+and p.`FECHA_ENTREGA` between '2020-06-01' and '2020-12-31'
 and p.`tipoventa` = 'CREDIT'
 and p.`iddistribuidor` is not null
 ;
