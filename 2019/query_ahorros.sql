@@ -104,17 +104,18 @@ order by e.`fecha`, d.`id_tmpdet`
 ;
 
 -- CUENTAS DE AHORRO - SALDO
-select s.`idsocio`, c.idcuenta, s.`nombres`, s.`apellidopaterno`, s.`apellidopaterno`, c.fechaapertura, c.fechavence,  c.`nocuenta`, c.`codigo`, c.`moneda`, 
-	sum(d.`haber`) - sum(d.`debe`) saldoBs,
-	sum(d.haberme) - sum(d.`debeme`) saldoME
+select s.`idsocio`, c.idcuenta, t.nombre, s.`nombres`, s.`apellidopaterno`, s.`apellidopaterno`, c.fechaapertura, c.fechavence,  c.`nocuenta`, c.`codigo`, c.`moneda`, 
+	sum(d.`haber`) - sum(d.`debe`) saldo_Bs,
+	sum(d.haberme) - sum(d.`debeme`) saldo_ME
 from sf_tmpdet d
 join sf_tmpenc e 	on d.id_tmpenc = e.id_tmpenc
 join cuenta c 		on d.`idcuenta` = c.`idcuenta`
 join tipocuenta t	on c.idtipocuenta = t.idtipocuenta
 join socio s on c.`idsocio` = s.`idsocio`
 where e.estado <> 'ANL'
--- and t.tipo = 'DPF'
-and c.`nocuenta` in ( 200519, 100338)
+and t.tipo = 'DPF'
+and e.fecha <= '2020-12-31'
+-- and c.`nocuenta` in ( 200519, 100338)
 group by s.`idsocio`, c.idcuenta, s.`nombres`, s.`apellidopaterno`, s.`apellidopaterno`, c.fechaapertura, c.fechavence, c.`nocuenta`, c.`codigo`, c.`moneda`
 ;
 
