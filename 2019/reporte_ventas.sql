@@ -499,7 +499,7 @@ from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where p.`FECHA_ENTREGA` between '2020-09-25' and '2020-10-31'
+where p.`FECHA_ENTREGA` between '2021-01-15' and '2021-01-26'
 and P.`ESTADO` <> 'ANULADO'
 and p.`IDUSUARIO` <> 5
 and p.`tipoventa` = 'CREDIT'
