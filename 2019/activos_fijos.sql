@@ -87,13 +87,14 @@ where a.`idactivo` in (
 353
 );
 
-select 	a.`idactivo`, a.`descri`, a.`fch_alta`, a.`duracion`, a.`vobs`, a.`dep_acu_vo`, a.`estado`, a.`dep_vo`,
+select s.`ctagavo`, ar.`descri`, a.`idactivo`,  a.`descri`, a.`fch_alta`, a.`duracion`, a.`vobs`, a.`dep_acu_vo`, a.`estado`, a.`dep_vo`,
 	sum(d.`dep_vo_bs`) s_dep_vo_bs
 from `af_activos` a
-left join af_hdepre d on a.`idactivo` = d.`idactivo`
--- where a.`idactivo` in (229)
-where a.`subgrupo` = 8
-group by a.`idactivo`, a.`descri`, a.`fch_alta`, a.`duracion`, a.`vobs`, a.`dep_acu_vo`, a.`estado`, a.`dep_vo`
+left join af_hdepre d 	 on a.`idactivo` = d.`idactivo`
+left join af_subgrupos s on a.`subgrupo` = s.`subgrupo`
+left join arcgms ar 	 on s.`ctagavo`  = ar.`cuenta`
+where d.`fecha_en_proceso` between '2020-01-01' and '2020-12-31'
+group by s.`ctagavo`, ar.`descri`, a.`idactivo`, a.`descri`, a.`fch_alta`, a.`duracion`, a.`vobs`, a.`dep_acu_vo`, a.`estado`, a.`dep_vo`
 ;
 
 
