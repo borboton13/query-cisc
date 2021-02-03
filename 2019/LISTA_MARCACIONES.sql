@@ -99,7 +99,7 @@ where r.`marfecha` between '2020-03-01' and '2020-03-31'
 -- select distinct v.`marperid` as CI, cast(v.`nombre` as char(100))-- , v.`marhora`
 select *
 from vmarcado v
-where v.`marfecha` between '2020-12-01' and '2020-12-31'
+where v.`marfecha` between '2021-01-01' and '2021-01-31'
 ;
 
 
