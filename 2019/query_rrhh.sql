@@ -96,14 +96,6 @@ delete from `planillatributariaporcategoria` 	where idplanillagenerada in (441);
 delete from `planillaadministrativos` 		where idplanillagenerada in (441);
 delete from `planillagenerada` 			where idplanillagenerada in (441);
 
--- Actualizar para Eliseo
-update planillafiscalporcategoria p
-set 	p.`liquidopagable` 	= 15729.64,
-	p.`afplab_individual` 	= 0,
-	p.`afplab_riesgocomun`  = 0,
-	p.`totaldescuentos` 	= 188.36
-where p.`idplanillafiscalporcategoria` = 18528;
-
 -- Actualizar Luis Ferrufino
 update planillafiscalporcategoria p
 set 	p.`liquidopagable` 	= 4237.28,
@@ -111,16 +103,7 @@ set 	p.`liquidopagable` 	= 4237.28,
 	p.`afplab_riesgocomun`  = 0,
 	p.`afplab_solidario`	= p.`afplab_solidario`,
 	p.`totaldescuentos` 	= 523.72
-where p.`idplanillafiscalporcategoria` = 18510;
-
--- Actualizar Simon Calucho
-update planillafiscalporcategoria p
-set 	p.`liquidopagable` 	= 2597.02,
-	p.`afplab_individual` 	= p.`afplab_individual`,
-	p.`afplab_riesgocomun`  = 0,
-	p.`afplab_solidario`	= p.`afplab_solidario`,
-	p.`totaldescuentos` 	= 320.98
-where p.`idplanillafiscalporcategoria` = 18532;
+where p.`idplanillafiscalporcategoria` = 18846;
 
 -- Actualizar Juana Pozo
 update planillafiscalporcategoria p
@@ -129,11 +112,30 @@ set 	p.`liquidopagable` 	= 12470.63,
 	p.`afplab_riesgocomun`  = p.`afplab_riesgocomun`,
 	p.`afplab_solidario`	= p.`afplab_solidario`,
 	p.`totaldescuentos` 	= 347.37
-where p.`idplanillafiscalporcategoria` = 18527;
+where p.`idplanillafiscalporcategoria` = 18863;
+
+-- Actualizar para Eliseo
+update planillafiscalporcategoria p
+set 	p.`liquidopagable` 	= 15729.64,
+	p.`afplab_individual` 	= 0,
+	p.`afplab_riesgocomun`  = 0,
+	p.`totaldescuentos` 	= 188.36
+where p.`idplanillafiscalporcategoria` = 18864;
+
+-- Actualizar Simon Calucho
+update planillafiscalporcategoria p
+set 	p.`liquidopagable` 	= 2597.02,
+	p.`afplab_individual` 	= p.`afplab_individual`,
+	p.`afplab_riesgocomun`  = 0,
+	p.`afplab_solidario`	= p.`afplab_solidario`,
+	p.`totaldescuentos` 	= 320.98
+where p.`idplanillafiscalporcategoria` = 18868;
+
+
 
 select *
 from `planillafiscalporcategoria` p
-where p.`idplanillagenerada` = 453
+where p.`idplanillagenerada` = 461
 and p.`ci` in (
 815059, 2862262, 2868139, 921886
 ) ;
