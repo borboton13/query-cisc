@@ -63,7 +63,7 @@ where p.`FECHA_ENTREGA` between '2020-01-01' and '2020-12-31'
 and p.`CODIGO` in (8061)
 ;
 
-update pedidos p set p.`IDCLIENTE` = 665 where p.`IDPEDIDOS` = 51331;
+-- update pedidos p set p.`IDCLIENTE` = 665 where p.`IDPEDIDOS` = 51331;
 
 -- update pedidos p set p.`ESTADO` = 'ANULADO' where p.`IDPEDIDOS`= 35615;
 -- update sf_tmpenc e SET e.`estado` = 'ANL' where e.`id_tmpenc` = 123001;
@@ -395,14 +395,21 @@ and v.`IDMOVIMIENTO` is not null
 select p.`IDPEDIDOS`, p.`CODIGO`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`TIENEFACTURA`, pe.`NOM`, p.`IDMOVIMIENTO`, P.`TOTALIMPORTE`, P.`IMPUESTO`
 from pedidos p
 left join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
-where p.`FECHA_ENTREGA` between '2019-01-01' and '2019-12-31'
-and p.`ESTADO` <> 'CONTABILIZADO' 
-and p.`ESTADO` <> 'ANULADO'
+where p.`FECHA_ENTREGA` between '2021-01-01' and '2021-01-31'
+-- and p.`ESTADO` = "PREPARAR" 
+and p.`tipoventa` = 'CREDIT'
+-- and p.`ESTADO` <> 'ANULADO'
 ;
 
+select *
+from pedidos p
+where p.`FECHA_ENTREGA` between '2021-01-01' and '2021-01-31'
+and p.`tipoventa` = 'CREDIT'
+and p.`ESTADO` = 'PREPARAR'
+;
 
 -- PEDIDOS - DESCUENTOS VETRINARIOS / LACTEOS
-set @folio = (select max(idmovimientosalarioproductor)+1 from movimientosalarioproductor);
+-- set @folio = (select max(idmovimientosalarioproductor)+1 from movimientosalarioproductor);
 select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`TOTALIMPORTE`, p.`IDCLIENTE`, pe.`NOM`, pe.`AP`, pe.`AM`, pe.`NRO_DOC`, en.`identidad`, en.`noidentificacion`, per.`nombres`, per.`apellidopaterno`, per.`apellidomaterno`, p.`id_tmpenc`
 -- INSERT INTO movimientosalarioproductor
 -- SELECT (@folio := @folio + 1), p.`FECHA_ENTREGA`, concat('Descuento por venta a credito Nro. ',  p.`CODIGO`) as descri, 'PENDING' AS estado, p.`TOTALIMPORTE` as valor, '1' as idcompania, pr.`idzonaproductiva`, en.`identidad`, '4' AS idtipomovimientoproductor

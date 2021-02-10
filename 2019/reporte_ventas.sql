@@ -361,19 +361,20 @@ group by p.`FECHA_ENTREGA`, pc.`NOM`, a.`cod_art`, ar.`descri`, p.`CODIGO`, p.`I
 
 -- ----------------------------------------------------------------
 -- ---------------------- RESUMEN PEDIDOS X ZONA PREVENTA -------------------------
-select p.`IDPEDIDOS`, pc.`NOM`, pc.`AP`, pc.`AM`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`TOTAL`, p.`TOTALIMPORTE`, p.`id_tmpenc`, p.`IDMOVIMIENTO`
+select p.`IDPEDIDOS`, pc.`NOM`, pc.`AP`, pc.`AM`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, t.`NOMBRE`, p.`TOTAL`, p.`TOTALIMPORTE`, p.`id_tmpenc`, p.`IDMOVIMIENTO`
 from pedidos p
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
-where p.`FECHA_ENTREGA` between '2020-12-01' and '2021-02-28'
+left join tipopedido t on p.`IDTIPOPEDIDO` = t.`IDTIPOPEDIDO`
+where p.`FECHA_ENTREGA` between '2021-02-09' and '2021-02-09'
 and pc.`IDTERRITORIOTRABAJO` = 24
 ;
 
-select pc.`NOM`, pc.`AP`, pc.`AM`, pc.`TELEFONO`, count(p.`IDPEDIDOS`) as RECURRENCIA, max(p.`FECHA_ENTREGA`) as ULTIMA, sum(p.`TOTALIMPORTE`) as IMPORTE
+select pc.`NOM`, pc.`AP`, pc.`AM`, pc.`TELEFONO`, pc.`DIRECCION`, count(p.`IDPEDIDOS`) as RECURRENCIA, max(p.`FECHA_ENTREGA`) as ULTIMA, sum(p.`TOTALIMPORTE`) as IMPORTE
 from pedidos p
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 where p.`FECHA_ENTREGA` between '2020-12-01' and '2021-02-28'
-and pc.`IDTERRITORIOTRABAJO` = 24
-and p.`ESTADO` <> 'ANULADO'
+and pc.`IDTERRITORIOTRABAJO` = 25
+-- and p.`ESTADO` <> 'ANULADO'
 group by pc.`NOM`, pc.`AP`, pc.`AM`
 ;
 

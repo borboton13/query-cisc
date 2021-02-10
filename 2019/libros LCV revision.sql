@@ -5,7 +5,7 @@ select 	d.FECHA, d.NIT, d.NOMBRE,d.NUMERO,d.IMPORTE,d.importeneto,d.iva,
 	z.idtmpenc, z.iddocumentocompra
 from documentocontable d 
 left join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
-where d.fecha between '2020-12-01' and '2020-12-31'
+where d.fecha between '2021-01-01' and '2021-01-31'
 and z.estado <> 'NULLIFIED'
 and z.tipo = 'INVOICE'
 and z.`idtmpenc` is not null
@@ -15,7 +15,7 @@ and z.`idtmpenc` is not null
 select e.`id_tmpenc`, d.`id_tmpdet`,e.`tipo_doc`, e.`no_doc`, d.`debe`, d.`haber`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where e.`fecha` between '2020-12-01' and '2020-12-31'
+where e.`fecha` between '2021-01-01' and '2021-01-31'
 and d.`cuenta` = '1420710000'
 and e.`estado` <> 'ANL'
 and e.`tipo_doc` not in ('NE')
@@ -43,7 +43,7 @@ from movimiento m
 left join ventadirecta v on m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join sf_tmpdet d on v.`id_tmpenc` = d.`id_tmpenc`
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where m.FECHA_FACTURA between '2020-12-01' and '2020-12-31'
+where m.FECHA_FACTURA between '2021-01-01' and '2021-01-31'
 and m.`IDVENTADIRECTA` is not null
 and d.`cuenta` = '2420410200'
 and e.`estado` <> 'ANL'
@@ -66,7 +66,7 @@ from movimiento m
 left join pedidos p on m.`IDPEDIDOS` = p.`IDPEDIDOS`
 left join sf_tmpdet d on p.`id_tmpenc` = d.`id_tmpenc`
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where m.FECHA_FACTURA between '2020-12-01' and '2020-12-31'
+where m.FECHA_FACTURA between '2021-01-01' and '2021-01-31'
 and m.`IDPEDIDOS` is not null
 and d.`cuenta` = '2420410200'
 and e.`estado` <> 'ANL'
@@ -84,9 +84,6 @@ and d.`cuenta` = '2420410200'
 and d.`idmovimiento` is null
 ;
 
-select *
-from pedi
-41462, 41466, 41464, 41470
 
 select *
 from movimiento m
@@ -94,9 +91,6 @@ where m.`FECHA_FACTURA` between '2020-08-01' and '2020-08-31'
 and m.`IDPEDIDOS` in (
 51691
 );
-
-
-
 
 
 -- ------------------------------------------------
@@ -197,11 +191,3 @@ where d.fecha between '2020-02-01' and '2020-02-29'
 and z.estado <> 'NULLIFIED'
 and z.tipo = 'INVOICE'
 ;
-
-
-delete from documentocompra where iddocumentocompra = 10113;
-delete from documentocontable where iddocumentocontable = 10113;
-
-update documentocompra d set d.`estado` = 'NULLIFIED' where d.`iddocumentocompra` in (
-);
-

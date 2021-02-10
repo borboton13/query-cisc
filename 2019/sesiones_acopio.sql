@@ -153,7 +153,7 @@ left join sesionacopio sa on am.`idsesionacopio` = sa.`idsesionacopio`
 left join persona p on am.`idproductormateriaprima` = p.`idpersona`
 left join productormateriaprima pr on p.`idpersona` = pr.`idproductormateriaprima`
 left join entidad e on p.`idpersona` = e.`identidad`
-where sa.`fecha` between '2021-01-01' and '2021-01-31'
+where sa.`fecha` between '2021-01-01' and '2021-01-15'
 and am.`cantidad` > 0
 -- and p.`nombres` like '%FELICIDA%'
 -- AND am.`idproductormateriaprima` IN (/*94, 524, 539, 102, 570, 526*/    107, 109, 105, 113, 112, 111, 91, 108)
