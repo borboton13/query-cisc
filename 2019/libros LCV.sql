@@ -18,10 +18,20 @@ select 	d.FECHA as "FECHA FACTURA O DUI",
 	, z.idtmpenc, z.id_tmpdet,  d.iddocumentocontable 
 from documentocontable d 
 join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
-where fecha between '2020-12-01' and '2020-12-31'
+where fecha between '2021-01-01' and '2021-01-31'
 and z.estado <> 'NULLIFIED'
 and z.tipo = 'INVOICE'
 ;
+-- 11758
+-- IA-32
+-- ntrans: 26374
+
+
+select *
+from documentocompra d
+where d.`iddocumentocompra` in (
+11723, 11724, 11725, 11726, 11727, 11728
+);
 
 -- -------------
 -- -- VENTAS ---

@@ -8,8 +8,7 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-157829,
-159435
+156547
 ) 
 -- where e.`tipo_doc` = 'IA' and e.`no_doc` in (236)
 ;
@@ -63,17 +62,18 @@ d.`idpersonacliente`, d.`cod_prov`, d.`cod_art`, d.`cant_art`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
-where e.`fecha` between '2021-01-01' and '2021-01-31'
+where e.`fecha` between '2020-01-01' and '2020-12-31'
 -- and e.`estado` <> 'ANL'
 -- where d.`debe` = 0 and d.`haber` = 0
 -- and d.`id_tmpenc` = 137259
-and e.`tipo_doc` = 'CB'
--- and d.`cuenta` = '1310510600'
-and e.`no_doc` in (1)
+-- and e.`tipo_doc` = 'CB'
+and d.`cuenta` = '1810310100'
+-- and e.`no_doc` in (1)
 -- and e.`glosa` like '%SUELDOS%'
 -- and d.`cod_art`in (277)
 -- and d.`idsocio` = 
 ;
+
 
 
 -- Detalle por TipoDoc

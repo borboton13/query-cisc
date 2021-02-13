@@ -125,7 +125,7 @@ left join sesionacopio sa on am.`idsesionacopio` = sa.`idsesionacopio`
 left join zonaproductiva zp on sa.`idzonaproductiva` = zp.`idzonaproductiva`
 left join persona p on am.`idproductormateriaprima` = p.`idpersona`
 left join entidad e on p.`idpersona` = e.`identidad`
-where sa.`fecha` between '2019-06-01' and '2019-11-30'
+where sa.`fecha` between '2020-12-01' and '2021-02-28'
 and am.`cantidad` > 0
 -- and p.`nombres` like '%FELICIDA%'
 -- AND am.`idproductormateriaprima` IN (/*94, 524, 539, 102, 570, 526*/    107, 109, 105, 113, 112, 111, 91, 108)
@@ -146,18 +146,19 @@ group by am.`idproductormateriaprima`, e.`noidentificacion`, p.`nombres`, p.`ape
 ;
 
 -- LISTA DE PRODUCTORES ACTIVOS
-select am.`idproductormateriaprima` as id, e.`noidentificacion` as ci, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, pr.`numerocuenta`, sum(am.`cantidad`) as CANT, max(sa.`fecha`)
+select am.`idproductormateriaprima` as id, zp.numero, zp.nombre, e.`noidentificacion` as ci, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, pr.`numerocuenta`, sum(am.`cantidad`) as CANT, max(sa.`fecha`)
 from acopiomateriaprima am
 left join sesionacopio sa on am.`idsesionacopio` = sa.`idsesionacopio`
--- LEFT JOIN zonaproductiva zp ON sa.`idzonaproductiva` = zp.`idzonaproductiva`
+left join zonaproductiva zp on sa.`idzonaproductiva` = zp.`idzonaproductiva`
 left join persona p on am.`idproductormateriaprima` = p.`idpersona`
 left join productormateriaprima pr on p.`idpersona` = pr.`idproductormateriaprima`
 left join entidad e on p.`idpersona` = e.`identidad`
-where sa.`fecha` between '2021-01-01' and '2021-01-15'
+where sa.`fecha` between '2020-01-01' and '2020-12-31'
 and am.`cantidad` > 0
 -- and p.`nombres` like '%FELICIDA%'
 -- AND am.`idproductormateriaprima` IN (/*94, 524, 539, 102, 570, 526*/    107, 109, 105, 113, 112, 111, 91, 108)
-group by am.`idproductormateriaprima`, e.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, pr.`numerocuenta`
+-- group by am.`idproductormateriaprima`, e.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, pr.`numerocuenta`
+group by am.`idproductormateriaprima`, zp.numero, zp.nombre, e.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, pr.`numerocuenta`
 ;
 
 -- REPORTE DE ACOPIO POR PRODUCTOR X MES + ci
