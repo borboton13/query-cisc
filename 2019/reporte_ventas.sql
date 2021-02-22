@@ -365,7 +365,7 @@ select p.`IDPEDIDOS`, pc.`NOM`, pc.`AP`, pc.`AM`, p.`FECHA_ENTREGA`, p.`CODIGO`,
 from pedidos p
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join tipopedido t on p.`IDTIPOPEDIDO` = t.`IDTIPOPEDIDO`
-where p.`FECHA_ENTREGA` between '2021-02-09' and '2021-02-09'
+where p.`FECHA_ENTREGA` between '2021-02-18' and '2021-02-18'
 and pc.`IDTERRITORIOTRABAJO` = 24
 ;
 
@@ -378,6 +378,31 @@ and pc.`IDTERRITORIOTRABAJO` = 25
 group by pc.`NOM`, pc.`AP`, pc.`AM`
 ;
 
+-- PREVENTA DETALLE
+select p.`IDPEDIDOS`, pc.`NOM`, pc.`AP`, pc.`AM`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, t.`NOMBRE`, p.`TOTALIMPORTE`, a.`cod_art`, i.`descri`, a.`CANTIDAD`, a.`PRECIO`, a.`IMPORTE`
+from pedidos p
+left join articulos_pedido a on p.`IDPEDIDOS` = a.`IDPEDIDOS`
+left join inv_articulos i    on a.`cod_art` = i.`cod_art`
+left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+left join tipopedido t on p.`IDTIPOPEDIDO` = t.`IDTIPOPEDIDO`
+where p.`FECHA_ENTREGA` between '2021-02-18' and '2021-02-18'
+and pc.`IDTERRITORIOTRABAJO` = 24
+and p.`ESTADO` <> 'ANULADO'
+;
+
+-- PREVENTA DETALLE
+select a.`cod_art`, i.`descri`, sum(a.`CANTIDAD`) as cant, sum(a.`IMPORTE`) as importe
+from pedidos p
+left join articulos_pedido a on p.`IDPEDIDOS` = a.`IDPEDIDOS`
+left join inv_articulos i    on a.`cod_art` = i.`cod_art`
+left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+left join tipopedido t on p.`IDTIPOPEDIDO` = t.`IDTIPOPEDIDO`
+where p.`FECHA_ENTREGA` between '2021-02-18' and '2021-02-18'
+and pc.`IDTERRITORIOTRABAJO` = 24
+and p.`ESTADO` <> 'ANULADO'
+and p.`IDPEDIDOS` not in (59322, 59325, 59342)
+group by a.`cod_art`, i.`descri`
+;
 
 -- ======================================
 select *

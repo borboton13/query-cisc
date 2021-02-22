@@ -38,21 +38,27 @@ select 	p.`FECHA_ENTREGA`, P.`FECHA_PEDIDO`,
 	p.`VALORCOMISION`, p.`TOTALIMPORTE`,
 	-- a.`cu`,
 	p.`IDTIPOPEDIDO`, p.`CV`, p.`IDMOVIMIENTO`,
-	p.`ESTADO`, p.`id_tmpenc`, p.`TIENEFACTURA`, p.`FACTURA`
+	p.`ESTADO`, p.`id_tmpenc`, p.`TIENEFACTURA`, p.`FACTURA`, p.`id_tmpenc`
 from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where p.`FECHA_ENTREGA` between '2020-09-01' and '2020-09-31'
+where p.`FECHA_ENTREGA` between '2021-01-01' and '2021-12-31'
 -- and p.`IDPEDIDOS` = 52247
 -- and p.`IDCLIENTE` = 726
 -- and p.`CODIGO` in (1090)
--- and p.`ESTADO` <> 'ANULADO'
+and p.`ESTADO` <> 'ANULADO'
 -- and pc.`NOM` like '%Monica Lau%'
 -- AND a.`IDPEDIDOS` = 29988
 -- AND pc.`AP` LIKE '%Car%'
-and a.`cod_art` in (1090)
+-- and a.`cod_art` in (1090)
 -- AND p.`IDUSUARIO` = 5
+and a.`TOTAL` = 0
+;
+
+select distinct i.`cod_alm`
+from inv_periodo i
+where i.`gestion` = 2021
 ;
 
 select *
