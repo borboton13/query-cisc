@@ -55,7 +55,7 @@ select 	IDMOVIMIENTO,
 	if(ESTADO = 'A', 0, CODIGOCONTROL) as "CODIGO DE CONTROL",
 	IDPEDIDOS, IDVENTADIRECTA, idmovimiento, id_tmpdet
 from movimiento
-where FECHA_FACTURA between '2021-01-01' and '2021-01-31'
+where FECHA_FACTURA between '2021-02-01' and '2021-02-28'
 ;
 
 -- -------------
