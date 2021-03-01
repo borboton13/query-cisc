@@ -77,11 +77,12 @@ and p.`IDTIPOPEDIDO` = 5
 select m.`idmovimientosalarioproductor`, m.`idproductormateriaprima`, m.`fecha`, m.`descripcion`, m.`valor`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, p.`idpersona`, m.`idproductormateriaprima`
 from movimientosalarioproductor m
 left join persona p on m.`idproductormateriaprima` = p.`idpersona`
-where m.`fecha` between '2021-01-01' and '2021-01-15'
+where m.`fecha` between '2020-01-01' and '2021-02-28'
 -- and m.`descripcion` <> 'REPOSICION DE FORMULARIO'
 -- and m.`descripcion` not like '%COMISION BANCO%'
 and m.`descripcion` not like '%COMISION BANCO%'
-and m.`idtipomovimientoproductor` = 3
+and p.`nombres` like '%FIDELIA%'
+-- and m.`idtipomovimientoproductor` = 3
 
 ;
 
