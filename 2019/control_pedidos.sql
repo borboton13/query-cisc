@@ -85,16 +85,8 @@ and p.`CODIGO` in (8061)
 -- update movimiento m set m.`ESTADO` = 'A' WHERE m.`IDMOVIMIENTO` = 60392;
 update pedidos p set p.`FECHA_ENTREGA` = '2020-11-18' where p.`IDPEDIDOS`= 54958; -- 2020-11-18
 
-select *
-from articulos_pedido a
-where a.`IDPEDIDOS` = 35568;
 
--- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-22', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34167; -- 2019-08-22
--- update pedidos p set p.`FECHA_ENTREGA` = '2019-08-22', p.descripcion = 'S.PRENATAL Y L.' where p.`IDPEDIDOS`= 34168; -- 2019-08-22
 
-select * from pedidos p where p.`IDPEDIDOS` in (31535, 32340, 32541, 32617);
-
--- update pedidos p set p.`ESTADO` = 'ANULADO', p.`OBSERVACION` = 'ERROR EN LA PERSONA (OSBY)' where p.`IDPEDIDOS` = 32156;
 
 select *
 from movimiento m
@@ -103,26 +95,10 @@ where m.`IDPEDIDOS` in (31535, 32340, 32541, 32617)
 and m.`FECHA_FACTURA` >= '2019-05-01'
 ;
 
--- update pedidos p set p.`PORCENTAJECOMISION` = 10, p.`VALORCOMISION` = (p.`TOTALIMPORTE`*0.10) , p.`IDMOVIMIENTO` = null, p.`ESTADO` = 'PREPARAR', p.`id_tmpenc` = null
-where p.`IDPEDIDOS` in (32340, 32541, 32617);
-
-update pedidos p set p.`FECHA_ENTREGA` = '2019-06-14', p.`TIENEFACTURA` = 0, p.`IDMOVIMIENTO` = null, p.`OBSERVACION` = 'FACT: 51 (14/06/2019), REFACT: 2221 (27/07/2019)' 
-where p.`IDPEDIDOS`= 32536; -- SEDEM ORURO 14/06/2019 ORIG
 
 -- update pedidos p set p.`FECHA_ENTREGA` = '2019-06-15' where p.`IDPEDIDOS`= 32541; -- 2019-06-15
 -- update pedidos p set p.`FECHA_ENTREGA` = '2019-06-19' where p.`IDPEDIDOS`= 32617; -- 2019-06-19
 
--- update sf_tmpenc e set e.`estado` = 'ANL'
-where e.`id_tmpenc` in (112529, 112772, 113046);
-
--- SEDEM SCZ
--- update pedidos p set p.`FECHA_ENTREGA` = '2019-06-12' where p.`IDPEDIDOS` in (32340); -- 
--- UPDATE pedidos p SET p.`FECHA_ENTREGA` = '2019-05-03' WHERE p.`IDPEDIDOS` = 31254; -- ok
--- UPDATE pedidos p SET p.`FECHA_ENTREGA` = '2019-05-02' WHERE p.`IDPEDIDOS` = 31254; -- pen
-
--- UPDATE pedidos p SET p.`IDMOVIMIENTO` = null WHERE p.`IDPEDIDOS` IN (31195,31196,31208); -- ok
--- UPDATE pedidos p SET p.`id_tmpenc` = null WHERE p.`IDPEDIDOS` IN (31195,31196,31208); -- ok
--- update movimiento m set m.`ESTADO` = 'A' where m.`IDMOVIMIENTO` in (52023,52022,52011);  -- ok
 
 
 select *
@@ -386,26 +362,6 @@ left join inv_articulos i on p.cod_Art = i.cod_art
 ;
 
 --
--- REPORTE DE FACTURAS ANULADAS
--- PEDIDOS ANULADOS
-select p.`IDMOVIMIENTO`, p.fecha_entrega, p.`CODIGO`, p.`ESTADO`, m.nrofactura, m.`FECHA_FACTURA`, p.observacion, m.`RAZON_SOCIAL`, m.`ESTADO`, pc.`IDPERSONACLIENTE`, p.`id_tmpenc`
-from pedidos p
-join personacliente pc on p.idcliente = pc.idpersonacliente
-join movimiento m      on p.idmovimiento = m.idmovimiento
-where p.`FECHA_ENTREGA` between '2016-06-16' and '2016-06-16'
--- AND p.`ESTADO` = 'ANULADO'
-and p.`IDMOVIMIENTO` is not null
-;
-
-select v.`IDMOVIMIENTO`, v.`FECHA_PEDIDO`, v.`CODIGO`, v.`ESTADO`, m.`NROFACTURA`, m.`FECHA_FACTURA`, v.`OBSERVACION`, m.`RAZON_SOCIAL`, v.`IDCLIENTE`
-from ventadirecta v
-join movimiento m on v.`IDMOVIMIENTO` = m.`IDMOVIMIENTO`
-where v.`FECHA_PEDIDO` between '2017-03-01' and '2017-03-31'
-and v.`ESTADO` = 'ANULADO'
-and v.`IDMOVIMIENTO` is not null
-;
-
---
 -- CONTROL DE PEDIDOS SIN CONTABILIZAR
 select p.`IDPEDIDOS`, p.`CODIGO`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`TIENEFACTURA`, pe.`NOM`, p.`IDMOVIMIENTO`, P.`TOTALIMPORTE`, P.`IMPUESTO`
 from pedidos p
@@ -423,92 +379,6 @@ and p.`tipoventa` = 'CREDIT'
 and p.`ESTADO` = 'PREPARAR'
 ;
 
--- PEDIDOS - DESCUENTOS VETRINARIOS / LACTEOS
--- set @folio = (select max(idmovimientosalarioproductor)+1 from movimientosalarioproductor);
-select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`TOTALIMPORTE`, p.`IDCLIENTE`, pe.`NOM`, pe.`AP`, pe.`AM`, pe.`NRO_DOC`, en.`identidad`, en.`noidentificacion`, per.`nombres`, per.`apellidopaterno`, per.`apellidomaterno`, p.`id_tmpenc`
--- INSERT INTO movimientosalarioproductor
--- SELECT (@folio := @folio + 1), p.`FECHA_ENTREGA`, concat('Descuento por venta a credito Nro. ',  p.`CODIGO`) as descri, 'PENDING' AS estado, p.`TOTALIMPORTE` as valor, '1' as idcompania, pr.`idzonaproductiva`, en.`identidad`, '4' AS idtipomovimientoproductor
-from pedidos p
-left join personacliente pe 	on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
-left join entidad en 		on pe.`NRO_DOC` = en.`noidentificacion`
-left join persona per 		on en.`identidad` = per.`idpersona`
-left join productormateriaprima pr on per.`idpersona` = pr.`idproductormateriaprima`
-where p.`IDUSUARIO` = 404
--- WHERE p.`IDUSUARIO` = 5
-and p.`FECHA_ENTREGA` between '2019-03-01' and '2019-03-15'
-and p.`IDTIPOPEDIDO` = 5
-;
-
-select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`TOTALIMPORTE`, p.`IDCLIENTE`, pe.`NOM`, pe.`AP`, pe.`AM`, pe.`NRO_DOC`, en.`identidad`, en.`noidentificacion`, per.`nombres`, per.`apellidopaterno`, per.`apellidomaterno`, p.`id_tmpenc`
--- INSERT INTO movimientosalarioproductor
--- SELECT (@folio := @folio + 1), p.`FECHA_ENTREGA`, concat('Descuento por venta a credito Nro. ',  p.`CODIGO`) as descri, 'PENDING' AS estado, p.`TOTALIMPORTE` as valor, '1' as idcompania, pr.`idzonaproductiva`, en.`identidad`, '4' AS idtipomovimientoproductor
-from pedidos p
-left join personacliente pe 	on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
-left join entidad en 		on pe.`NRO_DOC` = en.`noidentificacion`
-left join persona per 		on en.`identidad` = per.`idpersona`
-left join productormateriaprima pr on per.`idpersona` = pr.`idproductormateriaprima`
-where p.`IDUSUARIO` = 404
--- WHERE p.`IDUSUARIO` = 5
-and p.`FECHA_ENTREGA` between '2019-01-01' and '2019-01-15'
-and p.`IDTIPOPEDIDO` = 5
-;
-
-update SECUENCIA set VALOR=(select max(E.IDMOVIMIENTOSALARIOPRODUCTOR)+1 from MOVIMIENTOSALARIOPRODUCTOR E) where TABLA='MOVIMIENTOSALARIOPRODUCTOR';
-
-select v.`fecha`,  v.`no_trans`, v.`no_vale`, v.`cod_doc`, v.`estado`, v.`cod_alm`, m.`fecha_cre`, m.`fecha_mov`, m.`descri`, d.`fecha`, d.`cod_art`, a.`descri`, d.`costounitario`, d.`cantidad`, v.`idtmpenc`
-from inv_movdet d 
-left join inv_articulos a on d.`cod_art` = a.`cod_art`
-left join inv_mov m on d.`no_trans` = m.`no_trans`
-left join inv_vales v on m.`no_trans` = v.`no_trans`
-where m.`no_usr` = 'SUA'
-and v.`cod_alm` = 2
-and v.`fecha` between '2019-01-01' and '2019-02-28'
-and d.`cod_art` in (118, 148, 150, 151, 643)
-;
-
-
-
-select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`CODIGO`, p.`IDTIPOPEDIDO`, p.`TOTALIMPORTE`, p.`VALORCOMISION`, p.`TOTAL`, p.`IMPUESTO`, p.`id_tmpenc`, p.`IDMOVIMIENTO`
-from pedidos p
-where p.`FECHA_ENTREGA` between '2019-09-01' and '2019-09-30'
-and p.`ESTADO` <> 'ANULADO'
--- and p.`IDTIPOPEDIDO` <> 1
-and p.`id_tmpenc` is not null
-;
-
-select *
-from ventadirecta v
-where v.`FECHA_PEDIDO` between '2019-09-01' and '2019-09-30'
-and v.`ESTADO` <> 'ANULADO'
-;
-
-select v.`cod_art`, sum(v.`CANTIDAD`), sum(v.`TOTAL`)
-from ventas v
-where v.`FECHA` between '2019-10-01' and '2019-10-31'
-and v.`cod_art` = 143
-;
-
-
-select *
-from ventadirecta v
-where v.`FECHA_PEDIDO` between '2019-10-01' and '2019-10-31'
-;
-
-
-select p.`FECHA_ENTREGA`, pe.`NOM`, p.`CODIGO`, p.`IDMOVIMIENTO`, m.`FECHA_FACTURA`, m.`NROFACTURA`, M.`IMPORTE_TOTAL`, m.`ESTADO`
-from pedidos p
-left join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
-left join movimiento m on p.`IDMOVIMIENTO` = m.`IDMOVIMIENTO`
-where p.`FECHA_ENTREGA` between '2017-01-01' and '2018-12-31'
-and p.`IDCLIENTE` in (405,731,732,733,734,735,736,737)
-and p.`ESTADO` <> 'ANULADO'
-;
-
-
-select *
-from personacliente p
-where p.`NOM` like '%HIPER%'
-;
 
 
 -- REPORTE DE REPOSICIONES
@@ -541,12 +411,6 @@ and v.`ESTADO` <> 'ANULADO'
 ;
 
 
--- PRECIOS ESPECIALES - CLIENTES
-select v.*, p.`NOM`, p.`AP`, p.`AM`
-from ventacliente v
-left join personacliente p on v.`IDCLIENTE` = p.`IDPERSONACLIENTE`
-where v.`cod_art` = 118
-;
 
 
 -- Ventas por tipo de cliente 1
@@ -573,16 +437,37 @@ and t.`IDTIPOCLIENTE` in (6, 8, 2)
 
 
 -- Ventas Delivery x Cliente
-select p.`FECHA_ENTREGA`, pe.`NOM`, pe.`AP`, pe.`AM`, p.`CODIGO`, p.`TOTALIMPORTE`, p.`MONTODIST`, p.`VALORCOMISION`, p.`IMPUESTO`, p.`OBSERVACION`,
-p.`ESTADO`, p.`IDMOVIMIENTO`, p.`id_tmpenc`, p.`iddistribuidor`, pe.`IDTIPOCLIENTE`, t.`NOMBRE`, p.`IDCLIENTE`, e.`tipo_doc`, e.`no_doc`, e.`estado`
+select p.`FECHA_ENTREGA`, pe.`NOM`, pe.`AP`, pe.`AM`, p.`CODIGO`, p.`TOTALIMPORTE`, p.`MONTODIST`
+-- , p.`VALORCOMISION` ,p.`IMPUESTO`, p.`OBSERVACION` ,p.`ESTADO`, p.`IDMOVIMIENTO`, p.`id_tmpenc`, p.`iddistribuidor`, pe.`IDTIPOCLIENTE`, t.`NOMBRE`, p.`IDCLIENTE`, e.`tipo_doc`, e.`no_doc`, e.`estado`
 from pedidos p
 left join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 left join tipocliente t on pe.`IDTIPOCLIENTE` = t.`IDTIPOCLIENTE`
 left join sf_tmpenc e on p.`id_tmpenc` = e.`id_tmpenc`
 where p.`ESTADO` <> 'ANULADO'
-and p.`FECHA_ENTREGA` between '2020-06-01' and '2020-12-31'
+and p.`FECHA_ENTREGA` between '2020-06-01' and '2021-02-28'
 and p.`tipoventa` = 'CREDIT'
-and p.`iddistribuidor` is not null
+-- and p.`iddistribuidor` is not null
+and p.`IDCLIENTE` in (
+1864	,1722	,1870	,1724	,1737	,1730	,1733	,1908	,1885	,1741	,1872	,1723	,1873	,1727	,2150	,1854	,1842	,1890	,
+1736	,2077	,1729	,1860	, 1914	,1735	,1735	,1739	,1898	,1910	,2076	,1734	,1742	,1859	,2066	,2016	,2092	,2079	
+)
+;
+
+-- Ventas Delivery x Cliente 2
+select pe.`NOM`, pe.`AP`, pe.`AM`, count(p.idpedidos) as RECURRENCIA, sum(p.`TOTALIMPORTE`) as IMPORTE
+from pedidos p
+left join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
+left join tipocliente t on pe.`IDTIPOCLIENTE` = t.`IDTIPOCLIENTE`
+left join sf_tmpenc e on p.`id_tmpenc` = e.`id_tmpenc`
+where p.`ESTADO` <> 'ANULADO'
+and p.`FECHA_ENTREGA` between '2021-01-01' and '2021-02-28'
+and p.`tipoventa` = 'CREDIT'
+-- and p.`iddistribuidor` is not null
+and p.`IDCLIENTE` in (
+1864	,1722	,1870	,1724	,1737	,1730	,1733	,1908	,1885	,1741	,1872	,1723	,1873	,1727	,2150	,1854	,1842	,1890	,
+1736	,2077	,1729	,1860	, 1914	,1735	,1735	,1739	,1898	,1910	,2076	,1734	,1742	,1859	,2066	,2016	,2092	,2079	
+)
+group by pe.`NOM`, pe.`AP`, pe.`AM`
 ;
 
 -- Ventas Delivery x Producto
@@ -593,19 +478,29 @@ left join inv_articulos i on a.`cod_art` = i.`cod_art`
 left join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 left join tipocliente t on pe.`IDTIPOCLIENTE` = t.`IDTIPOCLIENTE`
 where p.`ESTADO` <> 'ANULADO'
-and p.`FECHA_ENTREGA` between '2020-09-01' and '2020-09-31'
+and p.`FECHA_ENTREGA` between '2020-06-01' and '2021-02-28'
 and p.`tipoventa` = 'CREDIT'
 and p.`iddistribuidor` is not null
 group by i.`cod_art`, i.`descri`
 ;
 
--- 
--- 
-select *
+-- Ventas Delivery x Producto RESUMEN
+select i.`cod_art`, i.`descri`, sum(a.`CANTIDAD`) as cantidad , sum(a.`IMPORTE`) as total
 from pedidos p
--- update pedidos p set p.`ESTADO` = 'PENDIENTE', p.`id_tmpenc` = null
-where p.`FECHA_ENTREGA` between '2020-10-05' and '2020-10-05'
+left join articulos_pedido a on p.`IDPEDIDOS` = a.`IDPEDIDOS`
+left join inv_articulos i on a.`cod_art` = i.`cod_art`
+left join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
+left join tipocliente t on pe.`IDTIPOCLIENTE` = t.`IDTIPOCLIENTE`
+where p.`ESTADO` <> 'ANULADO'
+and p.`FECHA_ENTREGA` between '2020-06-01' and '2021-02-28'
 and p.`tipoventa` = 'CREDIT'
-and P.`ESTADO` <> 'ANULADO'
-and P.`IDUSUARIO` = 404
+and p.`IDCLIENTE` in (
+1864	,1722	,1870	,1724	,1737	,1730	,1733	,1908	,1885	,1741	,1872	,1723	,1873	,1727	,2150	,1854	,1842	,1890	,
+1736	,2077	,1729	,1860	, 1914	,1735	,1735	,1739	,1898	,1910	,2076	,1734	,1742	,1859	,2066	,2016	,2092	,2079	
+)
+group by i.`cod_art`, i.`descri`
 ;
+
+
+
+

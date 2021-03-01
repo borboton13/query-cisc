@@ -365,10 +365,22 @@ select p.`IDPEDIDOS`, pc.`NOM`, pc.`AP`, pc.`AM`, p.`FECHA_ENTREGA`, p.`CODIGO`,
 from pedidos p
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join tipopedido t on p.`IDTIPOPEDIDO` = t.`IDTIPOPEDIDO`
-where p.`FECHA_ENTREGA` between '2021-02-18' and '2021-02-18'
+where p.`FECHA_ENTREGA` between '2020-12-01' and '2021-02-28'
+and p.`ESTADO` <> 'ANULADO'
 and pc.`IDTERRITORIOTRABAJO` = 24
 ;
 
+-- RESUMEN MONTO
+select pc.`IDTERRITORIOTRABAJO`, count(p.`IDPEDIDOS`) as CANT, sum(p.`TOTALIMPORTE`) as IMPORTE, count(distinct p.`IDCLIENTE`) as CLIENTES
+from pedidos p
+left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+where p.`FECHA_ENTREGA` between '2021-02-01' and '2021-02-28'
+and pc.`IDTERRITORIOTRABAJO` in (24, 25, 26)
+and p.`ESTADO` <> 'ANULADO'
+group by pc.`IDTERRITORIOTRABAJO`
+;
+
+-- PREVENTA TELEFONOS
 select pc.`NOM`, pc.`AP`, pc.`AM`, pc.`TELEFONO`, pc.`DIRECCION`, count(p.`IDPEDIDOS`) as RECURRENCIA, max(p.`FECHA_ENTREGA`) as ULTIMA, sum(p.`TOTALIMPORTE`) as IMPORTE
 from pedidos p
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
@@ -378,6 +390,7 @@ and pc.`IDTERRITORIOTRABAJO` = 25
 group by pc.`NOM`, pc.`AP`, pc.`AM`
 ;
 
+
 -- PREVENTA DETALLE
 select p.`IDPEDIDOS`, pc.`NOM`, pc.`AP`, pc.`AM`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, t.`NOMBRE`, p.`TOTALIMPORTE`, a.`cod_art`, i.`descri`, a.`CANTIDAD`, a.`PRECIO`, a.`IMPORTE`
 from pedidos p
@@ -385,12 +398,15 @@ left join articulos_pedido a on p.`IDPEDIDOS` = a.`IDPEDIDOS`
 left join inv_articulos i    on a.`cod_art` = i.`cod_art`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join tipopedido t on p.`IDTIPOPEDIDO` = t.`IDTIPOPEDIDO`
-where p.`FECHA_ENTREGA` between '2021-02-18' and '2021-02-18'
+where p.`FECHA_ENTREGA` between '2021-01-01' and '2021-02-28'
 and pc.`IDTERRITORIOTRABAJO` = 24
 and p.`ESTADO` <> 'ANULADO'
 ;
 
--- PREVENTA DETALLE
+
+
+
+-- PREVENTA DETALLE x PRODUCTO
 select a.`cod_art`, i.`descri`, sum(a.`CANTIDAD`) as cant, sum(a.`IMPORTE`) as importe
 from pedidos p
 left join articulos_pedido a on p.`IDPEDIDOS` = a.`IDPEDIDOS`
