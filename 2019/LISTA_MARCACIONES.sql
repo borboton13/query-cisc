@@ -75,11 +75,6 @@ where r.`marfecha` between '2018-07-01' and '2018-07-31'
 
 
 
-select *
-from vmarcado v
-where v.`marfecha` between '2020-02-01' and '2020-02-29'
-and v.`marperid` = 8688934
-;
 
 -- DIAS PARA PASAJES
 select v.`marperid` as CI, v.`nombre`, count( distinct day(v.`marfecha`) ) as dias
@@ -90,16 +85,10 @@ group by v.`marperid`, v.`nombre`
 ;
 
 
-select *
-from rh_marcado r
-where r.`marfecha` between '2020-03-01' and '2020-03-31'
-;
-
-
 -- select distinct v.`marperid` as CI, cast(v.`nombre` as char(100))-- , v.`marhora`
 select *
 from vmarcado v
-where v.`marfecha` between '2021-01-01' and '2021-01-31'
+where v.`marfecha` between '2021-02-01' and '2021-02-28'
 ;
 
 
