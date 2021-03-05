@@ -56,6 +56,15 @@ and p.`ESTADO` <> 'ANULADO'
 and a.`TOTAL` = 0
 ;
 
+
+update articulos_pedido a 
+set a.`TOTAL` = (a.`CANTIDAD` + a.`PROMOCION` + a.`REPOSICION`)
+where a.`IDARTICULOSPEDIDO` in (
+451906, 452067
+);
+
+
+
 select distinct i.`cod_alm`
 from inv_periodo i
 where i.`gestion` = 2021
