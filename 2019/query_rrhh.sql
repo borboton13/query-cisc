@@ -94,11 +94,11 @@ where idbandahoraria in (
 );
 
 -- eliminando planillas generadas
-delete from reportecontrol 		 	where idplanillagenerada in (441);
-delete from `planillafiscalporcategoria` 	where idplanillagenerada in (441);
-delete from `planillatributariaporcategoria` 	where idplanillagenerada in (441);
-delete from `planillaadministrativos` 		where idplanillagenerada in (441);
-delete from `planillagenerada` 			where idplanillagenerada in (441);
+delete from reportecontrol 		 	where idplanillagenerada in (469);
+delete from `planillafiscalporcategoria` 	where idplanillagenerada in (469);
+delete from `planillatributariaporcategoria` 	where idplanillagenerada in (469);
+delete from `planillaadministrativos` 		where idplanillagenerada in (469);
+delete from `planillagenerada` 			where idplanillagenerada in (469);
 
 -- Actualizar Luis Ferrufino
 update planillafiscalporcategoria p
@@ -136,19 +136,45 @@ set 	p.`liquidopagable` 	= 2597.02,
 where p.`idplanillafiscalporcategoria` = 19296;
 
 
-
-select *
+select p.`idplanillafiscalporcategoria`, p.`idempleado`, p.`ci`, p.`nombre`, 
+p.`retencionafp`, p.afplab_individual, p.afplab_riesgocomun, p.afplab_solidario, p.`totalganado`, p.totaldescuentos, p.`liquidopagable`
 from `planillafiscalporcategoria` p
 where p.`idplanillagenerada` = 470
 and p.`ci` in (
 815059, 2862262, 2868139, 921886
 ) ;
 
-
 select *
-from entidad p
-where p.`noidentificacion` in (
-815059, 2862262, 2868139, 921886
-) ;
+from planillaadministrativos p
+where p.`idplanillagenerada` = 470
+and p.`idempleado` in (401, 445, 576, 582)
+;
 
+-- LUIS FERRUFINO GUTIERREZ
+update planillaadministrativos p 
+set 	p.`liquidopagable` = 4571.04,
+	p.`totaldescuento` = 564.96
+where p.`idplanillaadministrativos` = 19348
+;
+
+-- JUANA DE DIOS POZO SEJAS
+update planillaadministrativos p 
+set 	p.`liquidopagable` = 12470.63,
+	p.`totaldescuento` = 347.37
+where p.`idplanillaadministrativos` = 19365
+;
+
+-- ELISEO CAMACHO ORELLANA
+update planillaadministrativos p 
+set 	p.`liquidopagable` = 15729.64,
+	p.`totaldescuento` = 188.36
+where p.`idplanillaadministrativos` = 19366
+;
+
+-- SIMON CALUCHO JIMENEZ
+update planillaadministrativos p 
+set 	p.`liquidopagable` = 2597.02,
+	p.`totaldescuento` = 320.98
+where p.`idplanillaadministrativos` = 19370
+;
 

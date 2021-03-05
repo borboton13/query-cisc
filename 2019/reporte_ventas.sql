@@ -385,9 +385,10 @@ select pc.`NOM`, pc.`AP`, pc.`AM`, pc.`TELEFONO`, pc.`DIRECCION`, count(p.`IDPED
 from pedidos p
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 where p.`FECHA_ENTREGA` between '2020-12-01' and '2021-03-31'
-and pc.`IDTERRITORIOTRABAJO` = 24
+and pc.`IDTERRITORIOTRABAJO` = 25
+and p.`IDTIPOPEDIDO` = 1
 -- AND pc.`IDPERSONACLIENTE` in (2064)
--- and p.`ESTADO` <> 'ANULADO'
+and p.`ESTADO` <> 'ANULADO'
 group by pc.`NOM`, pc.`AP`, pc.`AM`
 ;
 
