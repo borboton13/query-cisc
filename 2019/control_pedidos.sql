@@ -60,7 +60,7 @@ and a.`TOTAL` = 0
 update articulos_pedido a 
 set a.`TOTAL` = (a.`CANTIDAD` + a.`PROMOCION` + a.`REPOSICION`)
 where a.`IDARTICULOSPEDIDO` in (
-451906, 452067
+453534, 453535, 453543
 );
 
 
