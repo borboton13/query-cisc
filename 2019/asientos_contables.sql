@@ -8,7 +8,8 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-164263
+1345,
+4085
 ) 
 -- where e.`tipo_doc` = 'IA' and e.`no_doc` in (236)
 ;
@@ -23,6 +24,10 @@ delete from sf_tmpenc where id_tmpenc in (
 
 );
 
+
+-- update cuenta c set c.`fechaapertura` = '2019-08-07', c.`fechavence` = '2021-07-27' where c.`idcuenta` = ;
+update cuenta c set c.`fechavence` = '2020-07-30' where c.`idcuenta` = 55;
+update cuenta c set c.`estado` = 'INACTIVE' where c.`idcuenta` = 36;
 
 select *
 from inv_vales i

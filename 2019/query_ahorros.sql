@@ -105,6 +105,7 @@ order by e.`fecha`, d.`id_tmpdet`
 
 -- CUENTAS DE AHORRO - SALDO
 select s.`idsocio`, c.idcuenta, t.nombre, s.`nombres`, s.`apellidopaterno`, s.`apellidopaterno`, c.fechaapertura, c.fechavence,  c.`nocuenta`, c.`codigo`, c.`moneda`, 
+	c.estado,
 	sum(d.`haber`) - sum(d.`debe`) saldo_Bs,
 	sum(d.haberme) - sum(d.`debeme`) saldo_ME
 from sf_tmpdet d
@@ -114,31 +115,10 @@ join tipocuenta t	on c.idtipocuenta = t.idtipocuenta
 join socio s on c.`idsocio` = s.`idsocio`
 where e.estado <> 'ANL'
 and t.tipo = 'DPF'
-and e.fecha <= '2020-12-31'
+-- and e.fecha <= '2020-12-31'
 -- and c.`nocuenta` in ( 200519, 100338)
 group by s.`idsocio`, c.idcuenta, s.`nombres`, s.`apellidopaterno`, s.`apellidopaterno`, c.fechaapertura, c.fechavence, c.`nocuenta`, c.`codigo`, c.`moneda`
 ;
 
 -- 
-delete from sf_tmpdet where id_tmpdet in (580956, 583816, 586694, 589560, 592415, 595244, 598066, 601793 );
-
-select *
-from sf_tmpdet d where d.`id_tmpdet` = 578040;
-
--- Para corregir capitalizacion intereses
-update sf_tmpdet d set d.`haber` = 3.27 , d.`haberme` =  0.47 where d.`id_tmpdet` = 578077 ; 
-update sf_tmpdet d set d.`debe`  = 0.42 , d.`debeme`  = 0.06  where d.`id_tmpdet` = 578078 ; 
-
-update sf_tmpdet d set d.`haber` = 0.07 , d.`haberme` =  0.01
-where d.`id_tmpdet` in (580957, 583817, 586695, 589561,592416,595245, 598067, 601794  );
-
-update sf_tmpdet d set d.`haber` =  where d.`id_tmpdet` =  ; 
-update sf_tmpdet d set d.`debe`  =  where d.`id_tmpdet` =  ; 
-
-
--- update cuenta c set c.`estado` = 'INACTIVE' where c.`nocuenta` = '100149';
--- update cuenta c set c.`estado` = 'INACTIVE' where c.`nocuenta` = '100079';
-
--- Anular solo para capitalizar intereses, luego revertir
-update sf_tmpenc e set e.`estado` = 'ANL' where e.`id_tmpenc` = 104401;
 
