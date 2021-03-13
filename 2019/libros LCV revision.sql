@@ -5,17 +5,17 @@ select 	d.FECHA, d.NIT, d.NOMBRE,d.NUMERO,d.IMPORTE,d.importeneto,d.iva,
 	z.idtmpenc, z.iddocumentocompra
 from documentocontable d 
 left join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
-where d.fecha between '2021-01-01' and '2021-01-31'
+where d.fecha between '2021-02-01' and '2021-02-28'
 and z.estado <> 'NULLIFIED'
 and z.tipo = 'INVOICE'
-and z.`idtmpenc` is not null
+-- and z.`idtmpenc` is not null
 ;
 
 -- From contab
 select e.`id_tmpenc`, d.`id_tmpdet`,e.`tipo_doc`, e.`no_doc`, d.`debe`, d.`haber`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where e.`fecha` between '2021-01-01' and '2021-01-31'
+where e.`fecha` between '2021-02-01' and '2021-02-28'
 and d.`cuenta` = '1420710000'
 and e.`estado` <> 'ANL'
 and e.`tipo_doc` not in ('NE')
@@ -43,7 +43,7 @@ from movimiento m
 left join ventadirecta v on m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join sf_tmpdet d on v.`id_tmpenc` = d.`id_tmpenc`
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where m.FECHA_FACTURA between '2021-01-01' and '2021-01-31'
+where m.FECHA_FACTURA between '2021-02-01' and '2021-02-28'
 and m.`IDVENTADIRECTA` is not null
 and d.`cuenta` = '2420410200'
 and e.`estado` <> 'ANL'
@@ -66,31 +66,12 @@ from movimiento m
 left join pedidos p on m.`IDPEDIDOS` = p.`IDPEDIDOS`
 left join sf_tmpdet d on p.`id_tmpenc` = d.`id_tmpenc`
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where m.FECHA_FACTURA between '2021-01-01' and '2021-01-31'
+where m.FECHA_FACTURA between '2021-02-01' and '2021-02-28'
 and m.`IDPEDIDOS` is not null
 and d.`cuenta` = '2420410200'
 and e.`estado` <> 'ANL'
 ;
 
--- ASIENTOS NO RELACIONADOS CON MOVIMIENTO
-select e.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`debe`, d.`haber`, d.`idmovimiento`, p.`IDMOVIMIENTO`, p.`IDPEDIDOS`, p.`IMPUESTO`, p.`IDCLIENTE`, pe.`NOM`
-from sf_tmpdet d
-left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-left join pedidos p on e.`id_tmpenc` = p.`id_tmpenc`
-left join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
-where e.`fecha` between '2020-09-01' and '2020-09-30'
-and e.`estado` <> 'ANL'
-and d.`cuenta` = '2420410200'
-and d.`idmovimiento` is null
-;
-
-
-select *
-from movimiento m
-where m.`FECHA_FACTURA` between '2020-08-01' and '2020-08-31'
-and m.`IDPEDIDOS` in (
-51691
-);
 
 
 -- ------------------------------------------------
@@ -107,87 +88,41 @@ and d.`idpersonacliente` in (726)
 and e.`estado` <> 'ANL'
 ;
 
-select * 
-from pedidos p
-where p.`FECHA_ENTREGA` between '2020-08-01' and '2020-08-31'
-and p.`ESTADO` <> 'ANULADO' and p.`tipoventa` = 'CREDIT'
-and p.`id_tmpenc` is null
-;
 
-
+-- DEBITO FISCAL, MAYOR Y FACTURAS
 -- DETALLE CONTABLE DEBITO FISCAL
-select e.`id_tmpenc`, e.`fecha`, e.`glosa`, d.`id_tmpdet`,e.`tipo_doc`, e.`no_doc`, d.`debe`, d.`haber`
+select e.`id_tmpenc`, e.`fecha`, e.`glosa`, d.`id_tmpdet`,e.`tipo_doc`, e.`no_doc`, d.`debe`, d.`haber`, d.`idmovimiento`, m.`NROFACTURA`, m.`ESTADO`, m.`DEBITO_FISCAL`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where e.`fecha` between '2020-01-01' and '2020-01-31'
+left join movimiento m on d.`idmovimiento` = m.`IDMOVIMIENTO`
+where e.`fecha` between '2021-02-01' and '2021-02-28'
 and d.`cuenta` = '2420410200'
 and e.`estado` <> 'ANL'
 -- and e.`tipo_doc` not in ('NE', 'IA')
 ;
 
--- --------------------
-
--- PEDIDOS, Para actualizar IDs movimiento, sf_tmpenc
-select p.`FECHA_ENTREGA`, m.`FECHA_FACTURA`, m.`NROFACTURA`, m.`IDMOVIMIENTO`, m.`IDPEDIDOS`, p.`id_tmpenc`, d.`id_tmpdet`
-from movimiento m
-left join pedidos p on m.`IDPEDIDOS` = p.`IDPEDIDOS`
-left join sf_tmpdet d on p.`id_tmpenc` = d.`id_tmpenc`
-where m.`FECHA_FACTURA` between '2020-03-01' and '2020-03-31'
-and m.idpedidos is not null
-and d.`cuenta` = '2420410200'
-;
-
--- VENTADIRECTA, Para actualizar IDs movimiento, sf_tmpenc
-select v.`FECHA_PEDIDO`, m.`FECHA_FACTURA`, m.`NROFACTURA`, m.`IDMOVIMIENTO`, m.`IDVENTADIRECTA`, v.`id_tmpenc`, d.`id_tmpdet`, m.`id_tmpdet`
-from movimiento m
-left join ventadirecta v on m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
-left join sf_tmpdet d on v.`id_tmpenc` = d.`id_tmpenc`
-where m.`FECHA_FACTURA` between '2020-02-01' and '2020-02-29'
-and m.`IDVENTADIRECTA` is not null
-and d.`cuenta` = '2420410200'
-;
-
--- REVISION, CUENTA DEBITO FISCAL SIN FACTURA (MOVIMIENTO)
-select e.`id_tmpenc`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, e.`glosa`, d.`cuenta`, d.`debe`, d.`haber`, d.`idmovimiento`
-from sf_tmpdet d
-left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
--- where e.`fecha` between '2020-02-01' and '2020-02-29'
-where e.`fecha` between '2020-03-01' and '2020-03-31'
-and e.`estado` <> 'ANL'
-and d.`cuenta` = '2420410200'
-;
-
--- REVISION FACT VENTAS - CRUCE MOVIMIENTO - SF_TMPDET
+-- VENTAS, CRUCE FACTURAS (MOVIMIENTO) Y ASIENTOS
 select m.`IDMOVIMIENTO`, m.`FECHA_FACTURA`, m.`ESTADO`, m.`IMPORTE_TOTAL`, m.`DESCUENTOS`, m.`IMPORTE_PARA_DEBITO_FISCAL`, m.`DEBITO_FISCAL`, m.`IDPEDIDOS`, m.`IDVENTADIRECTA`, d.`debe`, d.`haber`
 from movimiento m
 left join sf_tmpdet d on m.`IDMOVIMIENTO` = d.`idmovimiento`
-where m.`FECHA_FACTURA` between '2020-03-01' and '2020-03-31'
--- and m.`ESTADO` <> 'A'
+where m.`FECHA_FACTURA` between '2021-02-01' and '2021-02-28'
+and m.`ESTADO` <> 'A'
 ;
 
--- 
--- -------------
--- -- REV COMPRAS, RELACION CON ID_TMPDET
--- -------------
-select 	d.FECHA as "FECHA FACTURA O DUI", 
-	d.NIT as "NIT PROVEEDOR", 
-	d.NOMBRE as "RAZON SOCIAL",
-	d.NUMERO as "NUMERO FACTURA",
-	"" as "NRO DUI",
-	d.numeroautorizacion as "NRO DE AUTORIZACION",
-	d.IMPORTE as "IMPORTE TOTAL DE LA COMPRA",
-	d.exento as "IMPORTE NO SUJETO A CREDITO FISCAL",
-	d.importe - d.exento as "SUBTOTAL",
-	"" as "DESCUENTOS",
-	d.importeneto as "IMPORTE BASE CREDITO FISCAL",
-	d.iva as "CREDITO FISCAL",
-	ifnull(d.CODIGOCONTROL, 0) as CODIGOCONTROL,
-	"" as "TIPO DE COMPRA", z.estado
-	, z.idtmpenc, z.id_tmpdet,  d.iddocumentocontable, z.iddocumentocompra, oc.no_orden
-from documentocontable d 
-left join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
-left join com_encoc oc 	    on z.idordencompra = oc.id_com_encoc
-where d.fecha between '2020-02-01' and '2020-02-29'
-and z.estado <> 'NULLIFIED'
-and z.tipo = 'INVOICE'
+-- --------------------
+
+
+
+-- Actualizado 12.03.2021
+-- Ordenes de Compra con Factura
+-- Revision de facturas, fechas, asiento
+select e.`id_com_encoc`, e.`fecha_recepcion`, e.`glosa`, e.`no_orden`, e.`estado`, e.`total`, dc.`iddocumentocompra`, d.`iddocumentocontable` , d.`fecha`, dc.`estado`, d.`numero`, d.`nombre`, d.`iva`, dc.`idtmpenc`,
+s.`fecha`, s.`tipo_doc`, s.`no_doc`, s.`estado`
+from com_encoc e 
+left join documentocompra dc on e.`id_com_encoc` = dc.`idordencompra`
+left join documentocontable d on dc.`iddocumentocompra` = d.`iddocumentocontable`
+left join sf_tmpenc s on dc.`idtmpenc` = s.`id_tmpenc`
+where e.`fecha_recepcion` between '2021-02-01' and '2021-02-28'
+and e.`confactura` = 'CONFACTURA'
 ;
+

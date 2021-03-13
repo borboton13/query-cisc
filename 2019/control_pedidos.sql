@@ -49,11 +49,11 @@ where p.`FECHA_ENTREGA` between '2021-01-01' and '2021-12-31'
 -- and p.`CODIGO` in (1090)
 and p.`ESTADO` <> 'ANULADO'
 -- and pc.`NOM` like '%Monica Lau%'
--- AND a.`IDPEDIDOS` = 29988
+ and a.`IDPEDIDOS` = 58548
 -- AND pc.`AP` LIKE '%Car%'
 -- and a.`cod_art` in (1090)
 -- AND p.`IDUSUARIO` = 5
-and a.`TOTAL` = 0
+-- and a.`TOTAL` = 0
 ;
 
 
@@ -366,10 +366,10 @@ left join inv_articulos i on p.cod_Art = i.cod_art
 select p.`IDPEDIDOS`, p.`CODIGO`, p.`FECHA_ENTREGA`, p.`ESTADO`, p.`TIENEFACTURA`, pe.`NOM`, p.`IDMOVIMIENTO`, P.`TOTALIMPORTE`, P.`IMPUESTO`
 from pedidos p
 left join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
-where p.`FECHA_ENTREGA` between '2021-01-01' and '2021-01-31'
+where p.`FECHA_ENTREGA` between '2021-02-01' and '2021-02-28'
 -- and p.`ESTADO` = "PREPARAR" 
 and p.`tipoventa` = 'CREDIT'
--- and p.`ESTADO` <> 'ANULADO'
+and p.`ESTADO` <> 'ANULADO'
 ;
 
 select *
