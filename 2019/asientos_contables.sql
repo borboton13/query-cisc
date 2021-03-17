@@ -62,8 +62,8 @@ d.`idpersonacliente`, d.`cod_prov`, d.`cod_art`, d.`cant_art`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
-where e.`fecha` between '2020-01-01' and '2020-12-31'
--- and e.`estado` <> 'ANL'
+where e.`fecha` between '2020-01-01' and '2021-12-31'
+and e.`estado` <> 'ANL'
 -- where d.`debe` = 0 and d.`haber` = 0
 -- and d.`id_tmpenc` = 137259
 -- and e.`tipo_doc` = 'CB'
@@ -74,6 +74,17 @@ and d.`cuenta` = '1810310100'
 -- and d.`idsocio` = 
 ;
 
+
+-- Kardex Clientes
+select e.`id_tmpenc`,  e.`fecha`, e.`tipo_doc` as tipo, e.`no_doc`, e.`glosa`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, d.`idpersonacliente`
+from sf_tmpdet d
+left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
+left join arcgms a    on d.`cuenta` = a.`cuenta`
+where e.`fecha` between '2020-01-01' and '2021-12-31'
+and e.`estado` <> 'ANL'
+and d.`cuenta` = '1421010200'
+and d.`idpersonacliente` = 205
+;
 
 
 -- Detalle por TipoDoc
