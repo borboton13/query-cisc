@@ -43,9 +43,9 @@ from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where p.`FECHA_ENTREGA` between '2021-01-01' and '2021-12-31'
+where p.`FECHA_ENTREGA` between '2021-03-01' and '2021-03-31'
 -- and p.`IDPEDIDOS` = 52247
--- and p.`IDCLIENTE` = 726
+and p.`IDCLIENTE` = 726
 -- and p.`CODIGO` in (1090)
 and p.`ESTADO` <> 'ANULADO'
 -- and pc.`NOM` like '%Monica Lau%'
@@ -53,14 +53,14 @@ and p.`ESTADO` <> 'ANULADO'
 -- AND pc.`AP` LIKE '%Car%'
 -- and a.`cod_art` in (1090)
 -- AND p.`IDUSUARIO` = 5
-and a.`TOTAL` = 0
+-- and a.`TOTAL` = 0
 ;
 
 
 update articulos_pedido a 
 set a.`TOTAL` = (a.`CANTIDAD` + a.`PROMOCION` + a.`REPOSICION`)
 where a.`IDARTICULOSPEDIDO` in (
-456163, 456205, 456236, 456401, 456410
+462592
 );
 
 

@@ -359,23 +359,33 @@ and pc.`NOM` like '%SEMAPA%'
 group by p.`FECHA_ENTREGA`, pc.`NOM`, a.`cod_art`, ar.`descri`, p.`CODIGO`, p.`IDMOVIMIENTO`, M.`NROFACTURA`;
 -- ---------------------------------------------------
 
+
+select *
+from pedidos p
+where p.`FECHA_ENTREGA` between '2021-01-01' and '2021-03-31'
+and p.`IDCLIENTE` = 1657
+and p.`ESTADO` <> 'ANULADO'
+;
+
+
 -- ----------------------------------------------------------------
 -- ---------------------- RESUMEN PEDIDOS X ZONA PREVENTA -------------------------
 select p.`IDPEDIDOS`, pc.`NOM`, pc.`AP`, pc.`AM`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, t.`NOMBRE`, p.`TOTAL`, p.`TOTALIMPORTE`, p.`id_tmpenc`, p.`IDMOVIMIENTO`
 from pedidos p
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join tipopedido t on p.`IDTIPOPEDIDO` = t.`IDTIPOPEDIDO`
-where p.`FECHA_ENTREGA` between '2020-12-01' and '2021-02-28'
+where p.`FECHA_ENTREGA` between '2021-01-01' and '2021-03-28'
+and (pc.`IDTERRITORIOTRABAJO` in (24, 25) or pc.`IDPERSONACLIENTE` = 1657)
 and p.`ESTADO` <> 'ANULADO'
-and pc.`IDTERRITORIOTRABAJO` = 24
 ;
 
 -- RESUMEN MONTO
 select pc.`IDTERRITORIOTRABAJO`, count(p.`IDPEDIDOS`) as CANT, sum(p.`TOTALIMPORTE`) as IMPORTE, count(distinct p.`IDCLIENTE`) as CLIENTES
 from pedidos p
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
-where p.`FECHA_ENTREGA` between '2021-02-01' and '2021-02-28'
-and pc.`IDTERRITORIOTRABAJO` in (24, 25, 26)
+where p.`FECHA_ENTREGA` between '2021-01-01' and '2021-03-28'
+and pc.`IDTERRITORIOTRABAJO` in (26)
+-- AND p.`IDPEDIDOS` in (61229,60670,61466,61017,60877)
 and p.`ESTADO` <> 'ANULADO'
 group by pc.`IDTERRITORIOTRABAJO`
 ;
