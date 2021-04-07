@@ -88,7 +88,7 @@ group by v.`marperid`, v.`nombre`
 -- select distinct v.`marperid` as CI, cast(v.`nombre` as char(100))-- , v.`marhora`
 select *
 from vmarcado v
-where v.`marfecha` between '2021-02-01' and '2021-02-28'
+where v.`marfecha` between '2021-03-01' and '2021-03-31'
 ;
 
 

@@ -94,20 +94,20 @@ where idbandahoraria in (
 );
 
 -- eliminando planillas generadas
-delete from reportecontrol 		 	where idplanillagenerada in (469);
-delete from `planillafiscalporcategoria` 	where idplanillagenerada in (469);
-delete from `planillatributariaporcategoria` 	where idplanillagenerada in (469);
-delete from `planillaadministrativos` 		where idplanillagenerada in (469);
-delete from `planillagenerada` 			where idplanillagenerada in (469);
+delete from reportecontrol 		 	where idplanillagenerada in (471, 472, 473, 474, 475);
+delete from `planillafiscalporcategoria` 	where idplanillagenerada in (471, 472, 473, 474, 475);
+delete from `planillatributariaporcategoria` 	where idplanillagenerada in (471, 472, 473, 474, 475);
+delete from `planillaadministrativos` 		where idplanillagenerada in (471, 472, 473, 474, 475);
+delete from `planillagenerada` 			where idplanillagenerada in (471, 472, 473, 474, 475);
 
 -- Actualizar Luis Ferrufino
 update planillafiscalporcategoria p
-set 	p.`liquidopagable` 	= 4571.04,
+set 	p.`liquidopagable` 	= 5500.20,
 	p.`afplab_individual` 	= p.`afplab_individual`,
 	p.`afplab_riesgocomun`  = 0,
 	p.`afplab_solidario`	= p.`afplab_solidario`,
-	p.`totaldescuentos` 	= 564.96
-where p.`idplanillafiscalporcategoria` = 19274;
+	p.`totaldescuentos` 	= 679.80
+where p.`idplanillafiscalporcategoria` = 19744;
 
 -- Actualizar Juana Pozo
 update planillafiscalporcategoria p
@@ -116,7 +116,7 @@ set 	p.`liquidopagable` 	= 12470.63,
 	p.`afplab_riesgocomun`  = p.`afplab_riesgocomun`,
 	p.`afplab_solidario`	= p.`afplab_solidario`,
 	p.`totaldescuentos` 	= 347.37
-where p.`idplanillafiscalporcategoria` = 19291;
+where p.`idplanillafiscalporcategoria` = 19761;
 
 -- Actualizar para Eliseo
 update planillafiscalporcategoria p
@@ -124,7 +124,7 @@ set 	p.`liquidopagable` 	= 15729.64,
 	p.`afplab_individual` 	= 0,
 	p.`afplab_riesgocomun`  = 0,
 	p.`totaldescuentos` 	= 188.36
-where p.`idplanillafiscalporcategoria` = 19292;
+where p.`idplanillafiscalporcategoria` = 19762;
 
 -- Actualizar Simon Calucho
 update planillafiscalporcategoria p
@@ -133,48 +133,48 @@ set 	p.`liquidopagable` 	= 2597.02,
 	p.`afplab_riesgocomun`  = 0,
 	p.`afplab_solidario`	= p.`afplab_solidario`,
 	p.`totaldescuentos` 	= 320.98
-where p.`idplanillafiscalporcategoria` = 19296;
+where p.`idplanillafiscalporcategoria` = 19766;
 
 
 select p.`idplanillafiscalporcategoria`, p.`idempleado`, p.`ci`, p.`nombre`, 
 p.`retencionafp`, p.afplab_individual, p.afplab_riesgocomun, p.afplab_solidario, p.`totalganado`, p.totaldescuentos, p.`liquidopagable`
 from `planillafiscalporcategoria` p
-where p.`idplanillagenerada` = 470
+where p.`idplanillagenerada` = 480
 and p.`ci` in (
 815059, 2862262, 2868139, 921886
 ) ;
 
 select *
 from planillaadministrativos p
-where p.`idplanillagenerada` = 470
+where p.`idplanillagenerada` = 480
 and p.`idempleado` in (401, 445, 576, 582)
 ;
-
+-- ACTUALIZANDO PLANILLAADMINISTRATIVOS (PARA UNINET)
 -- LUIS FERRUFINO GUTIERREZ
 update planillaadministrativos p 
-set 	p.`liquidopagable` = 4571.04,
-	p.`totaldescuento` = 564.96
-where p.`idplanillaadministrativos` = 19348
+set 	p.`liquidopagable` = 5500.20,
+	p.`totaldescuento` = 679.80
+where p.`idplanillaadministrativos` = 19818
 ;
 
 -- JUANA DE DIOS POZO SEJAS
 update planillaadministrativos p 
 set 	p.`liquidopagable` = 12470.63,
 	p.`totaldescuento` = 347.37
-where p.`idplanillaadministrativos` = 19365
+where p.`idplanillaadministrativos` = 19835
 ;
 
 -- ELISEO CAMACHO ORELLANA
 update planillaadministrativos p 
 set 	p.`liquidopagable` = 15729.64,
 	p.`totaldescuento` = 188.36
-where p.`idplanillaadministrativos` = 19366
+where p.`idplanillaadministrativos` = 19836
 ;
 
 -- SIMON CALUCHO JIMENEZ
 update planillaadministrativos p 
 set 	p.`liquidopagable` = 2597.02,
 	p.`totaldescuento` = 320.98
-where p.`idplanillaadministrativos` = 19370
+where p.`idplanillaadministrativos` = 19840
 ;
 
