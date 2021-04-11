@@ -107,7 +107,7 @@ set 	p.`liquidopagable` 	= 5500.20,
 	p.`afplab_riesgocomun`  = 0,
 	p.`afplab_solidario`	= p.`afplab_solidario`,
 	p.`totaldescuentos` 	= 679.80
-where p.`idplanillafiscalporcategoria` = 19744;
+where p.`idplanillafiscalporcategoria` = 19791;
 
 -- Actualizar Juana Pozo
 update planillafiscalporcategoria p
@@ -116,7 +116,7 @@ set 	p.`liquidopagable` 	= 12470.63,
 	p.`afplab_riesgocomun`  = p.`afplab_riesgocomun`,
 	p.`afplab_solidario`	= p.`afplab_solidario`,
 	p.`totaldescuentos` 	= 347.37
-where p.`idplanillafiscalporcategoria` = 19761;
+where p.`idplanillafiscalporcategoria` = 19808;
 
 -- Actualizar para Eliseo
 update planillafiscalporcategoria p
@@ -124,7 +124,7 @@ set 	p.`liquidopagable` 	= 15729.64,
 	p.`afplab_individual` 	= 0,
 	p.`afplab_riesgocomun`  = 0,
 	p.`totaldescuentos` 	= 188.36
-where p.`idplanillafiscalporcategoria` = 19762;
+where p.`idplanillafiscalporcategoria` = 19809;
 
 -- Actualizar Simon Calucho
 update planillafiscalporcategoria p
@@ -133,20 +133,20 @@ set 	p.`liquidopagable` 	= 2597.02,
 	p.`afplab_riesgocomun`  = 0,
 	p.`afplab_solidario`	= p.`afplab_solidario`,
 	p.`totaldescuentos` 	= 320.98
-where p.`idplanillafiscalporcategoria` = 19766;
+where p.`idplanillafiscalporcategoria` = 19813;
 
 
 select p.`idplanillafiscalporcategoria`, p.`idempleado`, p.`ci`, p.`nombre`, 
 p.`retencionafp`, p.afplab_individual, p.afplab_riesgocomun, p.afplab_solidario, p.`totalganado`, p.totaldescuentos, p.`liquidopagable`
 from `planillafiscalporcategoria` p
-where p.`idplanillagenerada` = 480
+where p.`idplanillagenerada` = 481
 and p.`ci` in (
 815059, 2862262, 2868139, 921886
 ) ;
 
 select *
 from planillaadministrativos p
-where p.`idplanillagenerada` = 480
+where p.`idplanillagenerada` = 481
 and p.`idempleado` in (401, 445, 576, 582)
 ;
 -- ACTUALIZANDO PLANILLAADMINISTRATIVOS (PARA UNINET)
@@ -154,27 +154,27 @@ and p.`idempleado` in (401, 445, 576, 582)
 update planillaadministrativos p 
 set 	p.`liquidopagable` = 5500.20,
 	p.`totaldescuento` = 679.80
-where p.`idplanillaadministrativos` = 19818
+where p.`idplanillaadministrativos` = 19865
 ;
 
 -- JUANA DE DIOS POZO SEJAS
 update planillaadministrativos p 
 set 	p.`liquidopagable` = 12470.63,
 	p.`totaldescuento` = 347.37
-where p.`idplanillaadministrativos` = 19835
+where p.`idplanillaadministrativos` = 19882
 ;
 
 -- ELISEO CAMACHO ORELLANA
 update planillaadministrativos p 
 set 	p.`liquidopagable` = 15729.64,
 	p.`totaldescuento` = 188.36
-where p.`idplanillaadministrativos` = 19836
+where p.`idplanillaadministrativos` = 19883
 ;
 
 -- SIMON CALUCHO JIMENEZ
 update planillaadministrativos p 
 set 	p.`liquidopagable` = 2597.02,
 	p.`totaldescuento` = 320.98
-where p.`idplanillaadministrativos` = 19840
+where p.`idplanillaadministrativos` = 19887
 ;
 

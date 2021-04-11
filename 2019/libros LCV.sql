@@ -76,6 +76,6 @@ where FECHA_FACTURA between '2021-03-01' and '2021-04-28'
 
 update movimiento m set m.`ESTADO` = 'A'
 where m.`IDMOVIMIENTO` in (
-
+91844, 91845, 92226
 );
 

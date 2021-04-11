@@ -1,5 +1,5 @@
 -- - 
-select 	e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`,  e.`glosa`,  e.`cod_prov`, 
+select 	e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`, e.`estado`,  e.`glosa`,  e.`cod_prov`, 
 	d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, D.`idcuenta`, d.`idmovimiento`, d.`iddocumentocompra`,
 	d.`tc`, d.`moneda`, d.`debeme`, d.`haberme`, 
 	d.`id_tmpenc`, e.`estado`, d.`cod_prov`, d.`cod_art`, d.`cant_art`, d.`idpersonacliente`, d.`idcredito`
@@ -8,11 +8,18 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-166265
+168317, 168350
 ) 
 -- where e.`tipo_doc` = 'IA' and e.`no_doc` in (236)
 ;
 
+update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` in (168317, 168350);
+
+update pedidos p set p.`IDMOVIMIENTO` = null where p.`IDPEDIDOS` = 61604;
+
+select * from sf_tmpdet d where d.`id_tmpdet` = 999173;
+
+update sf_tmpdet d set d.`idmovimiento` = 92224 where d.`id_tmpdet` = 999173;
 
 
 delete from sf_tmpdet where id_tmpenc in (
