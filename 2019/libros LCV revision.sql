@@ -43,7 +43,7 @@ from movimiento m
 left join ventadirecta v on m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 left join sf_tmpdet d on v.`id_tmpenc` = d.`id_tmpenc`
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where m.FECHA_FACTURA between '2021-02-01' and '2021-02-28'
+where m.FECHA_FACTURA between '2021-03-01' and '2021-03-31'
 and m.`IDVENTADIRECTA` is not null
 and d.`cuenta` = '2420410200'
 and e.`estado` <> 'ANL'
@@ -66,7 +66,7 @@ from movimiento m
 left join pedidos p on m.`IDPEDIDOS` = p.`IDPEDIDOS`
 left join sf_tmpdet d on p.`id_tmpenc` = d.`id_tmpenc`
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where m.FECHA_FACTURA between '2021-02-01' and '2021-02-28'
+where m.FECHA_FACTURA between '2021-03-01' and '2021-03-31'
 and m.`IDPEDIDOS` is not null
 and d.`cuenta` = '2420410200'
 and e.`estado` <> 'ANL'
@@ -95,7 +95,7 @@ select e.`id_tmpenc`, e.`fecha`, e.`glosa`, d.`id_tmpdet`,e.`tipo_doc`, e.`no_do
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join movimiento m on d.`idmovimiento` = m.`IDMOVIMIENTO`
-where e.`fecha` between '2021-02-01' and '2021-02-28'
+where e.`fecha` between '2021-03-01' and '2021-03-31'
 and d.`cuenta` = '2420410200'
 and e.`estado` <> 'ANL'
 -- and e.`tipo_doc` not in ('NE', 'IA')

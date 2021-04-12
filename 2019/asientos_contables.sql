@@ -8,12 +8,17 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-168317, 168350
+165183
 ) 
 -- where e.`tipo_doc` = 'IA' and e.`no_doc` in (236)
+-- where d.`idpersonacliente` = 2064
+-- and e.`fecha` between '2021-03-01' and '2021-03-31'
+-- and e.`tipo_doc` = 'NE' AND e.`estado` <> 'ANL'
 ;
 
-update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` in (168317, 168350);
+update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` in (
+
+);
 
 update pedidos p set p.`IDMOVIMIENTO` = null where p.`IDPEDIDOS` = 61604;
 
@@ -23,13 +28,17 @@ update sf_tmpdet d set d.`idmovimiento` = 92224 where d.`id_tmpdet` = 999173;
 
 
 delete from sf_tmpdet where id_tmpenc in (
-4325, 4326
+
 );
 
 delete from sf_tmpenc where id_tmpenc in (
-4325, 4326
+
 );
 
+delete from sf_tmpdet
+where id_tmpdet in (
+
+);
 
 select *
 from inv_vales i
