@@ -375,7 +375,8 @@ from pedidos p
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join tipopedido t on p.`IDTIPOPEDIDO` = t.`IDTIPOPEDIDO`
 where p.`FECHA_ENTREGA` between '2021-01-01' and '2021-03-28'
-and (pc.`IDTERRITORIOTRABAJO` in (24, 25) or pc.`IDPERSONACLIENTE` = 1657)
+-- and (pc.`IDTERRITORIOTRABAJO` in (24, 25) or pc.`IDPERSONACLIENTE` = 1657)
+and pc.`IDTERRITORIOTRABAJO` in (25)
 and p.`ESTADO` <> 'ANULADO'
 ;
 

@@ -5,7 +5,7 @@ select 	d.FECHA, d.NIT, d.NOMBRE,d.NUMERO,d.IMPORTE,d.importeneto,d.iva,
 	z.idtmpenc, z.iddocumentocompra
 from documentocontable d 
 left join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
-where d.fecha between '2021-02-01' and '2021-02-28'
+where d.fecha between '2021-03-01' and '2021-03-31'
 and z.estado <> 'NULLIFIED'
 and z.tipo = 'INVOICE'
 -- and z.`idtmpenc` is not null
@@ -15,7 +15,7 @@ and z.tipo = 'INVOICE'
 select e.`id_tmpenc`, d.`id_tmpdet`,e.`tipo_doc`, e.`no_doc`, d.`debe`, d.`haber`
 from sf_tmpdet d
 left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where e.`fecha` between '2021-02-01' and '2021-02-28'
+where e.`fecha` between '2021-03-01' and '2021-03-31'
 and d.`cuenta` = '1420710000'
 and e.`estado` <> 'ANL'
 and e.`tipo_doc` not in ('NE')

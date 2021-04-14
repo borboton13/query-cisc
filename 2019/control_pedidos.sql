@@ -43,9 +43,9 @@ from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where p.`FECHA_ENTREGA` between '2021-03-01' and '2021-03-31'
+where p.`FECHA_ENTREGA` between '2021-01-01' and '2021-03-31'
 -- and p.`IDPEDIDOS` = 52247
-and p.`IDCLIENTE` = 726
+-- and p.`IDCLIENTE` = 726
 -- and p.`CODIGO` in (1090)
 and p.`ESTADO` <> 'ANULADO'
 -- and pc.`NOM` like '%Monica Lau%'
@@ -53,7 +53,7 @@ and p.`ESTADO` <> 'ANULADO'
 -- AND pc.`AP` LIKE '%Car%'
 -- and a.`cod_art` in (1090)
 -- AND p.`IDUSUARIO` = 5
--- and a.`TOTAL` = 0
+and a.`TOTAL` = 0
 ;
 
 
@@ -494,12 +494,28 @@ left join tipocliente t on pe.`IDTIPOCLIENTE` = t.`IDTIPOCLIENTE`
 where p.`ESTADO` <> 'ANULADO'
 and p.`FECHA_ENTREGA` between '2020-06-01' and '2021-02-28'
 and p.`tipoventa` = 'CREDIT'
-and p.`IDCLIENTE` in (
-1864	,1722	,1870	,1724	,1737	,1730	,1733	,1908	,1885	,1741	,1872	,1723	,1873	,1727	,2150	,1854	,1842	,1890	,
-1736	,2077	,1729	,1860	, 1914	,1735	,1735	,1739	,1898	,1910	,2076	,1734	,1742	,1859	,2066	,2016	,2092	,2079	
-)
-group by i.`cod_art`, i.`descri`
+and p.`IDCLIENTE` in ()
+group by i.`cod_art`, i.`descri`;
+
+--
+
+select p.`FECHA_ENTREGA`, p.`CODIGO`, p.`IDCLIENTE`, p.`TOTALIMPORTE`, p.`id_tmpenc`, d.`id_tmpdet`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`
+from pedidos p
+left join sf_tmpdet d on p.`id_tmpenc` = d.`id_tmpenc`
+left join arcgms a    on d.`cuenta` = a.`cuenta`
+where p.`FECHA_ENTREGA` between '2021-04-12' and '2021-04-12'
+and p.`tipoventa` = 'CASH'
+and p.`IDUSUARIO` = 541 -- Maria
+and d.`cuenta` = '1110110100'
 ;
+
+
+update sf_tmpdet d set d.`cuenta` = '1110110205'
+where d.`id_tmpdet` in (
+
+);
+
+
 
 
 
