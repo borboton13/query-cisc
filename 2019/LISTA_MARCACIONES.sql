@@ -89,6 +89,7 @@ group by v.`marperid`, v.`nombre`
 select *
 from vmarcado v
 where v.`marfecha` between '2021-03-01' and '2021-03-31'
+and v.`marperid` = 9480610
 ;
 
 

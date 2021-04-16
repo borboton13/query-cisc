@@ -24,7 +24,7 @@ and p.`IDUSUARIO` <> 5
 
 -- ----------------------------------------------------------------
 -- --------------------- DETALLE DE PEDIDOS -----------------------
-select 	p.`FECHA_ENTREGA`, P.`FECHA_PEDIDO`,
+select 	a.`IDARTICULOSPEDIDO` as IdArtP, p.`FECHA_ENTREGA`, P.`FECHA_PEDIDO`,
 	p.`IDPEDIDOS`, 
 	p.`CODIGO`,
 	P.`tipoventa`,
@@ -32,7 +32,6 @@ select 	p.`FECHA_ENTREGA`, P.`FECHA_PEDIDO`,
 	p.`IDCLIENTE`,
 	concat(pc.`NOM`,' ',pc.`AP`,' ',pc.`AM`) as CLIENTE, p.`OBSERVACION`, p.`DESCRIPCION`,
 	a.`cod_art`, 
-	a.`IDARTICULOSPEDIDO` as IdArtP, 
 	ar.`descri`, 
 	a.`CANTIDAD`, a.`PROMOCION`, a.`REPOSICION`, a.`TOTAL`, a.`PRECIO`, a.`IMPORTE`, 
 	p.`VALORCOMISION`, p.`TOTALIMPORTE`,
@@ -43,7 +42,7 @@ from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where p.`FECHA_ENTREGA` between '2021-01-01' and '2021-03-31'
+where p.`FECHA_ENTREGA` between '2021-01-01' and '2021-04-31'
 -- and p.`IDPEDIDOS` = 52247
 -- and p.`IDCLIENTE` = 726
 -- and p.`CODIGO` in (1090)
@@ -57,11 +56,13 @@ and a.`TOTAL` = 0
 ;
 
 
+
 update articulos_pedido a 
 set a.`TOTAL` = (a.`CANTIDAD` + a.`PROMOCION` + a.`REPOSICION`)
 where a.`IDARTICULOSPEDIDO` in (
 462592
 );
+
 
 
 
@@ -499,24 +500,21 @@ group by i.`cod_art`, i.`descri`;
 
 --
 
-select p.`FECHA_ENTREGA`, p.`CODIGO`, p.`IDCLIENTE`, p.`TOTALIMPORTE`, p.`id_tmpenc`, d.`id_tmpdet`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`
+select p.`FECHA_ENTREGA`, p.`CODIGO`, p.`IDCLIENTE`, p.`TOTALIMPORTE`, p.`id_tmpenc`, d.`id_tmpdet`, d.`cuenta`, a.`descri`, e.`glosa`, d.`debe`, d.`haber`
 from pedidos p
 left join sf_tmpdet d on p.`id_tmpenc` = d.`id_tmpenc`
+left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
-where p.`FECHA_ENTREGA` between '2021-04-12' and '2021-04-12'
+where p.`FECHA_ENTREGA` between '2021-04-12' and '2021-04-31'
 and p.`tipoventa` = 'CASH'
-and p.`IDUSUARIO` = 541 -- Maria
+and p.`IDUSUARIO` = 404 
 and d.`cuenta` = '1110110100'
 ;
 
 
-update sf_tmpdet d set d.`cuenta` = '1110110205'
+update sf_tmpdet d set d.`cuenta` = '1110110400'
 where d.`id_tmpdet` in (
 
 );
-
-
-
-
 
 

@@ -8,17 +8,17 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 where d.`id_tmpenc` in (
-168332
+169763
 ) 
 -- where e.`tipo_doc` = 'CI' 
 -- and e.`no_doc` in (236)
 -- where d.`idpersonacliente` = 2064
 -- and e.`fecha` between '2021-04-12' and '2021-04-31'
 -- and e.`tipo_doc` = 'NE' AND e.`estado` <> 'ANL'
--- and d.`cuenta` = '1110110100'
+-- WHERE d.`cuenta` = '1110110205'
 ;
 
-update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` in (
+update sf_tmpenc e set e.`estado` = 'ANL' where e.`id_tmpenc` in (169763
 );
 
 -- update sf_tmpdet d set d.`cuenta` = '1110110205' 
