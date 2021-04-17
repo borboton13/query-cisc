@@ -1,3 +1,7 @@
+-- ACTUALIZAR INVENTARIO LACTEOS
+update inv_inventario i set i.`saldo_uni` = 1000000000 where i.`cod_alm` = 2;
+update inv_inventario_detalle i set i.`cantidad` = 1000000000 where i.`cod_alm` = 2;
+
 -- -----------------------------------------------------------------
 -- Ventas al contado X articulo
 -- -----------------------------------------------------------------
@@ -514,7 +518,6 @@ and d.`cuenta` = '1110110100'
 
 update sf_tmpdet d set d.`cuenta` = '1110110400'
 where d.`id_tmpdet` in (
-
 );
 
 
