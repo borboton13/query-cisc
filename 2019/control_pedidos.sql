@@ -5,6 +5,14 @@ update inv_inventario_detalle i set i.`cantidad` = 1000000000 where i.`cod_alm` 
 update inv_inventario i set i.`saldo_uni` = 100000 where i.`cod_alm` = 6;
 update inv_inventario_detalle i set i.`cantidad` = 100000 where i.`cod_alm` = 6;
 
+update inv_inventario i set i.`saldo_uni` = 0 where i.`cod_alm` = 8;
+update inv_inventario_detalle i set i.`cantidad` = 0 where i.`cod_alm` = 8;
+
+update inv_articulos i set i.`saldo_mon` = 0, i.`costo_uni` = 0, i.`ct` = 0, i.`cu` = 0
+where i.`cod_art` in (
+
+);
+
 -- -----------------------------------------------------------------
 -- Ventas al contado X articulo
 -- -----------------------------------------------------------------
@@ -49,17 +57,18 @@ from articulos_pedido a
 left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where p.`FECHA_ENTREGA` between '2021-01-01' and '2021-04-31'
+where p.`FECHA_ENTREGA` between '2021-04-28' and '2021-04-28'
 -- and p.`IDPEDIDOS` = 52247
 -- and p.`IDCLIENTE` = 726
 -- and p.`CODIGO` in (1090)
 and p.`ESTADO` <> 'ANULADO'
+and pc.`IDTERRITORIOTRABAJO` = 25
 -- and pc.`NOM` like '%Monica Lau%'
 -- and a.`IDPEDIDOS` = 58548
 -- AND pc.`AP` LIKE '%Car%'
 -- and a.`cod_art` in (1090)
 -- AND p.`IDUSUARIO` = 5
-and a.`TOTAL` = 0
+-- and a.`TOTAL` = 0
 ;
 
 
@@ -69,6 +78,9 @@ set a.`TOTAL` = (a.`CANTIDAD` + a.`PROMOCION` + a.`REPOSICION`)
 where a.`IDARTICULOSPEDIDO` in (
 462592
 );
+
+
+
 
 
 

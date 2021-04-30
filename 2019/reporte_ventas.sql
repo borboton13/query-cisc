@@ -393,7 +393,7 @@ group by month(p.`FECHA_ENTREGA`), pc.`IDTERRITORIOTRABAJO`
 ;
 
 -- PREVENTA TELEFONOS
-select pc.`NOM`, pc.`AP`, pc.`AM`, pc.`TELEFONO`, pc.`DIRECCION`, count(p.`IDPEDIDOS`) as RECURRENCIA, max(p.`FECHA_ENTREGA`) as ULTIMA, sum(p.`TOTALIMPORTE`) as IMPORTE
+select pc.`IDPERSONACLIENTE`, pc.`NOM`, pc.`AP`, pc.`AM`, pc.`TELEFONO`, pc.`DIRECCION`, count(p.`IDPEDIDOS`) as RECURRENCIA, max(p.`FECHA_ENTREGA`) as ULTIMA, sum(p.`TOTALIMPORTE`) as IMPORTE
 from pedidos p
 left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 where p.`FECHA_ENTREGA` between '2020-12-01' and '2021-03-31'
@@ -401,7 +401,7 @@ and pc.`IDTERRITORIOTRABAJO` = 25
 and p.`IDTIPOPEDIDO` = 1
 -- AND pc.`IDPERSONACLIENTE` in (2064)
 and p.`ESTADO` <> 'ANULADO'
-group by pc.`NOM`, pc.`AP`, pc.`AM`
+group by pc.`IDPERSONACLIENTE`, pc.`NOM`, pc.`AP`, pc.`AM`
 ;
 
 
