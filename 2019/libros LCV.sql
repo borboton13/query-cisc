@@ -1,81 +1,81 @@
 -- -------------
 -- -- COMPRAS --
 -- -------------
-select 	d.FECHA as "FECHA FACTURA O DUI", 
-	d.NIT as "NIT PROVEEDOR", 
-	d.NOMBRE as "RAZON SOCIAL",
-	d.NUMERO as "NUMERO FACTURA",
-	"" as "NRO DUI",
-	d.numeroautorizacion as "NRO DE AUTORIZACION",
-	d.IMPORTE as "IMPORTE TOTAL DE LA COMPRA",
-	d.exento as "IMPORTE NO SUJETO A CREDITO FISCAL",
-	d.importe - d.exento as "SUBTOTAL",
-	"" as "DESCUENTOS",
-	d.importeneto as "IMPORTE BASE CREDITO FISCAL",
-	d.iva as "CREDITO FISCAL",
-	ifnull(d.CODIGOCONTROL, 0) as CODIGOCONTROL,
-	"" as "TIPO DE COMPRA", z.estado
+SELECT 	d.FECHA AS "FECHA FACTURA O DUI", 
+	d.NIT AS "NIT PROVEEDOR", 
+	d.NOMBRE AS "RAZON SOCIAL",
+	d.NUMERO AS "NUMERO FACTURA",
+	"" AS "NRO DUI",
+	d.numeroautorizacion AS "NRO DE AUTORIZACION",
+	d.IMPORTE AS "IMPORTE TOTAL DE LA COMPRA",
+	d.exento AS "IMPORTE NO SUJETO A CREDITO FISCAL",
+	d.importe - d.exento AS "SUBTOTAL",
+	"" AS "DESCUENTOS",
+	d.importeneto AS "IMPORTE BASE CREDITO FISCAL",
+	d.iva AS "CREDITO FISCAL",
+	IFNULL(d.CODIGOCONTROL, 0) AS CODIGOCONTROL,
+	"" AS "TIPO DE COMPRA", z.estado
 	, z.idtmpenc, z.id_tmpdet,  d.iddocumentocontable 
-from documentocontable d 
-join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
-where fecha between '2021-03-01' and '2021-03-31'
-and z.estado <> 'NULLIFIED'
-and z.tipo = 'INVOICE'
+FROM documentocontable d 
+JOIN documentocompra z ON d.iddocumentocontable = z.iddocumentocompra
+WHERE fecha BETWEEN '2021-04-01' AND '2021-04-30'
+AND z.estado <> 'NULLIFIED'
+AND z.tipo = 'INVOICE'
 ;
 
 
 -- -------------
 -- -- VENTAS ---
 -- -------------
-select 	IDMOVIMIENTO,
-	"" as "N.",
-	FECHA_FACTURA as "FECHA FACTURA", 
-	NROFACTURA as "N. FACTURA", 
-	NRO_AUTORIZACION as "N. AUTORIZACION", 
+SELECT 	IDMOVIMIENTO,
+	"" AS "N.",
+	FECHA_FACTURA AS "FECHA FACTURA", 
+	NROFACTURA AS "N. FACTURA", 
+	NRO_AUTORIZACION AS "N. AUTORIZACION", 
 	ESTADO, 
-	if(ESTADO = 'A', 0, NIT_CLIENTE) as NIT_CLIENTE, 
-	if(ESTADO = 'A', 'ANULADO', RAZON_SOCIAL) as "RAZON SOCIAL", 
-	if(ESTADO = 'A', 0.00, IMPORTE_TOTAL) as "IMPORTE TOTAL DE VENTA", 
-	if(ESTADO = 'A', 0.00, IMPORTE_ICE_IEHD_TASAS) as "IMPORTE ICE/IEHD/TASAS", 
-	if(ESTADO = 'A', 0.00, EXPORT_EXENTAS) as "EXPORTACIONES Y OPERACIONES EXENTAS", 
-	if(ESTADO = 'A', 0.00, VENTAS_GRAB_TASACERO) as "VENTAS GRAB TASA CERO", 
-	if(ESTADO = 'A', 0.00, SUBTOTAL) as SUBTOTAL, 
-	if(ESTADO = 'A', 0.00, DESCUENTOS) as "DESCUENTOS, BONIFICACIONES Y REBAJAS OTORGADAS", 
-	if(ESTADO = 'A', 0.00, IMPORTE_PARA_DEBITO_FISCAL) as "IMPORTE PARA DEBITO FISCAL", 
-	if(ESTADO = 'A', 0.00, DEBITO_FISCAL) as "DEBITO FISCAL", 
-	if(ESTADO = 'A', 0, CODIGOCONTROL) as "CODIGO DE CONTROL",
+	IF(ESTADO = 'A', 0, NIT_CLIENTE) AS NIT_CLIENTE, 
+	IF(ESTADO = 'A', 'ANULADO', RAZON_SOCIAL) AS "RAZON SOCIAL", 
+	IF(ESTADO = 'A', 0.00, IMPORTE_TOTAL) AS "IMPORTE TOTAL DE VENTA", 
+	IF(ESTADO = 'A', 0.00, IMPORTE_ICE_IEHD_TASAS) AS "IMPORTE ICE/IEHD/TASAS", 
+	IF(ESTADO = 'A', 0.00, EXPORT_EXENTAS) AS "EXPORTACIONES Y OPERACIONES EXENTAS", 
+	IF(ESTADO = 'A', 0.00, VENTAS_GRAB_TASACERO) AS "VENTAS GRAB TASA CERO", 
+	IF(ESTADO = 'A', 0.00, SUBTOTAL) AS SUBTOTAL, 
+	IF(ESTADO = 'A', 0.00, DESCUENTOS) AS "DESCUENTOS, BONIFICACIONES Y REBAJAS OTORGADAS", 
+	IF(ESTADO = 'A', 0.00, IMPORTE_PARA_DEBITO_FISCAL) AS "IMPORTE PARA DEBITO FISCAL", 
+	IF(ESTADO = 'A', 0.00, DEBITO_FISCAL) AS "DEBITO FISCAL", 
+	IF(ESTADO = 'A', 0, CODIGOCONTROL) AS "CODIGO DE CONTROL",
 	IDPEDIDOS, IDVENTADIRECTA, idmovimiento, id_tmpdet
-from movimiento
-where FECHA_FACTURA between '2021-03-01' and '2021-03-31'
+FROM movimiento
+WHERE FECHA_FACTURA BETWEEN '2021-04-01' AND '2021-04-30'
 ;
 
 -- -------------
 
 	-- Para anular facturas VENTAS CONTADO
-	select v.`IDMOVIMIENTO` ,v.fecha_pedido, v.estado, v.observacion, m.`IDMOVIMIENTO`, m.`NROFACTURA`, m.`ESTADO`, v.`id_tmpenc`, e.`tipo_doc`, e.`estado`
-	from ventadirecta v
-	join movimiento m on v.`IDMOVIMIENTO` = m.`IDMOVIMIENTO`
-	join sf_tmpenc e on v.`id_tmpenc` = e.`id_tmpenc`
-	where v.`FECHA_PEDIDO` between '2021-03-01' and '2021-03-31'
-	and v.`ESTADO` = 'ANULADO'
-	and v.`IDMOVIMIENTO` is not null;
+	SELECT v.`IDMOVIMIENTO` ,v.fecha_pedido, v.estado, v.observacion, m.`IDMOVIMIENTO`, m.`NROFACTURA`, m.`ESTADO`, v.`id_tmpenc`, e.`tipo_doc`, e.`estado`
+	FROM ventadirecta v
+	JOIN movimiento m ON v.`IDMOVIMIENTO` = m.`IDMOVIMIENTO`
+	JOIN sf_tmpenc e ON v.`id_tmpenc` = e.`id_tmpenc`
+	WHERE v.`FECHA_PEDIDO` BETWEEN '2021-04-01' AND '2021-04-30'
+	AND v.`ESTADO` = 'ANULADO'
+	AND v.`IDMOVIMIENTO` IS NOT NULL;
 
 	-- Para anular facturas PEDIDOS
-	    select p.`IDMOVIMIENTO`, p.`IDPEDIDOS`, p.fecha_entrega, p.`CODIGO`, p.`ESTADO`, m.nrofactura, p.`IMPUESTO`, p.observacion, pc.razonsocial , 
+	    SELECT p.`IDMOVIMIENTO`, p.`IDPEDIDOS`, p.fecha_entrega, p.`CODIGO`, p.`ESTADO`, m.nrofactura, p.`IMPUESTO`, p.observacion, pc.razonsocial , 
 	    m.`ESTADO`, pc.`IDPERSONACLIENTE`, p.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`,  e.`estado`
 	-- SELECT p.`IDMOVIMIENTO`
-	from pedidos p
-	left join personacliente pc on p.idcliente = pc.idpersonacliente
-	left join movimiento m      on p.idmovimiento = m.idmovimiento
-	left join sf_tmpenc e 	on p.`id_tmpenc` = e.`id_tmpenc`
-	where p.`FECHA_ENTREGA` between  '2021-03-01' and '2021-03-31'
-	and p.`ESTADO` = 'ANULADO'
-	and p.`IDMOVIMIENTO` is not null
+	FROM pedidos p
+	LEFT JOIN personacliente pc ON p.idcliente = pc.idpersonacliente
+	LEFT JOIN movimiento m      ON p.idmovimiento = m.idmovimiento
+	LEFT JOIN sf_tmpenc e 	ON p.`id_tmpenc` = e.`id_tmpenc`
+	WHERE p.`FECHA_ENTREGA` BETWEEN  '2021-04-01' AND '2021-04-30'
+	AND p.`ESTADO` = 'ANULADO'
+	AND p.`IDMOVIMIENTO` IS NOT NULL
 	-- AND p.`IDMOVIMIENTO` NOT IN (27416, 27417)
 	;
 
-update movimiento m set m.`ESTADO` = 'A'
-where m.`IDMOVIMIENTO` in (
+UPDATE movimiento m SET m.`ESTADO` = 'A'
+WHERE m.`IDMOVIMIENTO` IN (
 
 );
 

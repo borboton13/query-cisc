@@ -1,17 +1,17 @@
 -- INSERT MOVIMIENTO SALARIO PRODUCTOR
 -- REPOSICION FORMULARIO
 
-select max(idmovimientosalarioproductor)+1 from movimientosalarioproductor;
+SELECT MAX(idmovimientosalarioproductor)+1 FROM movimientosalarioproductor;
 
 -- INSERTANDO DESDE LA PLANILLA GENERADA
 -- SET @folio = (SELECT MAX(idmovimientosalarioproductor) FROM movimientosalarioproductor);
 -- insert into movimientosalarioproductor(idmovimientosalarioproductor,fecha,descripcion,estado,valor,idcompania,idzonaproductiva,idproductormateriaprima,idtipomovimientoproductor)
-select (@folio := @folio + 1), '2021-03-16' as fecha, 'COMISION BANCO' as descripcion, 'PENDING' as estado, 5.00 as valor, 1 as idcompania, p.`idzonaproductiva`, d.`idproductormateriaprima`, 7 as idtipomovimientoproductor 
-from registropagomateriaprima r
-left join planillapagomateriaprima p 	on r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
-left join descuentproductmateriaprima d on r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
-where p.fechainicio = '2021-03-16'
-and r.`liquidopagable` > 0
+SELECT (@folio := @folio + 1), '2021-04-16' AS fecha, 'COMISION BANCO' AS descripcion, 'PENDING' AS estado, 5.00 AS valor, 1 AS idcompania, p.`idzonaproductiva`, d.`idproductormateriaprima`, 7 AS idtipomovimientoproductor 
+FROM registropagomateriaprima r
+LEFT JOIN planillapagomateriaprima p 	ON r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
+LEFT JOIN descuentproductmateriaprima d ON r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
+WHERE p.fechainicio = '2021-04-16'
+AND r.`liquidopagable` > 0
 ;
 
 
@@ -19,17 +19,17 @@ and r.`liquidopagable` > 0
 -- SET @folio = (SELECT MAX(idmovimientosalarioproductor) FROM movimientosalarioproductor);
 -- insert into movimientosalarioproductor(idmovimientosalarioproductor,fecha,descripcion,estado,valor,idcompania,idzonaproductiva,idproductormateriaprima,idtipomovimientoproductor)
 -- select am.`idproductormateriaprima` as id, e.`noidentificacion` as ci, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, pr.`numerocuenta`, sum(am.`cantidad`) as CANT, max(sa.`fecha`)
-select (@folio := @folio + 1), '2021-01-16' as fecha, 'COMISION BANCO' as descripcion, 'PENDING' as estado, 5.00 as valor, 1 as idcompania, pr.idzonaproductiva, pr.idproductormateriaprima, 7 as idtipomovimientoproductor 
-from acopiomateriaprima am
-left join sesionacopio sa on am.`idsesionacopio` = sa.`idsesionacopio`
-left join persona p on am.`idproductormateriaprima` = p.`idpersona`
-left join productormateriaprima pr on p.`idpersona` = pr.`idproductormateriaprima`
-left join entidad e on p.`idpersona` = e.`identidad`
-where sa.`fecha` between '2021-01-16' and '2021-01-31' and am.`cantidad` > 0
-group by am.`idproductormateriaprima`, e.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, pr.`numerocuenta`
+SELECT (@folio := @folio + 1), '2021-01-16' AS fecha, 'COMISION BANCO' AS descripcion, 'PENDING' AS estado, 5.00 AS valor, 1 AS idcompania, pr.idzonaproductiva, pr.idproductormateriaprima, 7 AS idtipomovimientoproductor 
+FROM acopiomateriaprima am
+LEFT JOIN sesionacopio sa ON am.`idsesionacopio` = sa.`idsesionacopio`
+LEFT JOIN persona p ON am.`idproductormateriaprima` = p.`idpersona`
+LEFT JOIN productormateriaprima pr ON p.`idpersona` = pr.`idproductormateriaprima`
+LEFT JOIN entidad e ON p.`idpersona` = e.`identidad`
+WHERE sa.`fecha` BETWEEN '2021-01-16' AND '2021-01-31' AND am.`cantidad` > 0
+GROUP BY am.`idproductormateriaprima`, e.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, pr.`numerocuenta`
 ;
 
-update SECUENCIA set VALOR=(select max(E.IDMOVIMIENTOSALARIOPRODUCTOR)+1 from MOVIMIENTOSALARIOPRODUCTOR E) where TABLA='MOVIMIENTOSALARIOPRODUCTOR';
+UPDATE SECUENCIA SET VALOR=(SELECT MAX(E.IDMOVIMIENTOSALARIOPRODUCTOR)+1 FROM MOVIMIENTOSALARIOPRODUCTOR E) WHERE TABLA='MOVIMIENTOSALARIOPRODUCTOR';
 
 
 -- -------------------------------------- --
