@@ -1,51 +1,51 @@
 -- ACTUALIZAR INVENTARIO LACTEOS
-update inv_inventario i set i.`saldo_uni` = 1000000000 where i.`cod_alm` = 2;
-update inv_inventario_detalle i set i.`cantidad` = 1000000000 where i.`cod_alm` = 2;
+UPDATE inv_inventario i SET i.`saldo_uni` = 1000000000 WHERE i.`cod_alm` = 2;
+UPDATE inv_inventario_detalle i SET i.`cantidad` = 1000000000 WHERE i.`cod_alm` = 2;
 
-update inv_inventario i set i.`saldo_uni` = 100000 where i.`cod_alm` = 6;
-update inv_inventario_detalle i set i.`cantidad` = 100000 where i.`cod_alm` = 6;
+UPDATE inv_inventario i SET i.`saldo_uni` = 100000 WHERE i.`cod_alm` = 6;
+UPDATE inv_inventario_detalle i SET i.`cantidad` = 100000 WHERE i.`cod_alm` = 6;
 
-update inv_inventario i set i.`saldo_uni` = 0 where i.`cod_alm` = 8;
-update inv_inventario_detalle i set i.`cantidad` = 0 where i.`cod_alm` = 8;
+UPDATE inv_inventario i SET i.`saldo_uni` = 0 WHERE i.`cod_alm` = 8;
+UPDATE inv_inventario_detalle i SET i.`cantidad` = 0 WHERE i.`cod_alm` = 8;
 
-update inv_articulos i set i.`saldo_mon` = 0, i.`costo_uni` = 0, i.`ct` = 0, i.`cu` = 0
-where i.`cod_art` in (
+UPDATE inv_articulos i SET i.`saldo_mon` = 0, i.`costo_uni` = 0, i.`ct` = 0, i.`cu` = 0
+WHERE i.`cod_art` IN (
 
 );
 
 -- -----------------------------------------------------------------
 -- Ventas al contado X articulo
 -- -----------------------------------------------------------------
-select v.`IDVENTADIRECTA`, v.`FECHA_PEDIDO`, v.`CODIGO`, v.`ESTADO`, a.`CANTIDAD`, a.`REPOSICION`, a.`TOTAL`, a.`PRECIO`, a.`IMPORTE`
-from articulos_pedido a
-join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
-where v.`FECHA_PEDIDO` between '2016-01-01' and	'2016-12-31'
-and a.`cod_art` in (237)
+SELECT v.`IDVENTADIRECTA`, v.`FECHA_PEDIDO`, v.`CODIGO`, v.`ESTADO`, a.`CANTIDAD`, a.`REPOSICION`, a.`TOTAL`, a.`PRECIO`, a.`IMPORTE`
+FROM articulos_pedido a
+JOIN ventadirecta v ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
+WHERE v.`FECHA_PEDIDO` BETWEEN '2016-01-01' AND	'2016-12-31'
+AND a.`cod_art` IN (237)
 ;
 
 -- PEDIDOS - ASIENTOS
-select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`IDTIPOPEDIDO`, t.`NOMBRE`, p.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`
-from pedidos p
-join tipopedido t on p.`IDTIPOPEDIDO` = t.`IDTIPOPEDIDO`
-join sf_tmpenc e on p.`id_tmpenc` = e.`id_tmpenc`
-join sf_tmpdet d on e.`id_tmpenc` = d.`id_tmpenc`
-join arcgms a 	 on d.`cuenta` = a.`cuenta`
-where p.`FECHA_ENTREGA` between '2019-01-01' and '2019-03-31'
-and p.`ESTADO` <> 'ANULADO'
-and p.`IDUSUARIO` <> 5
+SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`IDTIPOPEDIDO`, t.`NOMBRE`, p.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`
+FROM pedidos p
+JOIN tipopedido t ON p.`IDTIPOPEDIDO` = t.`IDTIPOPEDIDO`
+JOIN sf_tmpenc e ON p.`id_tmpenc` = e.`id_tmpenc`
+JOIN sf_tmpdet d ON e.`id_tmpenc` = d.`id_tmpenc`
+JOIN arcgms a 	 ON d.`cuenta` = a.`cuenta`
+WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-03-31'
+AND p.`ESTADO` <> 'ANULADO'
+AND p.`IDUSUARIO` <> 5
 ;
 
 
 
 -- ----------------------------------------------------------------
 -- --------------------- DETALLE DE PEDIDOS -----------------------
-select 	a.`IDARTICULOSPEDIDO` as IdArtP, p.`FECHA_ENTREGA`, P.`FECHA_PEDIDO`,
+SELECT 	a.`IDARTICULOSPEDIDO` AS IdArtP, p.`FECHA_ENTREGA`, P.`FECHA_PEDIDO`,
 	p.`IDPEDIDOS`, 
 	p.`CODIGO`,
 	P.`tipoventa`,
 	P.`ESTADO`,
 	p.`IDCLIENTE`,
-	concat(pc.`NOM`,' ',pc.`AP`,' ',pc.`AM`) as CLIENTE, p.`OBSERVACION`, p.`DESCRIPCION`,
+	CONCAT(pc.`NOM`,' ',pc.`AP`,' ',pc.`AM`) AS CLIENTE, p.`OBSERVACION`, p.`DESCRIPCION`,
 	a.`cod_art`, 
 	ar.`descri`, 
 	a.`CANTIDAD`, a.`PROMOCION`, a.`REPOSICION`, a.`TOTAL`, a.`PRECIO`, a.`IMPORTE`, 
@@ -53,16 +53,51 @@ select 	a.`IDARTICULOSPEDIDO` as IdArtP, p.`FECHA_ENTREGA`, P.`FECHA_PEDIDO`,
 	-- a.`cu`,
 	p.`IDTIPOPEDIDO`, p.`CV`, p.`IDMOVIMIENTO`,
 	p.`ESTADO`, p.`id_tmpenc`, p.`TIENEFACTURA`, p.`FACTURA`, p.`id_tmpenc`
-from articulos_pedido a
-left join pedidos p on a.idpedidos = p.`IDPEDIDOS`
-left join personacliente pc on p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
-left join inv_articulos ar on a.`cod_art` = ar.`cod_art`
-where p.`FECHA_ENTREGA` between '2021-04-28' and '2021-04-28'
--- and p.`IDPEDIDOS` = 52247
+FROM articulos_pedido a
+LEFT JOIN pedidos p ON a.idpedidos = p.`IDPEDIDOS`
+LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+LEFT JOIN inv_articulos ar ON a.`cod_art` = ar.`cod_art`
+WHERE p.`FECHA_ENTREGA` BETWEEN '2021-04-01' AND '2021-04-30'
+AND p.`IDPEDIDOS` IN (
+41536	,
+62974	,
+62973	,
+62984	,
+62976	,
+62986	,
+62979	,
+41535	,
+41538	,
+41539	,
+62972	,
+63187	,
+41541	,
+41542	,
+41543	,
+41540	,
+62989	,
+62970	,
+62978	,
+41544	,
+62988	,
+62967	,
+62983	,
+62975	,
+41537	,
+62985	,
+62968	,
+62980	,
+62982	,
+62977	,
+62966	,
+62971	,
+62987	,
+62969	
+)
 -- and p.`IDCLIENTE` = 726
 -- and p.`CODIGO` in (1090)
-and p.`ESTADO` <> 'ANULADO'
-and pc.`IDTERRITORIOTRABAJO` = 25
+-- and p.`ESTADO` <> 'ANULADO'
+-- and pc.`IDTERRITORIOTRABAJO` = 25
 -- and pc.`NOM` like '%Monica Lau%'
 -- and a.`IDPEDIDOS` = 58548
 -- AND pc.`AP` LIKE '%Car%'
@@ -73,29 +108,33 @@ and pc.`IDTERRITORIOTRABAJO` = 25
 
 
 
-update articulos_pedido a 
-set a.`TOTAL` = (a.`CANTIDAD` + a.`PROMOCION` + a.`REPOSICION`)
-where a.`IDARTICULOSPEDIDO` in (
-462592
+UPDATE articulos_pedido a 
+SET a.`TOTAL` = (a.`CANTIDAD` + a.`PROMOCION` + a.`REPOSICION`)
+WHERE a.`IDARTICULOSPEDIDO` IN (
+
+);
+
+
+UPDATE pedidos p SET p.`ESTADO` = 'ANULADO' 
+WHERE P.`IDPEDIDOS` IN (
+62954, 63194
 );
 
 
 
 
 
-
-
-select distinct i.`cod_alm`
-from inv_periodo i
-where i.`gestion` = 2021
+SELECT DISTINCT i.`cod_alm`
+FROM inv_periodo i
+WHERE i.`gestion` = 2021
 ;
 
-select *
-from pedidos p
+SELECT *
+FROM pedidos p
 -- update pedidos p set p.`ESTADO` = 'ANULADO', p.`OBSERVACION` = 'Entrega anticipada, F-3680 vig, nota ANL'
 -- update pedidos p set p.`ESTADO` = 'CONTABILIZADO'
-where p.`FECHA_ENTREGA` between '2020-01-01' and '2020-12-31'
-and p.`CODIGO` in (8061)
+WHERE p.`FECHA_ENTREGA` BETWEEN '2020-01-01' AND '2020-12-31'
+AND p.`CODIGO` IN (8061)
 ;
 
 -- update pedidos p set p.`IDCLIENTE` = 665 where p.`IDPEDIDOS` = 51331;
@@ -103,7 +142,7 @@ and p.`CODIGO` in (8061)
 -- update pedidos p set p.`ESTADO` = 'ANULADO' where p.`IDPEDIDOS`= 35615;
 -- update sf_tmpenc e SET e.`estado` = 'ANL' where e.`id_tmpenc` = 123001;
 -- update movimiento m set m.`ESTADO` = 'A' WHERE m.`IDMOVIMIENTO` = 60392;
-update pedidos p set p.`FECHA_ENTREGA` = '2020-11-18' where p.`IDPEDIDOS`= 54958; -- 2020-11-18
+UPDATE pedidos p SET p.`FECHA_ENTREGA` = '2020-11-18' WHERE p.`IDPEDIDOS`= 54958; -- 2020-11-18
 
 
 

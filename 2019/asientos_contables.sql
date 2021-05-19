@@ -1,15 +1,17 @@
 -- - 
-select 	e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`, e.`estado`,  e.`glosa`,  e.`cod_prov`, 
+SELECT 	e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` AS tipo, E.`no_doc`, d.`no_trans`, e.`estado`,  e.`glosa`,  e.`cod_prov`, 
 	d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, D.`idcuenta`, d.`idmovimiento`, d.`iddocumentocompra`,
 	d.`tc`, d.`moneda`, d.`debeme`, d.`haberme`, 
 	d.`id_tmpenc`, e.`estado`, d.`cod_prov`, d.`cod_art`, d.`cant_art`, d.`idpersonacliente`, d.`idcredito`
-from sf_tmpdet d
-left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-left join arcgms a    on d.`cuenta` = a.`cuenta`
+FROM sf_tmpdet d
+LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
+LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
-where d.`id_tmpenc` in (
-169408
-) 
+ WHERE d.`id_tmpenc` IN (
+171388,
+171392
+ ) 
+-- where d.`id_tmpdet` in ()
 -- where e.`tipo_doc` = 'CI' 
 -- and e.`no_doc` in (236)
 -- where d.`idpersonacliente` = 2064
@@ -18,55 +20,56 @@ where d.`id_tmpenc` in (
 -- WHERE d.`cuenta` = '1110110205'
 ;
 
-update sf_tmpenc e set e.`estado` = 'ANL' where e.`id_tmpenc` in (169763
+UPDATE sf_tmpenc e SET e.`estado` = 'PEN' WHERE e.`id_tmpenc` IN (
+171388
 );
 
 -- update sf_tmpdet d set d.`cuenta` = '1110110205' 
 -- update sf_tmpdet d set d.`iddocumentocompra` = null
-update sf_tmpdet d set d.`idmovimiento` = 92296
-where d.`id_tmpdet` in (
+UPDATE sf_tmpdet d SET d.`idmovimiento` = 92296
+WHERE d.`id_tmpdet` IN (
 999453
 );
 
 
-update pedidos p set p.`IDMOVIMIENTO` = null where p.`IDPEDIDOS` = 61604;
+UPDATE pedidos p SET p.`IDMOVIMIENTO` = NULL WHERE p.`IDPEDIDOS` = 61604;
 
-select * from sf_tmpdet d where d.`id_tmpdet` = 999173;
+SELECT * FROM sf_tmpdet d WHERE d.`id_tmpdet` = 999173;
 
-update sf_tmpdet d set d.`idmovimiento` = 92224 where d.`id_tmpdet` = 999173;
+UPDATE sf_tmpdet d SET d.`idmovimiento` = 92224 WHERE d.`id_tmpdet` = 999173;
 
 
-delete from sf_tmpdet where id_tmpenc in (
-
-);
-
-delete from sf_tmpenc where id_tmpenc in (
+DELETE FROM sf_tmpdet WHERE id_tmpenc IN (
 
 );
 
-delete from sf_tmpdet
-where id_tmpdet in (
+DELETE FROM sf_tmpenc WHERE id_tmpenc IN (
 
 );
 
-select *
-from inv_vales i
+DELETE FROM sf_tmpdet
+WHERE id_tmpdet IN (
+
+);
+
+SELECT *
+FROM inv_vales i
 -- update inv_vales i set i.`idtmpenc` = null
-where i.`idtmpenc` in (
+WHERE i.`idtmpenc` IN (
 
 );
 
 
-delete from sf_tmpdet where id_tmpdet in (
+DELETE FROM sf_tmpdet WHERE id_tmpdet IN (
 
 );
 
 
 
 
-select *
-from sf_tmpdet d 
-where d.`id_tmpdet` > 15249
+SELECT *
+FROM sf_tmpdet d 
+WHERE d.`id_tmpdet` > 15249
 ;
 
 

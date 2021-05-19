@@ -1,15 +1,15 @@
-select cp.`idcontratopuesto`, c.`idcontrato`, en.`identidad`, en.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, c.`fechainicio`, c.`fechafin`
-from contratopuesto cp
-join contrato c on cp.`idcontrato` = c.`idcontrato`
-join empleado e on c.`idempleado` = e.`idempleado`
-join persona p  on e.`idempleado` = p.`idpersona`
-join entidad en on p.`idpersona`  = en.`identidad`
-and c.`fechafin` = '2019-12-31'
+SELECT cp.`idcontratopuesto`, c.`idcontrato`, en.`identidad`, en.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, c.`fechainicio`, c.`fechafin`
+FROM contratopuesto cp
+JOIN contrato c ON cp.`idcontrato` = c.`idcontrato`
+JOIN empleado e ON c.`idempleado` = e.`idempleado`
+JOIN persona p  ON e.`idempleado` = p.`idpersona`
+JOIN entidad en ON p.`idpersona`  = en.`identidad`
+AND c.`fechafin` = '2019-12-31'
 ;
 
 
-update contrato c set c.`fechafin` = '2020-12-31'
-where c.`idcontrato` in (
+UPDATE contrato c SET c.`fechafin` = '2020-12-31'
+WHERE c.`idcontrato` IN (
 
 );
 
@@ -17,56 +17,56 @@ where c.`idcontrato` in (
 
 
 -- select e.`idempleado`, bc.`idbandahorariacontrato`, bc.`idbandahoraria`, en.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, bc.`fechainicio`, bc.`fechafin`, bh.`diainicio`, bh.`horainicio`, bh.`horafin`
-select e.`idempleado`, en.`noidentificacion`, count(bc.`idbandahorariacontrato`)
-from bandahoraria bh
-left join bandahorariacontrato bc on bh.`idbandahoraria` = bc.`idbandahoraria`
-left join contratopuesto cp on bc.`idcontratopuesto` = cp.`idcontratopuesto`
-left join contrato c on cp.`idcontrato` = c.`idcontrato`
-left join empleado e on c.`idempleado` = e.`idempleado`
-left join persona p  on e.`idempleado` = p.`idpersona`
-left join entidad en on p.`idpersona` = en.`identidad`
-where bc.`fechafin` >= '2020-01-01'
-group by e.`idempleado`, en.`noidentificacion`
+SELECT e.`idempleado`, en.`noidentificacion`, COUNT(bc.`idbandahorariacontrato`)
+FROM bandahoraria bh
+LEFT JOIN bandahorariacontrato bc ON bh.`idbandahoraria` = bc.`idbandahoraria`
+LEFT JOIN contratopuesto cp ON bc.`idcontratopuesto` = cp.`idcontratopuesto`
+LEFT JOIN contrato c ON cp.`idcontrato` = c.`idcontrato`
+LEFT JOIN empleado e ON c.`idempleado` = e.`idempleado`
+LEFT JOIN persona p  ON e.`idempleado` = p.`idpersona`
+LEFT JOIN entidad en ON p.`idpersona` = en.`identidad`
+WHERE bc.`fechafin` >= '2020-01-01'
+GROUP BY e.`idempleado`, en.`noidentificacion`
 ;
 
 
 
-delete from bandahorariacontrato where idbandahorariacontrato in () ;
-delete from bandahoraria where idbandahoraria in () ;
+DELETE FROM bandahorariacontrato WHERE idbandahorariacontrato IN (4120, 4121, 4122, 4123, 4124, 4125, 4126, 4127, 4128, 4129, 4130, 4131);
+DELETE FROM bandahoraria WHERE idbandahoraria IN (4120, 4121, 4122, 4123, 4124, 4125, 4126, 4127, 4128, 4129, 4130, 4131);
 
 
 -- Horario del Personal
-select c.`fechafin`, e.`idempleado`, bc.`idbandahorariacontrato`, bc.`idbandahoraria`, en.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, bc.`fechainicio`, bc.`fechafin`, bh.`diainicio`, bh.`horainicio`, bh.`horafin`
-from bandahoraria bh
-left join bandahorariacontrato bc on bh.`idbandahoraria` = bc.`idbandahoraria`
-left join contratopuesto cp on bc.`idcontratopuesto` = cp.`idcontratopuesto`
-left join contrato c on cp.`idcontrato` = c.`idcontrato`
-left join empleado e on c.`idempleado` = e.`idempleado`
-left join persona p  on e.`idempleado` = p.`idpersona`
-left join entidad en on p.`idpersona` = en.`identidad`
-where en.`noidentificacion` = 8008156 
+SELECT c.`fechafin`, e.`idempleado`, bc.`idbandahorariacontrato`, bc.`idbandahoraria`, en.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, bc.`fechainicio`, bc.`fechafin`, bh.`diainicio`, bh.`horainicio`, bh.`horafin`
+FROM bandahoraria bh
+LEFT JOIN bandahorariacontrato bc ON bh.`idbandahoraria` = bc.`idbandahoraria`
+LEFT JOIN contratopuesto cp ON bc.`idcontratopuesto` = cp.`idcontratopuesto`
+LEFT JOIN contrato c ON cp.`idcontrato` = c.`idcontrato`
+LEFT JOIN empleado e ON c.`idempleado` = e.`idempleado`
+LEFT JOIN persona p  ON e.`idempleado` = p.`idpersona`
+LEFT JOIN entidad en ON p.`idpersona` = en.`identidad`
+WHERE en.`noidentificacion` = 8008156 
 -- and bc.`fechafin` = '2021-12-31'
-and c.`fechafin` >= '2021-01-01'
+AND c.`fechafin` >= '2021-01-01'
 -- and bh.`horainicio` = '08:00:00'
 ;
 
 
 /** Cambiando Horario **/
 -- UPDATE bandahoraria bh 
-left join bandahorariacontrato bc on bh.`idbandahoraria` = bc.`idbandahoraria`
-left join contratopuesto cp on bc.`idcontratopuesto` = cp.`idcontratopuesto`
-left join contrato c on cp.`idcontrato` = c.`idcontrato`
-left join empleado e on c.`idempleado` = e.`idempleado`
-left join persona p  on e.`idempleado` = p.`idpersona`
-left join entidad en on p.`idpersona` = en.`identidad`
-set bh.`horainicio` = '06:00:00', bh.horafin = '13:00:00'
+LEFT JOIN bandahorariacontrato bc ON bh.`idbandahoraria` = bc.`idbandahoraria`
+LEFT JOIN contratopuesto cp ON bc.`idcontratopuesto` = cp.`idcontratopuesto`
+LEFT JOIN contrato c ON cp.`idcontrato` = c.`idcontrato`
+LEFT JOIN empleado e ON c.`idempleado` = e.`idempleado`
+LEFT JOIN persona p  ON e.`idempleado` = p.`idpersona`
+LEFT JOIN entidad en ON p.`idpersona` = en.`identidad`
+SET bh.`horainicio` = '06:00:00', bh.horafin = '13:00:00'
 -- set bh.`horainicio` = '14:00:00'
 -- set bh.horafin = '17:00:00'
 -- set bc.fechafin = '2020-12-31'
-where en.`noidentificacion` = 8008156
-and bc.`fechafin` >= '2021-01-01'
+WHERE en.`noidentificacion` = 8008156
+AND bc.`fechafin` >= '2021-01-01'
 -- and bh.`horainicio` = '13:30:00'
-and bh.idbandahoraria in (
+AND bh.idbandahoraria IN (
 3868,
 3869,
 3870,
@@ -75,106 +75,106 @@ and bh.idbandahoraria in (
 3873
 );
 
-update SECUENCIA set VALOR=(select max(E.IDRHMARCADO)/10+1 from RHMARCADO E) where TABLA='BonoConseguido';
+UPDATE SECUENCIA SET VALOR=(SELECT MAX(E.IDRHMARCADO)/10+1 FROM RHMARCADO E) WHERE TABLA='BonoConseguido';
 
-update bandahorariacontrato b set b.`fechainicio` = '2020-09-01'
-where b.`idbandahorariacontrato` in (
+UPDATE bandahorariacontrato b SET b.`fechainicio` = '2020-09-01'
+WHERE b.`idbandahorariacontrato` IN (
 
 );
 
-update bandahoraria b set b.`horainicio` = '08:00:00'
-where b.`idbandahoraria` in (
+UPDATE bandahoraria b SET b.`horainicio` = '08:00:00'
+WHERE b.`idbandahoraria` IN (
 );
 
 
 -- delete from bandahorariacontrato
 -- delete from bandahoraria
-where idbandahoraria in (
+WHERE idbandahoraria IN (
 
 );
 
 -- eliminando planillas generadas
-delete from reportecontrol 		 	where idplanillagenerada in (471, 472, 473, 474, 475);
-delete from `planillafiscalporcategoria` 	where idplanillagenerada in (471, 472, 473, 474, 475);
-delete from `planillatributariaporcategoria` 	where idplanillagenerada in (471, 472, 473, 474, 475);
-delete from `planillaadministrativos` 		where idplanillagenerada in (471, 472, 473, 474, 475);
-delete from `planillagenerada` 			where idplanillagenerada in (471, 472, 473, 474, 475);
+DELETE FROM reportecontrol 		 	WHERE idplanillagenerada IN (471, 472, 473, 474, 475);
+DELETE FROM `planillafiscalporcategoria` 	WHERE idplanillagenerada IN (471, 472, 473, 474, 475);
+DELETE FROM `planillatributariaporcategoria` 	WHERE idplanillagenerada IN (471, 472, 473, 474, 475);
+DELETE FROM `planillaadministrativos` 		WHERE idplanillagenerada IN (471, 472, 473, 474, 475);
+DELETE FROM `planillagenerada` 			WHERE idplanillagenerada IN (471, 472, 473, 474, 475);
 
 -- Actualizar Luis Ferrufino
-update planillafiscalporcategoria p
-set 	p.`liquidopagable` 	= 5500.20,
+UPDATE planillafiscalporcategoria p
+SET 	p.`liquidopagable` 	= 5906.92,
 	p.`afplab_individual` 	= p.`afplab_individual`,
 	p.`afplab_riesgocomun`  = 0,
 	p.`afplab_solidario`	= p.`afplab_solidario`,
-	p.`totaldescuentos` 	= 679.80
-where p.`idplanillafiscalporcategoria` = 19791;
+	p.`totaldescuentos` 	= 730.08
+WHERE p.`idplanillafiscalporcategoria` = 20026;
 
 -- Actualizar Juana Pozo
-update planillafiscalporcategoria p
-set 	p.`liquidopagable` 	= 12470.63,
+UPDATE planillafiscalporcategoria p
+SET 	p.`liquidopagable` 	= 12470.63,
 	p.`afplab_individual` 	= 0,
 	p.`afplab_riesgocomun`  = p.`afplab_riesgocomun`,
 	p.`afplab_solidario`	= p.`afplab_solidario`,
 	p.`totaldescuentos` 	= 347.37
-where p.`idplanillafiscalporcategoria` = 19808;
+WHERE p.`idplanillafiscalporcategoria` = 20043;
 
 -- Actualizar para Eliseo
-update planillafiscalporcategoria p
-set 	p.`liquidopagable` 	= 15729.64,
+UPDATE planillafiscalporcategoria p
+SET 	p.`liquidopagable` 	= 15729.64,
 	p.`afplab_individual` 	= 0,
 	p.`afplab_riesgocomun`  = 0,
 	p.`totaldescuentos` 	= 188.36
-where p.`idplanillafiscalporcategoria` = 19809;
+WHERE p.`idplanillafiscalporcategoria` = 20044;
 
 -- Actualizar Simon Calucho
-update planillafiscalporcategoria p
-set 	p.`liquidopagable` 	= 2597.02,
+UPDATE planillafiscalporcategoria p
+SET 	p.`liquidopagable` 	= 2597.02,
 	p.`afplab_individual` 	= p.`afplab_individual`,
 	p.`afplab_riesgocomun`  = 0,
 	p.`afplab_solidario`	= p.`afplab_solidario`,
 	p.`totaldescuentos` 	= 320.98
-where p.`idplanillafiscalporcategoria` = 19813;
+WHERE p.`idplanillafiscalporcategoria` = 20048;
 
 
-select p.`idplanillafiscalporcategoria`, p.`idempleado`, p.`ci`, p.`nombre`, 
+SELECT p.`idplanillafiscalporcategoria`, p.`idempleado`, p.`ci`, p.`nombre`, 
 p.`retencionafp`, p.afplab_individual, p.afplab_riesgocomun, p.afplab_solidario, p.`totalganado`, p.totaldescuentos, p.`liquidopagable`
-from `planillafiscalporcategoria` p
-where p.`idplanillagenerada` = 481
-and p.`ci` in (
+FROM `planillafiscalporcategoria` p
+WHERE p.`idplanillagenerada` = 486
+AND p.`ci` IN (
 815059, 2862262, 2868139, 921886
 ) ;
 
-select *
-from planillaadministrativos p
-where p.`idplanillagenerada` = 481
-and p.`idempleado` in (401, 445, 576, 582)
+SELECT *
+FROM planillaadministrativos p
+WHERE p.`idplanillagenerada` = 486
+AND p.`idempleado` IN (401, 445, 576, 582)
 ;
 -- ACTUALIZANDO PLANILLAADMINISTRATIVOS (PARA UNINET)
 -- LUIS FERRUFINO GUTIERREZ
-update planillaadministrativos p 
-set 	p.`liquidopagable` = 5500.20,
-	p.`totaldescuento` = 679.80
-where p.`idplanillaadministrativos` = 19865
+UPDATE planillaadministrativos p 
+SET 	p.`liquidopagable` = 5906.92,
+	p.`totaldescuento` = 730.08
+WHERE p.`idplanillaadministrativos` = 20100
 ;
 
 -- JUANA DE DIOS POZO SEJAS
-update planillaadministrativos p 
-set 	p.`liquidopagable` = 12470.63,
+UPDATE planillaadministrativos p 
+SET 	p.`liquidopagable` = 12470.63,
 	p.`totaldescuento` = 347.37
-where p.`idplanillaadministrativos` = 19882
+WHERE p.`idplanillaadministrativos` = 20117
 ;
 
 -- ELISEO CAMACHO ORELLANA
-update planillaadministrativos p 
-set 	p.`liquidopagable` = 15729.64,
+UPDATE planillaadministrativos p 
+SET 	p.`liquidopagable` = 15729.64,
 	p.`totaldescuento` = 188.36
-where p.`idplanillaadministrativos` = 19883
+WHERE p.`idplanillaadministrativos` = 20118
 ;
 
 -- SIMON CALUCHO JIMENEZ
-update planillaadministrativos p 
-set 	p.`liquidopagable` = 2597.02,
+UPDATE planillaadministrativos p 
+SET 	p.`liquidopagable` = 2597.02,
 	p.`totaldescuento` = 320.98
-where p.`idplanillaadministrativos` = 19887
+WHERE p.`idplanillaadministrativos` = 20122
 ;
 

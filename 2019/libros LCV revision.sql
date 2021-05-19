@@ -1,24 +1,24 @@
 -- PARA REVISION DE LIBRO COMPRAS
 -- ---------------------------
 -- From Libro
-select 	d.FECHA, d.NIT, d.NOMBRE,d.NUMERO,d.IMPORTE,d.importeneto,d.iva,
+SELECT 	d.FECHA, d.NIT, d.NOMBRE,d.NUMERO,d.IMPORTE,d.importeneto,d.iva,
 	z.idtmpenc, z.iddocumentocompra
-from documentocontable d 
-left join documentocompra z on d.iddocumentocontable = z.iddocumentocompra
-where d.fecha between '2021-03-01' and '2021-03-31'
-and z.estado <> 'NULLIFIED'
-and z.tipo = 'INVOICE'
+FROM documentocontable d 
+LEFT JOIN documentocompra z ON d.iddocumentocontable = z.iddocumentocompra
+WHERE d.fecha BETWEEN '2021-03-01' AND '2021-03-31'
+AND z.estado <> 'NULLIFIED'
+AND z.tipo = 'INVOICE'
 -- and z.`idtmpenc` is not null
 ;
 
 -- From contab
-select e.`id_tmpenc`, d.`id_tmpdet`,e.`tipo_doc`, e.`no_doc`, d.`debe`, d.`haber`
-from sf_tmpdet d
-left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where e.`fecha` between '2021-03-01' and '2021-03-31'
-and d.`cuenta` = '1420710000'
-and e.`estado` <> 'ANL'
-and e.`tipo_doc` not in ('NE')
+SELECT e.`id_tmpenc`, d.`id_tmpdet`,e.`tipo_doc`, e.`no_doc`, d.`debe`, d.`haber`
+FROM sf_tmpdet d
+LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
+WHERE e.`fecha` BETWEEN '2021-03-01' AND '2021-03-31'
+AND d.`cuenta` = '1420710000'
+AND e.`estado` <> 'ANL'
+AND e.`tipo_doc` NOT IN ('NE')
 -- and e.`tipo_doc` not in ('NE', 'IA')
 -- and e.`tipo_doc` not in ('IA')
 ;
@@ -28,7 +28,7 @@ and e.`tipo_doc` not in ('NE')
 -- PARA REVISION DE LIBRO VENTAS
 -- ---------------------------
 -- REVISION LV contado
-select 	m.IDMOVIMIENTO,
+SELECT 	m.IDMOVIMIENTO,
 	m.FECHA_FACTURA, 
 	m.`NROFACTURA`,
 	m.ESTADO, 
@@ -39,17 +39,17 @@ select 	m.IDMOVIMIENTO,
 	m.IDPEDIDOS, m.IDVENTADIRECTA, 
 	v.`id_tmpenc`, 
 	m.`id_tmpdet`, d.`id_tmpdet`, d.`debe`, d.`haber`, e.`tipo_doc`, e.`no_doc`, e.`estado`
-from movimiento m
-left join ventadirecta v on m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
-left join sf_tmpdet d on v.`id_tmpenc` = d.`id_tmpenc`
-left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where m.FECHA_FACTURA between '2021-03-01' and '2021-03-31'
-and m.`IDVENTADIRECTA` is not null
-and d.`cuenta` = '2420410200'
-and e.`estado` <> 'ANL'
-union all
+FROM movimiento m
+LEFT JOIN ventadirecta v ON m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
+LEFT JOIN sf_tmpdet d ON v.`id_tmpenc` = d.`id_tmpenc`
+LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
+WHERE m.FECHA_FACTURA BETWEEN '2021-04-01' AND '2021-04-30'
+AND m.`IDVENTADIRECTA` IS NOT NULL
+AND d.`cuenta` = '2420410200'
+AND e.`estado` <> 'ANL'
+UNION ALL
 -- REVISION LV pedidos
-select 	m.IDMOVIMIENTO,
+SELECT 	m.IDMOVIMIENTO,
 	m.FECHA_FACTURA, 
 	m.`NROFACTURA`,
 	m.ESTADO, 
@@ -61,17 +61,26 @@ select 	m.IDMOVIMIENTO,
 	-- v.`id_tmpenc`, 
 	p.`id_tmpenc`,
 	m.`id_tmpdet`, d.`id_tmpdet`, d.`debe`, d.`haber`, e.`tipo_doc`, e.`no_doc`, e.`estado`
-from movimiento m
+FROM movimiento m
 -- left join ventadirecta v on m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
-left join pedidos p on m.`IDPEDIDOS` = p.`IDPEDIDOS`
-left join sf_tmpdet d on p.`id_tmpenc` = d.`id_tmpenc`
-left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where m.FECHA_FACTURA between '2021-03-01' and '2021-03-31'
-and m.`IDPEDIDOS` is not null
-and d.`cuenta` = '2420410200'
-and e.`estado` <> 'ANL'
+LEFT JOIN pedidos p ON m.`IDPEDIDOS` = p.`IDPEDIDOS`
+LEFT JOIN sf_tmpdet d ON p.`id_tmpenc` = d.`id_tmpenc`
+LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
+WHERE m.FECHA_FACTURA BETWEEN '2021-04-01' AND '2021-04-30'
+AND m.`IDPEDIDOS` IS NOT NULL
+AND d.`cuenta` = '2420410200'
+AND e.`estado` <> 'ANL'
 ;
 
+
+-- From contab
+SELECT e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc`, e.`no_doc`, d.`debe`, d.`haber`, d.`idmovimiento`, e.`fac`, e.`glosa`
+FROM sf_tmpdet d
+LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
+WHERE e.`fecha` BETWEEN '2021-04-01' AND '2021-04-30'
+AND d.`cuenta` = '2420410200'
+AND e.`estado` <> 'ANL'
+;
 
 
 -- ------------------------------------------------
@@ -80,33 +89,33 @@ and e.`estado` <> 'ANL'
 -- GOBIERNO AUTONOMO DEPARTAMENTAL DE COCHABAMBA 460
 -- ypfb 726
 -- TOTAL CONTABILIZADO POR CLIENTE
-select d.`idpersonacliente`, sum(d.`debe`)
-from sf_tmpdet d
-left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-where e.`fecha` between '2020-08-01' and '2020-08-31'
-and d.`idpersonacliente` in (726)
-and e.`estado` <> 'ANL'
+SELECT d.`idpersonacliente`, SUM(d.`debe`)
+FROM sf_tmpdet d
+LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
+WHERE e.`fecha` BETWEEN '2020-08-01' AND '2020-08-31'
+AND d.`idpersonacliente` IN (726)
+AND e.`estado` <> 'ANL'
 ;
 
 
 -- DEBITO FISCAL, MAYOR Y FACTURAS
 -- DETALLE CONTABLE DEBITO FISCAL
-select e.`id_tmpenc`, e.`fecha`, e.`glosa`, d.`id_tmpdet`,e.`tipo_doc`, e.`no_doc`, d.`debe`, d.`haber`, d.`idmovimiento`, m.`NROFACTURA`, m.`ESTADO`, m.`DEBITO_FISCAL`
-from sf_tmpdet d
-left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
-left join movimiento m on d.`idmovimiento` = m.`IDMOVIMIENTO`
-where e.`fecha` between '2021-03-01' and '2021-03-31'
-and d.`cuenta` = '2420410200'
-and e.`estado` <> 'ANL'
+SELECT e.`id_tmpenc`, e.`fecha`, e.`glosa`, d.`id_tmpdet`,e.`tipo_doc`, e.`no_doc`, d.`debe`, d.`haber`, d.`idmovimiento`, m.`NROFACTURA`, m.`ESTADO`, m.`DEBITO_FISCAL`
+FROM sf_tmpdet d
+LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
+LEFT JOIN movimiento m ON d.`idmovimiento` = m.`IDMOVIMIENTO`
+WHERE e.`fecha` BETWEEN '2021-03-01' AND '2021-03-31'
+AND d.`cuenta` = '2420410200'
+AND e.`estado` <> 'ANL'
 -- and e.`tipo_doc` not in ('NE', 'IA')
 ;
 
 -- VENTAS, CRUCE FACTURAS (MOVIMIENTO) Y ASIENTOS
-select m.`IDMOVIMIENTO`, m.`FECHA_FACTURA`, m.`ESTADO`, m.`IMPORTE_TOTAL`, m.`DESCUENTOS`, m.`IMPORTE_PARA_DEBITO_FISCAL`, m.`DEBITO_FISCAL`, m.`IDPEDIDOS`, m.`IDVENTADIRECTA`, d.`debe`, d.`haber`
-from movimiento m
-left join sf_tmpdet d on m.`IDMOVIMIENTO` = d.`idmovimiento`
-where m.`FECHA_FACTURA` between '2021-02-01' and '2021-02-28'
-and m.`ESTADO` <> 'A'
+SELECT m.`IDMOVIMIENTO`, m.`FECHA_FACTURA`, m.`ESTADO`, m.`IMPORTE_TOTAL`, m.`DESCUENTOS`, m.`IMPORTE_PARA_DEBITO_FISCAL`, m.`DEBITO_FISCAL`, m.`IDPEDIDOS`, m.`IDVENTADIRECTA`, d.`debe`, d.`haber`
+FROM movimiento m
+LEFT JOIN sf_tmpdet d ON m.`IDMOVIMIENTO` = d.`idmovimiento`
+WHERE m.`FECHA_FACTURA` BETWEEN '2021-02-01' AND '2021-02-28'
+AND m.`ESTADO` <> 'A'
 ;
 
 -- --------------------
@@ -116,13 +125,48 @@ and m.`ESTADO` <> 'A'
 -- Actualizado 12.03.2021
 -- Ordenes de Compra con Factura
 -- Revision de facturas, fechas, asiento
-select e.`id_com_encoc`, e.`fecha_recepcion`, e.`glosa`, e.`no_orden`, e.`estado`, e.`total`, dc.`iddocumentocompra`, d.`iddocumentocontable` , d.`fecha`, dc.`estado`, d.`numero`, d.`nombre`, d.`iva`, dc.`idtmpenc`,
+SELECT e.`id_com_encoc`, e.`fecha_recepcion`, e.`glosa`, e.`no_orden`, e.`estado`, e.`total`, dc.`iddocumentocompra`, d.`iddocumentocontable` , d.`fecha`, dc.`estado`, d.`numero`, d.`nombre`, d.`iva`, dc.`idtmpenc`,
 s.`fecha`, s.`tipo_doc`, s.`no_doc`, s.`estado`
-from com_encoc e 
-left join documentocompra dc on e.`id_com_encoc` = dc.`idordencompra`
-left join documentocontable d on dc.`iddocumentocompra` = d.`iddocumentocontable`
-left join sf_tmpenc s on dc.`idtmpenc` = s.`id_tmpenc`
-where e.`fecha_recepcion` between '2021-02-01' and '2021-02-28'
-and e.`confactura` = 'CONFACTURA'
+FROM com_encoc e 
+LEFT JOIN documentocompra dc ON e.`id_com_encoc` = dc.`idordencompra`
+LEFT JOIN documentocontable d ON dc.`iddocumentocompra` = d.`iddocumentocontable`
+LEFT JOIN sf_tmpenc s ON dc.`idtmpenc` = s.`id_tmpenc`
+WHERE e.`fecha_recepcion` BETWEEN '2021-02-01' AND '2021-02-28'
+AND e.`confactura` = 'CONFACTURA'
 ;
+
+-- ---------------------------------------------------------------
+-- 11.05.2021
+SELECT *
+FROM pedidos p
+WHERE p.`FECHA_ENTREGA` BETWEEN '2021-04-01' AND '2021-04-30'
+AND p.`IDUSUARIO` IN (5, 408)
+AND p.`id_tmpenc` IS NULL
+;
+
+
+-- Pedidos con asiento contable
+SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`IDTIPOPEDIDO`, p.`idtipoventa`, p.`TOTALIMPORTE`, p.`IMPUESTO`, p.`id_tmpenc`, p.`IDMOVIMIENTO`
+FROM pedidos p
+WHERE p.`FECHA_ENTREGA` BETWEEN '2021-04-01' AND '2021-04-30'
+AND p.`id_tmpenc` IS NOT NULL
+AND p.`ESTADO` <> 'ANULADO'
+;
+
+-- Pedidos con asiento contable y sin factura
+-- Para Verificar si los asientos tienen cedito fiscal
+SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`IDTIPOPEDIDO`, p.`idtipoventa`, p.`TOTALIMPORTE`, p.`IMPUESTO`, p.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, e.`estado`, p.`IDMOVIMIENTO`, 
+p.`IDUSUARIO`, p.`IDCLIENTE`, pc.`NOM`, pc.`AP`, PC.`RAZONSOCIAL`
+FROM pedidos p
+LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
+LEFT JOIN sf_tmpenc e ON p.`id_tmpenc` = e.`id_tmpenc`
+WHERE p.`FECHA_ENTREGA` BETWEEN '2021-04-01' AND '2021-04-30'
+AND p.`id_tmpenc` IS NOT NULL
+AND p.`IDMOVIMIENTO` IS NULL
+AND p.`ESTADO` <> 'ANULADO'
+;
+
+-- ---------------------------------------------------------------
+
+
 
