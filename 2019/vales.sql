@@ -25,6 +25,7 @@ and i.`oper` is not null
 ;
 
 
+-- VALES DETALLE DE ARTICULOS
 select i.`fecha`, i.`id_com_encoc`, i.`no_vale`, i.`cod_doc`, i.`estado`, i.`oper`, d.`cod_art`, a.`descri`, d.`cantidad`, a.`cod_med`, d.`costounitario`, d.`monto`, i.`idtmpenc`
 from inv_vales i
 join inv_movdet d on i.`no_trans` = d.`no_trans`
@@ -37,14 +38,15 @@ and i.`oper` is null
 
 
 
-
 select i.`no_trans`, i.`fecha`, i.`cod_doc`, i.`no_vale`, i.`estado`, i.`oper`, i.`id_com_encoc`, i.`idtmpenc`,
 d.`id_inv_movdet`, d.`cod_art`, d.`cantidad`, e.`tipo_doc`, e.`no_doc`
 from inv_vales i
 left join inv_movdet d on i.`no_trans` = d.`no_trans`
 left join sf_tmpenc e on i.`idtmpenc` = e.`id_tmpenc`
-where i.`fecha` between '2020-09-01' and '2020-09-30'
-and i.`cod_alm` = 4
+where i.`fecha` between '2021-02-01' and '2021-02-31'
+and i.`cod_doc` = 'EGR' 
+and i.`oper` is null
+-- and i.`cod_alm` = 4
 ;
 
 

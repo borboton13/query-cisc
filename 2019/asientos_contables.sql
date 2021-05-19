@@ -1,13 +1,13 @@
 -- - 
-SELECT 	e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` AS tipo, E.`no_doc`, d.`no_trans`, e.`estado`,  e.`glosa`,  e.`cod_prov`, 
+select 	e.`id_tmpenc`, d.`id_tmpdet`, e.`fecha`, e.`tipo_doc` as tipo, E.`no_doc`, d.`no_trans`, e.`estado`,  e.`glosa`,  e.`cod_prov`, 
 	d.`cuenta`, a.`descri`, d.`debe`, d.`haber`, D.`idcuenta`, d.`idmovimiento`, d.`iddocumentocompra`,
 	d.`tc`, d.`moneda`, d.`debeme`, d.`haberme`, 
 	d.`id_tmpenc`, e.`estado`, d.`cod_prov`, d.`cod_art`, d.`cant_art`, d.`idpersonacliente`, d.`idcredito`
-FROM sf_tmpdet d
-LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
+from sf_tmpdet d
+left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
+left join arcgms a    on d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
- WHERE d.`id_tmpenc` IN (
+ where d.`id_tmpenc` in (
 171388,
 171392
  ) 
@@ -20,56 +20,56 @@ LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 -- WHERE d.`cuenta` = '1110110205'
 ;
 
-UPDATE sf_tmpenc e SET e.`estado` = 'PEN' WHERE e.`id_tmpenc` IN (
+update sf_tmpenc e set e.`estado` = 'PEN' where e.`id_tmpenc` in (
 171388
 );
 
 -- update sf_tmpdet d set d.`cuenta` = '1110110205' 
 -- update sf_tmpdet d set d.`iddocumentocompra` = null
-UPDATE sf_tmpdet d SET d.`idmovimiento` = 92296
-WHERE d.`id_tmpdet` IN (
+update sf_tmpdet d set d.`idmovimiento` = 92296
+where d.`id_tmpdet` in (
 999453
 );
 
 
-UPDATE pedidos p SET p.`IDMOVIMIENTO` = NULL WHERE p.`IDPEDIDOS` = 61604;
+update pedidos p set p.`IDMOVIMIENTO` = null where p.`IDPEDIDOS` = 61604;
 
-SELECT * FROM sf_tmpdet d WHERE d.`id_tmpdet` = 999173;
+select * from sf_tmpdet d where d.`id_tmpdet` = 999173;
 
-UPDATE sf_tmpdet d SET d.`idmovimiento` = 92224 WHERE d.`id_tmpdet` = 999173;
+update sf_tmpdet d set d.`idmovimiento` = 92224 where d.`id_tmpdet` = 999173;
 
 
-DELETE FROM sf_tmpdet WHERE id_tmpenc IN (
-
-);
-
-DELETE FROM sf_tmpenc WHERE id_tmpenc IN (
+delete from sf_tmpdet where id_tmpenc in (
 
 );
 
-DELETE FROM sf_tmpdet
-WHERE id_tmpdet IN (
+delete from sf_tmpenc where id_tmpenc in (
 
 );
 
-SELECT *
-FROM inv_vales i
+delete from sf_tmpdet
+where id_tmpdet in (
+
+);
+
+select *
+from inv_vales i
 -- update inv_vales i set i.`idtmpenc` = null
-WHERE i.`idtmpenc` IN (
+where i.`idtmpenc` in (
 
 );
 
 
-DELETE FROM sf_tmpdet WHERE id_tmpdet IN (
+delete from sf_tmpdet where id_tmpdet in (
 
 );
 
 
 
 
-SELECT *
-FROM sf_tmpdet d 
-WHERE d.`id_tmpdet` > 15249
+select *
+from sf_tmpdet d 
+where d.`id_tmpdet` > 15249
 ;
 
 
@@ -643,10 +643,6 @@ where t.`fechatransaccion` between '2020-01-01' and '2020-01-31'
 group by z.`idzonaproductiva`
 ;
 
-select * -- e.`id_tmpenc`, d.`cuenta`, d.`idcuenta`
-from sf_tmpenc e
-where e.`glosa` like '%RETIRO%AHO%'
-;
 
 
 /* fisico valorado */
@@ -683,63 +679,7 @@ where v.`fecha` between '2020-07-01' and '2020-07-31'
 and v.`oper` is not null
 ;
 
--- Para revision productos saldo (-)
--- 781
-select *
-from com_detoc d
-where d.`cod_art` in (
-695, 781
-);
 
-select *
-from articulos_pedido a
-where a.`cod_art` in (
-695, 781
-);
-
-
-select *
-from sf_tmpdet d
-where d.`cod_art` in (
-695, 781
-);
-
-
-select *
-from inv_movdet d
-where d.`cod_art` in (
-695, 781
-);
-
--- End
-
-
-
-
-
--- Vales anulados por error en anulacion de pedidos
--- no_trans: 25247, 25249, 25020
-
--- select * from inv_vales 
--- update inv_vales d set d.`estado` = 'ANL'
-where d.`no_trans` in (
-25247, 25249, 25020
-);
-
--- select * from inv_mov d
--- UPDATE inv_mov d set d.`estado` = 'ANL'
-where d.`no_trans` in (
-25247, 25249, 25020
-);
-
-select *
-from inv_movdet d
-update inv_movdet d set d.`estado` = 'ANL'
-where d.`no_trans` in (
-25247, 25249, 25020
-);
-
--- -------------
 
 
 
