@@ -37,16 +37,13 @@ and i.`oper` is null
 ;
 
 
-
-select i.`no_trans`, i.`fecha`, i.`cod_doc`, i.`no_vale`, i.`estado`, i.`oper`, i.`id_com_encoc`, i.`idtmpenc`,
-d.`id_inv_movdet`, d.`cod_art`, d.`cantidad`, e.`tipo_doc`, e.`no_doc`
+-- REVISION CIERRES DIARIOS (revisar si esta contabilizado SA)
+select i.`no_trans`, i.`fecha`, i.`cod_doc`, i.`no_vale`, i.`estado`, i.`oper`, i.`id_com_encoc`, i.`idtmpenc`, e.`tipo_doc`, e.`no_doc`
 from inv_vales i
-left join inv_movdet d on i.`no_trans` = d.`no_trans`
 left join sf_tmpenc e on i.`idtmpenc` = e.`id_tmpenc`
-where i.`fecha` between '2021-02-01' and '2021-02-31'
+where i.`fecha` between '2021-05-01' and '2021-05-31'
 and i.`cod_doc` = 'EGR' 
 and i.`oper` is null
--- and i.`cod_alm` = 4
 ;
 
 
@@ -56,5 +53,25 @@ left join sf_tmpenc e on d.`id_tmpenc` = e.`id_tmpenc`
 where e.`fecha` between '2020-09-01' and '2020-09-30'
 and d.`cuenta` = '1810310201'
 ;
+
+
+select *
+from sf_tmpenc e 
+where e.`fecha` between '2021-01-01' and '2021-05-20'
+and e.`tipo_doc` = 'SA'
+;
+
+
+select *
+from inv_vales i
+where i.`no_trans` in (
+26513, 26514
+);
+
+
+update inv_movdet i set i.`estado` = 'ANL' where i.`no_trans` in (26608, 26609);
+update inv_mov i set i.`estado` = 'ANL' where i.`no_trans` in (26608, 26609);
+update inv_vales i set i.`estado` = 'ANL' where i.`no_trans` in (26608, 26609);
+
 
 

@@ -1,17 +1,17 @@
 -- INSERT MOVIMIENTO SALARIO PRODUCTOR
 -- REPOSICION FORMULARIO
 
-SELECT MAX(idmovimientosalarioproductor)+1 FROM movimientosalarioproductor;
+select max(idmovimientosalarioproductor)+1 from movimientosalarioproductor;
 
 -- INSERTANDO DESDE LA PLANILLA GENERADA
 -- SET @folio = (SELECT MAX(idmovimientosalarioproductor) FROM movimientosalarioproductor);
 -- insert into movimientosalarioproductor(idmovimientosalarioproductor,fecha,descripcion,estado,valor,idcompania,idzonaproductiva,idproductormateriaprima,idtipomovimientoproductor)
-SELECT (@folio := @folio + 1), '2021-04-16' AS fecha, 'COMISION BANCO' AS descripcion, 'PENDING' AS estado, 5.00 AS valor, 1 AS idcompania, p.`idzonaproductiva`, d.`idproductormateriaprima`, 7 AS idtipomovimientoproductor 
-FROM registropagomateriaprima r
-LEFT JOIN planillapagomateriaprima p 	ON r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
-LEFT JOIN descuentproductmateriaprima d ON r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
-WHERE p.fechainicio = '2021-04-16'
-AND r.`liquidopagable` > 0
+select (@folio := @folio + 1), '2021-04-16' as fecha, 'COMISION BANCO' as descripcion, 'PENDING' as estado, 5.00 as valor, 1 as idcompania, p.`idzonaproductiva`, d.`idproductormateriaprima`, 7 as idtipomovimientoproductor 
+from registropagomateriaprima r
+left join planillapagomateriaprima p 	on r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
+left join descuentproductmateriaprima d on r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
+where p.fechainicio = '2021-04-16'
+and r.`liquidopagable` > 0
 ;
 
 
@@ -19,24 +19,24 @@ AND r.`liquidopagable` > 0
 -- SET @folio = (SELECT MAX(idmovimientosalarioproductor) FROM movimientosalarioproductor);
 -- insert into movimientosalarioproductor(idmovimientosalarioproductor,fecha,descripcion,estado,valor,idcompania,idzonaproductiva,idproductormateriaprima,idtipomovimientoproductor)
 -- select am.`idproductormateriaprima` as id, e.`noidentificacion` as ci, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, pr.`numerocuenta`, sum(am.`cantidad`) as CANT, max(sa.`fecha`)
-SELECT (@folio := @folio + 1), '2021-01-16' AS fecha, 'COMISION BANCO' AS descripcion, 'PENDING' AS estado, 5.00 AS valor, 1 AS idcompania, pr.idzonaproductiva, pr.idproductormateriaprima, 7 AS idtipomovimientoproductor 
-FROM acopiomateriaprima am
-LEFT JOIN sesionacopio sa ON am.`idsesionacopio` = sa.`idsesionacopio`
-LEFT JOIN persona p ON am.`idproductormateriaprima` = p.`idpersona`
-LEFT JOIN productormateriaprima pr ON p.`idpersona` = pr.`idproductormateriaprima`
-LEFT JOIN entidad e ON p.`idpersona` = e.`identidad`
-WHERE sa.`fecha` BETWEEN '2021-01-16' AND '2021-01-31' AND am.`cantidad` > 0
-GROUP BY am.`idproductormateriaprima`, e.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, pr.`numerocuenta`
+select (@folio := @folio + 1), '2021-01-16' as fecha, 'COMISION BANCO' as descripcion, 'PENDING' as estado, 5.00 as valor, 1 as idcompania, pr.idzonaproductiva, pr.idproductormateriaprima, 7 as idtipomovimientoproductor 
+from acopiomateriaprima am
+left join sesionacopio sa on am.`idsesionacopio` = sa.`idsesionacopio`
+left join persona p on am.`idproductormateriaprima` = p.`idpersona`
+left join productormateriaprima pr on p.`idpersona` = pr.`idproductormateriaprima`
+left join entidad e on p.`idpersona` = e.`identidad`
+where sa.`fecha` between '2021-01-16' and '2021-01-31' and am.`cantidad` > 0
+group by am.`idproductormateriaprima`, e.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, pr.`numerocuenta`
 ;
 
-UPDATE SECUENCIA SET VALOR=(SELECT MAX(E.IDMOVIMIENTOSALARIOPRODUCTOR)+1 FROM MOVIMIENTOSALARIOPRODUCTOR E) WHERE TABLA='MOVIMIENTOSALARIOPRODUCTOR';
+update SECUENCIA set VALOR=(select max(E.IDMOVIMIENTOSALARIOPRODUCTOR)+1 from MOVIMIENTOSALARIOPRODUCTOR E) where TABLA='MOVIMIENTOSALARIOPRODUCTOR';
 
 
 -- -------------------------------------- --
 -- CONTABILIZAR DESCUENTOS VETERINARIOS
 -- -------------------------------------- --
 -- SET @folio = (SELECT MAX(id_tmpdet) FROM sf_tmpdet);
--- set @folio = 14703;
+-- set @folio = 15709;
 -- INSERT INTO sf_tmpdet (id_tmpdet, cuenta, no_cia, debe, haber, moneda, no_trans, id_tmpenc, idpersonacliente) 
 select (@folio := @folio+1), '1421010200', '01', 0, p.`TOTALIMPORTE`, 'P', 132147, 132100, pe.`IDPERSONACLIENTE` -- 
  , PE.`NRO_DOC`, pe.`NOM`, pe.`AP`, pe.`AM`, p.`ESTADO`, p.`FECHA_ENTREGA`
@@ -45,30 +45,31 @@ join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 join entidad e         on pe.`NRO_DOC` = e.`noidentificacion`
 join persona per       on e.`identidad` = per.`idpersona`
 join productormateriaprima pr on e.`identidad` = pr.`idproductormateriaprima`
-where p.`FECHA_ENTREGA` between '2021-01-16' and '2021-01-31'
+where p.`FECHA_ENTREGA` between '2021-03-16' and '2021-03-31'
 and p.`ESTADO` <> 'ANULADO'
-and p.`IDUSUARIO` = 5
+and p.`IDUSUARIO` = 408
 and p.`IDTIPOPEDIDO` = 6
 ;
 
 
 select *
 from sf_tmpdet d
-where d.`id_tmpdet` >= 15190
+where d.`id_tmpdet` >= 15850
 ;
 
 -- CONTABILIZAR DESCUENTOS LACTEOS
--- set @folio = 15402; 
+-- set @folio = 15806; 
 -- INSERT INTO sf_tmpdet (id_tmpdet, cuenta, no_cia, debe, haber, moneda, no_trans, id_tmpenc, idpersonacliente) 
-select (@folio := @folio+1), '1421010100', '01', 0, p.`TOTALIMPORTE`, 'P', 163074, 163245, pe.`IDPERSONACLIENTE`        -- , P.`IDPEDIDOS` ,pe.`NOM`, pe.`AP`, pe.`AM`, p.`FECHA_ENTREGA` , per.`idpersona`
+select (@folio := @folio+1), '1421010100', '01', 0, p.`TOTALIMPORTE`, 'P', 169366, 169537, pe.`IDPERSONACLIENTE`        -- , P.`IDPEDIDOS` ,pe.`NOM`, pe.`AP`, pe.`AM`, p.`FECHA_ENTREGA` , per.`idpersona`
 from pedidos p
 join personacliente pe on p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
 join entidad e         on pe.`NRO_DOC` = e.`noidentificacion`
 join persona per       on e.`identidad` = per.`idpersona`
 join productormateriaprima pr on e.`identidad` = pr.`idproductormateriaprima`
-where p.`FECHA_ENTREGA` between '2021-01-01' and '2021-01-15'
+where p.`FECHA_ENTREGA` between '2021-03-16' and '2021-03-31'
 and p.`ESTADO` <> 'ANULADO'
-and p.`IDUSUARIO` <> 5
+and p.`IDUSUARIO` not in (4, 408)
+and P.`tipoventa` = 'CREDIT'
 and p.`IDTIPOPEDIDO` = 5
 -- and pe.`IDPERSONACLIENTE` not in (587) -- No caopia Lucia Arispe, se paso desdcuento a 1Q-SEP-20
 ;
