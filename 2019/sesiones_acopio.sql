@@ -100,7 +100,7 @@ LEFT JOIN sesionacopio sa ON am.`idsesionacopio` = sa.`idsesionacopio`
 LEFT JOIN zonaproductiva zp ON sa.`idzonaproductiva` = zp.`idzonaproductiva`
 LEFT JOIN persona p ON am.`idproductormateriaprima` = p.`idpersona`
 LEFT JOIN entidad e ON p.`idpersona` = e.`identidad`
-WHERE sa.`fecha` BETWEEN '2019-07-16' AND '2019-07-31'
+WHERE sa.`fecha` BETWEEN '2021-05-01' AND '2021-05-31'
 AND am.`cantidad` > 0
 GROUP BY MONTH(sa.`fecha`), zp.`numero`, zp.`nombre`, am.`idproductormateriaprima`, e.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`
 ;
