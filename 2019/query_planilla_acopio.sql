@@ -129,22 +129,22 @@ join productormateriaprima pr 		on pe.`idpersona` = pr.`idproductormateriaprima`
 join entidad e 				on pe.`idpersona` = e.`identidad`
 join planillapagomateriaprima p 	on r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
 join zonaproductiva z 			on p.`idzonaproductiva` = z.`idzonaproductiva`
-where p.fechainicio = '2021-04-16'
+where p.fechainicio = '2021-05-16'
 and r.`liquidopagable` <> 0
 order by z.`nombre`, pe.`nombres`
 ;
 
 
 select  z.`idzonaproductiva`, z.`nombre`, z.`numero`, sum(r.`cantidadtotal`) as cantidad
-FROM registropagomateriaprima r
-JOIN descuentproductmateriaprima d 	ON r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
-JOIN persona pe        			ON d.`idproductormateriaprima` = pe.`idpersona`
-JOIN entidad e 				ON pe.`idpersona` = e.`identidad`
-JOIN planillapagomateriaprima p 	ON r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
-JOIN zonaproductiva z 			ON p.`idzonaproductiva` = z.`idzonaproductiva`
-WHERE p.fechainicio = '2019-02-01'
+from registropagomateriaprima r
+join descuentproductmateriaprima d 	on r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
+join persona pe        			on d.`idproductormateriaprima` = pe.`idpersona`
+join entidad e 				on pe.`idpersona` = e.`identidad`
+join planillapagomateriaprima p 	on r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
+join zonaproductiva z 			on p.`idzonaproductiva` = z.`idzonaproductiva`
+where p.fechainicio = '2019-02-01'
 -- AND r.`liquidopagable` <> 0
-GROUP BY z.`idzonaproductiva`, z.`nombre`, z.`numero`
+group by z.`idzonaproductiva`, z.`nombre`, z.`numero`
 ;
 
 
@@ -153,7 +153,7 @@ GROUP BY z.`idzonaproductiva`, z.`nombre`, z.`numero`
 -- ---------------------------------------------------------------
 -- --------------- REPORTE TOTAL X PRODUCTOR A PARTIR PLANILLA ---
 -- ---------------------------------------------------------------
-SELECT  
+select  
 	z.`nombre`, z.`numero`,
 	pe.`nombres`, pe.`apellidopaterno`, pe.`apellidomaterno`,
 	SUM(r.`cantidadtotal`) 		AS Cant_LT

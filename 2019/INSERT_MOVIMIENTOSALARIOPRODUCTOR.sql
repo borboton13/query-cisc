@@ -6,12 +6,12 @@ select max(idmovimientosalarioproductor)+1 from movimientosalarioproductor;
 -- INSERTANDO DESDE LA PLANILLA GENERADA
 -- SET @folio = (SELECT MAX(idmovimientosalarioproductor) FROM movimientosalarioproductor);
 -- insert into movimientosalarioproductor(idmovimientosalarioproductor,fecha,descripcion,estado,valor,idcompania,idzonaproductiva,idproductormateriaprima,idtipomovimientoproductor)
-select (@folio := @folio + 1), '2021-04-16' as fecha, 'COMISION BANCO' as descripcion, 'PENDING' as estado, 5.00 as valor, 1 as idcompania, p.`idzonaproductiva`, d.`idproductormateriaprima`, 7 as idtipomovimientoproductor 
+select (@folio := @folio + 1), '2021-05-16' as fecha, 'COMISION BANCO' as descripcion, 'PENDING' as estado, 5.00 as valor, 1 as idcompania, p.`idzonaproductiva`, d.`idproductormateriaprima`, 7 as idtipomovimientoproductor 
 from registropagomateriaprima r
 left join planillapagomateriaprima p 	on r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
 left join descuentproductmateriaprima d on r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
-where p.fechainicio = '2021-04-16'
-and r.`liquidopagable` > 0
+where p.fechainicio = '2021-05-01'
+and r.`liquidopagable` > 5
 ;
 
 
@@ -19,18 +19,24 @@ and r.`liquidopagable` > 0
 -- SET @folio = (SELECT MAX(idmovimientosalarioproductor) FROM movimientosalarioproductor);
 -- insert into movimientosalarioproductor(idmovimientosalarioproductor,fecha,descripcion,estado,valor,idcompania,idzonaproductiva,idproductormateriaprima,idtipomovimientoproductor)
 -- select am.`idproductormateriaprima` as id, e.`noidentificacion` as ci, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, pr.`numerocuenta`, sum(am.`cantidad`) as CANT, max(sa.`fecha`)
-select (@folio := @folio + 1), '2021-01-16' as fecha, 'COMISION BANCO' as descripcion, 'PENDING' as estado, 5.00 as valor, 1 as idcompania, pr.idzonaproductiva, pr.idproductormateriaprima, 7 as idtipomovimientoproductor 
+select (@folio := @folio + 1), '2021-05-01' as fecha, 'COMISION BANCO' as descripcion, 'PENDING' as estado, 5.00 as valor, 1 as idcompania, pr.idzonaproductiva, pr.idproductormateriaprima, 7 as idtipomovimientoproductor 
 from acopiomateriaprima am
 left join sesionacopio sa on am.`idsesionacopio` = sa.`idsesionacopio`
 left join persona p on am.`idproductormateriaprima` = p.`idpersona`
 left join productormateriaprima pr on p.`idpersona` = pr.`idproductormateriaprima`
 left join entidad e on p.`idpersona` = e.`identidad`
-where sa.`fecha` between '2021-01-16' and '2021-01-31' and am.`cantidad` > 0
+where sa.`fecha` between '2021-05-01' and '2021-05-15' and am.`cantidad` > 0
 group by am.`idproductormateriaprima`, e.`noidentificacion`, p.`nombres`, p.`apellidopaterno`, p.`apellidomaterno`, pr.`numerocuenta`
 ;
 
 update SECUENCIA set VALOR=(select max(E.IDMOVIMIENTOSALARIOPRODUCTOR)+1 from MOVIMIENTOSALARIOPRODUCTOR E) where TABLA='MOVIMIENTOSALARIOPRODUCTOR';
 
+
+select *
+from movimientosalarioproductor m
+where m.`fecha` >= '2021-05-01'
+and m.`descripcion` = 'COMISION BANCO'
+;
 
 -- -------------------------------------- --
 -- CONTABILIZAR DESCUENTOS VETERINARIOS
