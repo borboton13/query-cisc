@@ -1,33 +1,33 @@
 -- ACTUALIZAR INVENTARIO LACTEOS
-UPDATE inv_inventario i SET i.`saldo_uni` = 1000000000 WHERE i.`cod_alm` = 2;
-UPDATE inv_inventario_detalle i SET i.`cantidad` = 1000000000 WHERE i.`cod_alm` = 2;
+update inv_inventario i set i.`saldo_uni` = 1000000000 where i.`cod_alm` = 2;
+update inv_inventario_detalle i set i.`cantidad` = 1000000000 where i.`cod_alm` = 2;
 
-UPDATE inv_inventario i SET i.`saldo_uni` = 100000 WHERE i.`cod_alm` = 6;
-UPDATE inv_inventario_detalle i SET i.`cantidad` = 100000 WHERE i.`cod_alm` = 6;
+update inv_inventario i set i.`saldo_uni` = 100000 where i.`cod_alm` = 6;
+update inv_inventario_detalle i set i.`cantidad` = 100000 where i.`cod_alm` = 6;
 
-UPDATE inv_inventario i SET i.`saldo_uni` = 0 WHERE i.`cod_alm` = 8;
-UPDATE inv_inventario_detalle i SET i.`cantidad` = 0 WHERE i.`cod_alm` = 8;
+update inv_inventario i set i.`saldo_uni` = 1000000000 where i.`cod_alm` = 8;
+update inv_inventario_detalle i set i.`cantidad` = 1000000000 where i.`cod_alm` = 8;
 
-UPDATE inv_articulos i SET i.`saldo_mon` = 0, i.`costo_uni` = 0, i.`ct` = 0, i.`cu` = 0
-WHERE i.`cod_art` IN (
+update inv_articulos i set i.`saldo_mon` = 0, i.`costo_uni` = 0, i.`ct` = 0, i.`cu` = 0
+where i.`cod_art` in (
 
 );
 
 -- -----------------------------------------------------------------
 -- Ventas al contado X articulo
 -- -----------------------------------------------------------------
-SELECT v.`IDVENTADIRECTA`, v.`FECHA_PEDIDO`, v.`CODIGO`, v.`ESTADO`, a.`CANTIDAD`, a.`REPOSICION`, a.`TOTAL`, a.`PRECIO`, a.`IMPORTE`
-FROM articulos_pedido a
-JOIN ventadirecta v ON a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
-WHERE v.`FECHA_PEDIDO` BETWEEN '2016-01-01' AND	'2016-12-31'
-AND a.`cod_art` IN (237)
+select v.`IDVENTADIRECTA`, v.`FECHA_PEDIDO`, v.`CODIGO`, v.`ESTADO`, a.`CANTIDAD`, a.`REPOSICION`, a.`TOTAL`, a.`PRECIO`, a.`IMPORTE`
+from articulos_pedido a
+join ventadirecta v on a.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
+where v.`FECHA_PEDIDO` between '2016-01-01' and	'2016-12-31'
+and a.`cod_art` in (237)
 ;
 
 -- PEDIDOS - ASIENTOS
-SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`IDTIPOPEDIDO`, t.`NOMBRE`, p.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`
-FROM pedidos p
-JOIN tipopedido t ON p.`IDTIPOPEDIDO` = t.`IDTIPOPEDIDO`
-JOIN sf_tmpenc e ON p.`id_tmpenc` = e.`id_tmpenc`
+select p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`IDTIPOPEDIDO`, t.`NOMBRE`, p.`id_tmpenc`, e.`tipo_doc`, e.`no_doc`, d.`id_tmpdet`, d.`cuenta`, a.`descri`, d.`debe`, d.`haber`
+from pedidos p
+join tipopedido t on p.`IDTIPOPEDIDO` = t.`IDTIPOPEDIDO`
+join sf_tmpenc e on p.`id_tmpenc` = e.`id_tmpenc`
 JOIN sf_tmpdet d ON e.`id_tmpenc` = d.`id_tmpenc`
 JOIN arcgms a 	 ON d.`cuenta` = a.`cuenta`
 WHERE p.`FECHA_ENTREGA` BETWEEN '2019-01-01' AND '2019-03-31'
