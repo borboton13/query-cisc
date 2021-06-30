@@ -5,7 +5,7 @@ SELECT 	d.FECHA, d.NIT, d.NOMBRE,d.NUMERO,d.IMPORTE,d.importeneto,d.iva,
 	z.idtmpenc, z.iddocumentocompra
 FROM documentocontable d 
 LEFT JOIN documentocompra z ON d.iddocumentocontable = z.iddocumentocompra
-WHERE d.fecha BETWEEN '2021-03-01' AND '2021-03-31'
+WHERE d.fecha BETWEEN '2021-05-01' AND '2021-05-31'
 AND z.estado <> 'NULLIFIED'
 AND z.tipo = 'INVOICE'
 -- and z.`idtmpenc` is not null
@@ -15,7 +15,7 @@ AND z.tipo = 'INVOICE'
 SELECT e.`id_tmpenc`, d.`id_tmpdet`,e.`tipo_doc`, e.`no_doc`, d.`debe`, d.`haber`
 FROM sf_tmpdet d
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-WHERE e.`fecha` BETWEEN '2021-03-01' AND '2021-03-31'
+WHERE e.`fecha` BETWEEN '2021-05-01' AND '2021-05-31'
 AND d.`cuenta` = '1420710000'
 AND e.`estado` <> 'ANL'
 AND e.`tipo_doc` NOT IN ('NE')
@@ -43,7 +43,7 @@ FROM movimiento m
 LEFT JOIN ventadirecta v ON m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 LEFT JOIN sf_tmpdet d ON v.`id_tmpenc` = d.`id_tmpenc`
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-WHERE m.FECHA_FACTURA BETWEEN '2021-04-01' AND '2021-04-30'
+WHERE m.FECHA_FACTURA BETWEEN '2021-05-01' AND '2021-05-31'
 AND m.`IDVENTADIRECTA` IS NOT NULL
 AND d.`cuenta` = '2420410200'
 AND e.`estado` <> 'ANL'
@@ -66,7 +66,7 @@ FROM movimiento m
 LEFT JOIN pedidos p ON m.`IDPEDIDOS` = p.`IDPEDIDOS`
 LEFT JOIN sf_tmpdet d ON p.`id_tmpenc` = d.`id_tmpenc`
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-WHERE m.FECHA_FACTURA BETWEEN '2021-04-01' AND '2021-04-30'
+WHERE m.FECHA_FACTURA BETWEEN '2021-05-01' AND '2021-05-31'
 AND m.`IDPEDIDOS` IS NOT NULL
 AND d.`cuenta` = '2420410200'
 AND e.`estado` <> 'ANL'
@@ -148,9 +148,19 @@ AND p.`id_tmpenc` IS NULL
 -- Pedidos con asiento contable
 SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`IDTIPOPEDIDO`, p.`idtipoventa`, p.`TOTALIMPORTE`, p.`IMPUESTO`, p.`id_tmpenc`, p.`IDMOVIMIENTO`
 FROM pedidos p
-WHERE p.`FECHA_ENTREGA` BETWEEN '2021-04-01' AND '2021-04-30'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2021-05-01' AND '2021-05-31'
 AND p.`id_tmpenc` IS NOT NULL
 AND p.`ESTADO` <> 'ANULADO'
+;
+
+-- Para revisar pedidos contabilizados
+SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`IDTIPOPEDIDO`, p.`idtipoventa`, p.`TOTALIMPORTE`, p.`IMPUESTO`, p.`id_tmpenc`, p.`IDMOVIMIENTO`, pe.`NOM`, pe.`AP`
+FROM pedidos p
+LEFT JOIN personacliente pe ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
+WHERE p.`FECHA_ENTREGA` BETWEEN '2021-05-01' AND '2021-05-31'
+AND p.`ESTADO` <> 'ANULADO'
+AND p.`id_tmpenc` IS NULL
+AND p.`IDTIPOPEDIDO` IN (5, 6)
 ;
 
 -- Pedidos con asiento contable y sin factura
@@ -160,7 +170,7 @@ p.`IDUSUARIO`, p.`IDCLIENTE`, pc.`NOM`, pc.`AP`, PC.`RAZONSOCIAL`
 FROM pedidos p
 LEFT JOIN personacliente pc ON p.`IDCLIENTE` = pc.`IDPERSONACLIENTE`
 LEFT JOIN sf_tmpenc e ON p.`id_tmpenc` = e.`id_tmpenc`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2021-04-01' AND '2021-04-30'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2021-05-01' AND '2021-05-31'
 AND p.`id_tmpenc` IS NOT NULL
 AND p.`IDMOVIMIENTO` IS NULL
 AND p.`ESTADO` <> 'ANULADO'
