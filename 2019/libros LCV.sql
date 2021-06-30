@@ -56,7 +56,7 @@ WHERE FECHA_FACTURA BETWEEN '2021-04-01' AND '2021-04-30'
 	FROM ventadirecta v
 	JOIN movimiento m ON v.`IDMOVIMIENTO` = m.`IDMOVIMIENTO`
 	JOIN sf_tmpenc e ON v.`id_tmpenc` = e.`id_tmpenc`
-	WHERE v.`FECHA_PEDIDO` BETWEEN '2021-04-01' AND '2021-04-30'
+	WHERE v.`FECHA_PEDIDO` BETWEEN '2021-05-01' AND '2021-05-31'
 	AND v.`ESTADO` = 'ANULADO'
 	AND v.`IDMOVIMIENTO` IS NOT NULL;
 
@@ -68,7 +68,7 @@ WHERE FECHA_FACTURA BETWEEN '2021-04-01' AND '2021-04-30'
 	LEFT JOIN personacliente pc ON p.idcliente = pc.idpersonacliente
 	LEFT JOIN movimiento m      ON p.idmovimiento = m.idmovimiento
 	LEFT JOIN sf_tmpenc e 	ON p.`id_tmpenc` = e.`id_tmpenc`
-	WHERE p.`FECHA_ENTREGA` BETWEEN  '2021-04-01' AND '2021-04-30'
+	WHERE p.`FECHA_ENTREGA` BETWEEN  '2021-05-01' AND '2021-05-31'
 	AND p.`ESTADO` = 'ANULADO'
 	AND p.`IDMOVIMIENTO` IS NOT NULL
 	-- AND p.`IDMOVIMIENTO` NOT IN (27416, 27417)
