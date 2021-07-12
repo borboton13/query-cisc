@@ -8,10 +8,21 @@ LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
 LEFT JOIN arcgms a    ON d.`cuenta` = a.`cuenta`
 -- WHERE d.`id_tmpenc` = 29504
 WHERE d.`id_tmpenc` IN ( 
-171755,
-171752,
-172044,
-173899
+174224	,
+174505	,
+175476	,
+175654	,
+175933	,
+174185	,
+174175	,
+174176	,
+175000	,
+175141	,
+175099	,
+175421	,
+175633	,
+176016	,
+176339	
  ) 
 -- where d.`id_tmpdet` in ()
 -- where e.`tipo_doc` = 'CB' 

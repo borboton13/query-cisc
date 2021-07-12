@@ -94,11 +94,11 @@ WHERE idbandahoraria IN (
 );
 
 -- eliminando planillas generadas
-DELETE FROM reportecontrol 		 	WHERE idplanillagenerada IN (471, 472, 473, 474, 475);
-DELETE FROM `planillafiscalporcategoria` 	WHERE idplanillagenerada IN (471, 472, 473, 474, 475);
-DELETE FROM `planillatributariaporcategoria` 	WHERE idplanillagenerada IN (471, 472, 473, 474, 475);
-DELETE FROM `planillaadministrativos` 		WHERE idplanillagenerada IN (471, 472, 473, 474, 475);
-DELETE FROM `planillagenerada` 			WHERE idplanillagenerada IN (471, 472, 473, 474, 475);
+DELETE FROM reportecontrol 		 	WHERE idplanillagenerada IN (494, 495, 490, 491, 482, 483, 484);
+DELETE FROM `planillafiscalporcategoria` 	WHERE idplanillagenerada IN (494, 495, 490, 491, 482, 483, 484);
+DELETE FROM `planillatributariaporcategoria` 	WHERE idplanillagenerada IN (494, 495, 490, 491, 482, 483, 484);
+DELETE FROM `planillaadministrativos` 		WHERE idplanillagenerada IN (494, 495, 490, 491, 482, 483, 484);
+DELETE FROM `planillagenerada` 			WHERE idplanillagenerada IN (494, 495, 490, 491, 482, 483, 484);
 
 -- Actualizar Luis Ferrufino
 UPDATE planillafiscalporcategoria p

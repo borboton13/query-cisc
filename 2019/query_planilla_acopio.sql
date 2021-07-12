@@ -1,112 +1,112 @@
 -- ----------------------------------------------------------------------
 -- TOTALES PLANILLAS DE PAGO x GAB
 -- ----------------------------------------------------------------------
-select 
-        Z.NUMERO as GAB,
-        Z.NOMBRE as ZONA_PRODUCTIVA,
+SELECT 
+        Z.NUMERO AS GAB,
+        Z.NOMBRE AS ZONA_PRODUCTIVA,
         P.IDZONAPRODUCTIVA, 
-        P.TOTALPESADOXGAB as CANT_PESAJE_LT, 
-        P.TOTALMONTOACOPIOADOXGAB as TOTAL_BS, 
-        P.TOTALRETENCIONESXGAB as RET, 
-        P.TOTALALCOHOLXGAB as ALCOHOL, 
-        P.TOTALCONCENTRADOSXGAB as CONCENT,
-        P.TOTALCREDITOXGAB as CREDITO,
-        P.TOTALVETERINARIOXGAB as VETER,
-        P.TOTALYOGURDXGAB as YOG,
-        P.TOTALTACHOSXGAB as TACHOS,
-        P.TOTALOTROSDECUENTOSXGAB as OTROSD,
-        P.TOTALAJUSTEXGAB as AJUSTE,
-        P.TOTALOTROSINGRESOSXGAB as OTROSI,
-        P.TOTALIQUIDOXGAB as LIQUIDO_PAG
-from PLANILLAPAGOMATERIAPRIMA P
-left join ZONAPRODUCTIVA Z on P.IDZONAPRODUCTIVA = Z.IDZONAPRODUCTIVA
-where P.FECHAINICIO = '2020-09-01'
-and   P.FECHAFIN    = '2020-09-15'
+        P.TOTALPESADOXGAB AS CANT_PESAJE_LT, 
+        P.TOTALMONTOACOPIOADOXGAB AS TOTAL_BS, 
+        P.TOTALRETENCIONESXGAB AS RET, 
+        P.TOTALALCOHOLXGAB AS ALCOHOL, 
+        P.TOTALCONCENTRADOSXGAB AS CONCENT,
+        P.TOTALCREDITOXGAB AS CREDITO,
+        P.TOTALVETERINARIOXGAB AS VETER,
+        P.TOTALYOGURDXGAB AS YOG,
+        P.TOTALTACHOSXGAB AS TACHOS,
+        P.TOTALOTROSDECUENTOSXGAB AS OTROSD,
+        P.TOTALAJUSTEXGAB AS AJUSTE,
+        P.TOTALOTROSINGRESOSXGAB AS OTROSI,
+        P.TOTALIQUIDOXGAB AS LIQUIDO_PAG
+FROM PLANILLAPAGOMATERIAPRIMA P
+LEFT JOIN ZONAPRODUCTIVA Z ON P.IDZONAPRODUCTIVA = Z.IDZONAPRODUCTIVA
+WHERE P.FECHAINICIO = '2020-09-01'
+AND   P.FECHAFIN    = '2020-09-15'
 ;
 -- ----------------------------------------------------------------------
 
-select *
-from REGISTROACOPIO R
-left join PLANILLAACOPIO P on R.IDPLANILLAACOPIO = P.IDPLANILLAACOPIO
-where P.FECHA between '2018-01-01' and '2018-01-15'
+SELECT *
+FROM REGISTROACOPIO R
+LEFT JOIN PLANILLAACOPIO P ON R.IDPLANILLAACOPIO = P.IDPLANILLAACOPIO
+WHERE P.FECHA BETWEEN '2018-01-01' AND '2018-01-15'
 ;
 
-select month(P.FECHA) as MES, sum(R.CANTIDADRECIBIDA) as RECIBIDA, sum(R.CANTIDADPESADA) as PESADA, ((sum(R.CANTIDADPESADA)) * 3.2) as PESADA_BS
-from REGISTROACOPIO R
-left join PLANILLAACOPIO P on R.IDPLANILLAACOPIO = P.IDPLANILLAACOPIO
+SELECT MONTH(P.FECHA) AS MES, SUM(R.CANTIDADRECIBIDA) AS RECIBIDA, SUM(R.CANTIDADPESADA) AS PESADA, ((SUM(R.CANTIDADPESADA)) * 3.2) AS PESADA_BS
+FROM REGISTROACOPIO R
+LEFT JOIN PLANILLAACOPIO P ON R.IDPLANILLAACOPIO = P.IDPLANILLAACOPIO
 -- WHERE P.FECHA BETWEEN TO_DATE('01/02/2015','DD/MM/YYYY') AND TO_DATE('28/02/2015','DD/MM/YYYY')
-where P.FECHA between '2020-01-01' and '2020-02-'
-group by month(P.FECHA)
+WHERE P.FECHA BETWEEN '2020-01-01' AND '2020-02-'
+GROUP BY MONTH(P.FECHA)
 ;
 
-select day(P.FECHA) as dia, z.`idzonaproductiva`, z.`numero`, z.`nombre`, sum(R.CANTIDADRECIBIDA) as RECIBIDA, sum(R.CANTIDADPESADA) as PESADA
-from REGISTROACOPIO R
-left join PLANILLAACOPIO P on R.IDPLANILLAACOPIO = P.IDPLANILLAACOPIO
-left join zonaproductiva z on r.`idzonaproductiva` = z.`idzonaproductiva`
-where P.FECHA between '2019-02-01' and '2019-02-15'
-and z.`numero` = 074
-group by day(P.FECHA), z.`idzonaproductiva`, z.`numero`, z.`nombre`
+SELECT DAY(P.FECHA) AS dia, z.`idzonaproductiva`, z.`numero`, z.`nombre`, SUM(R.CANTIDADRECIBIDA) AS RECIBIDA, SUM(R.CANTIDADPESADA) AS PESADA
+FROM REGISTROACOPIO R
+LEFT JOIN PLANILLAACOPIO P ON R.IDPLANILLAACOPIO = P.IDPLANILLAACOPIO
+LEFT JOIN zonaproductiva z ON r.`idzonaproductiva` = z.`idzonaproductiva`
+WHERE P.FECHA BETWEEN '2019-02-01' AND '2019-02-15'
+AND z.`numero` = 074
+GROUP BY DAY(P.FECHA), z.`idzonaproductiva`, z.`numero`, z.`nombre`
 ;
 
-select p.`fecha`, sum(R.CANTIDADRECIBIDA) as RECIBIDA, sum(R.CANTIDADPESADA) as PESADA
-from REGISTROACOPIO R
-left join PLANILLAACOPIO P on R.IDPLANILLAACOPIO = P.IDPLANILLAACOPIO
-where P.FECHA between '2019-10-01' and '2019-10-31'
-group by p.`fecha`
+SELECT p.`fecha`, SUM(R.CANTIDADRECIBIDA) AS RECIBIDA, SUM(R.CANTIDADPESADA) AS PESADA
+FROM REGISTROACOPIO R
+LEFT JOIN PLANILLAACOPIO P ON R.IDPLANILLAACOPIO = P.IDPLANILLAACOPIO
+WHERE P.FECHA BETWEEN '2019-10-01' AND '2019-10-31'
+GROUP BY p.`fecha`
 ;
 
 
-select * from planillapagomateriaprima;
-select * from `descuentproductmateriaprima`;
+SELECT * FROM planillapagomateriaprima;
+SELECT * FROM `descuentproductmateriaprima`;
 
 -- ---------------------------------------------------------------
 -- --------------- PLANILLA DE PAGO X QUINCENA -------------------
 -- ---------------------------------------------------------------
-select  r.`idregistropagomateriaprima`, p.`idplanillapagomateriaprima`, z.`idzonaproductiva`, d.`iddescuentproductmateriaprima`,
+SELECT  r.`idregistropagomateriaprima`, p.`idplanillapagomateriaprima`, z.`idzonaproductiva`, d.`iddescuentproductmateriaprima`,
 	p.`fechainicio`,
 	z.`nombre`, z.`numero`,
-	pe.`idpersona`, e.`noidentificacion` as ci, pe.`nombres`, pe.`apellidopaterno`, pe.`apellidomaterno`,
-	r.`cantidadtotal` 		as Cant, 
-	r.`totalpagoacopio` 		as Total, 
+	pe.`idpersona`, e.`noidentificacion` AS ci, pe.`nombres`, pe.`apellidopaterno`, pe.`apellidomaterno`,
+	r.`cantidadtotal` 		AS Cant, 
+	r.`totalpagoacopio` 		AS Total, 
 	r.`ga`,
-	d.`retencion`			as Ret,
+	d.`retencion`			AS Ret,
 	d.`alcohol`,
 	d.`concentrados`,
 	d.`credito`,
 	d.`veterinario`,
 	d.`yogurt`,
 	d.`tachos`,
-	d.`otrosdescuentos` 		as Otros,
+	d.`otrosdescuentos` 		AS Otros,
 	d.`comision`, 
-	r.`descuentoreserva`		as Reser,
-	r.`ajustezonaproductiva` 	as Ajuste,
-	d.`otrosingresos`		as Ingresos,
-	r.`liquidopagable`		as LiquidoP,
+	r.`descuentoreserva`		AS Reser,
+	r.`ajustezonaproductiva` 	AS Ajuste,
+	d.`otrosingresos`		AS Ingresos,
+	r.`liquidopagable`		AS LiquidoP,
 	 r.`totalganado` -- 
-from registropagomateriaprima r
-join descuentproductmateriaprima d 	on r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
-join persona pe        			on d.`idproductormateriaprima` = pe.`idpersona`
-join entidad e 				on pe.`idpersona` = e.`identidad`
-join planillapagomateriaprima p 	on r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
-join zonaproductiva z 			on p.`idzonaproductiva` = z.`idzonaproductiva`
-where p.fechainicio = '2020-09-01'
+FROM registropagomateriaprima r
+JOIN descuentproductmateriaprima d 	ON r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
+JOIN persona pe        			ON d.`idproductormateriaprima` = pe.`idpersona`
+JOIN entidad e 				ON pe.`idpersona` = e.`identidad`
+JOIN planillapagomateriaprima p 	ON r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
+JOIN zonaproductiva z 			ON p.`idzonaproductiva` = z.`idzonaproductiva`
+WHERE p.fechainicio = '2020-09-01'
 -- AND z.`numero` = 001
 -- AND pe.`idpersona` IN (352)
-and r.`liquidopagable` <> 0
+AND r.`liquidopagable` <> 0
 ;
 
 
 -- ---------------------------------------------------------------
 -- --------------- PLANILLA DE PAGO X QUINCENA + CUENTAS -------------------
 -- ---------------------------------------------------------------
-select  /* r.`idregistropagomateriaprima`, p.`idplanillapagomateriaprima`, z.`idzonaproductiva`, d.`iddescuentproductmateriaprima`,*/
+SELECT  /* r.`idregistropagomateriaprima`, p.`idplanillapagomateriaprima`, z.`idzonaproductiva`, d.`iddescuentproductmateriaprima`,*/
 	/*p.`fechainicio`,*/
-	z.`nombre` as gab, 
+	z.`nombre` AS gab, 
 	-- z.`numero`,
 	-- pe.`idpersona`, 
-	e.`noidentificacion` as ci, pe.`nombres`, pe.`apellidopaterno`, pe.`apellidomaterno`,
-	r.`cantidadtotal` 		as Cant, 
-	r.`totalpagoacopio` 		as Total, 
+	e.`noidentificacion` AS ci, pe.`nombres`, pe.`apellidopaterno`, pe.`apellidomaterno`,
+	r.`cantidadtotal` 		AS Cant, 
+	r.`totalpagoacopio` 		AS Total, 
 	/*r.`ga`,
 	d.`retencion`			as Ret,
 	d.`alcohol`,
@@ -119,30 +119,30 @@ select  /* r.`idregistropagomateriaprima`, p.`idplanillapagomateriaprima`, z.`id
 	r.`descuentoreserva`		as Reser,
 	r.`ajustezonaproductiva` 	as Ajuste,
 	d.`otrosingresos`		as Ingresos,*/
-	r.`liquidopagable`		as LiquidoP,
+	r.`liquidopagable`		AS LiquidoP,
 	pr.`numerocuenta`
 	-- r.`totalganado` -- 
-from registropagomateriaprima r
-join descuentproductmateriaprima d 	on r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
-join persona pe        			on d.`idproductormateriaprima` = pe.`idpersona`
-join productormateriaprima pr 		on pe.`idpersona` = pr.`idproductormateriaprima`
-join entidad e 				on pe.`idpersona` = e.`identidad`
-join planillapagomateriaprima p 	on r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
-join zonaproductiva z 			on p.`idzonaproductiva` = z.`idzonaproductiva`
-where p.fechainicio = '2021-05-16'
-and r.`liquidopagable` <> 0
-order by z.`nombre`, pe.`nombres`
+FROM registropagomateriaprima r
+JOIN descuentproductmateriaprima d 	ON r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
+JOIN persona pe        			ON d.`idproductormateriaprima` = pe.`idpersona`
+JOIN productormateriaprima pr 		ON pe.`idpersona` = pr.`idproductormateriaprima`
+JOIN entidad e 				ON pe.`idpersona` = e.`identidad`
+JOIN planillapagomateriaprima p 	ON r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
+JOIN zonaproductiva z 			ON p.`idzonaproductiva` = z.`idzonaproductiva`
+WHERE p.fechainicio = '2021-06-16'
+AND r.`liquidopagable` <> 0
+ORDER BY z.`nombre`, pe.`nombres`
 ;
 
 
-select  z.`idzonaproductiva`, z.`nombre`, z.`numero`, sum(r.`cantidadtotal`) as cantidad
-from registropagomateriaprima r
-join descuentproductmateriaprima d 	on r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
-join persona pe        			on d.`idproductormateriaprima` = pe.`idpersona`
-join entidad e 				on pe.`idpersona` = e.`identidad`
-join planillapagomateriaprima p 	on r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
-join zonaproductiva z 			on p.`idzonaproductiva` = z.`idzonaproductiva`
-where p.fechainicio = '2019-02-01'
+SELECT  z.`idzonaproductiva`, z.`nombre`, z.`numero`, SUM(r.`cantidadtotal`) AS cantidad
+FROM registropagomateriaprima r
+JOIN descuentproductmateriaprima d 	ON r.`iddescuentproductmateriaprima` = d.`iddescuentproductmateriaprima`
+JOIN persona pe        			ON d.`idproductormateriaprima` = pe.`idpersona`
+JOIN entidad e 				ON pe.`idpersona` = e.`identidad`
+JOIN planillapagomateriaprima p 	ON r.`idplanillapagomateriaprima` = p.`idplanillapagomateriaprima`
+JOIN zonaproductiva z 			ON p.`idzonaproductiva` = z.`idzonaproductiva`
+WHERE p.fechainicio = '2019-02-01'
 -- AND r.`liquidopagable` <> 0
 group by z.`idzonaproductiva`, z.`nombre`, z.`numero`
 ;

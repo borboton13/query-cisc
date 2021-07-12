@@ -18,7 +18,7 @@ SELECT 	d.FECHA AS "FECHA FACTURA O DUI",
 	, z.idtmpenc, z.id_tmpdet,  d.iddocumentocontable 
 FROM documentocontable d 
 JOIN documentocompra z ON d.iddocumentocontable = z.iddocumentocompra
-WHERE fecha BETWEEN '2021-04-01' AND '2021-04-30'
+WHERE fecha BETWEEN '2021-06-01' AND '2021-06-30'
 AND z.estado <> 'NULLIFIED'
 AND z.tipo = 'INVOICE'
 ;
@@ -46,7 +46,7 @@ SELECT 	IDMOVIMIENTO,
 	IF(ESTADO = 'A', 0, CODIGOCONTROL) AS "CODIGO DE CONTROL",
 	IDPEDIDOS, IDVENTADIRECTA, idmovimiento, id_tmpdet
 FROM movimiento
-WHERE FECHA_FACTURA BETWEEN '2021-04-01' AND '2021-04-30'
+WHERE FECHA_FACTURA BETWEEN '2021-06-01' AND '2021-06-30'
 ;
 
 -- -------------

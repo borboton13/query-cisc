@@ -43,7 +43,7 @@ FROM movimiento m
 LEFT JOIN ventadirecta v ON m.`IDVENTADIRECTA` = v.`IDVENTADIRECTA`
 LEFT JOIN sf_tmpdet d ON v.`id_tmpenc` = d.`id_tmpenc`
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-WHERE m.FECHA_FACTURA BETWEEN '2021-05-01' AND '2021-05-31'
+WHERE m.FECHA_FACTURA BETWEEN '2021-06-01' AND '2021-06-30'
 AND m.`IDVENTADIRECTA` IS NOT NULL
 AND d.`cuenta` = '2420410200'
 AND e.`estado` <> 'ANL'
@@ -66,7 +66,7 @@ FROM movimiento m
 LEFT JOIN pedidos p ON m.`IDPEDIDOS` = p.`IDPEDIDOS`
 LEFT JOIN sf_tmpdet d ON p.`id_tmpenc` = d.`id_tmpenc`
 LEFT JOIN sf_tmpenc e ON d.`id_tmpenc` = e.`id_tmpenc`
-WHERE m.FECHA_FACTURA BETWEEN '2021-05-01' AND '2021-05-31'
+WHERE m.FECHA_FACTURA BETWEEN '2021-06-01' AND '2021-06-30'
 AND m.`IDPEDIDOS` IS NOT NULL
 AND d.`cuenta` = '2420410200'
 AND e.`estado` <> 'ANL'
@@ -157,7 +157,7 @@ AND p.`ESTADO` <> 'ANULADO'
 SELECT p.`IDPEDIDOS`, p.`FECHA_ENTREGA`, p.`CODIGO`, p.`ESTADO`, p.`IDTIPOPEDIDO`, p.`idtipoventa`, p.`TOTALIMPORTE`, p.`IMPUESTO`, p.`id_tmpenc`, p.`IDMOVIMIENTO`, pe.`NOM`, pe.`AP`
 FROM pedidos p
 LEFT JOIN personacliente pe ON p.`IDCLIENTE` = pe.`IDPERSONACLIENTE`
-WHERE p.`FECHA_ENTREGA` BETWEEN '2021-05-01' AND '2021-05-31'
+WHERE p.`FECHA_ENTREGA` BETWEEN '2021-06-01' AND '2021-06-30'
 AND p.`ESTADO` <> 'ANULADO'
 AND p.`id_tmpenc` IS NULL
 AND p.`IDTIPOPEDIDO` IN (5, 6)
